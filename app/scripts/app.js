@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc overview
- * @name rebrandedTtcApp
+ * @name bluereconlineApp
  * @description
- * # rebrandedTtcApp
+ * # bluereconlineApp
  *
  * Main module of the application.
  */
