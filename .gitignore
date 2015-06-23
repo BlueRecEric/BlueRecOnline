@@ -6,3 +6,5 @@ bower_components
 
 app/images/yeoman.png
 app/scripts/app_old.js
+app/scripts/config/config.js
+app/scripts/config/config.js
