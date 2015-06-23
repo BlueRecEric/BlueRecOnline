@@ -1,0 +1,214 @@
+<div class="row" data-ng-animate="'slide'">
+  <div data-ng-controller="ProgramInfo">
+    <!-- full size title -->
+    <div class="col-xs-8 text-left hidden-xs">
+      <h4>{{proinfo.returnData.item_name}}({{proinfo.returnData.item_code}})</h4>
+    </div>
+    <div class="col-xs-4 text-right hidden-xs">
+      <h4>{{proinfo.returnData.remaining_spots}} Open Spots</h4>
+    </div>
+
+    <!-- mobile title -->
+    <div class="col-xs-12 text-left visible-xs-block">
+      <h4>{{proinfo.returnData.item_name}}({{proinfo.returnData.item_code}})</h4>
+    </div>
+    <div class="col-xs-12 text-left visible-xs-block">
+      <h4>{{proinfo.returnData.remaining_spots}} Open Spots</h4>
+    </div>
+
+
+
+    <div class="col-xs-12 text-justify">
+      <p>
+        {{proinfo.returnData.full_description}}
+      </p>
+    </div>
+
+    <div class="row col-xs-12 itembody text-right">
+      <div class="hidden-xs btn-group">
+        <a href="#" class="btn btn-info"><i class="fa fa-sign-in"></i> Register</a>
+        <a href="#" class="btn btn-info"><i class="fa fa-th-list"></i> Waitlist</a>
+      </div>
+      <div class="visible-xs-block btn-group btn-group-justified">
+        <a href="#" class="btn btn-info"><i class="fa fa-sign-in"></i> Register</a>
+        <a href="#" class="btn btn-info"><i class="fa fa-th-list"></i> Waitlist</a>
+      </div>
+    </div>
+
+    <div class="col-xs-12 text-left">
+      <h4>Fees</h4>
+    </div>
+
+    <div data-ng-repeat="fee in proinfo.returnData.fees track by fee.item_fee_id">
+      <div class="col-xs-2 text-left">
+        {{fee.fee_name}}
+      </div>
+      <div class="col-xs-1 text-right">
+        ${{fee.fee_amount}}
+      </div>
+      <div class="col-xs-9">&nbsp;</div>
+    </div>
+
+    <div class="col-xs-12 text-left">
+      <h4>Dates and Registration</h4>
+    </div>
+
+    <div class="hidden-xs">
+      <!-- program start and end -->
+      <div class="col-xs-3 text-left">
+        Class Starts:
+      </div>
+      <div class="col-xs-2 text-left">
+        {{proinfo.returnData.format_start_date}}
+      </div>
+      <div class="col-xs-3 text-left">
+        Class Ends:
+      </div>
+      <div class="col-xs-2 text-left">
+        {{proinfo.returnData.format_end_date}}
+      </div>
+      <div class="col-xs-2">&nbsp;</div>
+      <!-- resident registration dates -->
+      <div class="col-xs-3 text-left">
+        Walk-In Registration (resident):
+      </div>
+      <div class="col-xs-2 text-left">
+        {{proinfo.returnData.format_resident_registration_start}}
+      </div>
+      <div class="col-xs-3 text-left">
+        Online Registration (resident):
+      </div>
+      <div class="col-xs-2 text-left">
+        {{proinfo.returnData.format_online_registration_start}}
+      </div>
+      <div class="col-xs-2">&nbsp;</div>
+      <!-- non-resident registration dates -->
+      <div class="col-xs-3 text-left">
+        Walk-In Registration (everybody):
+      </div>
+      <div class="col-xs-2 text-left">
+        {{proinfo.returnData.format_nonresident_registration_start}}
+      </div>
+      <div class="col-xs-3 text-left">
+        Online Registration (everybody):
+      </div>
+      <div class="col-xs-2 text-left">
+        {{proinfo.returnData.format_nonres_online_registration_start}}
+      </div>
+      <div class="col-xs-2">&nbsp;</div>
+      <!-- registration end dates -->
+      <div class="col-xs-3 text-left">
+        Registration Ends:
+      </div>
+      <div class="col-xs-2 text-left">
+        {{proinfo.returnData.format_registration_end}}
+      </div>
+      <div class="col-xs-3 text-left">
+        Late Registration Until:
+      </div>
+      <div class="col-xs-2 text-left">
+        {{proinfo.returnData.format_registration_late_end}}
+      </div>
+      <div class="col-xs-2">&nbsp;</div>
+    </div>
+
+    <div class="visible-xs-block">
+      <div class="col-xs-8">
+        Class Starts:
+      </div>
+      <div class="col-xs-4">
+        {{proinfo.returnData.format_start_date}}
+      </div>
+      <div class="col-xs-8">
+        Class Ends:
+      </div>
+      <div class="col-xs-4">
+        {{proinfo.returnData.format_end_date}}
+      </div>
+      <!-- resident registration dates -->
+      <div class="col-xs-8 text-left">
+        Walk-In Registration (resident):
+      </div>
+      <div class="col-xs-4 text-left">
+        {{proinfo.returnData.format_resident_registration_start}}
+      </div>
+      <div class="col-xs-8 text-left">
+        Online Registration (resident):
+      </div>
+      <div class="col-xs-4 text-left">
+        {{proinfo.returnData.format_online_registration_start}}
+      </div>
+      <!-- non-resident registration dates -->
+      <div class="col-xs-8 text-left">
+        Walk-In Registration (everybody):
+      </div>
+      <div class="col-xs-4 text-left">
+        {{proinfo.returnData.format_nonresident_registration_start}}
+      </div>
+      <div class="col-xs-8 text-left">
+        Online Registration (everybody):
+      </div>
+      <div class="col-xs-4 text-left">
+        {{proinfo.returnData.format_nonres_online_registration_start}}
+      </div>
+      <!-- registration end dates -->
+      <div class="col-xs-8 text-left">
+        Registration Ends:
+      </div>
+      <div class="col-xs-4 text-left">
+        {{proinfo.returnData.format_registration_end}}
+      </div>
+      <div class="col-xs-8 text-left">
+        Late Registration Until:
+      </div>
+      <div class="col-xs-4 text-left">
+        {{proinfo.returnData.format_registration_late_end}}
+      </div>
+    </div>
+
+    <div class="col-xs-12 text-left">
+      <h4>Locations</h4>
+    </div>
+
+    <div class="col-xs-12 text-left" data-ng-repeat="maplocation in proinfo.returnData.mapData">
+
+      <div>
+        <h5>{{maplocation.marker.id}}</h5>
+      </div>
+
+      <ui-gmap-google-map center='maplocation.center' zoom='12' options="proinfo.returnData.mapData.mapOptions">
+      <ui-gmap-marker
+        idKey='maplocation.marker.id'
+        coords='maplocation.marker.location'>
+      </ui-gmap-marker></ui-gmap-google-map>
+
+    </div>
+
+    <div class="col-xs-12 text-left">
+      <h4>Class Dates</h4>
+    </div>
+
+    <div class="col-xs-12 text-left">
+      <div data-ng-show="proinfo.returnData.datesNotEmpty">
+      <table class="table table-striped table-hover table-condensed table-responsive">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="date in proinfo.returnData.prodates track by date.facility_event_id">
+            <td>{{date.event_date}}</td>
+            <td>{{date.event_start}} to {{date.event_end}}</td>
+            <td>{{date.item_name}}</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p data-ng-show="!proinfo.returnData.datesNotEmpty">No dates have been scheduled yet.</p>
+    </div>
+
+  </div>
+</div>

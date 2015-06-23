@@ -1,0 +1,70 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Please Sign In</h3>
+  </div>
+  <div class="panel-body">
+
+    <div class="row hidden-xs">
+
+      <div class="col-md-4" >
+        <a href="#"><img src="images/fb-login.png" /></a><br/>
+        <a href="#"><img src="images/tw-login.png" /></a><br/>
+        <a href="#"><img src="images/gplus-login.png" /></a>
+      </div>
+
+      <div class="col-md-8" style="border-left:1px solid #ccc;">
+        <form name="brLoginForm" class="form-horizontal" data-ng-submit="log.login(logem,logpass)">
+          <fieldset>
+            <div class="alert alert-danger" role="alert" data-ng-show="log.loginError">{{log.errorMessage}}</div>
+            <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logem.$dirty || brLoginForm.logem.$touched) && brLoginForm.logem.$invalid">Username/Email must not be blank</div>
+            <input required data-ng-model="logem" id="logem" name="logem" type="text" placeholder="Enter User Name/Email" class="form-control input-md">
+
+            <div class="spacing"><input type="checkbox" name="checkboxes" id="checkboxes-0" value="1"><small> Remember me</small></div>
+
+            <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logpass.$dirty || brLoginForm.logpass.$touched) && brLoginForm.logpass.$invalid">Password must not be blank</div>
+
+            <input required data-ng-model="logpass" id="logpass" name="logpass" type="password" placeholder="Enter Password" class="form-control input-md">
+
+            <div class="spacing"><a href="#"><small> Forgot Password?</small></a><br/></div>
+
+            <button type="submit" id="submit" value="Submit" class="btn btn-info pull-right" data-ng-enable="brLoginForm.logem.$valid && brLoginForm.logpass.$valid"><i class="fa fa-sign-in"></i> Sign In</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
+    <div class="row visible-xs">
+
+      <div class="col-md-12">
+        <form name="brLoginForm" class="form-horizontal" data-ng-submit="log.login(logem,logpass)">
+          <fieldset>
+            <div class="alert alert-danger" role="alert" data-ng-show="log.loginError">{{log.errorMessage}}</div>
+            <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logem.$dirty || brLoginForm.logem.$touched) && brLoginForm.logem.$invalid">Username/Email must not be blank</div>
+            <input required data-ng-model="logem" id="logem" name="logem" type="text" placeholder="Enter User Name/Email" class="form-control input-md">
+
+            <div class="spacing"><input type="checkbox" name="checkboxes" id="checkboxes-0" value="1"><small> Remember me</small></div>
+
+            <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logpass.$dirty || brLoginForm.logpass.$touched) && brLoginForm.logpass.$invalid">Password must not be blank</div>
+
+            <input required data-ng-model="logpass" id="logpass" name="logpass" type="password" placeholder="Enter Password" class="form-control input-md">
+
+            <div class="spacing"><a href="#"><small> Forgot Password?</small></a><br/></div>
+
+            <button type="submit" id="submit" value="Submit" class="btn btn-info pull-right" data-ng-enable="brLoginForm.logem.$valid && brLoginForm.logpass.$valid"><i class="fa fa-sign-in"></i> Sign In</button>
+          </fieldset>
+        </form>
+      </div>
+      <div class="spacing"></div>
+    </div>
+
+    <div class="row visible-xs">
+      <div class="col-md-12 text-center" >
+        <a href="#"><img src="images/fb-login.png" /></a><br/>
+        <a href="#"><img src="images/tw-login.png" /></a><br/>
+        <a href="#"><img src="images/gplus-login.png" /></a>
+      </div>
+    </div>
+
+
+  </div>
+</div>

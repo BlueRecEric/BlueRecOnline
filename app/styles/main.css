@@ -1,0 +1,277 @@
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Open Sans', sans-serif;
+}
+p, div {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+html {
+  height: 101%;
+}
+
+body {
+  padding: 0;
+  margin-bottom: 50px;
+}
+
+body > .container {
+  padding-bottom: 50px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 0px;
+}
+
+.navbar {
+  margin-bottom: 0px;
+}
+
+.socialnav {
+  color: #777;
+  line-height: 20px;
+  min-height: 50px;
+}
+
+.socialnav i {
+  color: #f8f8f8;
+  padding-right:10px;
+  padding-top:10px;
+}
+
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+.bluerecnav {
+  border-radius: 0px !important;
+}
+
+.wide {
+  width:100%;
+  height:150px;
+  background-image:url('../images/header_bg2.jpg');
+  background-size:cover;
+  border-bottom: 0px solid #e5e5e5;
+  margin-bottom: 0px;
+}
+
+.logo {
+  color:#fff;
+  font-weight:800;
+  font-size:14pt;
+  text-align:left;
+  min-height: 150px;
+  vertical-align: middle;
+  position: relative;
+}
+
+.logo img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.itemheader,
+.itembody {
+  border-color:#DDD;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  margin-top: 15px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+.itemheader {
+  color: #fff;
+  background-color:#2FA4E7;
+}
+
+.itembody {
+}
+
+.infiniteScroll {
+  height: 101%;
+}
+
+.angular-google-map-container { height: 300px; }
+
+.animate-enter,
+.animate-leave
+{
+  -webkit-transition: 500ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+  -moz-transition: 500ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+  -ms-transition: 500ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+  -o-transition: 500ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+  transition: 500ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+  position: relative;
+  display: block;
+}
+
+.animate-enter.animate-enter-active,
+.animate-leave {
+  opacity: 1;
+  right: 0;
+  height: 30px;
+}
+
+.animate-leave.animate-leave-active,
+.animate-enter {
+  opacity: 0;
+  right: -50px;
+  height: 0px;
+}
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+.spacing {
+  padding-top:7px;
+  padding-bottom:7px;
+}
+
+.noborder {
+  border:0px;
+}
+
+.view-animate-container {
+  position:relative;
+}
+
+.view-animate {
+  padding:10px;
+}
+
+.view-animate.ng-enter, .view-animate.ng-leave {
+  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.75s;
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.75s;
+
+  display:block;
+  width:100%;
+  min-height:500px;
+
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  border:0px;
+}
+
+.view-animate.ng-enter {
+  left:100%;
+  opacity: 0;
+}
+.view-animate.ng-enter.ng-enter-active {
+  left:0;
+  opacity: 1;
+}
+.view-animate.ng-leave.ng-leave-active {
+  left:-100%;
+  opacity: 0;
+}
+
+/* center align text with icons */
+.fa-top-text {
+  vertical-align: bottom !important;
+}
+
+.control-label-center {
+  vertical-align: middle !important;
+}
+/* Side notes for calling out things
+-------------------------------------------------- */
+
+/* Base styles (regardless of theme) */
+.bs-callout{padding:20px;margin:20px 0;border:1px solid #eee;border-left-width:5px;border-radius:3px}
+.bs-callout h4{margin-top:0;margin-bottom:5px}
+.bs-callout p:last-child{margin-bottom:0}
+.bs-callout code{border-radius:3px}
+.bs-callout+.bs-callout{margin-top:-5px}
+.bs-callout-danger{border-left-color:#ce4844}
+.bs-callout-danger h4{color:#ce4844}
+.bs-callout-warning{border-left-color:#aa6708}
+.bs-callout-warning h4{color:#aa6708}
+.bs-callout-info{border-left-color:#1b809e}
+.bs-callout-info h4{color:#1b809e}
+
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+
+  .wide {
+    height:200px;
+  }
+
+  .logo {
+    min-height:200px;
+  }
+}
+

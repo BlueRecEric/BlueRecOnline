@@ -1,0 +1,103 @@
+<div data-ng-controller="ProgramList" data-ng-animate=" 'animate' ">
+
+  <h3>Search Activities</h3>
+  <div class="well hidden-xs">
+    <div class="row">
+    <form class="form-inline">
+      <div class="form-group col-xs-4">
+        <label>Keyword:</label>
+        <input ng-model="query.item_name" class="form-control">
+      </div>
+    </form>
+    </div>
+  </div>
+  <div class="well visible-xs-block">
+    <form class="form-inline">
+      <div class="row">
+          <div class="form-group col-xs-12">
+            <label>Keyword:</label>
+            <input placeholder="Enter Keyword" ng-model="query.item_name" class="pull-right form-control">
+          </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="infiniteScroll" infinite-scroll='proloader.nextPage(query)' infinite-scroll-distance='0'>
+    <div class="panel panel-primary" data-ng-repeat="session in proloader.returnData | filter: query.item_name | unique: 'identifier'">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">({{session.item_code}}) {{session.item_name}}</h3>
+      </div>
+      <div class="panel-body">
+        {{session.description}}<br><br>
+        <div id="sessiondiv col-xs-12" data-ng-repeat="program in session.programs | filter: query.item_name">
+          <div class="hidden-xs">
+            <div class="panel panel-primary">
+              <div class="panel-heading clearfix">
+                <div class="row hidden-xs">
+                  <div class="col-xs-2">Code</div>
+                  <div class="col-xs-2">Price</div>
+                  <div class="col-xs-4">Registration</div>
+                  <div class="col-xs-4">Class Dates</div>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div class="row hidden-xs">
+                  <div class="col-xs-2">{{program.item_code}}</div>
+                  <div class="col-xs-2">
+                    <div data-ng-repeat="fee in program.fees track by fee.item_fee_id">
+                      {{fee.fee_name}}: ${{fee.fee_amount}}
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    Res/Online:	{{program.format_online_registration_start}}<br>
+                    NonRes/Online:	{{program.format_nonres_online_registration_start}}<br>
+                    Late Reg:	{{program.format_registration_late_end}}<br>
+                    Ends:	{{program.format_registration_end}}
+                  </div>
+                  <div class="col-xs-4">
+                    {{program.format_start_date}} - {{program.format_end_date}}<br>
+                    MO 9:00AM-12:00PM<br>
+                    TU 9:00AM-12:00PM<br>
+                    WE 9:00AM-12:00PM<br>
+                  </div>
+
+                  <div class="col-xs-12 text-right">
+                    <div class="row itembody btn-toolbar">
+                      <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
+                      <a href="#/{{proloader.orgurl}}/register/{{program.item_id}}" class="btn btn-info" data-ng-show="{{program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1'}}"><i class="fa fa-sign-in"></i> Register ({{program.remaining_spots}} openings)</a>
+                      <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="visible-xs-block">
+            <div class="row itemheader">
+              <div class="col-xs-3">Session</div>
+              <div class="col-xs-9">(S1) AM - Jedi Lego S1-AM-15</div>
+            </div>
+            <div class="row itembody">
+              <div class="col-xs-12">
+                Openings: 21<br>
+                Both: $155.00<br>
+                Registration Ends: Jun 15th<br>
+                Class Dates: Jun 15th - Jun 19th<br><br>
+              </div>
+            </div>
+            <div class="row itembody">
+              <div class="btn-group btn-group-justified">
+                <a href="#/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
+                <a href="#" class="btn btn-info"><i class="fa fa-sign-in"></i> Register</a>
+                <a href="#" class="btn btn-info"><i class="fa fa-th-list"></i> Waitlist</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix hidden-xs"></div>
+      </div>
+      <div style='clear: both;'></div>
+    </div>
+  </div>
+  <div ng-show='proloader.busy'>Loading data... <i class="fa fa-cog fa-spin"></i></div>
+</div>
