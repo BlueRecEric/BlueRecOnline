@@ -18,15 +18,15 @@
 </div>
 -->
 <div class="panel panel-default" data-ng-repeat="person in proReg.household">
-  <div class="panel-heading"><input type="checkbox" ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)" aria-label="Register {{person.firstname}} {{person.lastname}}"> {{person.firstname}} {{person.lastname}}</div>
+  <div class="panel-heading"><input type="checkbox" ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)" aria-label="Register {{person.firstname}} {{person.lastname}}"> {{person.firstname}} {{person.lastname}} <span class="pull-right" ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span></div>
   <div class="panel-body">
 
     <progressbar data-ng-show="person.step > 0" class="progress-striped active" max="max" value="(person.step/person.totalSteps) * 100">Step {{person.step}} of {{person.totalSteps}}</progressbar>
 
-    <div ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></div>
+
     <div class="alert alert-danger" role="alert" data-ng-repeat="failedReq in person.failed">{{failedReq}}</div>
 
-    <div class="panel panel-default" data-ng-show="person.step === 1">
+    <div class="panel panel-default" data-ng-show="person.stepName === 'user'">
       <div class="panel-heading clearfix">
         <h3 class="panel-title">Participant Information</h3>
       </div>
@@ -89,7 +89,7 @@
 
 
 
-    <div class="panel panel-default" data-ng-show="person.step === 2 && person.has_custom_fields">
+    <div class="panel panel-default" data-ng-show="person.stepName === 'custom' && person.has_custom_fields">
       <div class="panel-heading clearfix">
         <h3 class="panel-title">Program Information</h3>
       </div>
@@ -130,7 +130,8 @@
               <div ng-if="field.type=='checkbox'" class="form-group" >
                 <label class="col-sm-2 control-label-center">{{field.label}}</label>
                 <div class="col-sm-6">
-                  <input type="checkbox" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}"/>
+                  <input type="checkbox" data-ng-if="person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}" required/>
+                  <input type="checkbox" data-ng-if="!person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}"/>
                 </div>
               </div>
             </div>
@@ -148,7 +149,44 @@
     </div>
 
 
+    <div class="panel panel-default" data-ng-show="person.stepName === 'waiver'">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title">Waiver Information</h3>
+      </div>
 
+      <form name="waiverForm" class="form-horizontal" role="form" ng-submit="proReg.submitWaiverForm($index)">
+        <ng-form name="waiverForm">
+
+          <div class="panel-body">
+
+            <div class="panel panel-info" data-ng-repeat="waiverData in person.waiverForm">
+              <div class="panel-heading clearfix">
+                <h3 class="panel-title">{{waiverData.waiver_name}}</h3>
+              </div>
+
+              <div class="panel-body">
+                <div name="txtWaiver" id="txtWaiver" class="well scrollbox" data-ng-enable="false" data-ng-bind-html="waiverData.waiver_text" rows="3"></div>
+
+                <div class="form-group" >
+                  <div class="col-sm-6">
+                    <input type="checkbox" data-ng-model="waiverData.agreed"  name="waiverData.waiver_name" required/>
+                    I agree to the terms outlined in the above waiver.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <button type="submit" id="submitWaiver" value="Submit" class="btn btn-info" data-ng-enable="waiverForm.$valid"><i class="fa fa-caret-square-o-right"></i> Save and Continue</button>
+              </div>
+            </div>
+          </div>
+
+        </ng-form>
+      </form>
+
+    </div>
 
 
 

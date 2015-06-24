@@ -223,6 +223,11 @@ body > .container {
   opacity: 0;
 }
 
+.scrollbox {
+  max-height: 200px;
+  overflow: scroll;
+}
+
 /* center align text with icons */
 .fa-top-text {
   vertical-align: bottom !important;

@@ -137,6 +137,7 @@ angular.module('bluereconlineApp')
             if(proReg.household[idx].failedCount === 0)
             {
               proReg.household[idx].step = 1;
+              proReg.household[idx].stepName = 'user';
               proReg.household[idx].partForm = {};
               proReg.household[idx].partForm.userID = response.user_id;
               proReg.household[idx].partForm.firstname = response.firstname;
@@ -223,7 +224,9 @@ angular.module('bluereconlineApp')
           }
           else
           {
+            proReg.household[idx].stepName = 'waiver';
             console.log('go to waivers');
+            createWaiverForm(idx);
           }
           return true;
         }
@@ -232,6 +235,8 @@ angular.module('bluereconlineApp')
 
     function createCustomFieldForm(idx)
     {
+      proReg.household[idx].stepName = 'custom';
+
       getCustomFieldData(idx).then(
         function success(response) {
           console.log('custom field response');
@@ -240,7 +245,6 @@ angular.module('bluereconlineApp')
         }
       );
     }
-
 
     function getCustomFieldData(idx)
     {
@@ -270,13 +274,125 @@ angular.module('bluereconlineApp')
     {
       console.log('submit form');
       console.log(angular.toJson(proReg.household[idx].customForm));
+
+      proReg.household[idx].showLoadingRegistration = true;
+
+      var req = {
+        method: 'POST',
+        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/program/registration/' + $routeParams.itemid + '/savecustom',
+        headers: {
+          'Content-Type': undefined
+        },
+        data: {'formData':angular.toJson(proReg.household[idx].customForm),'uid':proReg.household[idx].user_id}
+      };
+
+      return $http(req)
+        .then(
+        function success(response) {
+          proReg.household[idx].showLoadingRegistration = false;
+          console.log('Here is the savecustom response:');
+          console.log(response.data);
+
+          proReg.household[idx].step++;
+
+          console.log('go to waivers');
+          createWaiverForm(idx);
+          return true;
+        }
+      );
     }
 
+    function createWaiverForm(idx)
+    {
+      proReg.household[idx].stepName = 'waiver';
 
+      getWaiverData(idx).then(
+        function success(response) {
+          console.log('waiver response');
+          console.log(response);
+          proReg.household[idx].waiverForm = response;
+        }
+      );
+    }
 
+    function getWaiverData(idx)
+    {
+      proReg.household[idx].showLoadingRegistration = true;
 
+      var req = {
+        method: 'POST',
+        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/program/registration/' + $routeParams.itemid + '/waivers',
+        headers: {
+          'Content-Type': undefined
+        },
+        data: {'uid': proReg.household[idx].user_id}
+      };
 
+      return $http(req)
+        .then(
+        function success(response) {
+          proReg.household[idx].showLoadingRegistration = false;
+          console.log('Here is the waiver response:');
+          console.log(response.data);
+          return response.data;
+        }
+      );
+    }
 
+    function submitWaiverForm(idx)
+    {
+      console.log('submit waiver form');
+      console.log(angular.toJson(proReg.household[idx].waiverForm));
+
+      proReg.household[idx].completedWaivers = proReg.household[idx].waiverForm;
+
+      if(proReg.household[idx].has_packages)
+      {
+        proReg.household[idx].stepName = 'packages';
+        console.log('go to packages');
+      }
+      else if(proReg.household[idx].has_payments)
+      {
+        proReg.household[idx].stepName = 'payments';
+        console.log('go to payments');
+        createPaymentsForm(idx);
+      }
+    }
+
+    function createPaymentsForm(idx)
+    {
+      getPaymentData(idx).then(
+        function success(response) {
+          console.log('payments response');
+          console.log(response);
+          proReg.household[idx].paymentsForm = response;
+        }
+      );
+    }
+
+    function getPaymentData(idx)
+    {
+      proReg.household[idx].showLoadingRegistration = true;
+
+      var req = {
+        method: 'POST',
+        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/program/registration/' + $routeParams.itemid + '/payments',
+        headers: {
+          'Content-Type': undefined
+        },
+        data: {'uid': proReg.household[idx].user_id}
+      };
+
+      return $http(req)
+        .then(
+        function success(response) {
+          proReg.household[idx].showLoadingRegistration = false;
+          console.log('Here is the payments response:');
+          console.log(response.data);
+          return response.data;
+        }
+      );
+    }
 
 
 
@@ -396,6 +512,8 @@ angular.module('bluereconlineApp')
       );
     }
 
+    proReg.submitWaiverForm = submitWaiverForm;
+    proReg.createWaiverForm = createWaiverForm;
     proReg.submitCustomForm = submitCustomForm;
     proReg.getCustomFieldData = getCustomFieldData;
     proReg.createCustomFieldForm = createCustomFieldForm;
