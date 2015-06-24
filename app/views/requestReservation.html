@@ -1,0 +1,201 @@
+<div class="row" data-ng-animate="'slide'">
+  <div data-ng-controller="RequestReservation" class="container">
+
+
+
+    <h3 style="padding-bottom: 10px;">Reservation Information</h3>
+
+      <form class="form-horizontal">
+
+          <div class="form-group">
+              <label for="rentalCodeSearch" class="col-sm-3 control-label" >Rental Purpose*:</label>
+              <div class="col-sm-9">
+
+                  <button type="button" class="btn btn-primary text-center" data-animation="am-flip-x" bs-dropdown="dropdown"
+                          aria-haspopup="true" aria-expanded="false" style="width: 250px;">Select Rental Type</button>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Description:</label>
+              <div class="col-sm-9">
+                  <label  class=" control-label">Description goes here...</label>
+              </div>
+          </div>
+
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Facilities*:</label>
+              <div class="col-sm-9">
+                  <label  class=" control-label">Select a rental purpose</label>
+              </div>
+          </div>
+
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Packages:</label>
+              <div class="col-sm-9">
+                  <label  class=" control-label">Select additional options</label>
+              </div>
+          </div>
+
+
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Requested Date*:</label>
+              <div class="col-sm-9">
+                  <div class="input-group">
+                       <span class="input-group-addon" style="width: 25px;background-color: #ffffff;">
+                             <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                      <input class="form-control" ng-model="selectedDate" name="date" bs-datepicker type="text" style="width: 150px;">
+
+                      <span class="input-group-addon" style="width: 250px;background-color: #ffffff; visibility: hidden;">
+
+                        </span>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Start Time*:</label>
+              <div class="col-sm-9">
+                  <div class="input-group">
+                      <div class="input-group-addon" style="width: 25px;background-color: #ffffff;"><i class="glyphicon glyphicon-time"></i></div>
+                      <input class="form-control" size="8" ng-model="startTime" name="startTime" bs-timepicker data-length="1"
+                             data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;">
+
+                  </div>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >End Time*:</label>
+              <div class="col-sm-9">
+                  <div class="input-group">
+                      <div class="input-group-addon" style="width: 25px;background-color: #ffffff;"><i class="glyphicon glyphicon-time"></i></div>
+                      <input class="form-control" size="8" ng-model="endTime" name="endTime" bs-timepicker data-length="1"
+                             data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;">
+                  </div>
+              </div>
+          </div>
+
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Reservation Details:</label>
+              <div class="col-sm-9">
+                  <textarea id="reservationDetails" name="reservationDetails" rows="5" cols="35"></textarea>
+              </div>
+          </div>
+
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Will you be serving alcohol?*</label>
+              <div class="col-sm-9">
+                  <select  class="form-control" style="width: 125px;">
+                      <option value="">--Select--</option>
+                      <option value="Y">Yes</option>
+                      <option value="N">No</option>
+                      <option value="U">Undecided</option>
+                  </select>
+              </div>
+          </div>
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Custom Fields:</label>
+              <div class="col-sm-9">
+                  <label  class=" control-label">Custom Fields Here...</label>
+              </div>
+          </div>
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Email Address:</label>
+              <div class="col-sm-9">
+                  <input type="email" class="form-control" style="width: 250px;" />
+              </div>
+          </div>
+
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Phone Number:</label>
+              <div class="col-sm-9">
+                  <input type="text" class="form-control"  style="width: 150px;"/>
+              </div>
+          </div>
+
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Preferred Contact Method*:</label>
+              <div class="col-sm-9">
+                  <select class="form-control" style="width: 125px;">
+                      <option value="">--Select--</option>
+                      <option value="P">Phone</option>
+                      <option value="E">Email</option>
+                  </select>
+              </div>
+          </div>
+
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Additional Notes:</label>
+              <div class="col-sm-9">
+                  <textarea id="reservationNotes" name="reservationNotes" rows="5" cols="35"></textarea>
+              </div>
+          </div>
+
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label" >Estimated Rental Cost:</label>
+              <div class="col-sm-7">
+                  <label  class=" control-label">$0.00 (Includes $0.00 deposit)</label>
+                  <br>
+                  <p>The estimated rental cost is based on information supplied at the time of the request and may change
+                      according to additional information, change in rental request, and/or residency status of the renter. This
+                      request is not an official rental until it has been approved and the renter has paid in full.</p>
+              </div>
+          </div>
+
+
+          <div class="form-group">
+          <div class="col-sm-offset-1 col-sm-10">
+              <div >
+                  <label data-placement="bottom-left" data-type="info"  bs-enabled="tooltip.checked">
+                      <input ng-model="tooltip.checked" type="checkbox"> I have read, understand, and agree to the <a href="http://www.leandertx.gov/parksrec/page/terms-and-conditions" target="_blank">Terms and Conditions</a> regarding Leander Parks and Recreation Facility Reservations and Refund/Cancelation Policy.
+                  </label>
+              </div>
+          </div>
+          </div>
+
+
+          <div class="form-group">
+              <div class="col-sm-10">
+                  <div class="center-block" style="width: 300px;">
+                      <br>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" >Submit Request</button>
+                  </div>
+              </div>
+          </div>
+
+
+
+      </form>
+
+
+      <div id='calcontainer'>
+          <div id='calendar'></div>
+      </div>
+
+
+  </div>
+</div>

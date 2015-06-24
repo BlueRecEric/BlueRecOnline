@@ -23,7 +23,8 @@ angular
     'uiGmapgoogle-maps',
     'ui.bootstrap',
     'bluereconlineApp.apiconfig',
-    'dynform'
+    'dynform',
+    'mgcrea.ngStrap'
   ])
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
         $routeProvider
@@ -57,9 +58,14 @@ angular
           .when('/:orgurl/memberships', {
             templateUrl: 'views/memberships.html'
           })
+          .when('/:orgurl/reservations', {
+            templateUrl: 'views/requestReservation.html',
+            controller: 'RequestReservation'
+          })
           .otherwise({
             redirectTo: '/:orgurl/login'
           });
+
 
         $locationProvider.html5Mode();
 
