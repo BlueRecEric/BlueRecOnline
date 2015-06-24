@@ -36,7 +36,7 @@ module.exports = function(config) {
       'bower_components/angular-jwt/dist/angular-jwt.js',
       'bower_components/angular-md5/angular-md5.js',
       'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
-      'bower_components/lodash/dist/lodash.compat.js',
+      'bower_components/lodash/lodash.js',
       'bower_components/angular-google-maps/dist/angular-google-maps.js',
       'bower_components/angular-ui-utils/ui-utils.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
