@@ -41,6 +41,8 @@ module.exports = function(config) {
       'bower_components/angular-ui-utils/ui-utils.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-dynforms/dynamic-forms.js',
+      'bower_components/bootstrap-select/bootstrap-select.js',
+      'bower_components/angular-bootstrap-select/build/angular-bootstrap-select.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",
