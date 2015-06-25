@@ -370,13 +370,74 @@ angular.module('bluereconlineApp')
 
       if(proReg.household[idx].has_packages)
       {
-        proReg.household[idx].stepName = 'packages';
         console.log('go to packages');
+        createPackageForm(idx);
       }
       else if(proReg.household[idx].has_payments)
       {
         console.log('go to payments');
         createPaymentsForm(idx);
+      }
+    }
+
+    function createPackageForm(idx)
+    {
+      proReg.household[idx].stepName = 'packages';
+      proReg.gotoUserTop(idx);
+
+      getPackageData(idx).then(
+        function success(response) {
+          proReg.household[idx].showLoadingRegistration = false;
+
+          console.log('package response');
+          console.log(response);
+          proReg.household[idx].packageForm = response;
+        }
+      );
+    }
+
+    function getPackageData(idx)
+    {
+      proReg.household[idx].showLoadingRegistration = true;
+
+      var req = {
+        method: 'POST',
+        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/program/registration/' + $routeParams.itemid + '/packages',
+        headers: {
+          'Content-Type': undefined
+        },
+        data: {'uid': proReg.household[idx].user_id}
+      };
+
+      return $http(req)
+        .then(
+        function success(response) {
+          console.log('Here is the package response:');
+          console.log(response.data);
+          return response.data;
+        }
+      );
+    }
+
+    function submitPackageForm(idx)
+    {
+      proReg.household[idx].showLoadingRegistration = true;
+
+      console.log('submit package form');
+      console.log(angular.toJson(proReg.household[idx].packageForm));
+
+      proReg.household[idx].completedPackages = proReg.household[idx].packageForm;
+
+      proReg.household[idx].step++;
+      if(proReg.household[idx].has_payments)
+      {
+        console.log('go to payments');
+        createPaymentsForm(idx);
+      }
+      else
+      {
+        console.log('go to last page');
+        createLastPage(idx);
       }
     }
 
@@ -489,6 +550,7 @@ angular.module('bluereconlineApp')
       });
     };
 
+    proReg.submitPackageForm = submitPackageForm;
     proReg.submitFinalForm = submitFinalForm;
     proReg.submitPaymentsForm = submitPaymentsForm;
     proReg.submitWaiverForm = submitWaiverForm;

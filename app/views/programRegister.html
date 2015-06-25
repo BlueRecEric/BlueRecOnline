@@ -181,6 +181,57 @@
       </form>
     </div>
 
+
+    <div class="panel panel-default" data-ng-show="person.stepName === 'packages' && person.has_packages">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title">Add-On Options</h3>
+      </div>
+
+      <form name="packageForm" class="form-horizontal" role="form" ng-submit="proReg.submitPackageForm($index)">
+        <ng-form name="packageForm">
+
+          <div class="panel-body">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                <tr>
+                  <td></td>
+                  <td>Add-On Name</td>
+                  <td>Add-On Code</td>
+                  <td>Fee(s)</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="pkg in person.packageForm">
+                  <td scope="row">
+                    <div class="form-group" >
+                      <div class="col-sm-6">
+                        <input type="checkbox" data-ng-if="pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name" required/>
+                        <input type="checkbox" data-ng-if="!pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name"/>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{pkg.item_name}}</td>
+                  <td>{{pkg.item_code}}</td>
+                  <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <button type="submit" id="submitPackages" value="Submit" class="btn btn-info" data-ng-enable="packageForm.$valid"><i class="fa fa-caret-square-o-right"></i> Save and Continue</button>
+              </div>
+            </div>
+          </div>
+
+        </ng-form>
+      </form>
+    </div>
+
+
     <div class="panel panel-default" data-ng-show="person.stepName === 'payments' && person.has_payments">
       <div class="panel-heading clearfix">
         <h3 class="panel-title">Payment Options</h3>
