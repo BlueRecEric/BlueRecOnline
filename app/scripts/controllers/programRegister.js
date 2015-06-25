@@ -11,6 +11,8 @@ angular.module('bluereconlineApp')
   .controller('ProgramRegister', ['$scope', 'ActiveUser', 'ProInfoLoader', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$http', '$filter', 'md5', '$location', '$anchorScroll', '$modal', function ($scope,ActiveUser,ProInfoLoader,BLUEREC_ONLINE_CONFIG,$routeParams,$http,$filter,md5,$location, $anchorScroll,$modal) {
     var proReg = this;
 
+    var noGatewayModal = $modal({scope: $scope, template: 'noPaymentGateway.html', show: false});
+
     $scope.someData = '';
 
     proReg.registered = false;
@@ -506,6 +508,7 @@ angular.module('bluereconlineApp')
 
     function submitFinalForm(idx)
     {
+
       console.log(idx);
       $scope.openGatewayAlert();
     }
