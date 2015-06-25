@@ -21,12 +21,11 @@ angular
     'ui.utils',
     'infinite-scroll',
     'uiGmapgoogle-maps',
-    'mgcrea.ngStrap',
-    'ui.bootstrap', 
-     'ui.rCalendar',
+    'ui.bootstrap',
     'bluereconlineApp.apiconfig',
-    'dynform'
-
+    'dynform',
+    'mgcrea.ngStrap',
+    'ui.rCalendar'
   ])
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
         $routeProvider

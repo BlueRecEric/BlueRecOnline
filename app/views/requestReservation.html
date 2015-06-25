@@ -11,6 +11,10 @@
     }
 </style>
 
+<button type="button" class="btn btn-default btn-lg pull-right" ng-click="openAside('right')">
+    Menu <span class="glyphicon glyphicon-align-justify"></span>
+</button>
+
 <div class="row" data-ng-animate="'slide'">
     <div data-ng-controller="RequestReservation" class="container">
 
@@ -241,7 +245,7 @@
                   </button>
               </div>
               <div class="btn-group">
-                  <button type="button" class="btn btn-success" ng-disabled="isToday()" style="background-image: linear-gradient(#48dd1b, #45d71a 60%, #3ebe17); border-color:#3ebe17;"
+                  <button type="button" class="btn btn-default" ng-disabled="isToday()" style="background-image: linear-gradient(#009900, #329a13 40%, #35a414); border-color:#3ebe17;color: #fff;"
                           ng-click="today()">
                       Today
                   </button>

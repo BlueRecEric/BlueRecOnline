@@ -8,8 +8,17 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams', function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams) {
+    .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams',  function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams ) {
 
+
+       /* var asideInstance = $scope.openAside = function openAside(position) {
+            $aside.open({
+                placement: position,
+                templateUrl: 'shoppingcart.html',
+                size: 'lg'
+            });
+        };
+*/
         $scope.hideBasicInfo=true;
 
         $scope.rentalCodeSearch = '';

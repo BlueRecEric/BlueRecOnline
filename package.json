@@ -1,7 +1,9 @@
 {
   "name": "bluereconline",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "grunt-cli": "^0.1.13"
+  },
   "repository": {},
   "devDependencies": {
     "grunt": "^0.4.5",
