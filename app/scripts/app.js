@@ -46,8 +46,8 @@ angular
             controllerAs: 'log'
           })
           .when('/:orgurl/programs', {
-            templateUrl: 'views/programs.html'
-
+            templateUrl: 'views/programs.html',
+                controller: 'ProgramProgramListInfo'
           })
           .when('/:orgurl/programinfo/:itemid', {
             templateUrl: 'views/programinfo.html',

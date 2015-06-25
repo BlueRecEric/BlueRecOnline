@@ -15,12 +15,12 @@
 <div class="row" data-ng-animate="'slide'">
     <div data-ng-controller="RequestReservation" class="container">
 
-        <h3  style="padding-bottom: 10px;">Reservation Information</h3>
+        <h3  style="padding-bottom: 10px;">Reservation Request Form</h3>
 
           <form class="form-horizontal">
 
 
-          <div class="alert alert-danger animate-show animate-hide" role="alert" ng-hide="!hideBasicInfo">
+          <div class="alert alert-info animate-show animate-hide" role="alert" ng-hide="!hideBasicInfo">
               <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 
               Select Rental Type to Continue
@@ -220,12 +220,11 @@
           </div>
 
       </form>
+<br>
+      <h3 class="page-header" style="padding-bottom: 10px;" ng-hide="hideBasicInfo"></h3>
+      <h3  style="padding-bottom: 10px;" ng-hide="hideBasicInfo">Reservation Availability</h3>
 
-      <br>
-      <h3 class="page-header" style="padding-bottom: 10px;"></h3>
-      <h3  style="padding-bottom: 10px;">Reservation Availability</h3>
-
-      <div id='calcontainer'>
+      <div id='calcontainer' ng-hide="hideBasicInfo">
           <div class="btn-toolbar">
               <div class="btn-group">
                   <button type="button" class="btn btn-primary" ng-class="{active:mode==='month'}"

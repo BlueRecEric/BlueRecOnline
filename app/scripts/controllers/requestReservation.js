@@ -71,7 +71,6 @@ angular.module('bluereconlineApp')
         {
 
 
-
         };
 
 
@@ -151,7 +150,7 @@ angular.module('bluereconlineApp')
             $scope.mode = mode;
         };
 
-        $scope.changeMode('week');
+        $scope.changeMode('month');
 
         $scope.today = function () {
             $scope.currentDate = new Date();
