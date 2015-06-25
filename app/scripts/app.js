@@ -21,10 +21,10 @@ angular
     'ui.utils',
     'infinite-scroll',
     'uiGmapgoogle-maps',
+    'mgcrea.ngStrap',
     'ui.bootstrap',
     'bluereconlineApp.apiconfig',
-    'dynform',
-    'mgcrea.ngStrap'
+    'dynform'
   ])
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
         $routeProvider

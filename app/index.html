@@ -10,8 +10,8 @@
     <!-- bower:css -->
     <link rel='stylesheet' href='bower_components/bootstrap-select/bootstrap-select.css' />
     <!-- endbower -->
-    <!-- endbuild --> 
-	
+    <!-- endbuild -->
+
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
@@ -29,8 +29,10 @@
     <!-- Add your site or application content here -->
 
     <div class="wide">
-      <div class="container logo"><img src="images/header_logo.png"></div>
+      <div class="container logo"><img src="images/header_logo_bv.png"></div>
     </div>
+
+    <div data-ng-controller="UserAuthCtrl"></div>
 
     <header class="bluerecnav header navbar navbar-default" role="navigation">
       <div class="container" data-ng-controller="MenuCtrl as nav">
@@ -65,8 +67,6 @@
     <div class="container view-animate-container">
     <div ng-view="" class="view-animate"></div>
     </div>
-
-    <div data-ng-controller="UserAuthCtrl"></div>
 
     <footer class="header noborder">
       <div class="navbar navbar-inverse navbar-fixed-bottom">
