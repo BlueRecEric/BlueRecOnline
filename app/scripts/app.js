@@ -47,7 +47,7 @@ angular
           })
           .when('/:orgurl/programs', {
             templateUrl: 'views/programs.html',
-            controller: 'ProgramList'
+            controller: 'ProgramListInfo'
           })
           .when('/:orgurl/programinfo/:itemid', {
             templateUrl: 'views/programinfo.html',
@@ -63,7 +63,6 @@ angular
           })
           .when('/:orgurl/reservations', {
             templateUrl: 'views/requestReservation.html',
-            controller: 'RequestReservation'
           })
           .otherwise({
             redirectTo: '/:orgurl/login'
@@ -77,6 +76,7 @@ angular
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         $httpProvider.defaults.headers.common.Accept = 'application/json';
     })
+
     .directive('ensureUnique', ['dataService', function (dataService) {
         return {
             restrict: 'A',
@@ -204,12 +204,6 @@ angular
           }, 1000);
 
           return deferred.promise;
-
-          /*
-          currentUser.userData = angular.fromJson(JSON.parse(currentUser.userStore.getItem(currentUser.userKey)));
-          console.log('local user data:');
-          console.log(currentUser.userData);
-          */
         }
 
         function pullUserFromLocalStorage()

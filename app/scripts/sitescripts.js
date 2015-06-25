@@ -8,7 +8,7 @@ $(document).ready(function () {
   var menu = $('.bluerecnav');
   var origOffsetY = menu.offset().top + 150;
 
-  console.log('Offset:' + origOffsetY);
+  //console.log('Offset:' + origOffsetY);
 
   function scroll() {
     if ($(window).scrollTop() >= origOffsetY) {

@@ -8,22 +8,20 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams',  function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams ) {
+    .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams','ActiveUser',  function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams, ActiveUser) {
 
+        ActiveUser.getFromLocal();
+        if(ActiveUser.userData != undefined) {
+            console.log(ActiveUser.userData.user_id);
+        }
 
-       /* var asideInstance = $scope.openAside = function openAside(position) {
-            $aside.open({
-                placement: position,
-                templateUrl: 'shoppingcart.html',
-                size: 'lg'
-            });
-        };
-*/
         $scope.hideBasicInfo=true;
 
         $scope.rentalCodeSearch = '';
 
         $scope.rentalDescription = 'N/A';
+
+        //$scope.eventSource=[];
 
         $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
         $scope.endTime = new Date(1970, 0, 1, 9, 0, 40);
@@ -33,11 +31,11 @@ angular.module('bluereconlineApp')
         $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/requestreservation/')
             .success(function (data) {
                 $scope.rentalDropDown = data;
-                console.log( $scope.rentalDropDown[1]);
+               // console.log( $scope.rentalDropDown[1]);
             });
 
         $scope.agreementSigned = {
-            'checked': true
+            'checked': false
         };
 
         $scope.setNewRental = function()
@@ -56,7 +54,6 @@ angular.module('bluereconlineApp')
                 $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservationfacilities/'+$scope.rentalCodeSearch)
                     .success(function (data) {
                         $scope.rentalFacilities = data;
-                        console.log( $scope.rentalFacilities[0]);
 
                         $scope.hideBasicInfo=false;
                     });
@@ -74,7 +71,6 @@ angular.module('bluereconlineApp')
         {
 
 
-
         };
 
 
@@ -83,7 +79,6 @@ angular.module('bluereconlineApp')
             //console.table($scope.rentalFacilities);
 
             var newFeeAmount = 0;
-
 
             for(var i = 0; i < $scope.rentalFacilities.length; i++)
             {
@@ -101,6 +96,44 @@ angular.module('bluereconlineApp')
 
         $scope.onFacilityChecked = function()
         {
+            var $facilityString='';
+
+            for(var i = 0; i < $scope.rentalFacilities.length; i++)
+            {
+                if($scope.rentalFacilities[i].checked)
+                {
+                    if($facilityString !== '')
+                    {$facilityString += ',';}
+                    $facilityString += $scope.rentalFacilities[i].item_id;
+                }
+            }
+
+            if($facilityString !== '')
+            {
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservationavailability/',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {'facilities': $facilityString}
+                };
+
+                $http(req)
+                    .success(function (data) {
+
+
+
+                        $scope.eventSource  = data;
+
+                        console.log( $scope.eventSource);
+                    });
+            }
+            else
+            {
+                //$scope.eventSource=[];
+            }
+
             $scope.calculateFeeAmount();
         };
 
@@ -117,7 +150,7 @@ angular.module('bluereconlineApp')
             $scope.mode = mode;
         };
 
-        $scope.changeMode('week');
+        $scope.changeMode('month');
 
         $scope.today = function () {
             $scope.currentDate = new Date();
@@ -131,51 +164,6 @@ angular.module('bluereconlineApp')
             currentCalendarDate.setHours(0, 0, 0, 0);
             return today.getTime() === currentCalendarDate.getTime();
         };
-
-        $scope.loadEvents = function () {
-            $scope.eventSource = createRandomEvents();
-        };
-
-        $scope.onEventSelected = function (event) {
-            $scope.event = event;
-        };
-
-        function createRandomEvents() {
-            var events = [];
-            for (var i = 0; i < 20; i += 1) {
-                var date = new Date();
-                var eventType = Math.floor(Math.random() * 2);
-                var startDay = Math.floor(Math.random() * 90) - 45;
-                var endDay = Math.floor(Math.random() * 2) + startDay;
-                var startTime;
-                var endTime;
-                if (eventType === 0) {
-                    startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-                    if (endDay === startDay) {
-                        endDay += 1;
-                    }
-                    endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-                    events.push({
-                        title: 'All Day - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: true
-                    });
-                } else {
-                    var startMinute = Math.floor(Math.random() * 24 * 60);
-                    var endMinute = Math.floor(Math.random() * 180) + startMinute;
-                    startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-                    endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-                    events.push({
-                        title: 'Event - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: false
-                    });
-                }
-            }
-            return events;
-        }
 
 
     }])
