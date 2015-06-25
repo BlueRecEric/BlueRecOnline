@@ -11,9 +11,11 @@ angular.module('bluereconlineApp')
     .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams','ActiveUser',  function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams, ActiveUser) {
 
         ActiveUser.getFromLocal();
-        if(ActiveUser.userData != undefined) {
+        if(ActiveUser.userData !== undefined) {
             console.log(ActiveUser.userData.user_id);
         }
+
+        $scope.contactCheckAlert=false;
 
         $scope.hideBasicInfo=true;
 
@@ -21,7 +23,18 @@ angular.module('bluereconlineApp')
 
         $scope.rentalDescription = 'N/A';
 
+        $scope.reservationDetails = '';
+        $scope.reservationNotes = '';
+
+        $scope.alcohol = '';
+
+        $scope.phoneNumber = '';
+        $scope.emailAddress = '';
+        $scope.contactMethod = '';
+
         //$scope.eventSource=[];
+
+        $scope.selectedDate= new Date();
 
         $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
         $scope.endTime = new Date(1970, 0, 1, 9, 0, 40);
@@ -36,6 +49,23 @@ angular.module('bluereconlineApp')
 
         $scope.agreementSigned = {
             'checked': false
+        };
+
+        $scope.facilityString = function(){
+
+            var $facilityString='';
+
+            for(var i = 0; i < $scope.rentalFacilities.length; i++)
+            {
+                if($scope.rentalFacilities[i].checked)
+                {
+                    if($facilityString !== '')
+                    {$facilityString += ',';}
+                    $facilityString += $scope.rentalFacilities[i].item_id;
+                }
+            }
+
+            return $facilityString;
         };
 
         $scope.setNewRental = function()
@@ -61,6 +91,14 @@ angular.module('bluereconlineApp')
                 if( $scope.rentalDescription === '')
                 {
                     $scope.rentalDescription = 'N/A';
+                    $scope.reservationDetails = '';
+                    $scope.reservationNotes = '';
+
+                    $scope.alcohol = '';
+
+                    $scope.phoneNumber = '';
+                    $scope.emailAddress = '';
+                    $scope.contactMethod = '';
                 }
             }
             else
@@ -69,10 +107,61 @@ angular.module('bluereconlineApp')
 
         $scope.onSubmitRequest = function()
         {
+            if($scope.agreementSigned.checked)
+            {
+                $scope.contactCheckAlert=false;
 
+                var $facilityString=$scope.facilityString();
+
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/submitreservationrequest/',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {
+                        'rental_code_item_id':  $scope.rentalCodeSearch,
+                        'facilities': $facilityString,
+                        'startTime':  $scope.formatMySQLDate($scope.selectedDate, $scope.startTime),
+                        'endTime':  $scope.formatMySQLDate($scope.selectedDate, $scope.endTime),
+                        'details':  $scope.reservationDetails,
+                        'notes':  $scope.reservationNotes,
+                        'alcohol':  $scope.alcohol,
+                        'phoneNumber': $scope.phoneNumber,
+                        'emailAddress':  $scope.emailAddress,
+                        'contactMethod':  $scope.contactMethod,
+                        'feeAmount':  $scope.feeAmount
+                    }
+                };
+
+                $http(req)
+                    .success(function (data) {
+
+
+                        $scope.eventSource  = data;
+
+                        console.log( $scope.eventSource);
+                    });
+            }
+            else
+            {
+                $scope.contactCheckAlert=true;
+            }
 
         };
 
+        $scope.formatMySQLDate = function(formatDate, formatTime) {
+            //Grab each of your components
+            var yyyy = formatDate.getFullYear().toString();
+            var MM = (formatDate.getMonth()+1).toString();
+            var dd  = formatDate.getDate().toString();
+            var hh = formatTime.getHours().toString();
+            var mm = formatTime.getMinutes().toString();
+            var ss = formatTime.getSeconds().toString();
+
+            //Returns your formatted result
+            return yyyy + '-' + (MM[1]?MM:"0"+MM[0]) + '-' + (dd[1]?dd:"0"+dd[0]) + ' ' + (hh[1]?hh:"0"+hh[0]) + ':' + (mm[1]?mm:"0"+mm[0]) + ':' + (ss[1]?ss:"0"+ss[0]);
+        };
 
         $scope.calculateFeeAmount = function()
         {
@@ -96,17 +185,9 @@ angular.module('bluereconlineApp')
 
         $scope.onFacilityChecked = function()
         {
-            var $facilityString='';
+            $scope.eventSource=null;
 
-            for(var i = 0; i < $scope.rentalFacilities.length; i++)
-            {
-                if($scope.rentalFacilities[i].checked)
-                {
-                    if($facilityString !== '')
-                    {$facilityString += ',';}
-                    $facilityString += $scope.rentalFacilities[i].item_id;
-                }
-            }
+            var $facilityString=$scope.facilityString();
 
             if($facilityString !== '')
             {
@@ -122,16 +203,15 @@ angular.module('bluereconlineApp')
                 $http(req)
                     .success(function (data) {
 
+                        $scope.eventSource = data;
 
-
-                        $scope.eventSource  = data;
-
-                        console.log( $scope.eventSource);
+                        console.log($scope.eventSource);
                     });
             }
             else
             {
-                //$scope.eventSource=[];
+
+                //$scope.changeMode('week');
             }
 
             $scope.calculateFeeAmount();
@@ -150,7 +230,7 @@ angular.module('bluereconlineApp')
             $scope.mode = mode;
         };
 
-        $scope.changeMode('month');
+        $scope.changeMode('week');
 
         $scope.today = function () {
             $scope.currentDate = new Date();
