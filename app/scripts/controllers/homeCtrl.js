@@ -11,23 +11,36 @@ angular.module('bluereconlineApp')
   .controller('HomeCtrl', ['$scope', '$routeParams', '$location', 'ActiveUser', function ($scope,$routeParams,$location,ActiveUser) {
     var home = this;
     home.orgurl = $routeParams.orgurl;
+    home.validUser = false;
 
-    if(angular.isDefined(ActiveUser.userData)) {
-      if (ActiveUser.userData.validLogin !== true) {
-        console.log('not logged: ');
-        console.log(ActiveUser);
-        console.log('send to: ' + '/' + home.orgurl + '/login');
-        $location.path('/' + home.orgurl + '/login');
+    ActiveUser.getFromLocal().then(function() {
+      checkValidUser();
+    }, function() {
+      sendToLogin();
+    }, function() {
+    });
+
+    function checkValidUser()
+    {
+      home.validUser = false;
+
+      if(angular.isDefined(ActiveUser.userData)) {
+        if (ActiveUser.userData.validLogin !== true) {
+          sendToLogin();
+        }
+        else
+        {
+          home.validUser = true;
+        }
       }
       else
       {
-        console.log('user data found, they can stay');
+        sendToLogin();
       }
     }
-    else
+
+    function sendToLogin()
     {
-      console.log('no user data found, send to: ' + '/' + home.orgurl + '/login');
       $location.path('/' + home.orgurl + '/login');
     }
-
   }]);

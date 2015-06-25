@@ -158,7 +158,7 @@ angular
         };
         return dataFactory;
     }])
-    .factory('ActiveUser', ['AuthService','$window',function(AuthService,$window) {
+    .service('ActiveUser', ['AuthService','$window','$q',function(AuthService,$window,$q) {
         var currentUser = this;
         currentUser.userStore = $window.localStorage;
         currentUser.userKey = 'user-data';
@@ -168,15 +168,68 @@ angular
         // constructor
         function setActiveUser(userData)
         {
-          currentUser.userData = userData;
-          currentUser.gettingUser = false;
+          var deferred = $q.defer();
+
+          setTimeout(function() {
+            deferred.notify('Setting user in local storage.');
+
+            putUserInLocalStorage(userData).then(function(response) {
+                currentUser.userData = userData;
+                deferred.resolve(response);
+              },
+              function(response) {
+                deferred.reject(response);
+              }
+            );
+
+          }, 1000);
+
+          return deferred.promise;
         }
 
         function getFromLocal()
         {
+          var deferred = $q.defer();
+
+          setTimeout(function() {
+            deferred.notify('Looking for user in local storage.');
+
+            if (pullUserFromLocalStorage()) {
+              currentUser.userData = pullUserFromLocalStorage();
+              //console.log(currentUser.userData);
+              deferred.resolve(currentUser.userData);
+            } else {
+              deferred.reject('No user data found in local storage');
+            }
+          }, 1000);
+
+          return deferred.promise;
+
+          /*
           currentUser.userData = angular.fromJson(JSON.parse(currentUser.userStore.getItem(currentUser.userKey)));
           console.log('local user data:');
           console.log(currentUser.userData);
+          */
+        }
+
+        function pullUserFromLocalStorage()
+        {
+          return angular.fromJson(JSON.parse(currentUser.userStore.getItem(currentUser.userKey)));
+        }
+
+        function putUserInLocalStorage(response)
+        {
+          var deferred = $q.defer();
+
+          setTimeout(function() {
+            deferred.notify('Trying to put user in local storage.');
+
+            currentUser.userStore.setItem(currentUser.userKey, JSON.stringify(angular.toJson(response)));
+
+            deferred.resolve(true);
+          }, 100);
+
+          return deferred.promise;
         }
 
         function getFromToken()
@@ -187,20 +240,27 @@ angular
           }
         }
 
+        function getUser()
+        {
+          return currentUser.userData;
+        }
+
         function setUser(data)
         {
           currentUser.setActiveUser(data);
-          console.log('currentUser:' + angular.toJson(currentUser));
         }
 
         function checkUser() {
           currentUser.gettingUser = true;
           AuthService.getUser().then(function success(response) {
             currentUser.setActiveUser(response.data);
-            currentUser.userStore.setItem(currentUser.userKey, JSON.stringify(angular.toJson(response.data)));
+            putUserInLocalStorage(response.data);
+            //currentUser.userStore.setItem(currentUser.userKey, JSON.stringify(angular.toJson(response.data)));
+            currentUser.gettingUser = false;
           });
         }
 
+        currentUser.getUser = getUser;
         currentUser.setActiveUser = setActiveUser;
         currentUser.getFromToken = getFromToken;
         currentUser.setUser = setUser;
@@ -315,10 +375,7 @@ angular
 
     var loadProgram = function() {
 
-      console.log('Try to load the program.');
-
       if(proload.busy) {
-        console.log('We\'re already loading the program info!');
         return false;
       }
       proload.busy = true;
@@ -373,7 +430,6 @@ angular
 
         proload.returnData = responseData;
 
-        console.log(proload.returnData);
         proload.busy = false;
       }.bind(this));
     };

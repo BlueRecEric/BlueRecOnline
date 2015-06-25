@@ -36,7 +36,7 @@
     <div data-ng-controller="UserAuthCtrl"></div>
 
     <header class="bluerecnav header navbar navbar-default" role="navigation">
-      <div class="container" data-ng-controller="MenuCtrl as nav">
+      <div class="container" data-ng-controller="MenuCtrl">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -59,7 +59,7 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li data-ng-show="currentUser.validLogin"><a ng-href="#/cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge"> 3 </span></a></li>
-            <li data-ng-show="currentUser.validLogin"><a ng-click="nav.logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+            <li data-ng-show="currentUser.validLogin"><a ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
           </ul>
         </div>
       </div>

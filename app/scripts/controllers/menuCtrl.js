@@ -8,10 +8,19 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('MenuCtrl', ['$scope', '$routeParams', '$route', 'AuthService', '$location', function ($scope,$routeParams,$route,AuthService,$location) {
-    var nav = this;
+  .controller('MenuCtrl', ['$scope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', function ($scope,$routeParams,$route,AuthService,$location,ActiveUser) {
 
-    $route.reload();
+    ActiveUser.getFromLocal().then(function success(response) {
+      console.log('we got the user from the menu');
+      $scope.currentUser = response;
+      console.log($scope.currentUser);
+      //$scope.$root.currentUser = response.data;
+    });
+
+    $scope.$watch(function() { return ActiveUser.getUser(); }, function() {
+      console.log('ActiveUser changed');
+      $scope.currentUser = ActiveUser.getUser();
+    });
 
     //console.log('current params:');
     //console.log($routeParams);
@@ -31,13 +40,10 @@ angular.module('bluereconlineApp')
       $scope.HomeLink = $routeParams.orgurl + '/home/';
     });
 
-    function logout()
+    $scope.logout = function()
     {
       AuthService.logout();
-      $scope.$root.currentUser = null;
-      $scope.$root.currentUser = {};
+      $scope.currentUser = {};
       $location.path('/' + $routeParams.orgurl + '/login');
-    }
-
-    nav.logout = logout;
+    };
   }]);
