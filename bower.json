@@ -19,9 +19,7 @@
     "angular-ui": "~0.4.0",
     "angular-ui-utils": "bower",
     "ui.bootstrap": "~0.13.0",
-    "angular-bootstrap": "~0.13.0",
     "angular-dynforms": "~0.0.4",
-    "angular-bootstrap-select": "~0.0.5",
     "angular-strap": "~2.2.4",
     "ng-responsive-calendar": "~0.1.4"
   },

@@ -22,8 +22,8 @@ angular
     'infinite-scroll',
     'uiGmapgoogle-maps',
     'mgcrea.ngStrap',
-    'ui.bootstrap', 
-     'ui.rCalendar',
+    'ui.bootstrap.progressbar',
+    'ui.rCalendar',
     'bluereconlineApp.apiconfig',
     'dynform'
 
