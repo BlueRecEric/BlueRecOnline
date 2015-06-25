@@ -99,7 +99,7 @@ body > .container {
 .wide {
   width:100%;
   height:150px;
-  background-image:url('../images/header_bg2.jpg');
+  background-image:url('../images/header_bgbv.jpg');
   background-size:cover;
   border-bottom: 0px solid #e5e5e5;
   margin-bottom: 0px;
@@ -109,10 +109,14 @@ body > .container {
   color:#fff;
   font-weight:800;
   font-size:14pt;
-  text-align:left;
   min-height: 150px;
   vertical-align: middle;
   position: relative;
+}
+
+.logo::before {
+  background-image:url('../images/header_bgbv.jpg');
+  filter: blur(5px);
 }
 
 .logo img {

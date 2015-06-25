@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ProgramRegister', ['$scope', 'ActiveUser', 'ProInfoLoader', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$http', '$filter', function ($scope,ActiveUser,ProInfoLoader,BLUEREC_ONLINE_CONFIG,$routeParams,$http,$filter) {
+  .controller('ProgramRegister', ['$scope', 'ActiveUser', 'ProInfoLoader', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$http', '$filter', 'md5', '$location', '$anchorScroll', '$modal', function ($scope,ActiveUser,ProInfoLoader,BLUEREC_ONLINE_CONFIG,$routeParams,$http,$filter,md5,$location, $anchorScroll,$modal) {
     var proReg = this;
 
     $scope.someData = '';
@@ -97,6 +97,15 @@ angular.module('bluereconlineApp')
       },
     ];
 
+    proReg.gotoUserTop = function(idx) {
+      // set the location.hash to the id of
+      // the element you wish to scroll to.
+      //$location.hash(proReg.household[idx].anchorHash);
+
+      // call $anchorScroll()
+      $anchorScroll.yOffset = 80;
+      $anchorScroll(proReg.household[idx].anchorHash);
+    };
 
     function startRegistration(idx)
     {
@@ -106,6 +115,8 @@ angular.module('bluereconlineApp')
           function success(response) {
 
             resetUserRegistration(idx);
+
+            proReg.household[idx].anchorHash = md5.createHash(proReg.household[idx].user_id + idx);
 
             if(angular.isDefined(response.failed_requirement))
             {
@@ -138,7 +149,6 @@ angular.module('bluereconlineApp')
             {
               proReg.household[idx].step = 1;
               proReg.household[idx].stepName = 'user';
-              proReg.household[idx].partForm = {};
               proReg.household[idx].partForm.userID = response.user_id;
               proReg.household[idx].partForm.firstname = response.firstname;
               proReg.household[idx].partForm.lastname = response.lastname;
@@ -160,10 +170,16 @@ angular.module('bluereconlineApp')
       proReg.household[idx].failed = null;
       proReg.household[idx].failedCount = 0;
       proReg.household[idx].step = 0;
-      proReg.household[idx].totalSteps = 2;
+      proReg.household[idx].stepName = '';
+      proReg.household[idx].totalSteps = 3;
       proReg.household[idx].has_custom_fields = false;
       proReg.household[idx].has_packages = false;
       proReg.household[idx].has_payments = false;
+      proReg.household[idx].paymentsForm = {};
+      proReg.household[idx].packageForm = {};
+      proReg.household[idx].waiverForm = {};
+      proReg.household[idx].customForm = {};
+      proReg.household[idx].partForm = {};
     }
 
     function getStartingRegistrationData(idx)
@@ -236,6 +252,7 @@ angular.module('bluereconlineApp')
     function createCustomFieldForm(idx)
     {
       proReg.household[idx].stepName = 'custom';
+      proReg.gotoUserTop(idx);
 
       getCustomFieldData(idx).then(
         function success(response) {
@@ -305,6 +322,7 @@ angular.module('bluereconlineApp')
     function createWaiverForm(idx)
     {
       proReg.household[idx].stepName = 'waiver';
+      proReg.gotoUserTop(idx);
 
       getWaiverData(idx).then(
         function success(response) {
@@ -341,10 +359,14 @@ angular.module('bluereconlineApp')
 
     function submitWaiverForm(idx)
     {
+      proReg.household[idx].showLoadingRegistration = true;
+
       console.log('submit waiver form');
       console.log(angular.toJson(proReg.household[idx].waiverForm));
 
       proReg.household[idx].completedWaivers = proReg.household[idx].waiverForm;
+
+      proReg.household[idx].step++;
 
       if(proReg.household[idx].has_packages)
       {
@@ -353,7 +375,6 @@ angular.module('bluereconlineApp')
       }
       else if(proReg.household[idx].has_payments)
       {
-        proReg.household[idx].stepName = 'payments';
         console.log('go to payments');
         createPaymentsForm(idx);
       }
@@ -361,8 +382,13 @@ angular.module('bluereconlineApp')
 
     function createPaymentsForm(idx)
     {
+      proReg.household[idx].stepName = 'payments';
+      proReg.gotoUserTop(idx);
+
       getPaymentData(idx).then(
         function success(response) {
+          proReg.household[idx].showLoadingRegistration = false;
+
           console.log('payments response');
           console.log(response);
           proReg.household[idx].paymentsForm = response;
@@ -386,7 +412,6 @@ angular.module('bluereconlineApp')
       return $http(req)
         .then(
         function success(response) {
-          proReg.household[idx].showLoadingRegistration = false;
           console.log('Here is the payments response:');
           console.log(response.data);
           return response.data;
@@ -394,16 +419,35 @@ angular.module('bluereconlineApp')
       );
     }
 
+    function submitPaymentsForm(idx)
+    {
+      proReg.household[idx].showLoadingRegistration = true;
+
+      console.log('submit payments form');
+      console.log(angular.toJson(proReg.household[idx].paymentsForm));
+
+      proReg.household[idx].completedPayments = proReg.household[idx].paymentsForm;
 
 
+      //proReg.household[idx].stepName = 'final';
+      console.log('go to last page');
+      proReg.household[idx].step++;
+      createLastPage(idx);
+    }
 
+    function createLastPage(idx)
+    {
+      proReg.household[idx].showLoadingRegistration = true;
+      proReg.household[idx].stepName = 'review';
+      proReg.gotoUserTop(idx);
+      proReg.household[idx].showLoadingRegistration = false;
+    }
 
-
-
-
-
-
-
+    function submitFinalForm(idx)
+    {
+      console.log(idx);
+      $scope.openGatewayAlert();
+    }
 
     function birthdayOpen($event,bdidx) {
       $event.preventDefault();
@@ -429,89 +473,24 @@ angular.module('bluereconlineApp')
       memberIndex++;
     });
 
-    function checkRegistration(idx) {
-      if(proReg.household[idx].registrationSelected)
-      {
-        proReg.household[idx].progress = 0;
+    $scope.openGatewayAlert = function (size) {
 
-        console.log(idx);
-        console.log(proReg.household[idx]);
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: 'noPaymentGateway.html',
+        controller: 'NoGatewayCtrl',
+        size: size
+      });
 
-        getProgramRequirementData(idx).then(
-          function success(response) {
-            proReg.household[idx].failed = response.failed_requirement;
+      modalInstance.result.then(function () {
+        console.log('Modal closed at: ' + new Date());
+      }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+      });
+    };
 
-
-
-
-
-            if(angular.isDefined(response.customForm))
-            {
-              proReg.household[idx].hasCustomFields = true;
-              proReg.household[idx].customForm = JSON.parse(angular.toJson(response.customForm));
-              proReg.household[idx].userForm = {};
-              proReg.household[idx].userForm.birthday = new Date(response.birth_year, response.birth_month, response.birth_day);
-              proReg.household[idx].userForm.firstname = response.firstname;
-              proReg.household[idx].userForm.lastname = response.lastname;
-              //$scope.formTemplate = JSON.parse(angular.toJson(response.customForm));
-              //$scope.formTemplate = "[{'type':'text','label':'Number of numbers','model':'field_16'},{'type':'submit','label':'Submit','model':'field_submit'}]";
-            }
-            else
-            {
-              proReg.household[idx].hasCustomFields = false;
-              proReg.household[idx].customFormResponse = {};
-              proReg.household[idx].customForm = [];
-            }
-
-            if(angular.isDefined(response.failed_requirement))
-            {
-              proReg.household[idx].progress = 10;
-              proReg.household[idx].failedCount = response.failed_requirement.length;
-            }
-            else
-            {
-              proReg.household[idx].progress = 20;
-              proReg.household[idx].failedCount = 0;
-            }
-            proReg.household[idx].waivers = response.waivers;
-            console.log('show failed requirements:');
-            console.log(proReg.household[idx]);
-          }
-        );
-      }
-      else{
-        proReg.household[idx].showLoadingRegistration = false;
-        proReg.household[idx].failed = null;
-        proReg.household[idx].waivers = null;
-        proReg.household[idx].progress = 0;
-        proReg.household[idx].hasCustomFields = false;
-      }
-    }
-
-    function getProgramRequirementData(idx)
-    {
-      proReg.household[idx].showLoadingRegistration = true;
-
-      var req = {
-        method: 'POST',
-        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/checkUserProgramRequirements',
-        headers: {
-          'Content-Type': undefined
-        },
-        data: {'uid': proReg.household[idx].user_id, 'pid':$scope.proinfo.returnData.item_id}
-      };
-
-      return $http(req)
-        .then(
-        function success(response) {
-          proReg.household[idx].showLoadingRegistration = false;
-          console.log('Here is the requirements response:');
-          console.log(response.data);
-          return response.data;
-        }
-      );
-    }
-
+    proReg.submitFinalForm = submitFinalForm;
+    proReg.submitPaymentsForm = submitPaymentsForm;
     proReg.submitWaiverForm = submitWaiverForm;
     proReg.createWaiverForm = createWaiverForm;
     proReg.submitCustomForm = submitCustomForm;
@@ -521,7 +500,10 @@ angular.module('bluereconlineApp')
     proReg.getStartingRegistrationData = getStartingRegistrationData;
     proReg.startRegistration = startRegistration;
     proReg.birthdayOpen = birthdayOpen;
-    proReg.checkRegistration = checkRegistration;
-    proReg.getProgramRequirementData = getProgramRequirementData;
-    proReg.submitCustomForm = submitCustomForm;
-  }]);
+  }])
+  .controller('NoGatewayCtrl', function ($scope, $modalInstance) {
+    $scope.selected = {};
+    $scope.ok = function () {
+      $modalInstance.close();
+    };
+  });

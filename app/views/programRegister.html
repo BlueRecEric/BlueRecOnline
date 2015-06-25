@@ -1,27 +1,21 @@
 <h3>Registering for {{proinfo.returnData.item_name}}({{proinfo.returnData.item_code}})</h3>
 
 <div class="bs-callout bs-callout-info" id="callout-type-b-i-elems">
-  <p><i class="fa fa-pencil fa-3x fa-top-text"></i>
+  <div class="row">
+  <p><i class="fa fa-pencil fa-2x pull-left fa-border"></i>
     This is an example of a note that would be attached to a program. This note will appear here during online registration.
     If multiple notes are attached, they will each appear in their own 'box' so that they are easy to distinguish.</p>
+  </div>
 </div>
 
 <h4>Please select the household members that will be registering for this activity:</h4>
 
 
-
-<!--
-<div class="well" data-ng-repeat="person in proReg.household">
-  <div class="row">
-      <a href="#" class="btn btn-primary"><i class="fa fa-sign-in"></i> Register {{person.firstname}} {{person.lastname}}</a>
-  </div>
-</div>
--->
 <div class="panel panel-default" data-ng-repeat="person in proReg.household">
   <div class="panel-heading"><input type="checkbox" ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)" aria-label="Register {{person.firstname}} {{person.lastname}}"> {{person.firstname}} {{person.lastname}} <span class="pull-right" ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span></div>
   <div class="panel-body">
 
-    <progressbar data-ng-show="person.step > 0" class="progress-striped active" max="max" value="(person.step/person.totalSteps) * 100">Step {{person.step}} of {{person.totalSteps}}</progressbar>
+    <a id="{{person.anchorHash}}"><progressbar data-ng-show="person.step > 0" class="progress-striped active" type="{{(person.step < person.totalSteps)?'primary':'success'}}" max="max" value="(person.step/person.totalSteps) * 100">Step {{person.step}} of {{person.totalSteps}}</progressbar></a>
 
 
     <div class="alert alert-danger" role="alert" data-ng-repeat="failedReq in person.failed">{{failedReq}}</div>
@@ -185,135 +179,139 @@
 
         </ng-form>
       </form>
-
     </div>
 
+    <div class="panel panel-default" data-ng-show="person.stepName === 'payments' && person.has_payments">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title">Payment Options</h3>
+      </div>
 
+      <form name="paymentsForm" class="form-horizontal" role="form" ng-submit="proReg.submitPaymentsForm($index)">
+        <ng-form name="paymentsForm">
 
+          <div class="panel-body">
 
-
-
-
-
-
-
-
-
-
-
-
-
-    <div data-ng-show="(person.hasCustomFields && person.failedCount === 1000)">
-
-
-      <form name="myForm" class="form-horizontal" role="form" ng-submit="proReg.submitCustomForm($index)">
-        <ng-form name="form">
-
-          <div class="panel panel-default">
-            <div class="panel-heading clearfix">
-              <h3 class="panel-title">Program Information</h3>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                <tr>
+                  <td></td>
+                  <td>Payment</td>
+                  <td>Due Date</td>
+                  <td>Fee(s)</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="pay in person.paymentsForm">
+                  <td scope="row">
+                    <div class="form-group" >
+                      <div class="col-sm-6">
+                        <input type="checkbox" data-ng-if="pay.required" data-ng-model="pay.selected"  name="pay.item_name" required/>
+                        <input type="checkbox" data-ng-if="!pay.required" data-ng-model="pay.selected"  name="pay.item_name"/>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{pay.item_name}}</td>
+                  <td>{{pay.format_due_date}}</td>
+                  <td><p data-ng-repeat="fee in pay.fees">{{fee.fee_name}} ${{fee.fee_amount}}</p></td>
+                </tr>
+                </tbody>
+              </table>
             </div>
 
-            <div class="panel-body">
-              <div ng-repeat="field in person.customForm track by $index">
-                <!-- TEXT FIELDS -->
-                <div ng-if="field.type=='text'" class="form-group">
-                  <div class="alert alert-danger" role="alert" data-ng-show="form.input{{$index}}.$dirty && form.input{{$index}}.$error.required">{{field.label}} is required</div>
-                  <label class="col-sm-2 control-label-center">{{field.label}}</label>
-                  <div class="col-sm-6">
-                    <input type="{{field.type}}" id="{{field.id}}" data-ng-model="field.response_value" class="form-control" required/>
-                  </div>
-                </div>
-
-                <!-- NUMERIC FIELDS -->
-                <div ng-if="field.type=='number'" class="form-group">
-                  <div class="alert alert-danger" role="alert" data-ng-show="form.input{{$index}}.$dirty && form.input{{$index}}.$error.required">{{field.label}} is required</div>
-                  <label class="col-sm-2 control-label-center">{{field.label}}</label>
-                  <div class="col-sm-6">
-                    <input type="text" id="{{field.name}}" data-ng-model="field.response_value"  class="form-control" required/>
-                  </div>
-                </div>
-
-                <!-- SELECT FIELDS -->
-                <div ng-if="field.type=='select'" class="form-group" >
-                  <label class="col-sm-2 control-label-center">{{field.label}}</label>
-                  <div class="col-sm-6">
-                    <select data-ng-model="field.response_value" class="form-control" prompt="Select One" required>
-                      <option data-ng-repeat="option in field.options">{{option}}</option>
-                    </select>
-                  </div>
-                </div>
-
-                <!-- CHECKBOX FIELDS -->
-                <div ng-if="field.type=='checkbox'" class="form-group" >
-                  <label class="col-sm-2 control-label-center">{{field.label}}</label>
-                  <div class="col-sm-6">
-                    <input type="checkbox" data-ng-model="field.response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}"/>
-                  </div>
-                </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <button type="submit" id="submitPayments" value="Submit" class="btn btn-info" data-ng-enable="paymentsForm.$valid"><i class="fa fa-caret-square-o-right"></i> Save and Continue</button>
               </div>
             </div>
           </div>
 
-          <div class="panel panel-default">
-            <div class="panel-heading clearfix">
-              <h3 class="panel-title">Participant Information</h3>
+        </ng-form>
+      </form>
+    </div>
+
+    <div class="panel panel-default" data-ng-show="person.stepName === 'review'">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title">Add to Cart</h3>
+      </div>
+
+      <form name="finalForm" class="form-horizontal" role="form" ng-submit="proReg.submitFinalForm($index)">
+        <ng-form name="finalForm">
+
+          <div class="panel-body">
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                  <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                </span>
+                Participant Information
+              </div>
             </div>
 
-            <div class="panel-body">
-              <div class="form-group">
-                <label class="col-sm-2 control-label-center">Firstname</label>
-                <div class="col-sm-6 control-label-center input-group">
-                  <input type="text" id="firstname" data-ng-model="person.userForm.firstname" value="{{person.userForm.firstname}}" class="form-control" required/>
-                </div>
+            <div class="form-group" data-ng-show="person.has_custom_fields">
+              <div class="col-sm-6">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                  <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                </span>
+                Program Information
               </div>
+            </div>
 
-              <div class="form-group">
-                <label class="col-sm-2 control-label-center">Lastname</label>
-                <div class="col-sm-6 control-label-center input-group">
-                  <input type="text" id="lastname" data-ng-model="person.userForm.lastname" value="{{person.userForm.lastname}}" class="form-control" required/>
-                </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                  <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                </span>
+                Waiver(s)
               </div>
+            </div>
 
-              <div class="form-group">
-                <label class="col-sm-2 control-label-center">Gender</label>
-                <div class="col-sm-6 control-label-center input-group">
-                  <input type="text" id="gender" data-ng-model="field.response_value" class="form-control" required/>
-                </div>
+            <div class="form-group" data-ng-show="person.has_packages">
+              <div class="col-sm-6">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                  <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                </span>
+                Add-ons
               </div>
+            </div>
 
-              <div class="form-group">
-                <label class="col-sm-2 control-label-center">Birthday</label>
-                <div class="col-sm-6 control-label-center input-group">
-                  <input type="date" class="form-control" datepicker-popup value="{{person.userForm.birthday}}" ng-model="person.userForm.birthday" is-open="proReg.datepickers[$index]" min-date="'1900-01-01'" max-date="'2015-06-22'" datepicker-options="proReg.dateOptions" ng-required="true" close-text="Close">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="proReg.birthdayOpen($event,$index)"><i class="glyphicon glyphicon-calendar"></i></button>
-                  </span>
-                </div>
+            <div class="form-group" data-ng-show="person.has_payments">
+              <div class="col-sm-6">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                  <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                </span>
+                Payment Plan Options
               </div>
+            </div>
 
-              <div class="form-group">
-                <label class="col-sm-2 control-label-center">Grade</label>
-                <div class="col-sm-6 control-label-center input-group">
-                  <input type="text" id="grade" data-ng-model="field.response_value" class="form-control" required/>
-                </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <button type="submit" id="submitFinal" value="Submit" class="btn btn-success"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> Add to Cart</button>
               </div>
             </div>
           </div>
         </ng-form>
       </form>
-
-
-
-
-
-
-
-    </div>
-
-    <div class="form-group" data-ng-show="(person.failedCount === 0)" data-ng-repeat="waiverData in person.waivers">
-      <label for="txtWaiver">{{waiverData.waiver_name}}</label>
-      <textarea name="txtWaiver" id="txtWaiver" class="form-control" rows="3">{{waiverData.waiver_text}}</textarea>
     </div>
   </div>
 </div>
+
+<script type="text/ng-template" id="noPaymentGateway.html">
+  <div class="modal-header">
+    <h3 class="modal-title text-danger">Unable to add</h3>
+  </div>
+  <div class="modal-body">
+    <p>We apologize, but we were unable to add this item to your shopping cart.</p>
+
+    <p>Reason: No payment gateway has been configured.</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" ng-click="ok()">OK</button>
+  </div>
+</script>
