@@ -43,7 +43,6 @@ module.exports = function(config) {
       'bower_components/angular-strap/dist/angular-strap.js',
       'bower_components/angular-strap/dist/angular-strap.tpl.js',
       'bower_components/ng-responsive-calendar/dist/js/calendar-tpls.js',
-      'bower_components/angular-aside/dist/js/angular-aside.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

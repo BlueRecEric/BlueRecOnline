@@ -13,7 +13,9 @@ p, div {
 }
 
 html {
-  height: 101%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 body {
