@@ -150,6 +150,11 @@ angular.module('bluereconlineApp')
 
         };
 
+
+
+
+
+        
         $scope.formatMySQLDate = function(formatDate, formatTime) {
             //Grab each of your components
             var yyyy = formatDate.getFullYear().toString();
@@ -160,7 +165,7 @@ angular.module('bluereconlineApp')
             var ss = formatTime.getSeconds().toString();
 
             //Returns your formatted result
-            return yyyy + '-' + (MM[1]?MM:"0"+MM[0]) + '-' + (dd[1]?dd:"0"+dd[0]) + ' ' + (hh[1]?hh:"0"+hh[0]) + ':' + (mm[1]?mm:"0"+mm[0]) + ':' + (ss[1]?ss:"0"+ss[0]);
+            return yyyy + '-' + (MM[1]?MM:'0'+MM[0]) + '-' + (dd[1]?dd:'0'+dd[0]) + ' ' + (hh[1]?hh:'0'+hh[0]) + ':' + (mm[1]?mm:'0'+mm[0]) + ':' + (ss[1]?ss:'0'+ss[0]);
         };
 
         $scope.calculateFeeAmount = function()
