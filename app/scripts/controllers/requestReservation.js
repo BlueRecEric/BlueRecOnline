@@ -11,19 +11,13 @@ angular.module('bluereconlineApp')
     .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams',  function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams ) {
 
 
-       /* var asideInstance = $scope.openAside = function openAside(position) {
-            $aside.open({
-                placement: position,
-                templateUrl: 'shoppingcart.html',
-                size: 'lg'
-            });
-        };
-*/
         $scope.hideBasicInfo=true;
 
         $scope.rentalCodeSearch = '';
 
         $scope.rentalDescription = 'N/A';
+
+        $scope.eventSource=[];
 
         $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
         $scope.endTime = new Date(1970, 0, 1, 9, 0, 40);
@@ -37,7 +31,7 @@ angular.module('bluereconlineApp')
             });
 
         $scope.agreementSigned = {
-            'checked': true
+            'checked': false
         };
 
         $scope.setNewRental = function()
@@ -56,7 +50,6 @@ angular.module('bluereconlineApp')
                 $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservationfacilities/'+$scope.rentalCodeSearch)
                     .success(function (data) {
                         $scope.rentalFacilities = data;
-                        console.log( $scope.rentalFacilities[0]);
 
                         $scope.hideBasicInfo=false;
                     });
@@ -84,7 +77,6 @@ angular.module('bluereconlineApp')
 
             var newFeeAmount = 0;
 
-
             for(var i = 0; i < $scope.rentalFacilities.length; i++)
             {
                 if($scope.rentalFacilities[i].checked)
@@ -101,6 +93,42 @@ angular.module('bluereconlineApp')
 
         $scope.onFacilityChecked = function()
         {
+            var $facilityString='';
+
+            for(var i = 0; i < $scope.rentalFacilities.length; i++)
+            {
+                if($scope.rentalFacilities[i].checked)
+                {
+                    if($facilityString !== '')
+                    {$facilityString += ',';}
+                    $facilityString += $scope.rentalFacilities[i].item_id;
+                }
+            }
+
+            if($facilityString !== '')
+            {
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservationavailability/',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {'facilities': $facilityString}
+                };
+
+                $http(req)
+                    .success(function (data) {
+
+                        console.table(data);
+
+                        $scope.eventSource = data;
+                    });
+            }
+            else
+            {
+                $scope.eventSource=[];
+            }
+
             $scope.calculateFeeAmount();
         };
 
