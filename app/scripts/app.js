@@ -24,7 +24,8 @@ angular
     'ui.bootstrap',
     'bluereconlineApp.apiconfig',
     'dynform',
-    'mgcrea.ngStrap'
+    'mgcrea.ngStrap',
+    'ui.rCalendar'
   ])
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
         $routeProvider
@@ -60,7 +61,6 @@ angular
           })
           .when('/:orgurl/reservations', {
             templateUrl: 'views/requestReservation.html',
-            controller: 'RequestReservation'
           })
           .otherwise({
             redirectTo: '/:orgurl/login'

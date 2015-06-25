@@ -8,21 +8,166 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('RequestReservation', ['$scope', function ($scope) {
+    .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams', function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams) {
+
+        $scope.hideBasicInfo=true;
+
+        $scope.rentalCodeSearch = '';
+
+        $scope.rentalDescription = 'N/A';
 
         $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
         $scope.endTime = new Date(1970, 0, 1, 9, 0, 40);
 
-        $scope.dropdown = [
-            {text: '<i class="fa"></i>&nbsp;Rental 1', href: '#anotherAction'},
-            {text: '<i class="fa"></i>&nbsp;Rental 2', click: '$alert("Holy guacamole!")'},
-            {text: '<i class="fa"></i>&nbsp;Rental 3', href: '/auth/facebook', target: '_self'}
-        ];
+        $scope.feeAmount = 0.00;
 
+        $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/requestreservation/')
+            .success(function (data) {
+                $scope.rentalDropDown = data;
+                console.log( $scope.rentalDropDown[1]);
+            });
 
-        $scope.tooltip = {
-            "checked": true
+        $scope.agreementSigned = {
+            'checked': true
         };
+
+        $scope.setNewRental = function()
+        {
+            if($scope.rentalCodeSearch !== '')
+            {
+                var index, len;
+
+                for (index = 0, len = $scope.rentalDropDown.length; index < len; ++index) {
+                    if($scope.rentalDropDown[index].item_id === $scope.rentalCodeSearch)
+                    {
+                        $scope.rentalDescription = $scope.rentalDropDown[index].rental_code_description;
+                    }
+                }
+
+                $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservationfacilities/'+$scope.rentalCodeSearch)
+                    .success(function (data) {
+                        $scope.rentalFacilities = data;
+                        console.log( $scope.rentalFacilities[0]);
+
+                        $scope.hideBasicInfo=false;
+                    });
+
+                if( $scope.rentalDescription === '')
+                {
+                    $scope.rentalDescription = 'N/A';
+                }
+            }
+            else
+            {$scope.hideBasicInfo=true;}
+        };
+
+        $scope.onSubmitRequest = function()
+        {
+
+
+
+        };
+
+
+        $scope.calculateFeeAmount = function()
+        {
+            //console.table($scope.rentalFacilities);
+
+            var newFeeAmount = 0;
+
+
+            for(var i = 0; i < $scope.rentalFacilities.length; i++)
+            {
+                if($scope.rentalFacilities[i].checked)
+                {
+                    newFeeAmount = Number(newFeeAmount) + Number($scope.rentalFacilities[i].fee_amount);
+                }
+            }
+
+            var timeDiff=($scope.endTime.getTime()/1000.0)-($scope.startTime.getTime()/1000.0);
+
+            $scope.feeAmount = newFeeAmount*((timeDiff/60)/60);
+        };
+
+
+        $scope.onFacilityChecked = function()
+        {
+            $scope.calculateFeeAmount();
+        };
+
+        $scope.timeChanged = function()
+        {
+
+            $scope.calculateFeeAmount();
+        };
+
+
+
+
+        $scope.changeMode = function (mode) {
+            $scope.mode = mode;
+        };
+
+        $scope.changeMode('week');
+
+        $scope.today = function () {
+            $scope.currentDate = new Date();
+        };
+
+        $scope.isToday = function () {
+            var today = new Date(),
+                currentCalendarDate = new Date($scope.currentDate);
+
+            today.setHours(0, 0, 0, 0);
+            currentCalendarDate.setHours(0, 0, 0, 0);
+            return today.getTime() === currentCalendarDate.getTime();
+        };
+
+        $scope.loadEvents = function () {
+            $scope.eventSource = createRandomEvents();
+        };
+
+        $scope.onEventSelected = function (event) {
+            $scope.event = event;
+        };
+
+        function createRandomEvents() {
+            var events = [];
+            for (var i = 0; i < 20; i += 1) {
+                var date = new Date();
+                var eventType = Math.floor(Math.random() * 2);
+                var startDay = Math.floor(Math.random() * 90) - 45;
+                var endDay = Math.floor(Math.random() * 2) + startDay;
+                var startTime;
+                var endTime;
+                if (eventType === 0) {
+                    startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
+                    if (endDay === startDay) {
+                        endDay += 1;
+                    }
+                    endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
+                    events.push({
+                        title: 'All Day - ' + i,
+                        startTime: startTime,
+                        endTime: endTime,
+                        allDay: true
+                    });
+                } else {
+                    var startMinute = Math.floor(Math.random() * 24 * 60);
+                    var endMinute = Math.floor(Math.random() * 180) + startMinute;
+                    startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
+                    endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
+                    events.push({
+                        title: 'Event - ' + i,
+                        startTime: startTime,
+                        endTime: endTime,
+                        allDay: false
+                    });
+                }
+            }
+            return events;
+        }
+
 
     }])
 

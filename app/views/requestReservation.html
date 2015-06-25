@@ -1,55 +1,82 @@
+<style>
+    .ng-enter {
+        -webkit-transition: .3s;
+        transition: .3s;
+        opacity: 0;
+    }
+    .ng-enter-active {
+        opacity: 1;
+        -webkit-transition: .35s;
+        transition: .5s;
+    }
+</style>
+
 <div class="row" data-ng-animate="'slide'">
-  <div data-ng-controller="RequestReservation" class="container">
+    <div data-ng-controller="RequestReservation" class="container">
+
+        <h3  style="padding-bottom: 10px;">Reservation Information</h3>
+
+          <form class="form-horizontal">
 
 
+          <div class="alert alert-danger animate-show animate-hide" role="alert" ng-hide="!hideBasicInfo">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 
-    <h3 style="padding-bottom: 10px;">Reservation Information</h3>
+              Select Rental Type to Continue
+          </div>
 
-      <form class="form-horizontal">
-
-          <div class="form-group">
-              <label for="rentalCodeSearch" class="col-sm-3 control-label" >Rental Purpose*:</label>
+          <div class="form-group animate-show animate-hide">
+              <label class="col-sm-3 control-label" >Rental Purpose*:</label>
               <div class="col-sm-9">
 
-                  <button type="button" class="btn btn-primary text-center" data-animation="am-flip-x" bs-dropdown="dropdown"
-                          aria-haspopup="true" aria-expanded="false" style="width: 250px;">Select Rental Type</button>
+
+                  <select ng-model="rentalCodeSearch" class="form-control" style="width: 300px;" ng-change="setNewRental()">
+                      <option value="">--Select Rental Type--</option>
+                      <option ng-repeat="rentalRow in rentalDropDown" value="{{rentalRow.item_id}}">{{rentalRow.item_name}}</option>
+                  </select>
+
+
               </div>
           </div>
 
-          <div class="form-group">
-              <label class="col-sm-3 control-label" >Description:</label>
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
+              <label class="col-sm-3 control-label">Description:</label>
               <div class="col-sm-9">
-                  <label  class=" control-label">Description goes here...</label>
+                  <label class="control-label" style="font-weight: normal;">{{rentalDescription}}</label>
               </div>
           </div>
 
 
 
-          <div class="form-group">
-              <label class="col-sm-3 control-label" >Facilities*:</label>
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
+              <label class="col-sm-3 control-label">Facilities*:</label>
               <div class="col-sm-9">
-                  <label  class=" control-label">Select a rental purpose</label>
+                  <div  class="form-vertical  " ng-repeat="fac in rentalFacilities" >
+
+                      <input type="checkbox" ng-model="fac.checked" ng-change="onFacilityChecked()" /> {{fac.item_name}}
+
+                  </div>
               </div>
           </div>
 
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Packages:</label>
               <div class="col-sm-9">
-                  <label  class=" control-label">Select additional options</label>
+                  <label  class=" control-label"  style="font-weight: normal;">Select additional options</label>
               </div>
           </div>
 
 
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Requested Date*:</label>
               <div class="col-sm-9">
                   <div class="input-group">
-                       <span class="input-group-addon" style="width: 25px;background-color: #ffffff;">
-                             <i class="glyphicon glyphicon-calendar"></i>
+                       <span class="input-group-addon " style="width: 25px;">
+                             <i class="glyphicon glyphicon-calendar "></i>
                         </span>
                       <input class="form-control" ng-model="selectedDate" name="date" bs-datepicker type="text" style="width: 150px;">
 
@@ -61,32 +88,33 @@
           </div>
 
 
-          <div class="form-group">
+
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Start Time*:</label>
               <div class="col-sm-9">
                   <div class="input-group">
-                      <div class="input-group-addon" style="width: 25px;background-color: #ffffff;"><i class="glyphicon glyphicon-time"></i></div>
+                      <div class="input-group-addon" style="width: 25px;"><i class="glyphicon glyphicon-time"></i></div>
                       <input class="form-control" size="8" ng-model="startTime" name="startTime" bs-timepicker data-length="1"
-                             data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;">
+                             data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;" ng-change="timeChanged()">
 
                   </div>
               </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >End Time*:</label>
               <div class="col-sm-9">
                   <div class="input-group">
-                      <div class="input-group-addon" style="width: 25px;background-color: #ffffff;"><i class="glyphicon glyphicon-time"></i></div>
+                      <div class="input-group-addon" style="width: 25px;"><i class="glyphicon glyphicon-time"></i></div>
                       <input class="form-control" size="8" ng-model="endTime" name="endTime" bs-timepicker data-length="1"
-                             data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;">
+                             data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;" ng-change="timeChanged()">
                   </div>
               </div>
           </div>
 
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Reservation Details:</label>
               <div class="col-sm-9">
                   <textarea id="reservationDetails" name="reservationDetails" rows="5" cols="35"></textarea>
@@ -95,10 +123,10 @@
 
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Will you be serving alcohol?*</label>
               <div class="col-sm-9">
-                  <select  class="form-control" style="width: 125px;">
+                  <select class="form-control" style="width: 125px;">
                       <option value="">--Select--</option>
                       <option value="Y">Yes</option>
                       <option value="N">No</option>
@@ -108,7 +136,7 @@
           </div>
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Custom Fields:</label>
               <div class="col-sm-9">
                   <label  class=" control-label">Custom Fields Here...</label>
@@ -116,7 +144,7 @@
           </div>
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Email Address:</label>
               <div class="col-sm-9">
                   <input type="email" class="form-control" style="width: 250px;" />
@@ -125,7 +153,7 @@
 
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Phone Number:</label>
               <div class="col-sm-9">
                   <input type="text" class="form-control"  style="width: 150px;"/>
@@ -134,7 +162,7 @@
 
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Preferred Contact Method*:</label>
               <div class="col-sm-9">
                   <select class="form-control" style="width: 125px;">
@@ -147,7 +175,7 @@
 
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Additional Notes:</label>
               <div class="col-sm-9">
                   <textarea id="reservationNotes" name="reservationNotes" rows="5" cols="35"></textarea>
@@ -155,10 +183,10 @@
           </div>
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Estimated Rental Cost:</label>
               <div class="col-sm-7">
-                  <label  class=" control-label">$0.00 (Includes $0.00 deposit)</label>
+                  <label  class=" control-label">{{feeAmount | currency}} (Includes $0.00 deposit)</label>
                   <br>
                   <p>The estimated rental cost is based on information supplied at the time of the request and may change
                       according to additional information, change in rental request, and/or residency status of the renter. This
@@ -167,33 +195,66 @@
           </div>
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
           <div class="col-sm-offset-1 col-sm-10">
               <div >
-                  <label data-placement="bottom-left" data-type="info"  bs-enabled="tooltip.checked">
-                      <input ng-model="tooltip.checked" type="checkbox"> I have read, understand, and agree to the <a href="http://www.leandertx.gov/parksrec/page/terms-and-conditions" target="_blank">Terms and Conditions</a> regarding Leander Parks and Recreation Facility Reservations and Refund/Cancelation Policy.
+                  <label data-placement="bottom-left" data-type="info"  bs-enabled="agreementSigned.checked" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
+                         unselectable="on"
+                         onselectstart="return false;"
+                         onmousedown="return false;">
+                      <input ng-model="agreementSigned.checked" type="checkbox"> I have read, understand, and agree to the <a href="http://www.leandertx.gov/parksrec/page/terms-and-conditions" target="_blank">Terms and Conditions</a> regarding Leander Parks and Recreation Facility Reservations and Refund/Cancelation Policy.
                   </label>
               </div>
           </div>
           </div>
 
 
-          <div class="form-group">
+          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <div class="col-sm-10">
                   <div class="center-block" style="width: 300px;">
                       <br>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" >Submit Request</button>
+                    <button type="submit" class="btn btn-info btn-lg btn-block" ng-click="onSubmitRequest()">Submit Request</button>
                   </div>
               </div>
           </div>
 
-
-
       </form>
 
+      <br>
+      <h3 class="page-header" style="padding-bottom: 10px;"></h3>
+      <h3  style="padding-bottom: 10px;">Reservation Availability</h3>
 
       <div id='calcontainer'>
-          <div id='calendar'></div>
+          <div class="btn-toolbar">
+              <div class="btn-group">
+                  <button type="button" class="btn btn-primary" ng-class="{active:mode==='month'}"
+                          ng-click="changeMode('month')">
+                      Month
+                  </button>
+                  <button type="button" class="btn btn-primary" ng-class="{active:mode==='week'}"
+                          ng-click="changeMode('week')">
+                      Week
+                  </button>
+                  <button type="button" class="btn btn-primary" ng-class="{active:mode==='day'}"
+                          ng-click="changeMode('day')">
+                      Day
+                  </button>
+              </div>
+              <div class="btn-group">
+                  <button type="button" class="btn btn-success" ng-disabled="isToday()" style="background-image: linear-gradient(#48dd1b, #45d71a 60%, #3ebe17); border-color:#3ebe17;"
+                          ng-click="today()">
+                      Today
+                  </button>
+              </div>
+          </div>
+          <div >
+              <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
+                        range-changed="reloadSource(startTime, endTime)"
+                        event-selected="onEventSelected(event)"></calendar>
+              <br>
+          </div>
+
+
       </div>
 
 
