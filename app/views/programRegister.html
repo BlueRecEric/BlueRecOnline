@@ -15,8 +15,13 @@
   <div class="panel-heading"><input type="checkbox" ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)" aria-label="Register {{person.firstname}} {{person.lastname}}"> {{person.firstname}} {{person.lastname}} <span class="pull-right" ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span></div>
   <div class="panel-body">
 
-    <a id="{{person.anchorHash}}"><progressbar data-ng-show="person.step > 0" class="progress-striped active" type="{{(person.step < person.totalSteps)?'primary':'success'}}" max="max" value="(person.step/person.totalSteps) * 100">Step {{person.step}} of {{person.totalSteps}}</progressbar></a>
-
+    <!--<progressbar data-ng-show="person.step > 0" class="progress-striped active" type="{{(person.step < person.totalSteps)?'primary':'success'}}" max="max" value="(person.step/person.totalSteps) * 100">Step {{person.step}} of {{person.totalSteps}}</progressbar></a>-->
+    <a id="{{person.anchorHash}}"><div data-ng-show="person.step > 0" class="progress">
+      <div class="progress-bar progress-bar-{{(person.step < person.totalSteps)?'primary':'success'}} progress-bar-striped active" role="progressbar"
+           aria-valuenow="{{(person.step/person.totalSteps) * 100}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(person.step/person.totalSteps) * 100}}%;">
+        Step {{person.step}} of {{person.totalSteps}}
+      </div>
+    </div></a>
 
     <div class="alert alert-danger" role="alert" data-ng-repeat="failedReq in person.failed">{{failedReq}}</div>
 
@@ -350,7 +355,7 @@
 
             <div class="form-group">
               <div class="col-sm-6">
-                <button type="button" id="submitFinal" value="Submit" class="btn btn-success" data-animation="am-fade-and-scale" data-placement="center" bs-modal="noGatewayModal"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                <button type="button" id="submitFinal" value="Submit" class="btn btn-success" data-animation="am-fade-and-scale" data-placement="center" data-template="noPaymentGateway.html" bs-modal="modal"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> Add to Cart</button>
               </div>
             </div>
           </div>
@@ -361,15 +366,21 @@
 </div>
 
 <script type="text/ng-template" id="noPaymentGateway.html">
-  <div class="modal-header">
-    <h3 class="modal-title text-danger">Unable to add</h3>
-  </div>
-  <div class="modal-body">
-    <p>We apologize, but we were unable to add this item to your shopping cart.</p>
+  <div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-danger">Unable to add</h3>
+        </div>
+        <div class="modal-body">
+          <p>We apologize, but we were unable to add this item to your shopping cart.</p>
 
-    <p>Reason: No payment gateway has been configured.</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-danger" ng-click="ok()">OK</button>
+          <p>Reason: No payment gateway has been configured. If you are running in a demo or development setting, this is normal.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" ng-click="$hide()">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
 </script>

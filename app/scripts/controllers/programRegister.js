@@ -8,12 +8,8 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ProgramRegister', ['$scope', 'ActiveUser', 'ProInfoLoader', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$http', '$filter', 'md5', '$location', '$anchorScroll', '$modal', function ($scope,ActiveUser,ProInfoLoader,BLUEREC_ONLINE_CONFIG,$routeParams,$http,$filter,md5,$location, $anchorScroll,$modal) {
+  .controller('ProgramRegister', ['$scope', 'ActiveUser', 'ProInfoLoader', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$http', '$filter', 'md5', '$location', '$anchorScroll', function ($scope,ActiveUser,ProInfoLoader,BLUEREC_ONLINE_CONFIG,$routeParams,$http,$filter,md5,$location, $anchorScroll) {
     var proReg = this;
-
-    var noGatewayModal = $modal({scope: $scope, template: 'noPaymentGateway.html', show: false});
-
-    $scope.someData = '';
 
     proReg.registered = false;
     ActiveUser.getFromLocal();
@@ -105,7 +101,7 @@ angular.module('bluereconlineApp')
       //$location.hash(proReg.household[idx].anchorHash);
 
       // call $anchorScroll()
-      $anchorScroll.yOffset = 80;
+      $anchorScroll.yOffset = 40;
       $anchorScroll(proReg.household[idx].anchorHash);
     };
 
@@ -508,9 +504,7 @@ angular.module('bluereconlineApp')
 
     function submitFinalForm(idx)
     {
-
       console.log(idx);
-      $scope.openGatewayAlert();
     }
 
     function birthdayOpen($event,bdidx) {
@@ -529,30 +523,15 @@ angular.module('bluereconlineApp')
 
     proReg.datepickers = {};
 
-    var memberIndex = 0;
+    //var memberIndex = 0;
 
+    /*
     angular.forEach(proReg.household, function() {
       proReg.datepickers[memberIndex] = false;
       console.log('forEach iterated ' + memberIndex + ' times');
       memberIndex++;
     });
-
-    $scope.openGatewayAlert = function (size) {
-
-      var modalInstance = $modal.open({
-        animation: false,
-        templateUrl: 'noPaymentGateway.html',
-        controller: 'NoGatewayCtrl',
-        size: size
-      });
-
-      modalInstance.result.then(function () {
-        console.log('Modal closed at: ' + new Date());
-      }, function () {
-        console.log('Modal dismissed at: ' + new Date());
-      });
-    };
-
+    */
     proReg.submitPackageForm = submitPackageForm;
     proReg.submitFinalForm = submitFinalForm;
     proReg.submitPaymentsForm = submitPaymentsForm;
@@ -565,10 +544,4 @@ angular.module('bluereconlineApp')
     proReg.getStartingRegistrationData = getStartingRegistrationData;
     proReg.startRegistration = startRegistration;
     proReg.birthdayOpen = birthdayOpen;
-  }])
-  .controller('NoGatewayCtrl', function ($scope, $modalInstance) {
-    $scope.selected = {};
-    $scope.ok = function () {
-      $modalInstance.close();
-    };
-  });
+  }]);
