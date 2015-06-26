@@ -151,10 +151,6 @@ angular.module('bluereconlineApp')
         };
 
 
-
-
-
-        
         $scope.formatMySQLDate = function(formatDate, formatTime) {
             //Grab each of your components
             var yyyy = formatDate.getFullYear().toString();

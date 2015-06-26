@@ -61,7 +61,10 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li data-ng-show="currentUser.validLogin"><a ng-href="#/cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge"> 0 </span></a></li>
+            <li data-ng-show="currentUser.validLogin" bs-popover="popover">
+
+
+                <a><i class="fa fa-shopping-cart"></i> Cart <span class="badge" > 0 </span></a></li>
             <li data-ng-show="currentUser.validLogin"><a ng-click="nav.logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
           </ul>
         </div>
