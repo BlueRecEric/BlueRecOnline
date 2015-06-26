@@ -99,5 +99,22 @@
       <div style='clear: both;'></div>
     </div>
   </div>
-  <div ng-show='proloader.busy'>Loading data... <i class="fa fa-cog fa-spin"></i></div>
+
+  <div class="bs-callout bs-callout-primary" ng-show='proloader.busy' id="callout-type-b-i-elems">
+    <div class="row">
+      <p><i class="fa fa-futbol-o fa-spin fa-2x text-primary pull-left"></i>
+        We are searching for more activities that fit your search criteria...
+      </p>
+    </div>
+  </div>
+
+  <div class="bs-callout bs-callout-danger" ng-show='proloader.noresults' id="callout-type-b-i-elems">
+    <div class="row">
+      <p><span class="fa-stack fa-lg pull-left"><i class="fa fa-futbol-o fa-stack-1x"></i>
+        <i class="fa fa-ban fa-stack-2x text-danger"></i></span>
+        It looks like there are no more programs currently available. If you have entered search criteria, try modifying your search to include more activities.
+        We are currently only displaying activities that are holding registration.
+      </p>
+    </div>
+  </div>
 </div>

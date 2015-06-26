@@ -80,7 +80,11 @@ angular
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         $httpProvider.defaults.headers.common.Accept = 'application/json';
     })
-
+    .run(function($rootScope,$anchorScroll) {
+      $rootScope.$on('$routeChangeSuccess', function () {
+        $anchorScroll('pageTop');
+      });
+    })
     .directive('ensureUnique', ['dataService', function (dataService) {
         return {
             restrict: 'A',

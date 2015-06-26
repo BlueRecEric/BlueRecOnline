@@ -24,13 +24,13 @@
       </p>
     </div>
 
-    <div class="row col-xs-12 itembody text-right">
+    <div class="row col-xs-12 itembody text-right" data-ng-show="proinfo.returnData.in_online_nonresident_registration || proinfo.returnData.in_online_resident_registration">
       <div class="hidden-xs btn-group">
-        <a ng-href="#/{{orgcode}}/register/{{itemid}}" class="btn btn-info"><i class="fa fa-sign-in"></i> Register</a>
+        <a ng-href="#/{{orgcode}}/register/{{itemid}}" data-ng-show="proinfo.returnData.in_online_nonresident_registration || proinfo.returnData.in_online_resident_registration" class="btn btn-info"><i class="fa fa-sign-in"></i> Register</a>
         <!--<a href="#" class="btn btn-info"><i class="fa fa-th-list"></i> Waitlist</a>-->
       </div>
       <div class="visible-xs-block btn-group btn-group-justified">
-        <a ng-href=="#/{{orgcode}}/register/{{itemid}}" class="btn btn-info"><i class="fa fa-sign-in"></i> Register</a>
+        <a ng-href=="#/{{orgcode}}/register/{{itemid}}" data-ng-show="proinfo.returnData.in_online_nonresident_registration || proinfo.returnData.in_online_resident_registration" class="btn btn-info"><i class="fa fa-sign-in"></i> Register</a>
         <!--<a href="#" class="btn btn-info"><i class="fa fa-th-list"></i> Waitlist</a>-->
       </div>
     </div>

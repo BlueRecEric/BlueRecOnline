@@ -36,7 +36,6 @@ angular.module('bluereconlineApp')
       proload.orgurl = $routeParams.orgurl;
 
       if(proload.busy) {
-        console.log('We\'re already loading more data, come back latah!');
         return false;
       }
       proload.busy = true;
@@ -58,6 +57,13 @@ angular.module('bluereconlineApp')
         proload.lastSearchHash = '';
         proload.lastSearchHash = proload.thisSearchHash;
         proload.afterCount = 0;
+        proload.noresults = false;
+      }
+
+      if(proload.noresults)
+      {
+        proload.busy = false;
+        return false;
       }
 
       var req = {
@@ -83,6 +89,12 @@ angular.module('bluereconlineApp')
         proload.returnData = JSON.parse(angular.toJson(proload.responseData));
         console.log(proload.returnData);
         proload.afterCount += proload.increment;
+
+        if(programs.length === 0)
+        {
+          proload.noresults = true;
+        }
+
         proload.busy = false;
       }.bind(this));
 
@@ -97,6 +109,8 @@ angular.module('bluereconlineApp')
     proload.afterCount = 0;
     proload.increment = 10;
     proload.busy = false;
+    proload.noresults = false;
+    proload.slowReload = false;
 
     return proload;
   }]);

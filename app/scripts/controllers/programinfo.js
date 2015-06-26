@@ -15,7 +15,4 @@ angular.module('bluereconlineApp')
     $scope.itemid = $routeParams.itemid;
     $scope.proinfo = ProInfoLoader;
     $scope.proinfo.loadProgram();
-
-    console.log($scope.proinfo);
-    console.table($scope.proinfo.returnData);
   }]);
