@@ -27,7 +27,8 @@ angular
     'bluereconlineApp.apiconfig',
     'dynform',
     'mgcrea.ngStrap',
-    'ui.rCalendar'
+    'ui.rCalendar',
+    'ui.checkbox'
   ])
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
         $routeProvider
@@ -47,7 +48,7 @@ angular
           })
           .when('/:orgurl/programs', {
             templateUrl: 'views/programs.html',
-            controller: 'ProgramListInfo'
+            controller: 'ProgramList'
           })
           .when('/:orgurl/programinfo/:itemid', {
             templateUrl: 'views/programinfo.html',

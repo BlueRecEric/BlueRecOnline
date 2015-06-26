@@ -221,7 +221,7 @@ module.exports = function (grunt) {
         flow: {
           html: {
             steps: {
-              js: ['concat', 'uglifyjs'],
+              js: ['concat'],
               css: ['cssmin']
             },
             post: {}
@@ -437,6 +437,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
- 
+
   ]);
 };

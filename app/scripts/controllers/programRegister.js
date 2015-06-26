@@ -12,8 +12,17 @@ angular.module('bluereconlineApp')
     var proReg = this;
 
     proReg.registered = false;
-    ActiveUser.getFromLocal();
-    proReg.household = ActiveUser.userData.household;
+    proReg.household = {};
+
+    ActiveUser.getFromLocal().then(function success(response) {
+      console.log('register data:');
+      console.log(ActiveUser.userData.household);
+      proReg.household = ActiveUser.userData.household;
+      //$scope.$root.currentUser = response.data;
+    });
+
+    console.log('household data:');
+    console.log(proReg.household);
 
     $scope.proinfo = ProInfoLoader;
     $scope.proinfo.loadProgram();
@@ -376,6 +385,11 @@ angular.module('bluereconlineApp')
         console.log('go to payments');
         createPaymentsForm(idx);
       }
+      else
+      {
+        createLastPage(idx);
+      }
+
     }
 
     function createPackageForm(idx)
