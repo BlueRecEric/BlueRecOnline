@@ -10,10 +10,9 @@
 angular.module('bluereconlineApp')
   .controller('MenuCtrl', ['$scope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', function ($scope,$routeParams,$route,AuthService,$location,ActiveUser) {
 
-        $scope.popover = {
-            "title": "No Items",
-            "content": "Your cart is empty!!"
-        };
+
+    $scope.loggedIn=false;
+
 
     ActiveUser.getFromLocal().then(function success(response) {
       console.log('we got the user from the menu');
