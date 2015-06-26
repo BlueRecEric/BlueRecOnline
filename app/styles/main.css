@@ -231,6 +231,10 @@ body > .container {
   overflow: scroll;
 }
 
+.clicky {
+  cursor: pointer;
+}
+
 /* center align text with icons */
 .fa-top-text {
   vertical-align: bottom !important;
