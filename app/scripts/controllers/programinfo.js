@@ -8,9 +8,14 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ProgramInfo', ['$scope', 'ProInfoLoader', function ($scope,ProInfoLoader) {
+  .controller('ProgramInfo', ['$scope', 'ProInfoLoader', '$routeParams', function ($scope,ProInfoLoader,$routeParams) {
     //var itemID = $routeParams.itemid;
 
+    $scope.orgcode = $routeParams.orgurl;
+    $scope.itemid = $routeParams.itemid;
     $scope.proinfo = ProInfoLoader;
     $scope.proinfo.loadProgram();
+
+    console.log($scope.proinfo);
+    console.table($scope.proinfo.returnData);
   }]);
