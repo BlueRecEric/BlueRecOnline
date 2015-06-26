@@ -10,10 +10,16 @@
 angular.module('bluereconlineApp')
     .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams','ActiveUser',  function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams, ActiveUser) {
 
-        ActiveUser.getFromLocal();
-        if(ActiveUser.userData !== undefined) {
-            console.log(ActiveUser.userData.user_id);
-        }
+        $scope.userLoggedIn=true;
+
+
+       /* ActiveUser.getFromLocal().then(function() {
+            console.log('rental request:');
+            console.log(ActiveUser.userData.household);
+
+            $scope.userLoggedIn=true;
+        });*/
+
 
         $scope.contactCheckAlert=false;
 
@@ -99,6 +105,10 @@ angular.module('bluereconlineApp')
                     $scope.phoneNumber = '';
                     $scope.emailAddress = '';
                     $scope.contactMethod = '';
+
+                    $scope.rentalCodeSearch = '';
+
+                    $scope.hideBasicInfo=true;
                 }
             }
             else
@@ -137,10 +147,21 @@ angular.module('bluereconlineApp')
                 $http(req)
                     .success(function (data) {
 
-
                         $scope.eventSource  = data;
 
                         console.log( $scope.eventSource);
+
+
+
+                        $scope.rentalDescription = 'N/A';
+                        $scope.reservationDetails = '';
+                        $scope.reservationNotes = '';
+
+                        $scope.alcohol = '';
+
+                        $scope.phoneNumber = '';
+                        $scope.emailAddress = '';
+                        $scope.contactMethod = '';
                     });
             }
             else
@@ -223,9 +244,6 @@ angular.module('bluereconlineApp')
 
             $scope.calculateFeeAmount();
         };
-
-
-
 
         $scope.changeMode = function (mode) {
             $scope.mode = mode;

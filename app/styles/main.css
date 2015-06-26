@@ -666,7 +666,7 @@ aside .aside-dialog .aside-footer:before,
 
 @media (max-width: 991px) {
     .aside {
-        min-width: 340px;
+        min-width: 420px;
     }
 }
 
