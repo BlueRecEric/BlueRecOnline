@@ -1,5 +1,5 @@
-<div class="aside" tabindex="-1" role="dialog">
-    <div class="aside">
+<div class="aside right" tabindex="-1" role="dialog">
+
         <div class="aside-content">
             <div class="aside-header" ng-show="title">
                 <button type="button" class="close" ng-click="$hide()">&times;</button>
@@ -117,11 +117,12 @@
                                 <h3>Total: $190</h3>
 
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <button type="button" id="submitCart" value="Submit" class="btn btn-success"  data-placement="center" bs-modal="modal"><i class="fa fa-check-square"></i>
+                                    <div class="col-sm-10">
+                                        <button type="button" id="submitCart" value="Submit" class="btn btn-success"  data-placement="center" ><i class="fa fa-check-square"></i>
                                             <i class="fa fa-shopping-cart"></i> Checkout</button>
+                                        <button type="button" class="btn btn-danger" ng-click="$hide()"><i class="glyphicon glyphicon-remove-circle" style=" font-size: 1.2em;"></i></button>
                                     </div>
-                                    <button type="button" class="btn btn-danger" ng-click="$hide()"><i class="glyphicon glyphicon-remove-circle" style=" font-size: 1.2em;"></i></button>
+
                                 </div>
 
                             </div>
@@ -141,6 +142,6 @@
           -->
             </div>
 
-        </div>
+
     </div>
 </div>
