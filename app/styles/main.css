@@ -657,7 +657,7 @@ aside .aside-dialog .aside-footer:before,
     bottom: 0;
     z-index: 1049;
     overflow: auto;
-    min-width: 420px;
+    min-width: 340px;
     background: white;
 }
 .aside:focus {
@@ -770,4 +770,19 @@ aside .aside-dialog .aside-footer:before,
 .am-slide-right.ng-leave.ng-leave-active {
     -webkit-animation-play-state: running;
     animation-play-state: running;
+}
+
+
+.collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    -webkit-transform: translateZ(0);
+    -webkit-transition: height 0.35s ease 1s linear;
+    -moz-transition: height 0.35s ease 1s linear;
+    -o-transition: height 0.35s ease 1s linear;
+    -ms-transition: height 0.35s ease 1s linear;
+    transition: height 0.35s ease 1s linear;
+    -webkit-transition: height 0.35s ease;
+    transition: height 0.35s ease;
 }
