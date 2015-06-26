@@ -19,6 +19,8 @@
       <!-- build:css(.tmp) styles/main.css -->
       <link rel="stylesheet" href="styles/main.css">
       <link rel="stylesheet" href="styles/calendar.css">
+      <link rel="stylesheet" href="styles/angular-motion.min.css">
+
       <!-- endbuild -->
 
     <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
@@ -51,9 +53,9 @@
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
-          <ul class="nav navbar-nav">
-            <li data-ng-show="currentUser.validLogin" ng-cloak><a ng-href="#/{{HomeLink}}"><i class="fa fa-home"></i> Home</a></li>
-            <li data-ng-show="!currentUser.validLogin" ng-cloak><a ng-href="#/{{LoginLink}}"><i class="fa fa-sign-in"></i> Login</a></li>
+          <ul class="nav navbar-nav" >
+            <li data-ng-show="currentUser.validLogin==true" ng-cloak><a ng-href="#/{{HomeLink}}"><i class="fa fa-home"></i> Home</a></li>
+            <li data-ng-show="currentUser.validLogin!=true" ng-cloak><a ng-href="#/{{LoginLink}}"><i class="fa fa-sign-in"></i> Login</a></li>
             <li><a ng-href="#/{{ActivitiesLink}}"><i class="fa fa-futbol-o"></i> Activities</a></li>
             <li data-ng-if="false" ng-cloak><a ng-href="#/{{MembershipsLink}}"><i class="fa fa-credit-card"></i> Memberships</a></li>
             <li><a ng-href="#/{{ReservationsLink}}"><i class="fa fa-check-square-o"></i> Reservations</a></li>
@@ -61,9 +63,13 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li data-ng-show="currentUser.validLogin" >
+            <li data-ng-show="currentUser.validLogin" data-template="shoppingcart.html" data-placement="right" data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body">
                 <a><i class="fa fa-shopping-cart"></i> Cart <span class="badge" > 0 </span></a></li>
+
+
+
             <li data-ng-show="currentUser.validLogin"><a ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+
 
           </ul>
         </div>
