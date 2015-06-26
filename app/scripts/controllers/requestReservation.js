@@ -13,12 +13,10 @@ angular.module('bluereconlineApp')
         $scope.userLoggedIn=true;
 
 
-       /* ActiveUser.getFromLocal().then(function() {
-            console.log('rental request:');
-            console.log(ActiveUser.userData.household);
-
-            $scope.userLoggedIn=true;
-        });*/
+        ActiveUser.getFromLocal();
+        if(ActiveUser.userData !== undefined) {
+            console.log(ActiveUser.userData.user_id);
+        }
 
 
         $scope.contactCheckAlert=false;
