@@ -14,7 +14,7 @@
 <div class="panel panel-default" data-ng-repeat="person in proReg.household">
   <div class="panel-heading">
     <!--<input type="checkbox" ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)" aria-label="Register {{person.firstname}} {{person.lastname}}"> {{person.firstname}} {{person.lastname}}-->
-    <checkbox class="btn-primary" data-ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)"></checkbox> {{person.firstname}} {{person.lastname}}
+    <checkbox class="btn-primary" data-ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)"></checkbox> <label class="clickylabel" data-ng-click="proReg.startRegistrationLink($index)">{{person.firstname}} {{person.lastname}}</label>
     <span class="pull-right" data-ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span></div>
   <div class="panel-body">
 

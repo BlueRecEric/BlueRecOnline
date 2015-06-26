@@ -14,12 +14,20 @@ angular.module('bluereconlineApp')
     proReg.registered = false;
     proReg.household = {};
 
-    ActiveUser.getFromLocal().then(function success(response) {
+    ActiveUser.getFromLocal().then(function() {
       console.log('register data:');
       console.log(ActiveUser.userData.household);
       proReg.household = ActiveUser.userData.household;
       //$scope.$root.currentUser = response.data;
+    }, function() {
+      sendToLogin();
+    }, function() {
     });
+
+    function sendToLogin()
+    {
+      $location.path('/' + $routeParams.orgurl + '/login');
+    }
 
     console.log('household data:');
     console.log(proReg.household);
@@ -114,6 +122,12 @@ angular.module('bluereconlineApp')
       $anchorScroll(proReg.household[idx].anchorHash);
     };
 
+    function startRegistrationLink(idx)
+    {
+      proReg.household[idx].registrationSelected = (proReg.household[idx].registrationSelected)?false:true;
+      startRegistration(idx);
+    }
+
     function startRegistration(idx)
     {
       if(proReg.household[idx].registrationSelected)
@@ -152,17 +166,16 @@ angular.module('bluereconlineApp')
               proReg.household[idx].has_payments = true;
             }
 
-            if(proReg.household[idx].failedCount === 0)
-            {
-              proReg.household[idx].step = 1;
-              proReg.household[idx].stepName = 'user';
-              proReg.household[idx].partForm.userID = response.user_id;
-              proReg.household[idx].partForm.firstname = response.firstname;
-              proReg.household[idx].partForm.lastname = response.lastname;
-              proReg.household[idx].partForm.gender = response.gender;
-              proReg.household[idx].partForm.grade = response.grade;
-              proReg.household[idx].partForm.birthday = new Date(response.birth_year, (response.birth_month > 0)?(response.birth_month - 1):0, response.birth_day);
-            }
+
+            proReg.household[idx].step = 1;
+            proReg.household[idx].stepName = 'user';
+            proReg.household[idx].partForm.userID = response.user_id;
+            proReg.household[idx].partForm.firstname = response.firstname;
+            proReg.household[idx].partForm.lastname = response.lastname;
+            proReg.household[idx].partForm.gender = response.gender;
+            proReg.household[idx].partForm.grade = response.grade;
+            proReg.household[idx].partForm.birthday = new Date(response.birth_year, (response.birth_month > 0)?(response.birth_month - 1):0, response.birth_day);
+
           }
         );
       }
@@ -238,20 +251,36 @@ angular.module('bluereconlineApp')
           console.log('Here is the saveuser response:');
           console.log(response.data);
 
-          proReg.household[idx].step++;
+          proReg.household[idx].failed = {};
+          proReg.household[idx].failedCount = 0;
 
-          if(proReg.household[idx].has_custom_fields)
-          {
-            console.log('go to custom fields');
-            createCustomFieldForm(idx);
-          }
-          else
-          {
-            proReg.household[idx].stepName = 'waiver';
-            console.log('go to waivers');
-            createWaiverForm(idx);
-          }
-          return true;
+          getStartingRegistrationData(idx).then(
+            function success(response) {
+              if(angular.isDefined(response.failed_requirement))
+              {
+                proReg.household[idx].failed = response.failed_requirement;
+                proReg.household[idx].failedCount = response.failed_requirement.length;
+                return false;
+              }
+              else
+              {
+                proReg.household[idx].step++;
+
+                if(proReg.household[idx].has_custom_fields)
+                {
+                  console.log('go to custom fields');
+                  createCustomFieldForm(idx);
+                }
+                else
+                {
+                  proReg.household[idx].stepName = 'waiver';
+                  console.log('go to waivers');
+                  createWaiverForm(idx);
+                }
+                return true;
+              }
+            }
+          );
         }
       );
     }
@@ -546,6 +575,8 @@ angular.module('bluereconlineApp')
       memberIndex++;
     });
     */
+
+    proReg.startRegistrationLink = startRegistrationLink;
     proReg.submitPackageForm = submitPackageForm;
     proReg.submitFinalForm = submitFinalForm;
     proReg.submitPaymentsForm = submitPaymentsForm;
