@@ -424,7 +424,7 @@ angular
             tempData.center = centerMap;
             tempData.marker = marker;
             mapData.push(tempData);
-            mapData.mapOptions = {scrollwheel: false};
+            mapData.mapOptions = {scrollwheel: false,draggable:false};
           });
         });
 
