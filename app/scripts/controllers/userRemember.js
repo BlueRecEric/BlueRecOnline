@@ -28,7 +28,7 @@ angular.module('bluereconlineApp')
         function setUser(data)
         {
             $scope.$root.currentUser = data;
-            console.log('currentUser:' + angular.toJson($scope.$root.currentUser));
+            //console.log('currentUser:' + angular.toJson($scope.$root.currentUser));
         }
 
         function checkUser() {

@@ -28,9 +28,9 @@ angular.module('bluereconlineApp')
 
 
     var nextPage = function(query) {
-      console.log('Try to load the next page.');
-      console.log('search query:');
-      console.log(query);
+      //console.log('Try to load the next page.');
+      //console.log('search query:');
+      //console.log(query);
       proload.searchParams = query;
 
       proload.orgurl = $routeParams.orgurl;
@@ -81,13 +81,13 @@ angular.module('bluereconlineApp')
 
       $http(req).then(function(response) {
         var programs = response.data;
-        console.log(programs);
+        //console.log(programs);
         for (var i = 0; i < programs.length; i++) {
-          console.log(programs[i]);
+          //console.log(programs[i]);
           proload.responseData.push(programs[i]);
         }
         proload.returnData = JSON.parse(angular.toJson(proload.responseData));
-        console.log(proload.returnData);
+        //console.log(proload.returnData);
         proload.afterCount += proload.increment;
 
         if(programs.length === 0)

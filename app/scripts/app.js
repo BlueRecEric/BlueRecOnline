@@ -98,13 +98,13 @@ angular
                         .success(function (unique) {
                             //Ensure value that being checked hasn't changed
                             //since the Ajax call was made
-                            console.log('unique result');
-                            console.log(unique.isUnique);
+                            //console.log('unique result');
+                            //console.log(unique.isUnique);
                             if (currentValue === element.val()) {
                                 ngModel.$setValidity('unique', unique.isUnique);
                             }
                         }, function () {
-                            console.log('looks like an error');
+                            //console.log('looks like an error');
                             //Probably want a more robust way to handle an error
                             //For this demo we'll set unique to true though
                             ngModel.$setValidity('unique', true);
@@ -121,17 +121,17 @@ angular
                 function validate(value) {
                     var isValid = scope.$eval(attrs.sameAs) === value;
 
-                    console.log(isValid);
+                    //console.log(isValid);
 
                     ngModel.$setValidity('match', isValid);
 
                     if(isValid)
                     {
-                        console.log('values match');
+                        //console.log('values match');
                     }
                     else
                     {
-                        console.log('values do not match');
+                        //console.log('values do not match');
                     }
 
 
@@ -145,7 +145,7 @@ angular
 
                 // Force-trigger the parsing pipeline.
                 scope.$watch(attrs.sameAs, function() {
-                        console.log('Trying to validate');
+                        //console.log('Trying to validate');
                         ngModel.$setViewValue(ngModel.$viewValue);
                 });
             }
@@ -247,6 +247,14 @@ angular
           return currentUser.userData;
         }
 
+        function getValidLogin()
+        {
+            var isValidLogin=false;
+            if(currentUser.userData.validLogin===true)
+            {isValidLogin=true;}
+            return isValidLogin;
+        }
+
         function setUser(data)
         {
           currentUser.setActiveUser(data);
@@ -268,6 +276,8 @@ angular
         currentUser.setUser = setUser;
         currentUser.checkUser = checkUser;
         currentUser.getFromLocal = getFromLocal;
+
+        currentUser.getValidLogin = getValidLogin;
 
         currentUser.getFromToken();
 
@@ -401,7 +411,7 @@ angular
         responseData.datesNotEmpty = (responseData.prodates && responseData.prodates.length)?true:false;
 
         angular.forEach(responseData.locations, function(value, key) {
-          console.log('Key: ' + responseData.locations[key].geo_address);
+          //console.log('Key: ' + responseData.locations[key].geo_address);
 
           var codeReq = {
             method: 'GET',
@@ -413,7 +423,7 @@ angular
           };
 
           $http(codeReq).success(function(geoData) {
-            console.log(geoData);
+            //console.log(geoData);
             var tempData = [];
             tempData.center = '';
             tempData.marker = [];

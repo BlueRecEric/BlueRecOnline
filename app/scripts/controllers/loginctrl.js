@@ -26,7 +26,7 @@ angular.module('bluereconlineApp')
           );
           /*
           log.setUser(response.data);
-          console.log('send to: '+ '/' + log.orgurl + '/home');
+          //console.log('send to: '+ '/' + log.orgurl + '/home');
           $location.path('/' + log.orgurl + '/home');
           */
         }
@@ -56,7 +56,7 @@ angular.module('bluereconlineApp')
             deferred.reject(reason);
             return false;
           }, function(update) {
-            console.log(update);
+            //console.log(update);
           });
         }
         else

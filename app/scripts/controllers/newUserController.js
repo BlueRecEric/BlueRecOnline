@@ -23,9 +23,9 @@ angular.module('rebrandedTtcApp')
 
         function login(em,pass)
         {
-            console.log('trying to log in with');
-            console.log(em);
-            console.log(pass);
+            //console.log('trying to log in with');
+            //console.log(em);
+            //console.log(pass);
             AuthService.login(em, pass).then(
                 function success(response) {
                     newUser.setUser(response.data);
@@ -36,7 +36,7 @@ angular.module('rebrandedTtcApp')
         function setUser(data)
         {
             $scope.$root.currentUser = data;
-            console.log('currentUser:' + angular.toJson($scope.$root.currentUser));
+            //console.log('currentUser:' + angular.toJson($scope.$root.currentUser));
         }
 
         function submitUser() {
@@ -60,13 +60,13 @@ angular.module('rebrandedTtcApp')
                     function success(response) {
                         if(response.data.validRegistration)
                         {
-                            console.log('Registration worked, now login.');
+                            //console.log('Registration worked, now login.');
                             newUser.login($scope.ttcNewUser.email,$scope.ttcNewUser.password);
                         }
                         else
                         {
-                            console.log('validRegistration is false.');
-                            console.log(response.data);
+                            //console.log('validRegistration is false.');
+                            //console.log(response.data);
                         }
                     }
                 );

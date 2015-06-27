@@ -13,12 +13,23 @@
 
 
 <div class="row" data-ng-animate="'slide'">
-    <div data-ng-controller="RequestReservation" class="container">
+    <div data-ng-controller="RequestReservation" class="container" >
 
-        <h3  style="padding-bottom: 10px;">Reservation Request Form</h3>
+    <h3 style="padding-bottom: 10px;" ng-show="showNotValidUser || validLogin">Reservation Request Form</h3>
+
+
+    <div ng-show="showNotValidUser">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+
+            Login to access the reservation request feature.
+        </div>
+    </div>
+
+
+    <div ng-show="validLogin">
 
           <form class="form-horizontal">
-
 
           <div class="alert alert-info animate-show animate-hide" role="alert" ng-hide="!hideBasicInfo">
               <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -122,7 +133,7 @@
               </div>
           </div>
 
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
+          <div class="form-group animate-show animate-hide" ng-hide="true">
               <label class="col-sm-3 control-label" >Will you be serving alcohol?*</label>
               <div class="col-sm-9">
                   <select ng-model="alcohol" class="form-control" style="width: 125px;">
@@ -263,6 +274,7 @@
               <br>
           </div>
       </div>
+    </div>
   </div>
 </div>
 
@@ -289,3 +301,4 @@
         </div>
     </div>
 </script>
+

@@ -10,16 +10,38 @@
 angular.module('bluereconlineApp')
     .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams','ActiveUser',  function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams, ActiveUser) {
 
-        $scope.userLoggedIn=true;
+        $scope.validLogin=false;
+        $scope.showNotValidUser=false;
+
+        /*ActiveUser.getFromLocal().then(function success(response) {
+            //console.log('we got the user from the menu');
+            $scope.currentUser = response;
+            //console.log($scope.currentUser);
+            //$scope.$root.currentUser = response.data;
+        });*/
+        $scope.currentUser = ActiveUser.getUser();
+
+        $scope.$watch(function() { return ActiveUser.getUser(); }, function() {
+            //console.log('ActiveUser changed');
+            //$scope.currentUser = ActiveUser.getUser();
+
+            $scope.validLogin=$scope.currentUser.validLogin;
+            if($scope.validLogin===undefined)
+            {$scope.validLogin=false;}
+
+            if(!$scope.validLogin)
+            {$scope.showNotValidUser=true;}
+
+            console.log($scope.validLogin );
+        });
 
 
-        ActiveUser.getFromLocal();
-        if(ActiveUser.userData !== undefined) {
-            console.log(ActiveUser.userData.user_id);
-        }
-
+        //$scope.userLoggedIn = ActiveUser.getValidLogin();
+        //console.log($scope.validLogin);
 
         $scope.contactCheckAlert=false;
+
+        //console.log('userLoggedIn:  ' + $scope.userLoggedIn);
 
         $scope.hideBasicInfo=true;
 
@@ -48,7 +70,7 @@ angular.module('bluereconlineApp')
         $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/requestreservation/')
             .success(function (data) {
                 $scope.rentalDropDown = data;
-               // console.log( $scope.rentalDropDown[1]);
+               // //console.log( $scope.rentalDropDown[1]);
             });
 
         $scope.agreementSigned = {
@@ -129,7 +151,7 @@ angular.module('bluereconlineApp')
                     },
                     data: {
                         'rental_code_item_id':  $scope.rentalCodeSearch,
-                        'facilities': $facilityString,
+                        'facilityString': $facilityString,
                         'startTime':  $scope.formatMySQLDate($scope.selectedDate, $scope.startTime),
                         'endTime':  $scope.formatMySQLDate($scope.selectedDate, $scope.endTime),
                         'details':  $scope.reservationDetails,
@@ -147,11 +169,11 @@ angular.module('bluereconlineApp')
 
                         $scope.eventSource  = data;
 
-                        console.log( $scope.eventSource);
+                        //console.log( $scope.eventSource);
 
 
 
-                        $scope.rentalDescription = 'N/A';
+                       /* $scope.rentalDescription = 'N/A';
                         $scope.reservationDetails = '';
                         $scope.reservationNotes = '';
 
@@ -159,7 +181,7 @@ angular.module('bluereconlineApp')
 
                         $scope.phoneNumber = '';
                         $scope.emailAddress = '';
-                        $scope.contactMethod = '';
+                        $scope.contactMethod = '';*/
                     });
             }
             else
@@ -225,7 +247,7 @@ angular.module('bluereconlineApp')
 
                         $scope.eventSource = data;
 
-                        console.log($scope.eventSource);
+                        //console.log($scope.eventSource);
                     });
             }
             else

@@ -15,8 +15,8 @@ angular.module('bluereconlineApp')
     proReg.household = {};
 
     ActiveUser.getFromLocal().then(function() {
-      console.log('register data:');
-      console.log(ActiveUser.userData.household);
+      //console.log('register data:');
+      //console.log(ActiveUser.userData.household);
       proReg.household = ActiveUser.userData.household;
       //$scope.$root.currentUser = response.data;
     }, function() {
@@ -29,8 +29,8 @@ angular.module('bluereconlineApp')
       $location.path('/' + $routeParams.orgurl + '/login');
     }
 
-    console.log('household data:');
-    console.log(proReg.household);
+    //console.log('household data:');
+    //console.log(proReg.household);
 
     $scope.proinfo = ProInfoLoader;
     $scope.proinfo.loadProgram();
@@ -147,21 +147,21 @@ angular.module('bluereconlineApp')
 
             if(response.has_custom_fields === '1')
             {
-              console.log('has custom fields');
+              //console.log('has custom fields');
               proReg.household[idx].totalSteps++;
               proReg.household[idx].has_custom_fields = true;
             }
 
             if(response.has_packages === '1')
             {
-              console.log('has packages');
+              //console.log('has packages');
               proReg.household[idx].totalSteps++;
               proReg.household[idx].has_packages = true;
             }
 
             if(response.has_payments === '1')
             {
-              console.log('has payments');
+              //console.log('has payments');
               proReg.household[idx].totalSteps++;
               proReg.household[idx].has_payments = true;
             }
@@ -219,8 +219,8 @@ angular.module('bluereconlineApp')
         .then(
         function success(response) {
           proReg.household[idx].showLoadingRegistration = false;
-          console.log('Here is the starting response:');
-          console.log(response.data);
+          //console.log('Here is the starting response:');
+          //console.log(response.data);
           return response.data;
         }
       );
@@ -230,8 +230,8 @@ angular.module('bluereconlineApp')
     {
       proReg.household[idx].partForm.formatBirthday = $filter('date')(proReg.household[idx].partForm.birthday, 'yyyy-MM-dd');
 
-      console.log('submit form');
-      console.log(proReg.household[idx].partForm);
+      //console.log('submit form');
+      //console.log(proReg.household[idx].partForm);
 
       proReg.household[idx].showLoadingRegistration = true;
 
@@ -248,8 +248,8 @@ angular.module('bluereconlineApp')
         .then(
         function success(response) {
           proReg.household[idx].showLoadingRegistration = false;
-          console.log('Here is the saveuser response:');
-          console.log(response.data);
+          //console.log('Here is the saveuser response:');
+          //console.log(response.data);
 
           proReg.household[idx].failed = {};
           proReg.household[idx].failedCount = 0;
@@ -268,13 +268,13 @@ angular.module('bluereconlineApp')
 
                 if(proReg.household[idx].has_custom_fields)
                 {
-                  console.log('go to custom fields');
+                  //console.log('go to custom fields');
                   createCustomFieldForm(idx);
                 }
                 else
                 {
                   proReg.household[idx].stepName = 'waiver';
-                  console.log('go to waivers');
+                  //console.log('go to waivers');
                   createWaiverForm(idx);
                 }
                 return true;
@@ -292,8 +292,8 @@ angular.module('bluereconlineApp')
 
       getCustomFieldData(idx).then(
         function success(response) {
-          console.log('custom field response');
-          console.log(response);
+          //console.log('custom field response');
+          //console.log(response);
           proReg.household[idx].customForm = response.customForm;
         }
       );
@@ -316,8 +316,8 @@ angular.module('bluereconlineApp')
         .then(
         function success(response) {
           proReg.household[idx].showLoadingRegistration = false;
-          console.log('Here is the starting response:');
-          console.log(response.data);
+          //console.log('Here is the starting response:');
+          //console.log(response.data);
           return response.data;
         }
       );
@@ -325,8 +325,8 @@ angular.module('bluereconlineApp')
 
     function submitCustomForm(idx)
     {
-      console.log('submit form');
-      console.log(angular.toJson(proReg.household[idx].customForm));
+      //console.log('submit form');
+      //console.log(angular.toJson(proReg.household[idx].customForm));
 
       proReg.household[idx].showLoadingRegistration = true;
 
@@ -343,12 +343,12 @@ angular.module('bluereconlineApp')
         .then(
         function success(response) {
           proReg.household[idx].showLoadingRegistration = false;
-          console.log('Here is the savecustom response:');
-          console.log(response.data);
+          //console.log('Here is the savecustom response:');
+          //console.log(response.data);
 
           proReg.household[idx].step++;
 
-          console.log('go to waivers');
+          //console.log('go to waivers');
           createWaiverForm(idx);
           return true;
         }
@@ -362,8 +362,8 @@ angular.module('bluereconlineApp')
 
       getWaiverData(idx).then(
         function success(response) {
-          console.log('waiver response');
-          console.log(response);
+          //console.log('waiver response');
+          //console.log(response);
           proReg.household[idx].waiverForm = response;
         }
       );
@@ -386,8 +386,8 @@ angular.module('bluereconlineApp')
         .then(
         function success(response) {
           proReg.household[idx].showLoadingRegistration = false;
-          console.log('Here is the waiver response:');
-          console.log(response.data);
+          //console.log('Here is the waiver response:');
+          //console.log(response.data);
           return response.data;
         }
       );
@@ -397,8 +397,8 @@ angular.module('bluereconlineApp')
     {
       proReg.household[idx].showLoadingRegistration = true;
 
-      console.log('submit waiver form');
-      console.log(angular.toJson(proReg.household[idx].waiverForm));
+      //console.log('submit waiver form');
+      //console.log(angular.toJson(proReg.household[idx].waiverForm));
 
       proReg.household[idx].completedWaivers = proReg.household[idx].waiverForm;
 
@@ -406,12 +406,12 @@ angular.module('bluereconlineApp')
 
       if(proReg.household[idx].has_packages)
       {
-        console.log('go to packages');
+        //console.log('go to packages');
         createPackageForm(idx);
       }
       else if(proReg.household[idx].has_payments)
       {
-        console.log('go to payments');
+        //console.log('go to payments');
         createPaymentsForm(idx);
       }
       else
@@ -430,8 +430,8 @@ angular.module('bluereconlineApp')
         function success(response) {
           proReg.household[idx].showLoadingRegistration = false;
 
-          console.log('package response');
-          console.log(response);
+          //console.log('package response');
+          //console.log(response);
           proReg.household[idx].packageForm = response;
         }
       );
@@ -453,8 +453,8 @@ angular.module('bluereconlineApp')
       return $http(req)
         .then(
         function success(response) {
-          console.log('Here is the package response:');
-          console.log(response.data);
+          //console.log('Here is the package response:');
+          //console.log(response.data);
           return response.data;
         }
       );
@@ -464,20 +464,20 @@ angular.module('bluereconlineApp')
     {
       proReg.household[idx].showLoadingRegistration = true;
 
-      console.log('submit package form');
-      console.log(angular.toJson(proReg.household[idx].packageForm));
+      //console.log('submit package form');
+      //console.log(angular.toJson(proReg.household[idx].packageForm));
 
       proReg.household[idx].completedPackages = proReg.household[idx].packageForm;
 
       proReg.household[idx].step++;
       if(proReg.household[idx].has_payments)
       {
-        console.log('go to payments');
+        //console.log('go to payments');
         createPaymentsForm(idx);
       }
       else
       {
-        console.log('go to last page');
+        //console.log('go to last page');
         createLastPage(idx);
       }
     }
@@ -491,8 +491,8 @@ angular.module('bluereconlineApp')
         function success(response) {
           proReg.household[idx].showLoadingRegistration = false;
 
-          console.log('payments response');
-          console.log(response);
+          //console.log('payments response');
+          //console.log(response);
           proReg.household[idx].paymentsForm = response;
         }
       );
@@ -514,8 +514,8 @@ angular.module('bluereconlineApp')
       return $http(req)
         .then(
         function success(response) {
-          console.log('Here is the payments response:');
-          console.log(response.data);
+          //console.log('Here is the payments response:');
+          //console.log(response.data);
           return response.data;
         }
       );
@@ -525,14 +525,14 @@ angular.module('bluereconlineApp')
     {
       proReg.household[idx].showLoadingRegistration = true;
 
-      console.log('submit payments form');
-      console.log(angular.toJson(proReg.household[idx].paymentsForm));
+      //console.log('submit payments form');
+      //console.log(angular.toJson(proReg.household[idx].paymentsForm));
 
       proReg.household[idx].completedPayments = proReg.household[idx].paymentsForm;
 
 
       //proReg.household[idx].stepName = 'final';
-      console.log('go to last page');
+      //console.log('go to last page');
       proReg.household[idx].step++;
       createLastPage(idx);
     }
@@ -547,14 +547,14 @@ angular.module('bluereconlineApp')
 
     function submitFinalForm(idx)
     {
-      console.log(idx);
+      //console.log(idx);
     }
 
     function birthdayOpen($event,bdidx) {
       $event.preventDefault();
       $event.stopPropagation();
 
-      console.log('birthday popup should open');
+      //console.log('birthday popup should open');
 
       proReg.datepickers[bdidx] = true;
     }
@@ -571,7 +571,7 @@ angular.module('bluereconlineApp')
     /*
     angular.forEach(proReg.household, function() {
       proReg.datepickers[memberIndex] = false;
-      console.log('forEach iterated ' + memberIndex + ' times');
+      //console.log('forEach iterated ' + memberIndex + ' times');
       memberIndex++;
     });
     */
