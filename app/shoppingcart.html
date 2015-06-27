@@ -1,134 +1,134 @@
 <div class="aside right" tabindex="-1" role="dialog">
 
-        <div class="aside-content">
-            <div class="aside-header" ng-show="title">
-                <button type="button" class="close" ng-click="$hide()">&times;</button>
-                <h4 class="aside-title" ng-bind-html="title"></h4>
-            </div>
-            <div class="aside-body" >
+    <div class="aside-content">
+        <div class="aside-header" ng-show="title">
+            <button type="button" class="close" ng-click="$hide()">&times;</button>
+            <h4 class="aside-title" ng-bind-html="title"></h4>
+        </div>
+        <div class="aside-body" >
 
-                <div class="panel panel-default">
-                    <div class="panel-heading clearfix">
-                        <h3 class="panel-title">Your Shopping Cart</h3>
-                    </div>
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Your Shopping Cart</h3>
+                </div>
 
-                    <form name="cartForm" class="form-horizontal" role="form" ng-submit="">
-                        <ng-form name="cartForm">
-                            <div class="panel-body">
+                <form name="cartForm" class="form-horizontal" role="form" ng-submit="">
+                    <ng-form name="cartForm">
+                        <div class="panel-body">
 
-                                <div class="well">
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                            <span class="tooltip-danger" data-title="This would remove this item" data-placement="right" bs-tooltip><span class="fa-stack fa-lg clicky">
-                              <i class="fa fa-square fa-stack-2x text-danger"></i>
-                              <i class="fa fa-times fa-stack-1x fa-inverse"></i>
-                            </span></span>
-                                        </div>
-
-                                        <div class="col-sm-7">
-                                            <h4>Example Program 1</h4>
-                                        </div>
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                        <span class="tooltip-danger" data-title="This would remove this item" data-placement="right" bs-tooltip><span class="fa-stack fa-lg clicky">
+                          <i class="fa fa-square fa-stack-2x text-danger"></i>
+                          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+                        </span></span>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-sm-2">&nbsp;</div>
-                                        <div class="col-sm-7">
-                                            <em>- John Doe</em>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-2">&nbsp;</div>
-                                        <div class="col-sm-7">
-                                            $85.00
-                                        </div>
+                                    <div class="col-sm-7">
+                                        <h4>Example Program 1</h4>
                                     </div>
                                 </div>
-
-                                <div class="well">
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                            <span class="tooltip-danger" data-title="This would remove this item" data-placement="right" bs-tooltip><span class="fa-stack fa-lg clicky">
-                              <i class="fa fa-square fa-stack-2x text-danger"></i>
-                              <i class="fa fa-times fa-stack-1x fa-inverse"></i>
-                            </span></span>
-                                        </div>
-
-                                        <div class="col-sm-7">
-                                            <h4>Example Program 1</h4>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-2">&nbsp;</div>
-                                        <div class="col-sm-7">
-                                            <em>- Jane Doe</em>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-3">&nbsp;</div>
-                                        <div class="col-sm-7">
-                                            $85.00
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-2">&nbsp;</div>
-                                        <div class="col-sm-1">
-                            <span class="tooltip-danger" data-title="This would remove this item" data-placement="right" bs-tooltip><span class="fa-stack fa-1x clicky">
-                              <i class="fa fa-square fa-stack-2x text-danger"></i>
-                              <i class="fa fa-times fa-stack-1x fa-inverse"></i>
-                            </span></span>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <h5>Add-on package 1</h5>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-3">&nbsp;</div>
-                                        <div class="col-sm-7">
-                                            $10.00
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-2">&nbsp;</div>
-                                        <div class="col-sm-1">
-                            <span class="tooltip-danger" data-title="This would remove this item" data-placement="right" bs-tooltip><span class="fa-stack fa-1x clicky">
-                              <i class="fa fa-square fa-stack-2x text-danger"></i>
-                              <i class="fa fa-times fa-stack-1x fa-inverse"></i>
-                            </span></span>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <h5>Add-on package 2</h5>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-3">&nbsp;</div>
-                                        <div class="col-sm-7">
-                                            $10.00
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <h3>Total: $190</h3>
 
                                 <div class="row">
-                                    <div class="col-sm-10">
-                                        <button type="button" id="submitCart" value="Submit" class="btn btn-success"  data-placement="center" ><i class="fa fa-check-square"></i>
-                                            <i class="fa fa-shopping-cart"></i> Checkout</button>
-                                        <button type="button" class="btn btn-danger" ng-click="$hide()"><i class="glyphicon glyphicon-remove-circle" style=" font-size: 1.2em;"></i></button>
+                                    <div class="col-sm-2">&nbsp;</div>
+                                    <div class="col-sm-7">
+                                        <em>- John Doe</em>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-2">&nbsp;</div>
+                                    <div class="col-sm-7">
+                                        $85.00
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                        <span class="tooltip-danger" data-title="This would remove this item" data-placement="right" bs-tooltip><span class="fa-stack fa-lg clicky">
+                          <i class="fa fa-square fa-stack-2x text-danger"></i>
+                          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+                        </span></span>
                                     </div>
 
+                                    <div class="col-sm-7">
+                                        <h4>Example Program 1</h4>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-2">&nbsp;</div>
+                                    <div class="col-sm-7">
+                                        <em>- Jane Doe</em>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-3">&nbsp;</div>
+                                    <div class="col-sm-7">
+                                        $85.00
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-2">&nbsp;</div>
+                                    <div class="col-sm-1">
+                        <span class="tooltip-danger" data-title="This would remove this item" data-placement="right" bs-tooltip><span class="fa-stack fa-1x clicky">
+                          <i class="fa fa-square fa-stack-2x text-danger"></i>
+                          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+                        </span></span>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <h5>Add-on package 1</h5>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-3">&nbsp;</div>
+                                    <div class="col-sm-7">
+                                        $10.00
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-2">&nbsp;</div>
+                                    <div class="col-sm-1">
+                        <span class="tooltip-danger" data-title="This would remove this item" data-placement="right" bs-tooltip><span class="fa-stack fa-1x clicky">
+                          <i class="fa fa-square fa-stack-2x text-danger"></i>
+                          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+                        </span></span>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <h5>Add-on package 2</h5>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-3">&nbsp;</div>
+                                    <div class="col-sm-7">
+                                        $10.00
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3>Total: $190</h3>
+
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <button type="button" id="submitCart" value="Submit" class="btn btn-success"  data-placement="center" ><i class="fa fa-check-square"></i>
+                                        <i class="fa fa-shopping-cart"></i> Checkout</button>
+                                    <button type="button" class="btn btn-danger" ng-click="$hide()"><i class="glyphicon glyphicon-remove-circle" style=" font-size: 1.2em;"></i></button>
                                 </div>
 
                             </div>
-                        </ng-form>
-                    </form>
-                </div>
-             </div>
+
+                        </div>
+                    </ng-form>
+                </form>
+            </div>
+         </div>
     </div>
 </div>

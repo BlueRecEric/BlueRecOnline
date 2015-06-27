@@ -171,8 +171,6 @@ angular.module('bluereconlineApp')
 
                         //console.log( $scope.eventSource);
 
-
-
                        /* $scope.rentalDescription = 'N/A';
                         $scope.reservationDetails = '';
                         $scope.reservationNotes = '';

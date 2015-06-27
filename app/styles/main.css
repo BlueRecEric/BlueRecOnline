@@ -670,9 +670,25 @@ aside .aside-dialog .aside-footer:before,
     outline: none;
 }
 
-@media (max-width: 991px) {
+
+
+@media only screen and (max-width : 480px) {
     .aside {
-        min-width: 420px;
+        width:  360px;
+        top: 0px;
     }
+}
+
+@media only screen and (min-width : 480px) {
+    .aside, .panel-body {
+        max-width: 991px;
+    }
+    .aside{
+        top: 25px;
+    }
+}
+
+.am-fade-and-slide-right {
+    background-color: rgba(255, 0, 0, 0)
 }
 
