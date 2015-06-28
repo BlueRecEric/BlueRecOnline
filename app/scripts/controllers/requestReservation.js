@@ -10,8 +10,7 @@
 angular.module('bluereconlineApp')
     .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams','ActiveUser',  function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams, ActiveUser) {
 
-        $scope.validLogin=false;
-        $scope.showNotValidUser=false;
+        $scope.userLoggedIn=false;
 
         /*ActiveUser.getFromLocal().then(function success(response) {
             //console.log('we got the user from the menu');
@@ -19,25 +18,20 @@ angular.module('bluereconlineApp')
             //console.log($scope.currentUser);
             //$scope.$root.currentUser = response.data;
         });*/
-        $scope.currentUser = ActiveUser.getUser();
 
-        $scope.$watch(function() { return ActiveUser.getUser(); }, function() {
-            //console.log('ActiveUser changed');
-            //$scope.currentUser = ActiveUser.getUser();
+        //$scope.currentUser = ActiveUser.getUser();
 
-            $scope.validLogin=$scope.currentUser.validLogin;
-            if($scope.validLogin===undefined)
-            {$scope.validLogin=false;}
+        /*$scope.validLogin=$scope.currentUser.validLogin;
+        if($scope.validLogin===undefined)
+        {$scope.validLogin=false;}*/
 
-            if(!$scope.validLogin)
-            {$scope.showNotValidUser=true;}
+        $scope.userLoggedIn=ActiveUser.isLoggedIn();
+console.log($scope.userLoggedIn);
 
-            console.log($scope.validLogin );
-        });
+        console.log('test');
+        /*if(!$scope.validLogin)
+        {$scope.showNotValidUser=true;}*/
 
-
-        //$scope.userLoggedIn = ActiveUser.getValidLogin();
-        //console.log($scope.validLogin);
 
         $scope.contactCheckAlert=false;
 

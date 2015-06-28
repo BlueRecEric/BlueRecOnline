@@ -10,12 +10,12 @@
 angular.module('bluereconlineApp')
     .controller('MenuCtrl', ['$scope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', '$aside', function ($scope,$routeParams,$route,AuthService,$location,ActiveUser, $aside) {
 
-        ActiveUser.getFromLocal().then(function success(response) {
+       /* ActiveUser.getFromLocal().then(function success(response) {
             //console.log('we got the user from the menu');
             $scope.currentUser = response;
             //console.log($scope.currentUser);
             //$scope.$root.currentUser = response.data;
-        });
+        });*/
 
         $scope.$watch(function() { return ActiveUser.getUser(); }, function() {
             //console.log('ActiveUser changed');
@@ -50,7 +50,8 @@ angular.module('bluereconlineApp')
 
             AuthService.logout();
             $scope.currentUser = {};
-            ActiveUser.setActiveUser(null);
+            ActiveUser.setActiveUser('');
+
 
             $location.path('/' + $routeParams.orgurl + '/login');
         };

@@ -66,7 +66,7 @@ angular
             templateUrl: 'views/memberships.html'
           })
           .when('/:orgurl/reservations', {
-            templateUrl: 'views/requestReservation.html',
+            templateUrl: 'views/requestReservation.html'
           })
           .otherwise({
             redirectTo: '/:orgurl/login'
@@ -80,11 +80,26 @@ angular
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         $httpProvider.defaults.headers.common.Accept = 'application/json';
     })
-    .run(function($rootScope,$anchorScroll) {
-      $rootScope.$on('$routeChangeSuccess', function () {
-        $anchorScroll('pageTop');
-      });
-    })
+
+    .run(['$rootScope','$location', '$routeParams', '$anchorScroll', 'ActiveUser', function($rootScope, $location, $routeParams, $anchorScroll, ActiveUser) {
+        $rootScope.$on('$routeChangeSuccess', function () {
+            $anchorScroll('pageTop');
+        });
+
+        console.log('test');
+        ActiveUser.getFromLocal();
+
+        $rootScope.$on('$routeChangeStart', function (event, next) {
+            if(next.params.orgurl !== undefined) {
+
+                if (next.requireLogin) {
+                    $location.path('/' + next.params.orgurl + '/login');
+                    event.preventDefault();
+                }
+            }
+        });
+    }])
+
     .directive('ensureUnique', ['dataService', function (dataService) {
         return {
             restrict: 'A',
@@ -199,17 +214,15 @@ angular
         {
           var deferred = $q.defer();
 
-          setTimeout(function() {
-            deferred.notify('Looking for user in local storage.');
+        deferred.notify('Looking for user in local storage.');
 
-            if (pullUserFromLocalStorage()) {
-              currentUser.userData = pullUserFromLocalStorage();
-              //console.log(currentUser.userData);
-              deferred.resolve(currentUser.userData);
-            } else {
-              deferred.reject('No user data found in local storage');
-            }
-          }, 1000);
+        if (pullUserFromLocalStorage()) {
+          currentUser.userData = pullUserFromLocalStorage();
+          console.log(currentUser.userData);
+          deferred.resolve(currentUser.userData);
+        } else {
+          deferred.reject('No user data found in local storage');
+        }
 
           return deferred.promise;
         }
@@ -247,12 +260,14 @@ angular
           return currentUser.userData;
         }
 
-        function getValidLogin()
+        function isLoggedIn()
         {
-            var isValidLogin=false;
-            if(currentUser.userData.validLogin===true)
-            {isValidLogin=true;}
-            return isValidLogin;
+            var loggedIn=false;
+
+            if(currentUser.userData!==null) {
+                loggedIn=(currentUser.userData.validLogin === true);
+            }
+            return loggedIn;
         }
 
         function setUser(data)
@@ -277,7 +292,7 @@ angular
         currentUser.checkUser = checkUser;
         currentUser.getFromLocal = getFromLocal;
 
-        currentUser.getValidLogin = getValidLogin;
+        currentUser.isLoggedIn = isLoggedIn;
 
         currentUser.getFromToken();
 

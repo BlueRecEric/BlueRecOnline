@@ -18,7 +18,7 @@
     <h3 style="padding-bottom: 10px;" ng-show="showNotValidUser || validLogin">Reservation Request Form</h3>
 
 
-    <div ng-show="showNotValidUser">
+    <div ng-show="!userLoggedIn">
         <div class="alert alert-danger" role="alert">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 
@@ -27,7 +27,7 @@
     </div>
 
 
-    <div ng-show="validLogin">
+    <div ng-show="userLoggedIn">
 
           <form class="form-horizontal">
 
