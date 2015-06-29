@@ -117,6 +117,10 @@ body > .container {
     display: block;
 }
 
+.listing img
+{
+    width:64px;
+}
 
 .wide {
     width:100%;
