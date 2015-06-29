@@ -61,7 +61,7 @@
             <li data-ng-hide="!currentUser.validLogin==true" ng-cloak><a ng-href="#/{{HomeLink}}"><i class="fa fa-home"></i> Home</a></li>
             <li data-ng-hide="currentUser.validLogin==true" ng-cloak><a ng-href="#/{{LoginLink}}"><i class="fa fa-sign-in"></i> Login</a></li>
             <li><a ng-href="#/{{ActivitiesLink}}"><i class="fa fa-futbol-o"></i> Activities</a></li>
-            <li data-ng-show="false" ng-cloak><a ng-href="#/{{MembershipsLink}}"><i class="fa fa-credit-card"></i> Memberships</a></li>
+            <li><a ng-href="#/{{MembershipsLink}}"><i class="fa fa-credit-card"></i> Memberships</a></li>
             <li><a ng-href="#/{{ReservationsLink}}"><i class="fa fa-check-square-o"></i> Reservations</a></li>
             <li data-ng-show="false" ng-cloak><a ng-href="#/{{ShopLink}}"><i class="fa fa-tags"></i> Shop</a></li>
           </ul>
@@ -143,6 +143,8 @@
         <script src="scripts/controllers/programinfo.js"></script>
         <script src="scripts/controllers/programRegister.js"></script>
         <script src="scripts/controllers/requestReservation.js"></script>
+        <script src="scripts/controllers/currentMembershipCtrl.js"></script>
+        <script src="scripts/controllers/membershipListCtrl.js"></script>
         <!-- endbuild -->
 </body>
 </html>

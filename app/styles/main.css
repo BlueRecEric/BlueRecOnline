@@ -309,6 +309,11 @@ body > .container {
     .logo {
         min-height:200px;
     }
+
+    .listing img
+    {
+        width:128px;
+    }
 }
 
 
