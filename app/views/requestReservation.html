@@ -15,7 +15,7 @@
 <div class="row" data-ng-animate="'slide'">
     <div data-ng-controller="RequestReservation" class="container" >
 
-    <h3 style="padding-bottom: 10px;" ng-show="showNotValidUser || validLogin">Reservation Request Form</h3>
+    <h3 style="padding-bottom: 10px;">Reservation Request Form</h3>
 
 
     <div ng-show="!userLoggedIn">
@@ -37,10 +37,10 @@
               Select Rental Type to Continue
           </div>
 
+
           <div class="form-group animate-show animate-hide">
               <label class="col-sm-3 control-label" >Rental Purpose*:</label>
               <div class="col-sm-9">
-
 
                   <select ng-model="rentalCodeSearch" class="form-control" style="width: 300px;" ng-change="setNewRental()">
                       <option value="">--Select Rental Type--</option>
@@ -167,7 +167,7 @@
           <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <label class="col-sm-3 control-label" >Phone Number:</label>
               <div class="col-sm-9">
-                  <input ng-model="phoneNumber" type="text" class="form-control" style="width: 150px;"/>
+                  <input ng-model="phoneNumber" type="text" class="form-control" style="width: 150px;" maxlength="10"/>
               </div>
           </div>
 
@@ -207,35 +207,33 @@
 
 
           <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-          <div class="col-sm-offset-1 col-sm-10">
-              <div >
-                  <label data-placement="bottom-left" data-type="info"  bs-enabled="agreementSigned.checked" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
-                         unselectable="on"
-                         onselectstart="return false;"
-                         onmousedown="return false;">
-                      <input ng-model="agreementSigned.checked" type="checkbox" checked="false"> I have read, understand, and agree to the <a href="" target="_blank">Terms and Conditions</a> regarding The Parks and Recreation Facility Reservations and Refund/Cancelation Policy.
-                  </label>
+              <div class="col-sm-offset-1 col-sm-10">
+                  <div >
+                      <label data-placement="bottom-left" data-type="info"  bs-enabled="agreementSigned.checked" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
+                             unselectable="on"
+                             onselectstart="return false;"
+                             onmousedown="return false;">
+                          <input ng-model="agreementSigned.checked" type="checkbox" checked="false"> I have read, understand, and agree to the <a href="" target="_blank">Terms and Conditions</a> regarding The Parks and Recreation Facility Reservations and Refund/Cancelation Policy.
+                      </label>
+                  </div>
               </div>
-          </div>
           </div>
 
 
           <div class="form-group animate-show animate-hide" ng-hide="!contactCheckAlert" ng-cloak>
-          <div class="col-sm-offset-1 col-sm-10 alert alert-danger animate-hide" role="alert" >
-              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-              <span class="sr-only">Error:</span>
-              Terms & Agreement not checked!
+              <div class="col-sm-offset-1 col-sm-10 alert alert-danger animate-hide" role="alert" >
+                  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                  <span class="sr-only">Error:</span>
+                  Terms & Agreement not checked!
 
-              <span class="close" ng-click="contactCheckAlert=false">&times;</span>
-
-          </div>
+                  <span class="close" ng-click="contactCheckAlert=false">&times;</span>
+              </div>
           </div>
 
           <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
               <div class="col-sm-10">
                   <div class="center-block" style="width: 300px;">
-                      <br>
-                    <button type="submit" class="btn btn-info btn-lg btn-block" ng-click="onSubmitRequest()" data-animation="am-fade-and-scale" data-placement="center" data-template="confirmation.html" bs-modal="modal">Submit Request</button>
+                    <button type="submit" class="btn btn-info btn-lg btn-block" ng-click="onSubmitRequest()">Submit Request</button>
                   </div>
               </div>
           </div>
@@ -270,7 +268,7 @@
           </div>
           <div >
               <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
-                        range-changed="reloadSource(startTime, endTime)" queryMode="local"
+                        range-changed="reloadSource(startTime, endTime)" queryMode="remote"
                         event-selected="onEventSelected(event)"></calendar>
               <br>
           </div>
@@ -286,7 +284,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title text-Success">Request Submitted</h3>
+                    <h3 class="modal-title text-Success">Rental Request Submitted</h3>
                 </div>
                 <div class="modal-body">
                     <p>Your reservation request has successfully been submitted and will</p>
