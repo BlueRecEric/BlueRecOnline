@@ -147,8 +147,10 @@ angular.module('bluereconlineApp')
                 };
 
                 $http(req).success(function (data) {
-                    console.log($facilityString);
+                    //console.log($facilityString);
                     $scope.eventSource = data;
+
+                    //console.table($scope.eventSource);
                 });
 
             }
@@ -156,7 +158,7 @@ angular.module('bluereconlineApp')
             {
                 $scope.eventSource = null;
 
-                console.table($scope.eventSource);
+                //console.table($scope.eventSource);
             }
 
             $scope.$broadcast('eventSourceElementChanged');
