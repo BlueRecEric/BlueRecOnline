@@ -390,3 +390,6 @@ aside .aside-dialog .aside-footer:before,
     background-color: rgba(255, 0, 0, 0);
 }
 
+.clicky {
+    cursor: pointer;
+}
