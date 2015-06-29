@@ -5,7 +5,7 @@
 
 $(document).ready(function () {
 
-  var menu = $('.bluerecnav');
+  /*var menu = $('.bluerecnav');
   var origOffsetY = menu.offset().top + 0;
 
   //console.log('Offset:' + origOffsetY);
@@ -20,6 +20,6 @@ $(document).ready(function () {
 
   }
 
-  document.onscroll = scroll;
+  document.onscroll = scroll;*/
 
 });
