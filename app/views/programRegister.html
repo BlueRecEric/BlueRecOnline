@@ -8,6 +8,26 @@
   </div>
 </div>
 
+<div class="bs-callout bs-callout-info" id="callout-type-b-i-elems">
+  <div class="row">
+  <div class="col-xs-12 text-left" data-ng-show="proinfo.returnData.fileCount > 0">
+    <h4>Files</h4>
+
+    <p>Additional documents related to this activity can be downloaded here.</p>
+  </div>
+
+  <div class="col-xs-12 btn-group hidden-xs" role="group" data-ng-show="proinfo.returnData.fileCount > 0">
+    <a href="https://alphadev.bluerec.com/php/organization_files/{{file.organization_id}}/files/item_attachments/{{file.file}}" type="button" class="btn btn-success" data-ng-repeat="file in proinfo.returnData.files"><i class="fa fa-download"></i> {{file.file_name}}</a>
+  </div>
+
+  <div class="visible-xs" data-ng-show="proinfo.returnData.fileCount > 0" data-ng-repeat="file in proinfo.returnData.files">
+    <div class="col-xs-12 btn-group btn-group-justified">
+      <a href="https://alphadev.bluerec.com/php/organization_files/{{file.organization_id}}/files/item_attachments/{{file.file}}" type="button" class="btn btn-success"><i class="fa fa-download"></i> {{file.file_name}}</a>
+    </div>
+  </div>
+    </div>
+</div>
+
 <h4>Please select the household members that will be registering for this activity:</h4>
 
 
