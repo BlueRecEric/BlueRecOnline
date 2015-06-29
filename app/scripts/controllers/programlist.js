@@ -87,7 +87,7 @@ angular.module('bluereconlineApp')
           proload.responseData.push(programs[i]);
         }
         proload.returnData = JSON.parse(angular.toJson(proload.responseData));
-        //console.log(proload.returnData);
+        console.log(proload.returnData);
         proload.afterCount += proload.increment;
 
         if(programs.length === 0)

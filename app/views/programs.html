@@ -28,77 +28,86 @@
         <h3 class="panel-title pull-left">({{session.item_code}}) {{session.item_name}}</h3>
       </div>
       <div class="panel-body">
-        {{session.description}}<br><br>
-        <div id="sessiondiv col-xs-12" data-ng-repeat="program in session.programs | filter: query.item_name">
-          <div class="hidden-xs">
-            <div class="panel panel-primary">
-              <div class="panel-heading clearfix">
-                <div class="row hidden-xs">
-                  <div class="col-xs-2">Code</div>
-                  <div class="col-xs-2">Price</div>
-                  <div class="col-xs-4">Registration</div>
-                  <div class="col-xs-4">Class Dates</div>
-                </div>
-              </div>
-              <div class="panel-body">
-                <div class="row hidden-xs">
-                  <div class="col-xs-2">{{program.item_code}}</div>
-                  <div class="col-xs-2">
-                    <div data-ng-repeat="fee in program.fees track by fee.item_fee_id">
-                      {{fee.fee_name}}: ${{fee.fee_amount}}
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    Res/Online:	{{program.format_online_registration_start}}<br>
-                    NonRes/Online:	{{program.format_nonres_online_registration_start}}<br>
-                    Late Reg:	{{program.format_registration_late_end}}<br>
-                    Ends:	{{program.format_registration_end}}
-                  </div>
-                  <div class="col-xs-4">
-                    {{program.format_start_date}} - {{program.format_end_date}}<br>
-                    <!--MO 9:00AM-12:00PM<br>
-                    TU 9:00AM-12:00PM<br>
-                    WE 9:00AM-12:00PM<br>-->
-                  </div>
+        <p>
 
-                  <div class="col-xs-12 text-right">
-                    <div class="row itembody btn-toolbar">
-                      <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
-                      <a href="#/{{proloader.orgurl}}/register/{{program.item_id}}" class="btn btn-info" data-ng-show="{{program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1'}}"><i class="fa fa-sign-in"></i> Register ({{program.remaining_spots}} openings)</a>
-                      <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
+          <div class="media">
+            <div class="media-left" data-ng-show="session.has_photo">
+              <img class="media-object thumbnail" data-ng-src="https://alphadev.bluerec.com/php/organization_files/{{session.photo.organization_id}}/files/item_photos/{{session.photo.file_name}}" alt="{{session.item_name}}">
+            </div>
+            <div class="media-body">
+              {{session.description}}
+            </div>
+          </div>
+
+          <div id="sessiondiv col-xs-12" data-ng-repeat="program in session.programs | filter: query.item_name">
+            <div class="hidden-xs">
+              <div class="panel panel-primary">
+                <div class="panel-heading clearfix">
+                  <div class="row hidden-xs">
+                    <div class="col-xs-2">Code</div>
+                    <div class="col-xs-2">Price</div>
+                    <div class="col-xs-4">Registration</div>
+                    <div class="col-xs-4">Class Dates</div>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div class="row hidden-xs">
+                    <div class="col-xs-2">{{program.item_code}}</div>
+                    <div class="col-xs-2">
+                      <div data-ng-repeat="fee in program.fees track by fee.item_fee_id">
+                        {{fee.fee_name}}: ${{fee.fee_amount}}
+                      </div>
+                    </div>
+                    <div class="col-xs-4">
+                      Res/Online:	{{program.format_online_registration_start}}<br>
+                      NonRes/Online:	{{program.format_nonres_online_registration_start}}<br>
+                      Late Reg:	{{program.format_registration_late_end}}<br>
+                      Ends:	{{program.format_registration_end}}
+                    </div>
+                    <div class="col-xs-4">
+                      {{program.format_start_date}} - {{program.format_end_date}}<br>
+                      <!--MO 9:00AM-12:00PM<br>
+                      TU 9:00AM-12:00PM<br>
+                      WE 9:00AM-12:00PM<br>-->
+                    </div>
+
+                    <div class="col-xs-12 text-right">
+                      <div class="row itembody btn-toolbar">
+                        <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
+                        <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
+                        <a href="#/{{proloader.orgurl}}/register/{{program.item_id}}" class="btn btn-info" data-ng-show="{{program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1'}}"><i class="fa fa-sign-in"></i> Register ({{program.remaining_spots}} openings)</a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="visible-xs-block">
-            <div class="row itemheader">
-              <div class="col-xs-3">Session</div>
-              <div class="col-xs-9">(S1) AM - Jedi Lego S1-AM-15</div>
-            </div>
-            <div class="row itembody">
-              <div class="col-xs-12">
-                Openings: {{program.remaining_spots}}<br>
-                <div data-ng-repeat="fee in program.fees track by fee.item_fee_id">
-                  {{fee.fee_name}}: ${{fee.fee_amount}}
+            <div class="visible-xs-block col-xs-12" data-ng-repeat="program in session.programs | filter: query.item_name">
+              <div class="row itemheader">
+                <div class="col-xs-3">Session</div>
+                <div class="col-xs-9">{{program.item_code}}</div>
+              </div>
+              <div class="row itembody">
+                <div class="col-xs-12">
+                  Openings: {{program.remaining_spots}}<br>
+                  <div data-ng-repeat="fee in program.fees track by fee.item_fee_id">
+                    {{fee.fee_name}}: ${{fee.fee_amount}}
+                  </div>
+                  Registration Ends: {{program.format_registration_end}}<br>
+                  Class Dates: {{program.format_start_date}} - {{program.format_end_date}}<br><br>
                 </div>
-                Registration Ends: {{program.format_registration_end}}<br>
-                Class Dates: {{program.format_start_date}} - {{program.format_end_date}}<br><br>
               </div>
-            </div>
-            <div class="row itembody">
-              <div class="btn-group btn-group-justified">
-                <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
-                <a href="#/{{proloader.orgurl}}/register/{{program.item_id}}" class="btn btn-info" data-ng-show="{{program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1'}}"><i class="fa fa-sign-in"></i> Register</a>
-                <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
+              <div class="row itembody">
+                <div class="btn-group btn-group-justified">
+                  <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
+                  <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
+                  <a href="#/{{proloader.orgurl}}/register/{{program.item_id}}" class="btn btn-info" data-ng-show="{{program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1'}}"><i class="fa fa-sign-in"></i> Register</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="clearfix hidden-xs"></div>
+        </p>
       </div>
-      <div style='clear: both;'></div>
     </div>
   </div>
 

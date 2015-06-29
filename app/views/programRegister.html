@@ -1,16 +1,16 @@
 <h3>Registering for {{proinfo.returnData.item_name}}({{proinfo.returnData.item_code}})</h3>
 
-<div class="bs-callout bs-callout-info" id="callout-type-b-i-elems">
+<div class="bs-callout bs-callout-warning" id="callout-type-b-i-elems">
   <div class="row">
-  <p><i class="fa fa-pencil fa-2x pull-left fa-border"></i>
+  <p><i class="fa fa-pencil fa-2x pull-left fa-border text-warning"></i>
     This is an example of a note that would be attached to a program. This note will appear here during online registration.
     If multiple notes are attached, they will each appear in their own 'box' so that they are easy to distinguish.</p>
   </div>
 </div>
 
-<div class="bs-callout bs-callout-info" id="callout-type-b-i-elems">
+<div class="bs-callout bs-callout-info" id="callout-type-b-i-elems" data-ng-show="proinfo.returnData.fileCount > 0">
   <div class="row">
-  <div class="col-xs-12 text-left" data-ng-show="proinfo.returnData.fileCount > 0">
+  <div class="col-xs-12 text-left">
     <h4>Files</h4>
 
     <p>Additional documents related to this activity can be downloaded here.</p>
@@ -34,7 +34,7 @@
 <div class="panel panel-default" data-ng-repeat="person in proReg.household">
   <div class="panel-heading">
     <!--<input type="checkbox" ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)" aria-label="Register {{person.firstname}} {{person.lastname}}"> {{person.firstname}} {{person.lastname}}-->
-    <checkbox class="btn-primary" data-ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)"></checkbox> <label class="clickylabel" data-ng-click="proReg.startRegistrationLink($index)">{{person.firstname}} {{person.lastname}}</label>
+    <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-primary" data-ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)"></checkbox> <label class="clickylabel" for="register_{{person.user_id}}">{{person.firstname}} {{person.lastname}}</label>
     <span class="pull-right hidden-xs" data-ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span></div>
   <div class="panel-body">
 
