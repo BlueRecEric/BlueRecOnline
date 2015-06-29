@@ -190,6 +190,9 @@ body > .container {
 
 .angular-google-map-container { height: 300px; }
 
+.checkbox-bump-down {
+    padding-top:6px !important;
+}
 
 .vcenter {
   display: inline-block;
