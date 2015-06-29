@@ -21,7 +21,6 @@
     "ui.bootstrap": "~0.13.0",
     "angular-dynforms": "~0.0.4",
     "angular-strap": "~2.2.4",
-    "ng-responsive-calendar": "~0.1.4",
     "angular-loading-bar": "~0.8.0",
     "angular-bootstrap-checkbox": "~0.3.1"
   },

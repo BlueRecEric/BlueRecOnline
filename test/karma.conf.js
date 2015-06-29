@@ -42,7 +42,6 @@ module.exports = function(config) {
       'bower_components/angular-dynforms/dynamic-forms.js',
       'bower_components/angular-strap/dist/angular-strap.js',
       'bower_components/angular-strap/dist/angular-strap.tpl.js',
-      'bower_components/ng-responsive-calendar/dist/js/calendar-tpls.js',
       'bower_components/angular-loading-bar/build/loading-bar.js',
       'bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js',
       'bower_components/angular-mocks/angular-mocks.js',
