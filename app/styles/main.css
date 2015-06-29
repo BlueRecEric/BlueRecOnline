@@ -99,6 +99,11 @@ body > .container {
 }
 }
 
+.listing img
+{
+    width:64px;
+}
+
 /* Main marketing message and sign up button */
 .jumbotron {
   text-align: center;
@@ -639,6 +644,11 @@ body > .container {
 
     .logo {
         min-height:200px;
+    }
+
+    .listing img
+    {
+        width:128px;
     }
 }
 
