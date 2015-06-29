@@ -33,6 +33,7 @@ angular
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
   }])
+
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
         $routeProvider
           .when('/:orgurl', {

@@ -65,7 +65,8 @@
               <div class="col-sm-9">
                   <div  class="form-vertical  " ng-repeat="fac in rentalFacilities" >
 
-                      <input type="checkbox" ng-model="fac.checked" ng-change="onFacilityChecked()" /> {{fac.item_name}}
+                      <input type="checkbox" ng-model="fac.checked" ng-change="onFacilityChecked()" id="{{fac.item_id}}{{}}" >
+                      <label for="{{fac.item_id}}{{}}" style="font-weight: normal;">{{fac.item_name}}</label>
 
                   </div>
               </div>

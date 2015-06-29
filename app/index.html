@@ -41,8 +41,9 @@
 
     <div data-ng-controller="UserAuthCtrl"></div>
 
-    <header class="bluerecnav header navbar navbar-default" role="navigation">
-      <div class="container" data-ng-controller="MenuCtrl">
+    <div class="bluerecnavhidden"></div>
+        <div class="bluerecnav header navbar navbar-default" role="navigation" data-offset-top="200" bs-affix>
+      <div class="container" data-ng-controller="MenuCtrl" >
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -64,15 +65,15 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li ng-cloak data-ng-hide="!currentUser.validLogin" data-template="shoppingcart.html" data-placement="right" data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body">
+            <li ng-cloak class="clicky" data-ng-hide="!currentUser.validLogin" data-template="shoppingcart.html" data-placement="right" data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body">
                 <a><i class="fa fa-shopping-cart"></i> Cart <span class="badge" > 4 </span></a></li>
 
-            <li data-ng-hide="!currentUser.validLogin" ng-cloak><a ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+            <li class="clicky" data-ng-hide="!currentUser.validLogin" ng-cloak><a ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
 
           </ul>
         </div>
       </div>
-    </header>
+    </div>
 
     <div class="container view-animate-container">
       <div ng-view="" class="view-animate"></div>

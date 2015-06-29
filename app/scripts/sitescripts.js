@@ -6,19 +6,17 @@
 $(document).ready(function () {
 
   var menu = $('.bluerecnav');
-  var origOffsetY = menu.offset().top + 150;
+  var origOffsetY = menu.offset().top + 0;
 
   //console.log('Offset:' + origOffsetY);
 
   function scroll() {
-    if ($(window).scrollTop() >= origOffsetY) {
-      $('.bluerecnav').addClass('navbar-fixed-top');
-      $('.maincontent').addClass('menu-padding');
-    } else {
-      $('.bluerecnav').removeClass('navbar-fixed-top');
-      $('.maincontent').removeClass('menu-padding');
-    }
+    if ($(window).scrollTop() > origOffsetY) {
+        $('.bluerecnavhidden').addClass('bluerecnavhidden2');
 
+    } else {
+        $('.bluerecnavhidden').removeClass('bluerecnavhidden2');
+    }
 
   }
 
