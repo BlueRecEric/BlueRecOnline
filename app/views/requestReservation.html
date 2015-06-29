@@ -42,7 +42,7 @@
               <label class="col-sm-3 control-label" >Rental Purpose*:</label>
               <div class="col-sm-9">
 
-                  <select ng-model="rentalCodeSearch" class="form-control" style="width: 300px;" ng-change="setNewRental()">
+                  <select ng-model="rentalCodeSearch" class="form-control" style="width: 250px;" ng-change="setNewRental()">
                       <option value="">--Select Rental Type--</option>
                       <option ng-repeat="rentalRow in rentalDropDown" value="{{rentalRow.item_id}}">{{rentalRow.item_name}}</option>
                   </select>

@@ -364,7 +364,7 @@ aside .aside-dialog .aside-footer:before,
     bottom: 0px;
     z-index: 1049;
     overflow: auto;
-    min-width: 340px;
+    width: 350px;
     background: #FFF none repeat scroll 0% 0%;
 }
 
@@ -377,11 +377,12 @@ aside .aside-dialog .aside-footer:before,
     .aside {
         top: 0px;
         left:25px!important;
+        width: auto;
     }
 }
 
 @media only screen and (min-width : 480px) {
-    .aside, .panel-body {
+    .aside {
         max-width: 991px;
     }
 }
@@ -393,3 +394,9 @@ aside .aside-dialog .aside-footer:before,
 .clicky {
     cursor: pointer;
 }
+
+#nav.affix {
+
+    width: 100%!important;
+}
+
