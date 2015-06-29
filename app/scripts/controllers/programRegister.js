@@ -118,7 +118,7 @@ angular.module('bluereconlineApp')
       //$location.hash(proReg.household[idx].anchorHash);
 
       // call $anchorScroll()
-      $anchorScroll.yOffset = 40;
+      $anchorScroll.yOffset = 60;
       $anchorScroll(proReg.household[idx].anchorHash);
     };
 

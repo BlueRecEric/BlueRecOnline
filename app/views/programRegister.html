@@ -35,7 +35,7 @@
   <div class="panel-heading">
     <!--<input type="checkbox" ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)" aria-label="Register {{person.firstname}} {{person.lastname}}"> {{person.firstname}} {{person.lastname}}-->
     <checkbox class="btn-primary" data-ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)"></checkbox> <label class="clickylabel" data-ng-click="proReg.startRegistrationLink($index)">{{person.firstname}} {{person.lastname}}</label>
-    <span class="pull-right" data-ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span></div>
+    <span class="pull-right hidden-xs" data-ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span></div>
   <div class="panel-body">
 
     <!--<progressbar data-ng-show="person.step > 0" class="progress-striped active" type="{{(person.step < person.totalSteps)?'primary':'success'}}" max="max" value="(person.step/person.totalSteps) * 100">Step {{person.step}} of {{person.totalSteps}}</progressbar></a>-->
@@ -57,23 +57,24 @@
         <ng-form name="partForm">
 
           <div class="panel-body">
+
             <div class="form-group">
               <label class="col-sm-2 control-label-center">Firstname</label>
-              <div class="col-sm-6 control-label-center input-group">
+              <div class="col-sm-6">
                 <input type="text" id="firstname" data-ng-model="person.partForm.firstname" value="{{person.partForm.firstname}}" class="form-control disabled" disabled required/>
               </div>
             </div>
 
             <div class="form-group">
               <label class="col-sm-2 control-label-center">Lastname</label>
-              <div class="col-sm-6 control-label-center input-group">
+              <div class="col-sm-6">
                 <input type="text" id="lastname" data-ng-model="person.partForm.lastname" value="{{person.partForm.lastname}}" class="form-control disabled" disabled required/>
               </div>
             </div>
 
             <div class="form-group">
               <label class="col-sm-2 control-label-center">Gender</label>
-              <div class="col-sm-6 control-label-center input-group">
+              <div class="col-sm-6">
                 <select id="gender" class="form-control" data-style="btn-inverse" data-ng-model="person.partForm.gender" data-ng-options="genOp.value as genOp.name for genOp in proReg.genderOptions"></select>
               </div>
             </div>
@@ -81,31 +82,22 @@
             <div class="form-group">
               <div class="alert alert-danger" role="alert" data-ng-show="partForm.birthday.$dirty && partForm.birthday.$error.required">Birthday is required</div>
               <label class="col-sm-2 control-label-center">Birthday</label>
-              <!--<div class="col-sm-6 control-label-center input-group">
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
-                <input type="text" name="birthday" class="form-control" datepicker-popup="M/d/yyyy" value="{{person.partForm.birthday}}" ng-model="person.partForm.birthday" is-open="proReg.datepickers[$index]" min-date="'1900-01-01'" max-date="'2015-06-22'" datepicker-options="proReg.dateOptions" ng-required="true" close-text="Close">
-              </div>-->
-
-                <div class="col-sm-6 control-label-center input-group">
-                 <span class="input-group-addon">
-                   <i class="glyphicon glyphicon-calendar "></i>
-                 </span>
-                <input class="form-control" ng-model="person.partForm.birthday" data-date-format="M/d/yyyy" name="date" bs-datepicker type="text">
+                <div class="col-sm-6">
+                 <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span><!--
+                --><input class="form-control" ng-model="person.partForm.birthday" data-date-format="M/d/yyyy" name="date" bs-datepicker type="text"></span>
               </div>
             </div>
 
             <div class="form-group">
               <label class="col-sm-2 control-label-center">Grade</label>
-              <div class="col-sm-6 control-label-center input-group">
+              <div class="col-sm-6">
                 <select id="grade" class="form-control" data-style="btn-inverse" data-ng-model="person.partForm.grade" data-ng-options="gradeOp.value as gradeOp.name for gradeOp in proReg.gradeOptions"></select>
               </div>
             </div>
 
             <div class="form-group">
               <label class="col-sm-2 control-label-center">&nbsp;</label>
-              <div class="col-sm-6 control-label-center input-group">
+              <div class="col-sm-6">
                 <button type="submit" id="submit" value="Submit" class="btn btn-info" data-ng-enable="partForm.$valid"><i class="fa fa-caret-square-o-right"></i> Save and Continue</button>
               </div>
             </div>
@@ -159,8 +151,11 @@
               <div ng-if="field.type=='checkbox'" class="form-group" >
                 <label class="col-sm-2 control-label-center">{{field.label}}</label>
                 <div class="col-sm-6">
-                  <input type="checkbox" data-ng-if="person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}" required/>
+                  <!--<input type="checkbox" data-ng-if="person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}" required/>
                   <input type="checkbox" data-ng-if="!person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}"/>
+
+                  --><checkbox class="btn-default" data-ng-if="person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"></checkbox>
+                  <checkbox class="btn-default" data-ng-if="!person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"></checkbox>
                 </div>
               </div>
             </div>
@@ -227,7 +222,7 @@
 
           <div class="panel-body">
 
-            <div class="table-responsive">
+            <div class="table-responsive hidden-xs">
               <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -255,6 +250,34 @@
               </table>
             </div>
 
+            <div class="table-responsive visible-xs">
+              <table class="table table-bordered">
+                <thead>
+                <tr>
+                  <td></td>
+                  <td>Add-On Info</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="pkg in person.packageForm">
+                  <td scope="row">
+                    <div class="form-group" >
+                      <div class="col-sm-6">
+                        <input type="checkbox" data-ng-if="pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name" required/>
+                        <input type="checkbox" data-ng-if="!pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name"/>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p>{{pkg.item_name}}</p>
+                    <p>{{pkg.item_code}}</p>
+                    <p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
             <div class="form-group">
               <div class="col-sm-6">
                 <button type="submit" id="submitPackages" value="Submit" class="btn btn-info" data-ng-enable="packageForm.$valid"><i class="fa fa-caret-square-o-right"></i> Save and Continue</button>
@@ -277,7 +300,7 @@
 
           <div class="panel-body">
 
-            <div class="table-responsive">
+            <div class="table-responsive hidden-xs">
               <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -300,6 +323,34 @@
                   <td>{{pay.item_name}}</td>
                   <td>{{pay.format_due_date}}</td>
                   <td><p data-ng-repeat="fee in pay.fees">{{fee.fee_name}} ${{fee.fee_amount}}</p></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-responsive visible-xs">
+              <table class="table table-bordered">
+                <thead>
+                <tr>
+                  <td></td>
+                  <td>Payment Info</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="pay in person.paymentsForm">
+                  <td scope="row">
+                    <div class="form-group" >
+                      <div class="col-sm-6">
+                        <input type="checkbox" data-ng-if="pay.required" data-ng-model="pay.selected"  name="pay.item_name" required/>
+                        <input type="checkbox" data-ng-if="!pay.required" data-ng-model="pay.selected"  name="pay.item_name"/>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p>{{pay.item_name}}</p>
+                    <p>{{pay.format_due_date}}</p>
+                    <p data-ng-repeat="fee in pay.fees">{{fee.fee_name}} ${{fee.fee_amount}}</p>
+                  </td>
                 </tr>
                 </tbody>
               </table>
