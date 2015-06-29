@@ -1,3 +1,9 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
+.ng-cloak, .x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+    display: none !important;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Open Sans', sans-serif;
 }
@@ -674,17 +680,15 @@ aside .aside-dialog .aside-footer:before,
 
 @media only screen and (max-width : 480px) {
     .aside {
-        width:  360px;
+        width: 360px;
         top: 0px;
+        left:25px!important;
     }
 }
 
 @media only screen and (min-width : 480px) {
     .aside, .panel-body {
         max-width: 991px;
-    }
-    .aside{
-        top: 25px;
     }
 }
 

@@ -86,7 +86,6 @@ angular
             $anchorScroll('pageTop');
         });
 
-        console.log('test');
         ActiveUser.getFromLocal();
 
         $rootScope.$on('$routeChangeStart', function (event, next) {
@@ -193,7 +192,6 @@ angular
         {
           var deferred = $q.defer();
 
-          setTimeout(function() {
             deferred.notify('Setting user in local storage.');
 
             putUserInLocalStorage(userData).then(function(response) {
@@ -205,7 +203,6 @@ angular
               }
             );
 
-          }, 1000);
 
           return deferred.promise;
         }

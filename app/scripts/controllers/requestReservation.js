@@ -10,6 +10,8 @@
 angular.module('bluereconlineApp')
     .controller('RequestReservation', ['$scope', '$http',  'BLUEREC_ONLINE_CONFIG', '$routeParams','ActiveUser',  function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams, ActiveUser) {
 
+        $scope.eventSource=[];
+
         $scope.userLoggedIn=false;
 
         /*ActiveUser.getFromLocal().then(function success(response) {
@@ -26,7 +28,7 @@ angular.module('bluereconlineApp')
         {$scope.validLogin=false;}*/
 
         $scope.userLoggedIn=ActiveUser.isLoggedIn();
-console.log($scope.userLoggedIn);
+
 
         console.log('test');
         /*if(!$scope.validLogin)
@@ -52,8 +54,6 @@ console.log($scope.userLoggedIn);
         $scope.emailAddress = '';
         $scope.contactMethod = '';
 
-        //$scope.eventSource=[];
-
         $scope.selectedDate= new Date();
 
         $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
@@ -71,7 +71,7 @@ console.log($scope.userLoggedIn);
             'checked': false
         };
 
-        $scope.facilityString = function(){
+        $scope.getFacilityString = function(){
 
             var $facilityString='';
 
@@ -135,7 +135,7 @@ console.log($scope.userLoggedIn);
             {
                 $scope.contactCheckAlert=false;
 
-                var $facilityString=$scope.facilityString();
+                var $facilityString=$scope.getFacilityString();
 
                 var req = {
                     method: 'POST',
@@ -180,7 +180,6 @@ console.log($scope.userLoggedIn);
             {
                 $scope.contactCheckAlert=true;
             }
-
         };
 
 
@@ -219,12 +218,11 @@ console.log($scope.userLoggedIn);
 
         $scope.onFacilityChecked = function()
         {
-            $scope.eventSource=null;
-
-            var $facilityString=$scope.facilityString();
+            var $facilityString = $scope.getFacilityString();
 
             if($facilityString !== '')
             {
+
                 var req = {
                     method: 'POST',
                     url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservationavailability/',
@@ -234,19 +232,21 @@ console.log($scope.userLoggedIn);
                     data: {'facilities': $facilityString}
                 };
 
-                $http(req)
-                    .success(function (data) {
+                $http(req).success(function (data) {
+                    console.log($facilityString);
+                    $scope.eventSource = data;
+                });
 
-                        $scope.eventSource = data;
-
-                        //console.log($scope.eventSource);
-                    });
             }
             else
             {
+                $scope.eventSource = null;
 
+                console.table($scope.eventSource);
                 //$scope.changeMode('week');
             }
+
+            $scope.$broadcast('eventSourceElementChanged');
 
             $scope.calculateFeeAmount();
         };

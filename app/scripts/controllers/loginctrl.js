@@ -44,7 +44,7 @@ angular.module('bluereconlineApp')
     {
       var deferred = $q.defer();
 
-      setTimeout(function() {
+
         deferred.notify('Trying to set the user.');
 
         if(data.validLogin) {
@@ -65,7 +65,7 @@ angular.module('bluereconlineApp')
           log.setLoginError(data.loginError);
           return false;
         }
-      }, 1000);
+
 
       return deferred.promise;
     }
