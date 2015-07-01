@@ -1,0 +1,48 @@
+<div>
+
+<h3>Account Settings</h3>
+
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
+      <h4 class="panel-title" style="padding-top: 10px;">Change Password</h4>
+    </div>
+
+    <form name="passwordForm" class="form-horizontal" role="form" ng-submit="">
+      <ng-form name="passwordForm">
+        <div class="panel-body">
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label-center">Current Password</label>
+            <div class="col-sm-6">
+              <input type="password" id="firstname" data-ng-model="person.partForm.firstname" value="" class="form-control disabled" required/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label-center">New Password</label>
+            <div class="col-sm-6">
+              <input type="password" id="firstname" data-ng-model="person.partForm.firstname" value="" class="form-control disabled" required/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label-center">Confirm password</label>
+            <div class="col-sm-6">
+              <input type="password" id="firstname" data-ng-model="person.partForm.firstname" value="" class="form-control disabled" required/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label-center">&nbsp;</label>
+            <div class="col-sm-6">
+              <button type="submit" id="submit" value="Submit" class="btn btn-info" data-ng-enable="partForm.$valid"><i class="fa fa-save"></i> Save Password</button>
+            </div>
+          </div>
+
+        </div>
+      </ng-form>
+    </form>
+  </div>
+
+</div>
+

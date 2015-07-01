@@ -36,42 +36,54 @@ angular
 
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
         $routeProvider
-          .when('/:orgurl', {
-              templateUrl: 'views/programs.html',
-              controller: 'ProgramList'
-          })
-          .when('/:orgurl/home', {
-            templateUrl: 'views/home.html',
-            controller: 'HomeCtrl',
-            controllerAs: 'home'
-          })
-          .when('/:orgurl/login', {
-            templateUrl: 'views/login.html',
-            controller: 'LoginCtrl',
-            controllerAs: 'log'
-          })
-          .when('/:orgurl/programs', {
-            templateUrl: 'views/programs.html',
-            controller: 'ProgramList'
-          })
-          .when('/:orgurl/programinfo/:itemid', {
-            templateUrl: 'views/programinfo.html',
-            controller: 'ProgramInfo'
-          })
-          .when('/:orgurl/register/:itemid', {
-            templateUrl: 'views/programRegister.html',
-            controller: 'ProgramRegister',
-            controllerAs: 'proReg'
-          })
-          .when('/:orgurl/memberships', {
-            templateUrl: 'views/memberships.html'
-          })
-          .when('/:orgurl/reservations', {
-            templateUrl: 'views/requestReservation.html'
-          })
-          .otherwise({
-            redirectTo: '/:orgurl/login'
-          });
+            .when('/:orgurl', {
+                templateUrl: 'views/programs.html',
+                controller: 'ProgramList'
+            })
+            .when('/:orgurl/home', {
+                templateUrl: 'views/home.html',
+                controller: 'HomeCtrl',
+                controllerAs: 'home'
+            })
+            .when('/:orgurl/login', {
+                templateUrl: 'views/login.html',
+                controller: 'LoginCtrl',
+                controllerAs: 'log'
+            })
+            .when('/:orgurl/myaccount', {
+                templateUrl: 'views/userSettings/myAccount.html',
+                controller: 'MyAccountCtrl'
+            })
+            .when('/:orgurl/household', {
+                templateUrl: 'views/userSettings/household.html',
+                controller: 'MyHouseholdCtrl'
+            })
+            .when('/:orgurl/purchases', {
+                templateUrl: 'views/userSettings/purchases.html',
+                controller: 'MyPurchasesCtrl'
+            })
+            .when('/:orgurl/programs', {
+                templateUrl: 'views/programs.html',
+                controller: 'ProgramList'
+            })
+            .when('/:orgurl/programinfo/:itemid', {
+                templateUrl: 'views/programinfo.html',
+                controller: 'ProgramInfo'
+            })
+            .when('/:orgurl/register/:itemid', {
+                templateUrl: 'views/programRegister.html',
+                controller: 'ProgramRegister',
+                controllerAs: 'proReg'
+            })
+            .when('/:orgurl/memberships', {
+                templateUrl: 'views/memberships.html'
+            })
+            .when('/:orgurl/reservations', {
+                templateUrl: 'views/requestReservation.html'
+            })
+            .otherwise({
+                redirectTo: '/:orgurl/login'
+            });
 
 
         $locationProvider.html5Mode();
