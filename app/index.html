@@ -26,8 +26,9 @@
 
 
       <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.13.1/TweenMax.min.js"></script>
+    <!--<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>-->
+    <script src='//maps.googleapis.com/maps/api/js?libraries=places&sensor=false'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/gsap/1.13.1/TweenMax.min.js'></script>
   </head>
   <body ng-app="bluereconlineApp"><a id="pageTop"></a>
     <!--[if lt IE 10]>
@@ -75,6 +76,7 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li ng-cloak data-toggle="collapse" data-target=".navbar-collapse"  class="clicky" data-ng-hide="!currentUser.validLogin"
+                data-template="partials/shoppingcart.html" data-placement="right" data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body">
                 <a><i class="fa fa-shopping-cart"></i> Cart <span class="badge" > 4 </span></a></li>
 
             <li class="clicky"  data-toggle="collapse" data-target=".navbar-collapse" data-ng-hide="!currentUser.validLogin" ng-cloak>
@@ -134,8 +136,7 @@
     <script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
     <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
     <script src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
-    <script src="bower_components/object-path/index.js"></script>
-    <script src="bower_components/ng-autocomplete/angucomplete.js"></script>
+    <script src="bower_components/ngAutocomplete/src/ngAutocomplete.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -155,6 +156,8 @@
         <script src="scripts/controllers/requestReservation.js"></script>
         <script src="scripts/controllers/currentMembershipCtrl.js"></script>
         <script src="scripts/controllers/membershipListCtrl.js"></script>
+        <script src="scripts/controllers/myAccountCtrl.js"></script>
+        <script src="scripts/directives/stateSelect.js"></script>
         <!-- endbuild -->
 </body>
 </html>

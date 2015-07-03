@@ -44,8 +44,7 @@ module.exports = function(config) {
       'bower_components/angular-strap/dist/angular-strap.tpl.js',
       'bower_components/angular-loading-bar/build/loading-bar.js',
       'bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js',
-      'bower_components/object-path/index.js',
-      'bower_components/ng-autocomplete/angucomplete.js',
+      'bower_components/ngAutocomplete/src/ngAutocomplete.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

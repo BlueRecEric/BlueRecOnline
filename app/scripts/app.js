@@ -28,7 +28,8 @@ angular
     'dynform',
     'mgcrea.ngStrap',
     'ui.rCalendar',
-    'ui.checkbox'
+    'ui.checkbox',
+    'ngAutocomplete'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;

@@ -11,8 +11,22 @@ angular.module('bluereconlineApp')
   .controller('MyAccountCtrl', ['$scope', 'ActiveUser', 'MyAccountLoader', function ($scope,ActiveUser,MyAccountLoader) {
       if(ActiveUser.isLoggedIn())
       {
+        $scope.addrResult = '';
+        $scope.addrDetails = '';
+        $scope.addrOptions = null;
+
+        $scope.watchAddressForm = function () {
+          return $scope.myAccount.addressForm.addr;
+        };
+
+        $scope.$watch($scope.watchAddressForm, function () {
+          console.log('address changed');
+        }, true);
+
+        $scope.myAccount = [];
+        $scope.myAccount.residencyForm = [];
         $scope.myAccount = MyAccountLoader;
-        $scope.myAccount.loadAccount();
+        //$scope.myAccount.loadAccount();
       }
   }])
   .factory('MyAccountLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser) {

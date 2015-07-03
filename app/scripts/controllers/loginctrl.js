@@ -13,6 +13,11 @@ angular.module('bluereconlineApp')
 
     log.orgurl = $routeParams.orgurl;
 
+      if(ActiveUser.isLoggedIn())
+      {
+        $location.path('/' + log.orgurl + '/home');
+      }
+
     function login(em,pass)
     {
       AuthService.login(em, pass).then(
