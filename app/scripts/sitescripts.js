@@ -2,24 +2,27 @@
  * Created by Eric on 5/7/2015.
  */
 'use strict';
+$(document).ready(function() {
 
-$(document).ready(function () {
+    $('#nav').affix({
+        offset: {
+            top: $('header').height()
+        }
+    });
+    $('#nav').on('affix.bs.affix', function () {
+        var navHeight = $('.navbar').outerHeight(true);
 
-    var menu = $('.bluerecnav');
-     var origOffsetY = menu.offset().top + 0;
+        $('#nav + .container').css('margin-top', navHeight);
+    });
+    $('#nav').on('affix-top.bs.affix', function () {
+        $('#nav + .container').css('margin-top', 0);
+    });
 
-     //console.log('Offset:' + origOffsetY);
 
-     function scroll() {
-     if ($(window).scrollTop() > origOffsetY) {
-     $('.bluerecnavhidden').addClass('bluerecnavhidden2');
-
-     } else {
-     $('.bluerecnavhidden').removeClass('bluerecnavhidden2');
-     }
-
-     }
-
-     document.onscroll = scroll;
+    $('#sidebar').affix({
+        offset: {
+            top: 17
+        }
+    });
 
 });

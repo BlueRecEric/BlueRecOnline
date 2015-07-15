@@ -111,15 +111,14 @@ body > .container {
     border-radius: 0px !important;
 }
 
-.bluerecnavhidden {
-    display: none;
-    min-height:52px;
+
+#nav.affix {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index:10;
 }
 
-.bluerecnavhidden2 {
-    min-height:72px!important;
-    display: block;
-}
 
 .listing img
 {
@@ -395,11 +394,6 @@ aside .aside-dialog .aside-footer:before,
 
 .clicky {
     cursor: pointer;
-}
-
-#nav.affix {
-
-    width: 100%!important;
 }
 
 .textarea-responsive {
