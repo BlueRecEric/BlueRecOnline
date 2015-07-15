@@ -74,10 +74,66 @@
 
 
 
-          <div class="form-group animate-show animate-hide" ng-hide="true">
-              <label class="col-sm-3 control-label" >Packages:</label>
-              <div class="col-sm-9">
-                  <label  class=" control-label"  style="font-weight: normal;">Select additional options</label>
+          <div class="form-group animate-show animate-hide" ng-show="!hideBasicInfo && displayPackages">
+              <div class="panel-body">
+
+                  <div class="table-responsive hidden-xs">
+                      <table class="table table-bordered">
+                          <thead>
+                          <tr>
+                              <td></td>
+                              <td>Add-On Name</td>
+                              <td>Add-On Code</td>
+                              <td>Fee(s)</td>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr data-ng-repeat="pkg in rentalPackages">
+                              <td scope="row">
+                                  <div class="form-group" >
+                                      <div class="col-sm-6">
+                                          <input type="checkbox" data-ng-if="pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name" required/>
+                                          <input type="checkbox" data-ng-if="!pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name"/>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>{{pkg.item_name}}</td>
+                              <td>{{pkg.item_code}}</td>
+                              <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
+                          </tr>
+                          </tbody>
+                      </table>
+                  </div>
+
+                  <div class="table-responsive visible-xs">
+                      <table class="table table-bordered">
+                          <thead>
+                          <tr>
+                              <td></td>
+                              <td>Add-On Info</td>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr data-ng-repeat="pkg in rentalPackages">
+                              <td scope="row">
+                                  <div class="form-group" >
+                                      <div class="col-sm-6">
+                                          <input type="checkbox" data-ng-if="pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name" required/>
+                                          <input type="checkbox" data-ng-if="!pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name"/>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>
+                                  <p>{{pkg.item_name}}</p>
+                                  <p>{{pkg.item_code}}</p>
+                                  <p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p>
+                              </td>
+                          </tr>
+                          </tbody>
+                      </table>
+                  </div>
+
+                
               </div>
           </div>
 
@@ -134,67 +190,54 @@
               </div>
           </div>
 
-          <div class="form-group animate-show animate-hide" ng-hide="true">
-              <label class="col-sm-3 control-label" >Will you be serving alcohol?*</label>
-              <div class="col-sm-9">
-                  <select ng-model="alcohol" class="form-control" style="width: 125px;">
-                      <option value="">--Select--</option>
-                      <option value="Y">Yes</option>
-                      <option value="N">No</option>
-                      <option value="U">Undecided</option>
-                  </select>
-              </div>
-          </div>
-
 
           <div class="form-group animate-show animate-hide" ng-show="!hideBasicInfo && displayCustomFields">
 
 
 
-                              <div class="panel-body">
+              <div class="panel-body">
 
-                                  <div ng-repeat="field in rentalCustomFields">
-                                      <!-- TEXT FIELDS -->
-                                      <div ng-if="field.type=='text'" class="form-group">
-                                          <label class="col-sm-2 control-label-center">{{field.label}}</label>
-                                          <div class="col-sm-6">
-                                              <input type="{{field.type}}" id="{{field.id}}" data-ng-model="rentalCustomFields[$index].response_value" class="form-control" required/>
-                                          </div>
-                                      </div>
+                  <div ng-repeat="field in rentalCustomFields">
+                      <!-- TEXT FIELDS -->
+                      <div ng-if="field.type=='text'" class="form-group">
+                          <label class="col-sm-2 control-label-center">{{field.label}}</label>
+                          <div class="col-sm-6">
+                              <input type="{{field.type}}" id="{{field.id}}" data-ng-model="rentalCustomFields[$index].response_value" class="form-control" required/>
+                          </div>
+                      </div>
 
-                                      <!-- NUMERIC FIELDS -->
-                                      <div ng-if="field.type=='number'" class="form-group">
-                                          <label class="col-sm-2 control-label-center">{{field.label}}</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" id="{{field.name}}" data-ng-model="rentalCustomFields[$index].response_value"  class="form-control" required/>
-                                          </div>
-                                      </div>
+                      <!-- NUMERIC FIELDS -->
+                      <div ng-if="field.type=='number'" class="form-group">
+                          <label class="col-sm-2 control-label-center">{{field.label}}</label>
+                          <div class="col-sm-6">
+                              <input type="text" id="{{field.name}}" data-ng-model="rentalCustomFields[$index].response_value"  class="form-control" required/>
+                          </div>
+                      </div>
 
-                                      <!-- SELECT FIELDS -->
-                                      <div ng-if="field.type=='select'" class="form-group" >
-                                          <label class="col-sm-2 control-label-center">{{field.label}}</label>
-                                          <div class="col-sm-6">
-                                              <select data-ng-model="rentalCustomFields[$index].response_value" class="form-control" prompt="Select One" required>
-                                                  <option data-ng-repeat="option in field.options">{{option}}</option>
-                                              </select>
-                                          </div>
-                                      </div>
+                      <!-- SELECT FIELDS -->
+                      <div ng-if="field.type=='select'" class="form-group" >
+                          <label class="col-sm-2 control-label-center">{{field.label}}</label>
+                          <div class="col-sm-6">
+                              <select data-ng-model="rentalCustomFields[$index].response_value" class="form-control" prompt="Select One" required>
+                                  <option data-ng-repeat="option in field.options">{{option}}</option>
+                              </select>
+                          </div>
+                      </div>
 
-                                      <!-- CHECKBOX FIELDS -->
-                                      <div ng-if="field.type=='checkbox'" class="form-group" >
-                                          <label class="col-sm-2 control-label-center">{{field.label}}</label>
-                                          <div class="col-sm-6">
-                                              <!--<input type="checkbox" data-ng-if="rentalCustomFields[$index].required" data-ng-model="rentalCustomFields[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}" required/>
-                                              <input type="checkbox" data-ng-if="!rentalCustomFields[$index].required" data-ng-model="rentalCustomFields[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}"/>
+                      <!-- CHECKBOX FIELDS -->
+                      <div ng-if="field.type=='checkbox'" class="form-group" >
+                          <label class="col-sm-2 control-label-center">{{field.label}}</label>
+                          <div class="col-sm-6">
+                              <!--<input type="checkbox" data-ng-if="rentalCustomFields[$index].required" data-ng-model="rentalCustomFields[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}" required/>
+                              <input type="checkbox" data-ng-if="!rentalCustomFields[$index].required" data-ng-model="rentalCustomFields[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}"/>
 
-                                              --><checkbox class="btn-default" data-ng-if="rentalCustomFields[$index].required" data-ng-model="rentalCustomFields[$index].response_value" required></checkbox>
-                                              <checkbox class="btn-default" data-ng-if="!rentalCustomFields[$index].required" data-ng-model="rentalCustomFields[$index].response_value"></checkbox>
-                                          </div>
-                                      </div>
-                                  </div>
+                              --><checkbox class="btn-default" data-ng-if="rentalCustomFields[$index].required" data-ng-model="rentalCustomFields[$index].response_value" required></checkbox>
+                              <checkbox class="btn-default" data-ng-if="!rentalCustomFields[$index].required" data-ng-model="rentalCustomFields[$index].response_value"></checkbox>
+                          </div>
+                      </div>
+                  </div>
 
-                              </div>
-
+              </div>
 
 
 

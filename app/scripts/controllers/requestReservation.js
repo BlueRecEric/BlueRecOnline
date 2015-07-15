@@ -17,6 +17,7 @@ angular.module('bluereconlineApp')
 
         $scope.hideBasicInfo=true;
 
+        $scope.displayPackages=false;
         $scope.displayCustomFields=false;
 
         $scope.rentalCodeSearch = '';
@@ -25,8 +26,6 @@ angular.module('bluereconlineApp')
 
         $scope.reservationDetails = '';
         $scope.reservationNotes = '';
-
-        $scope.alcohol = '';
 
         $scope.phoneNumber = '';
         $scope.emailAddress = '';
@@ -41,6 +40,7 @@ angular.module('bluereconlineApp')
 
         $scope.eventSource=[];
 
+        $scope.rentalPackages=[];
         $scope.rentalCustomFields=[];
 
         $anchorScroll('pageTop');
@@ -76,6 +76,7 @@ angular.module('bluereconlineApp')
         {
             if($scope.rentalCodeSearch !== '')
             {
+                $scope.displayPackages = false;
                 $scope.displayCustomFields = false;
 
                 var index, len;
@@ -100,16 +101,12 @@ angular.module('bluereconlineApp')
 
                 $http(req)
                 .success(function (data) {
-                    console.table(data.customForm);
+                    //console.table(data);
 
-                    $scope.rentalFacilities = data.fac_data;
+                    $scope.rentalFacilities = data;
 
-                    $scope.rentalCustomFields = data.customForm;
-
-                    if($scope.rentalCustomFields.length > 0)
-                    {
-                        $scope.displayCustomFields = true;
-                    }
+                    $scope.setPackages();
+                    $scope.setCustomFields();
 
                     $scope.hideBasicInfo=false;
                 });
@@ -119,6 +116,55 @@ angular.module('bluereconlineApp')
             {
                 $scope.resetForm();
             }
+        };
+
+        $scope.setPackages = function()
+        {
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/'+$scope.rentalCodeSearch+'/packages',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'uid': ActiveUser.userData.user_id}
+            };
+
+            $http(req)
+                .success(function (data) {
+                    //console.table(data);
+
+                    $scope.rentalPackages = data.packageForm;
+
+                    if($scope.rentalPackages.length > 0)
+                    {
+                        $scope.displayPackages = true;
+                    }
+                });
+        };
+
+        $scope.setCustomFields = function()
+        {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/'+$scope.rentalCodeSearch+'/customfields',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'uid': ActiveUser.userData.user_id}
+            };
+
+            $http(req)
+            .success(function (data) {
+               // console.table(data);
+
+                $scope.rentalCustomFields = data.customForm;
+
+                if($scope.rentalCustomFields.length > 0)
+                {
+                    $scope.displayCustomFields = true;
+                }
+            });
         };
 
         $scope.formatMySQLDate = function(formatDate, formatTime) {
@@ -240,7 +286,6 @@ angular.module('bluereconlineApp')
                             'endTime': $scope.formatMySQLDate($scope.selectedDate, $scope.endTime),
                             'details': $scope.reservationDetails,
                             'notes': $scope.reservationNotes,
-                            'alcohol': $scope.alcohol,
                             'phoneNumber': $scope.phoneNumber,
                             'emailAddress': $scope.emailAddress,
                             'contactMethod': $scope.contactMethod,
@@ -272,15 +317,16 @@ angular.module('bluereconlineApp')
                 $anchorScroll('pageTop');
 
                 $scope.hideBasicInfo=true;
+
+                $scope.displayPackages=false;
                 $scope.displayCustomFields=false;
 
+                $scope.rentalPackages = [];
                 $scope.rentalCustomFields = [];
                 $scope.eventSource = [];
 
                 $scope.reservationDetails = '';
                 $scope.reservationNotes = '';
-
-                $scope.alcohol = '';
 
                 $scope.phoneNumber = '';
                 $scope.emailAddress = '';
