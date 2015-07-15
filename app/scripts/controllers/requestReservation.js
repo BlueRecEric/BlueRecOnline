@@ -17,6 +17,8 @@ angular.module('bluereconlineApp')
 
         $scope.hideBasicInfo=true;
 
+        $scope.displayCustomFields=false;
+
         $scope.rentalCodeSearch = '';
 
         $scope.rentalDescription = 'N/A';
@@ -39,9 +41,11 @@ angular.module('bluereconlineApp')
 
         $scope.eventSource=[];
 
+        $scope.rentalCustomFields=[];
+
         $anchorScroll('pageTop');
 
-        $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/requestreservation/')
+        $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/requestreservation')
             .success(function (data) {
                 $scope.rentalDropDown = data;
                // //console.log( $scope.rentalDropDown[1]);
@@ -72,6 +76,8 @@ angular.module('bluereconlineApp')
         {
             if($scope.rentalCodeSearch !== '')
             {
+                $scope.displayCustomFields = false;
+
                 var index, len;
 
                 for (index = 0, len = $scope.rentalDropDown.length; index < len; ++index) {
@@ -83,9 +89,27 @@ angular.module('bluereconlineApp')
                     }
                 }
 
-                $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservationfacilities/'+$scope.rentalCodeSearch)
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/'+$scope.rentalCodeSearch+'/reservationfacilities',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {'uid': ActiveUser.userData.user_id}
+                };
+
+                $http(req)
                 .success(function (data) {
-                    $scope.rentalFacilities = data;
+                    console.table(data.customForm);
+
+                    $scope.rentalFacilities = data.fac_data;
+
+                    $scope.rentalCustomFields = data.customForm;
+
+                    if($scope.rentalCustomFields.length > 0)
+                    {
+                        $scope.displayCustomFields = true;
+                    }
 
                     $scope.hideBasicInfo=false;
                 });
@@ -139,7 +163,7 @@ angular.module('bluereconlineApp')
 
                 var req = {
                     method: 'POST',
-                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservationavailability/',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/reservationavailability',
                     headers: {
                         'Content-Type': undefined
                     },
@@ -204,7 +228,7 @@ angular.module('bluereconlineApp')
 
                     var req = {
                         method: 'POST',
-                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/submitreservationrequest/',
+                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/submitreservationrequest',
                         headers: {
                             'Content-Type': undefined
                         },
@@ -248,7 +272,9 @@ angular.module('bluereconlineApp')
                 $anchorScroll('pageTop');
 
                 $scope.hideBasicInfo=true;
+                $scope.displayCustomFields=false;
 
+                $scope.rentalCustomFields = [];
                 $scope.eventSource = [];
 
                 $scope.reservationDetails = '';
