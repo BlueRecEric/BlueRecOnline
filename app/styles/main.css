@@ -379,12 +379,14 @@ aside .aside-dialog .aside-footer:before,
         left:25px!important;
         width: auto;
     }
+
 }
 
 @media only screen and (min-width : 480px) {
     .aside {
         max-width: 991px;
     }
+
 }
 
 .am-fade-and-slide-right {
@@ -399,4 +401,16 @@ aside .aside-dialog .aside-footer:before,
 
     width: 100%!important;
 }
+
+.textarea-responsive {
+    width:100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100px;
+
+    resize:vertical;
+}
+
 

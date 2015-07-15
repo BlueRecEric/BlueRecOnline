@@ -29,67 +29,156 @@
 
     <div ng-show="userLoggedIn">
 
-          <form class="form-horizontal">
-
-          <div class="alert alert-info animate-show animate-hide" role="alert" ng-hide="!hideBasicInfo">
-              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-
-              Select Rental Type to Continue
-          </div>
+        <form class="form-horizontal">
 
 
-          <div class="form-group animate-show animate-hide">
-              <label class="col-sm-3 control-label" >Rental Purpose*:</label>
-              <div class="col-sm-9">
+          <div class="panel panel-default">
+              <div class="panel-heading clearfix">
+                  <h3 class="panel-title">Available Reservation</h3>
+              </div>
 
-                  <select ng-model="rentalCodeSearch" class="form-control" style="width: 250px;" ng-change="setNewRental()">
-                      <option value="">--Select Rental Type--</option>
-                      <option ng-repeat="rentalRow in rentalDropDown" value="{{rentalRow.item_id}}">{{rentalRow.item_name}}</option>
-                  </select>
+              <div class="panel-body">
+                  <div class="alert alert-info animate-show animate-hide" role="alert" ng-hide="!hideBasicInfo">
+                      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+
+                      Select Reservation Type to Continue
+                  </div>
+
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">Reservation Type:</label>
+
+                      <div class="col-sm-6">
+                          <select ng-model="rentalCodeSearch" class="form-control" style="width: 250px;" ng-change="setNewRental()">
+                              <option value="">--Select Rental Type--</option>
+                              <option ng-repeat="rentalRow in rentalDropDown" value="{{rentalRow.item_id}}">{{rentalRow.item_name}}</option>
+                          </select>
+                      </div>
+                  </div>
+
+
+                  <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
+                      <label class="col-sm-2 control-label-center">Description:</label>
+
+                      <div class="col-sm-6">
+                          <label class="control-label-center" style="font-weight: normal;">{{rentalDescription}}</label>
+                      </div>
+                  </div>
+
+
+
 
 
               </div>
           </div>
 
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label">Description:</label>
-              <div class="col-sm-9">
-                  <label class="control-label" style="font-weight: normal;">{{rentalDescription}}</label>
+
+
+
+          <div class="panel panel-default animate-show animate-hide" ng-hide="hideBasicInfo">
+              <div class="panel-heading clearfix">
+                  <h3 class="panel-title">Available Facilities</h3>
+              </div>
+
+              <div class="panel-body">
+
+
+                  <label class="col-sm-2 control-label-center">Facilities:</label>
+
+                  <div class="col-sm-6">
+                      <div class="form-vertical" ng-repeat="fac in rentalFacilities">
+
+                          <input type="checkbox" ng-model="fac.checked" ng-change="onFacilityChecked()" id="{{fac.item_id}}{{}}" >
+                          <label for="{{fac.item_id}}{{}}" style="font-weight: normal;">{{fac.item_name}}</label>
+
+                      </div>
+                  </div>
+
+
               </div>
           </div>
 
 
 
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label">Facilities*:</label>
-              <div class="col-sm-9" style="padding-top: 9px;">
-                  <div class="form-vertical" ng-repeat="fac in rentalFacilities">
+          <div class="panel panel-default animate-show animate-hide" ng-hide="hideBasicInfo">
+              <div class="panel-heading clearfix">
+                  <h3 class="panel-title">Reservation Details</h3>
+              </div>
 
-                      <input type="checkbox" ng-model="fac.checked" ng-change="onFacilityChecked()" id="{{fac.item_id}}{{}}" >
-                      <label for="{{fac.item_id}}{{}}" style="font-weight: normal;">{{fac.item_name}}</label>
+              <div class="panel-body">
 
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">Requested Date*:</label>
+                      <div class="col-sm-6">
+                          <div class="input-group">
+                           <span class="input-group-addon " style="width: 25px;">
+                                 <i class="glyphicon glyphicon-calendar "></i>
+                            </span>
+                                  <input class="form-control" ng-model="selectedDate" name="date" bs-datepicker type="text" style="width: 150px;">
+
+                          <span class="input-group-addon" style="width: 250px;background-color: #ffffff; visibility: hidden;">
+
+                            </span>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">Start Time*:</label>
+                      <div class="col-sm-6">
+                          <div class="input-group">
+                              <div class="input-group-addon" style="width: 25px;"><i class="glyphicon glyphicon-time"></i></div>
+                              <input class="form-control" size="8" ng-model="startTime" name="startTime" bs-timepicker data-length="1"
+                                     data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;" ng-change="timeChanged()">
+
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">End Time*:</label>
+                      <div class="col-sm-6">
+                          <div class="input-group">
+                              <div class="input-group-addon" style="width: 25px;"><i class="glyphicon glyphicon-time"></i></div>
+                              <input class="form-control" size="8" ng-model="endTime" name="endTime" bs-timepicker data-length="1"
+                                     data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;" ng-change="timeChanged()">
+                          </div>
+                      </div>
+                  </div>
+
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">Additional Information:</label>
+                      <div class="col-sm-6">
+                          <textarea class="textarea-responsive" ng-model="reservationDetails"></textarea>
+                      </div>
                   </div>
               </div>
           </div>
 
 
+          <div class="panel panel-default animate-show animate-hide" ng-show="!hideBasicInfo && displayPackages">
+              <div class="panel-heading clearfix">
+                  <h3 class="panel-title">Add-Ons</h3>
+              </div>
 
-          <div class="form-group animate-show animate-hide" ng-show="!hideBasicInfo && displayPackages">
               <div class="panel-body">
 
                   <div class="table-responsive hidden-xs">
-                      <table class="table table-bordered">
+
+                      <table class="table" style="margin-bottom: 0px;">
                           <thead>
                           <tr>
                               <td></td>
-                              <td>Add-On Name</td>
-                              <td>Add-On Code</td>
-                              <td>Fee(s)</td>
+                              <td><strong>Add-On Name</strong></td>
+                              <td><strong>Add-On Code</strong></td>
+                              <td><strong>Fee(s)</strong></td>
                           </tr>
                           </thead>
-                          <tbody>
-                          <tr data-ng-repeat="pkg in rentalPackages">
-                              <td scope="row">
+                          <tbody >
+                          <tr data-ng-repeat="pkg in rentalPackages" >
+                              <td scope="row" style=" border:0px !important;">
                                   <div class="form-group" >
                                       <div class="col-sm-6">
                                           <input type="checkbox" data-ng-if="pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name" required/>
@@ -97,25 +186,20 @@
                                       </div>
                                   </div>
                               </td>
-                              <td>{{pkg.item_name}}</td>
-                              <td>{{pkg.item_code}}</td>
-                              <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
+                              <td style=" border:0px !important;">{{pkg.item_name}}</td>
+                              <td style=" border:0px !important;">{{pkg.item_code}}</td>
+                              <td style=" border:0px !important;"><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
                           </tr>
                           </tbody>
                       </table>
                   </div>
 
-                  <div class="table-responsive visible-xs">
-                      <table class="table table-bordered">
-                          <thead>
-                          <tr>
-                              <td></td>
-                              <td>Add-On Info</td>
-                          </tr>
-                          </thead>
+                  <div class="table-responsive visible-xs" style="border:0px !important;">
+                      <table class="table" style="margin-bottom: 0px;">
+
                           <tbody>
                           <tr data-ng-repeat="pkg in rentalPackages">
-                              <td scope="row">
+                              <td scope="row" style=" border:0px !important;">
                                   <div class="form-group" >
                                       <div class="col-sm-6">
                                           <input type="checkbox" data-ng-if="pkg.required" data-ng-model="pkg.selected"  name="pkg.item_name" required/>
@@ -123,7 +207,7 @@
                                       </div>
                                   </div>
                               </td>
-                              <td>
+                              <td style=" border:0px !important;">
                                   <p>{{pkg.item_name}}</p>
                                   <p>{{pkg.item_code}}</p>
                                   <p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p>
@@ -133,67 +217,16 @@
                       </table>
                   </div>
 
-                
               </div>
           </div>
 
 
 
 
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label" >Requested Date*:</label>
-              <div class="col-sm-9">
-                  <div class="input-group">
-                       <span class="input-group-addon " style="width: 25px;">
-                             <i class="glyphicon glyphicon-calendar "></i>
-                        </span>
-                      <input class="form-control" ng-model="selectedDate" name="date" bs-datepicker type="text" style="width: 150px;">
-
-                      <span class="input-group-addon" style="width: 250px;background-color: #ffffff; visibility: hidden;">
-
-                        </span>
-                  </div>
+          <div class="panel panel-default animate-show animate-hide" ng-show="!hideBasicInfo && displayCustomFields">
+              <div class="panel-heading clearfix">
+                  <h3 class="panel-title">Options</h3>
               </div>
-          </div>
-
-
-
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label" >Start Time*:</label>
-              <div class="col-sm-9">
-                  <div class="input-group">
-                      <div class="input-group-addon" style="width: 25px;"><i class="glyphicon glyphicon-time"></i></div>
-                      <input class="form-control" size="8" ng-model="startTime" name="startTime" bs-timepicker data-length="1"
-                             data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;" ng-change="timeChanged()">
-
-                  </div>
-              </div>
-          </div>
-
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label" >End Time*:</label>
-              <div class="col-sm-9">
-                  <div class="input-group">
-                      <div class="input-group-addon" style="width: 25px;"><i class="glyphicon glyphicon-time"></i></div>
-                      <input class="form-control" size="8" ng-model="endTime" name="endTime" bs-timepicker data-length="1"
-                             data-minute-step="15" data-arrow-behavior="picker" type="text" style="width: 150px;" ng-change="timeChanged()">
-                  </div>
-              </div>
-          </div>
-
-
-
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label" >Reservation Details:</label>
-              <div class="col-sm-9">
-                  <textarea ng-model="reservationDetails" rows="5" cols="35"></textarea>
-              </div>
-          </div>
-
-
-          <div class="form-group animate-show animate-hide" ng-show="!hideBasicInfo && displayCustomFields">
-
-
 
               <div class="panel-body">
 
@@ -238,75 +271,99 @@
                   </div>
 
               </div>
-
-
-
           </div>
 
 
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label" >Email Address:</label>
-              <div class="col-sm-9">
-                  <input ng-model="emailAddress" type="email" class="form-control" style="width: 250px;" />
+          <div class="panel panel-default animate-show animate-hide" ng-hide="hideBasicInfo">
+              <div class="panel-heading clearfix">
+                  <h3 class="panel-title">Personal Information</h3>
               </div>
-          </div>
 
+              <div class="panel-body">
 
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">Email Address:</label>
 
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label" >Phone Number:</label>
-              <div class="col-sm-9">
-                  <input ng-model="phoneNumber" type="text" class="form-control" style="width: 150px;" maxlength="10"/>
-              </div>
-          </div>
-
-
-
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label" >Preferred Contact Method*:</label>
-              <div class="col-sm-9">
-                  <select class="form-control" style="width: 125px;" ng-model="contactMethod">
-                      <option value="">--Select--</option>
-                      <option value="P">Phone</option>
-                      <option value="E">Email</option>
-                  </select>
-              </div>
-          </div>
-
-
-
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label" >Additional Notes:</label>
-              <div class="col-sm-9">
-                  <textarea ng-model="reservationNotes" rows="5" cols="35"></textarea>
-              </div>
-          </div>
-
-
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <label class="col-sm-3 control-label" >Estimated Rental Cost:</label>
-              <div class="col-sm-7">
-                  <label  class=" control-label">{{feeAmount | currency}} (Includes $0.00 deposit)</label>
-                  <br>
-                  <p>The estimated rental cost is based on information supplied at the time of the request and may change
-                      according to additional information, change in rental request, and/or residency status of the renter. This
-                      request is not an official rental until it has been approved and the renter has paid in full.</p>
-              </div>
-          </div>
-
-
-          <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
-              <div class="col-sm-offset-1 col-sm-10">
-                  <div >
-                      <label data-placement="bottom-left" data-type="info"  bs-enabled="agreementSigned.checked" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
-                             unselectable="on"
-                             onselectstart="return false;"
-                             onmousedown="return false;">
-                          <input ng-model="agreementSigned.checked" type="checkbox" checked="false"> I have read, understand, and agree to the <a href="" target="_blank">Terms and Conditions</a> regarding The Parks and Recreation Facility Reservations and Refund/Cancelation Policy.
-                      </label>
+                      <div class="col-sm-6">
+                          <input ng-model="emailAddress" type="email" class="form-control" style="width: 250px;" />
+                      </div>
                   </div>
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">Phone Number:</label>
+
+                      <div class="col-sm-6">
+                          <input ng-model="phoneNumber" type="text" class="form-control" style="width: 150px;" maxlength="10"/>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">Preferred Contact Method*:</label>
+
+                      <div class="col-sm-6">
+                          <select class="form-control" style="width: 125px;" ng-model="contactMethod">
+                              <option value="">--Select--</option>
+                              <option value="P">Phone</option>
+                              <option value="E">Email</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">Additional Notes:</label>
+
+                      <div class="col-sm-6">
+                          <textarea ng-model="reservationNotes" class="textarea-responsive"></textarea>
+                      </div>
+                  </div>
+
               </div>
           </div>
+
+
+
+          <div class="panel panel-default animate-show animate-hide" ng-hide="hideBasicInfo">
+              <div class="panel-heading clearfix">
+                  <h3 class="panel-title">Payment Information</h3>
+              </div>
+
+              <div class="panel-body">
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label-center">Estimated Cost:</label>
+
+                      <div class="col-sm-6">
+                          <label  class=" control-label-center">{{feeAmount | currency}} (Includes $0.00 deposit)</label>
+                          <br>
+                          <p>The estimated rental cost is based on information supplied at the time of the request and may change
+                              according to additional information, change in rental request, and/or residency status of the renter. This
+                              request is not an official rental until it has been approved and the renter has paid in full.</p>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+          <div class="panel panel-default animate-show animate-hide" ng-hide="hideBasicInfo">
+              <div class="panel-heading clearfix">
+                  <h3 class="panel-title">Agreement & Waivers</h3>
+              </div>
+
+              <div class="panel-body">
+                  <div class="form-group">
+                      <div class="col-sm-10">
+                              <p data-placement="bottom-left" data-type="info" bs-enabled="agreementSigned.checked" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
+                                     unselectable="on"
+                                     onselectstart="return false;"
+                                     onmousedown="return false;">
+                                  <input ng-model="agreementSigned.checked" type="checkbox" checked="false" > I have read, understand, and agree to the <a href="" target="_blank" style="font-weight: bold;">Terms and Conditions</a> regarding The Parks and Recreation Facility Reservations and Refund/Cancelation Policy.
+                              </p>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+
 
 
           <div class="form-group animate-show animate-hide" ng-hide="!contactCheckAlert" ng-cloak>
