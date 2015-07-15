@@ -12,21 +12,55 @@ angular.module('bluereconlineApp')
       if(ActiveUser.isLoggedIn())
       {
         $scope.addrResult = '';
-        $scope.addrDetails = '';
         $scope.addrOptions = null;
 
-        $scope.watchAddressForm = function () {
-          return $scope.myAccount.addressForm.addr;
-        };
+        $scope.myAccount = [];
+        $scope.myAccount.addressForm = [];
+        $scope.myAccount.residencyForm = [];
 
-        $scope.$watch($scope.watchAddressForm, function () {
-          console.log('address changed');
+        $scope.$watch('addrDetails', function () {
+          console.log('details changed');
+          console.log($scope.addrDetails.formatted_address);
+          $scope.splitAddress();
         }, true);
 
-        $scope.myAccount = [];
-        $scope.myAccount.residencyForm = [];
+        $scope.splitAddress = function()
+        {
+          var address = $scope.addrDetails.formatted_address;
+
+          var splitAddr = address.split(',');
+
+          var stateZip = '';
+
+          if(splitAddr.length > 2)
+          {
+            console.log('split result');
+            console.log(splitAddr);
+
+            console.log('city:' + splitAddr[1].trim());
+            $scope.myAccount.addressForm.city = splitAddr[1].trim();
+
+            console.log('state:' + splitAddr[2].trim());
+            stateZip = splitAddr[2].trim().split(' ');
+
+            if(stateZip.length > 1)
+            {
+              $scope.myAccount.addressForm.state = stateZip[0].trim();
+              console.log('zip:' + stateZip[1].trim());
+              $scope.myAccount.addressForm.zip = stateZip[1].trim();
+            }
+
+            console.log('addr:' + splitAddr[0].trim());
+            $scope.myAccount.addressForm.addr = splitAddr[0].trim();
+          }
+        };
+
+
         $scope.myAccount = MyAccountLoader;
-        //$scope.myAccount.loadAccount();
+        $scope.myAccount.loadAccount();
+
+        console.log('my account');
+        console.log($scope.myAccount);
       }
   }])
   .factory('MyAccountLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser) {
@@ -54,6 +88,15 @@ angular.module('bluereconlineApp')
           console.log('current account');
           console.log(response.data);
           acctload.returnData = response.data;
+
+          acctload.addressForm = {};
+
+          acctload.addressForm.addr = acctload.returnData.mailing_addr_one;
+          acctload.addressForm.addr2 = acctload.returnData.mailing_addr_two;
+          acctload.addressForm.city = acctload.returnData.mailing_city;
+          acctload.addressForm.state = acctload.returnData.mailing_state;
+          acctload.addressForm.zip = acctload.returnData.mailing_zip;
+
           acctload.busy = false;
         }.bind(this));
       }
