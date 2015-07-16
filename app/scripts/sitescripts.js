@@ -2,6 +2,7 @@
  * Created by Eric on 5/7/2015.
  */
 'use strict';
+
 $(document).ready(function() {
 
     $('#nav').affix({
