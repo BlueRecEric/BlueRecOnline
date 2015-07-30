@@ -20,41 +20,63 @@ angular.module('bluereconlineApp')
 
         $scope.$watch('addrDetails', function () {
           console.log('details changed');
-          console.log($scope.addrDetails.formatted_address);
+          if(angular.isDefined($scope.addrDetails))
+          {
+              console.log($scope.addrDetails.formatted_address);
+          }
           $scope.splitAddress();
         }, true);
 
         $scope.splitAddress = function()
         {
-          var address = $scope.addrDetails.formatted_address;
+            var address = '';
 
-          var splitAddr = address.split(',');
-
-          var stateZip = '';
-
-          if(splitAddr.length > 2)
-          {
-            console.log('split result');
-            console.log(splitAddr);
-
-            console.log('city:' + splitAddr[1].trim());
-            $scope.myAccount.addressForm.city = splitAddr[1].trim();
-
-            console.log('state:' + splitAddr[2].trim());
-            stateZip = splitAddr[2].trim().split(' ');
-
-            if(stateZip.length > 1)
+            if(angular.isDefined($scope.addrDetails))
             {
-              $scope.myAccount.addressForm.state = stateZip[0].trim();
-              console.log('zip:' + stateZip[1].trim());
-              $scope.myAccount.addressForm.zip = stateZip[1].trim();
+                address = $scope.addrDetails.formatted_address;
             }
 
-            console.log('addr:' + splitAddr[0].trim());
-            $scope.myAccount.addressForm.addr = splitAddr[0].trim();
-          }
+            var splitAddr = address.split(',');
+
+            var stateZip = '';
+
+            if(splitAddr.length > 2)
+            {
+                console.log('split result');
+                console.log(splitAddr);
+
+                console.log('city:' + splitAddr[1].trim());
+                $scope.myAccount.addressForm.city = splitAddr[1].trim();
+
+                console.log('state:' + splitAddr[2].trim());
+                stateZip = splitAddr[2].trim().split(' ');
+
+                if(stateZip.length > 1)
+                {
+                    $scope.myAccount.addressForm.state = stateZip[0].trim();
+                    console.log('zip:' + stateZip[1].trim());
+                    $scope.myAccount.addressForm.zip = stateZip[1].trim();
+                }
+
+                console.log('addr:' + splitAddr[0].trim());
+                $scope.myAccount.addressForm.addr = splitAddr[0].trim();
+            }
         };
 
+        $scope.submitAddrForm = function()
+        {
+            $scope.myAccount.submitAddressForm();
+        };
+
+        $scope.submitResidencyForm = function()
+        {
+          $scope.myAccount.submitResidencyForm();
+        };
+
+        $scope.submitPasswordForm = function()
+        {
+          $scope.myAccount.submitPasswordForm();
+        };
 
         $scope.myAccount = MyAccountLoader;
         $scope.myAccount.loadAccount();
@@ -63,52 +85,150 @@ angular.module('bluereconlineApp')
         console.log($scope.myAccount);
       }
   }])
-  .factory('MyAccountLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser) {
-    var acctload = this;
+    .factory('MyAccountLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser) {
+        var acctload = this;
 
-    var loadAccount = function() {
+        var loadAccount = function() {
 
-      if(acctload.busy) {
-        return false;
-      }
-      if(ActiveUser.isLoggedIn()) {
-        acctload.busy = true;
+            if(acctload.busy) {
+                return false;
+            }
+            if(ActiveUser.isLoggedIn()) {
+                acctload.busy = true;
 
-        var req = {
-          method: 'POST',
-          url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount',
-          headers: {
-            'Content-Type': undefined
-          },
-          data: {'uid': ActiveUser.userData.user_id}
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {'uid': ActiveUser.userData.user_id}
+                };
+
+                $http(req).then(function (response) {
+                    acctload.returnData = {};
+                    console.log('current account');
+                    console.log(response.data);
+                    acctload.returnData = response.data;
+
+                    acctload.addressForm = {};
+
+                    acctload.addressForm.addr = acctload.returnData.address.mailing_addr_one;
+                    acctload.addressForm.addr2 = acctload.returnData.address.mailing_addr_two;
+                    acctload.addressForm.city = acctload.returnData.address.mailing_city;
+                    acctload.addressForm.state = acctload.returnData.address.mailing_state;
+                    acctload.addressForm.zip = acctload.returnData.address.mailing_zip;
+
+                    acctload.passwordForm.current = '';
+                    acctload.passwordForm.newpass = '';
+                    acctload.passwordForm.conpass = '';
+
+                    if(acctload.returnData.address.is_resident === '1')
+                    {
+                        acctload.residencyForm.isResident = true;
+                    }
+                    else
+                    {
+                        acctload.residencyForm.isResident = false;
+                    }
+
+                    acctload.busy = false;
+                }.bind(this));
+            }
+            else
+            {
+                return false;
+            }
         };
 
-        $http(req).then(function (response) {
-          acctload.returnData = {};
-          console.log('current account');
-          console.log(response.data);
-          acctload.returnData = response.data;
+        var submitAddressForm = function() {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount' + '?action=update_address',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'uid': ActiveUser.userData.user_id,
+                    'addr': acctload.addressForm.addr,
+                    'addr2': acctload.addressForm.addr2,
+                    'city': acctload.addressForm.city,
+                    'state': acctload.addressForm.state,
+                    'zip':acctload.addressForm.zip}
+            };
 
-          acctload.addressForm = {};
+            return $http(req)
+                .then(
+                function success(response) {
+                    acctload.addressForm.dataSubmitted = true;
+                    acctload.addressForm.success = response.data.success;
+                    acctload.addressForm.message = response.data.message;
+                }
+            );
+        };
 
-          acctload.addressForm.addr = acctload.returnData.mailing_addr_one;
-          acctload.addressForm.addr2 = acctload.returnData.mailing_addr_two;
-          acctload.addressForm.city = acctload.returnData.mailing_city;
-          acctload.addressForm.state = acctload.returnData.mailing_state;
-          acctload.addressForm.zip = acctload.returnData.mailing_zip;
+        var submitResidencyForm = function() {
 
-          acctload.busy = false;
-        }.bind(this));
-      }
-      else
-      {
-        return false;
-      }
-    };
+            var isResident = false;
 
-    acctload.loadAccount = loadAccount;
-    acctload.returnData = '';
-    acctload.busy = false;
+            if(acctload.residencyForm.isResident === true)
+            {
+                isResident = true;
+            }
 
-    return acctload;
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount' + '?action=update_residency',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'uid': ActiveUser.userData.user_id,
+                    'resident': isResident}
+            };
+
+            return $http(req)
+                .then(
+                function success(response) {
+                    console.log(response.data);
+                    acctload.residencyForm.dataSubmitted = true;
+                    acctload.residencyForm.success = response.data.success;
+                    acctload.residencyForm.message = response.data.message;
+                    console.log(acctload.residencyForm);
+                }
+            );
+        };
+
+        var submitPasswordForm = function() {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount' + '?action=update_password',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'uid': ActiveUser.userData.user_id,
+                    'currentPwd': acctload.passwordForm.current,
+                    'newPwd': acctload.passwordForm.newpass,
+                    'conPwd': acctload.passwordForm.conpass
+                }
+            };
+
+            return $http(req)
+                .then(
+                function success(response) {
+                    console.log(response.data);
+                    acctload.passwordForm.dataSubmitted = true;
+                    acctload.passwordForm.success = response.data.success;
+                    acctload.passwordForm.message = response.data.message;
+                    console.log(acctload.passwordForm);
+                }
+            );
+        };
+
+        acctload.loadAccount = loadAccount;
+        acctload.submitAddressForm = submitAddressForm;
+        acctload.submitResidencyForm = submitResidencyForm;
+        acctload.submitPasswordForm = submitPasswordForm;
+        acctload.returnData = '';
+        acctload.busy = false;
+
+        return acctload;
   }]);

@@ -6,9 +6,20 @@
     <div class="panel-heading clearfix">
       <h4 class="panel-title">Home Address</h4>
     </div>
-    <form name="addressForm" class="form-horizontal" role="form">
+
+    <form name="addressForm" class="form-horizontal" role="form" data-ng-submit="submitAddrForm()">
       <ng-form name="addressForm">
         <div class="panel-body">
+
+          <div class="alert alert-success" role="alert" data-ng-show="myAccount.addressForm.dataSubmitted && myAccount.addressForm.success">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{myAccount.addressForm.message}}
+          </div>
+
+          <div class="alert alert-danger" role="alert" data-ng-show="{{myAccount.addressForm.dataSubmitted && !myAccount.addressForm.success}}">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{myAccount.addressForm.message}}
+          </div>
 
           <div class="form-group">
             <label class="col-sm-2">Address</label>
@@ -20,7 +31,7 @@
           <div class="form-group">
             <label class="col-sm-2">Apt/Ste/Unit #</label>
             <div class="col-sm-6">
-              <input type="text" id="currentAddr2" data-ng-model="myAccount.addressForm.addr2" value="" class="form-control" required/>
+              <input type="text" id="currentAddr2" data-ng-model="myAccount.addressForm.addr2" value="" class="form-control"/>
             </div>
           </div>
 
@@ -61,9 +72,19 @@
     <div class="panel-heading clearfix">
       <h4 class="panel-title">Residency</h4>
     </div>
-    <form name="residencyForm" class="form-horizontal" role="form">
+    <form name="residencyForm" class="form-horizontal" role="form" data-ng-submit="submitResidencyForm()">
       <ng-form name="residencyForm">
         <div class="panel-body">
+
+          <div class="alert alert-success" role="alert" data-ng-show="myAccount.residencyForm.dataSubmitted && myAccount.residencyForm.success">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{myAccount.residencyForm.message}}
+          </div>
+
+          <div class="alert alert-danger" role="alert" data-ng-show="{{myAccount.residencyForm.dataSubmitted && !myAccount.residencyForm.success}}">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{myAccount.residencyForm.message}}
+          </div>
 
           <p>You have the option to set your residency status manually. Please note, you may be required to provide proof of residency for any purchases you complete
             that have a different residency price, and you will be responsible for paying the difference plus any administrative fees involved in making the correction.</p>
@@ -71,7 +92,7 @@
           <div class="form-group">
             <div class="col-sm-2">&nbsp;</div>
             <div class="col-sm-6">
-              <checkbox id="isResident" name="isResident" class="btn-primary" data-ng-model="myAccount.residencyForm.is_resident"></checkbox>
+              <checkbox id="isResident" name="isResident" class="btn-primary" data-ng-model="myAccount.residencyForm.isResident"></checkbox>
               <label for="isResident">I am a resident</label>
             </div>
           </div>
@@ -93,28 +114,38 @@
       <h4 class="panel-title">Change Password</h4>
     </div>
 
-    <form name="passwordForm" class="form-horizontal" role="form" ng-submit="">
+    <form name="passwordForm" class="form-horizontal" role="form" data-ng-submit="submitPasswordForm()">
       <ng-form name="passwordForm">
         <div class="panel-body">
+
+          <div class="alert alert-success" role="alert" data-ng-show="myAccount.passwordForm.dataSubmitted && myAccount.passwordForm.success">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{myAccount.passwordForm.message}}
+          </div>
+
+          <div class="alert alert-danger" role="alert" data-ng-show="myAccount.passwordForm.dataSubmitted && !myAccount.passwordForm.success">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{myAccount.passwordForm.message}}
+          </div>
 
           <div class="form-group">
             <label class="col-sm-2">Current Password</label>
             <div class="col-sm-6">
-              <input type="password" id="currentPassword" data-ng-model="myAccount.passwordForm.firstname" value="" class="form-control disabled" required/>
+              <input type="password" id="currentPassword" data-ng-model="myAccount.passwordForm.current" value="" class="form-control disabled" required/>
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-sm-2">New Password</label>
             <div class="col-sm-6">
-              <input type="password" id="newPassword" data-ng-model="myAccount.passwordForm.firstname" value="" class="form-control disabled" required/>
+              <input type="password" id="newPassword" data-ng-model="myAccount.passwordForm.newpass" value="" class="form-control disabled" required/>
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-sm-2">Confirm password</label>
             <div class="col-sm-6">
-              <input type="password" id="confirmPassword" data-ng-model="myAccount.passwordForm.firstname" value="" class="form-control disabled" required/>
+              <input type="password" id="confirmPassword" data-ng-model="myAccount.passwordForm.conpass" value="" class="form-control disabled" required/>
             </div>
           </div>
 
