@@ -219,8 +219,8 @@ angular.module('bluereconlineApp')
                 $http(req).success(function (data) {
                     //console.log($facilityString);
                     $scope.eventSource = data;
-
-                    //console.table($scope.eventSource);
+                    console.log($scope.eventSource[2]);
+                    console.table($scope.eventSource);
                 });
 
             }
@@ -262,7 +262,8 @@ angular.module('bluereconlineApp')
 
         $scope.onSubmitRequest = function()
         {
-            if($scope.agreementSigned.checked)
+            console.table($scope.rentalCustomFields);
+           /* if($scope.agreementSigned.checked)
             {
                 $scope.contactCheckAlert = false;
 
@@ -308,7 +309,7 @@ angular.module('bluereconlineApp')
             else
             {
                 $scope.contactCheckAlert=true;
-            }
+            }*/
         };
 
         $scope.resetForm = function() {
@@ -340,6 +341,12 @@ angular.module('bluereconlineApp')
 
         $scope.showConformationModal = function() {
             confirmationModal.$promise.then(confirmationModal.show);
+        };
+
+        $scope.gotoAnchor = function(anchorID, offset) {
+
+            $anchorScroll.yOffset = offset;
+            $anchorScroll(anchorID);
         };
     }])
 
