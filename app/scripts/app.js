@@ -26,10 +26,10 @@ angular
     'ui.rCalendar',
     'bluereconlineApp.apiconfig',
     'dynform',
-    'mgcrea.ngStrap',
-    'ui.rCalendar',
     'ui.checkbox',
-    'ngAutocomplete'
+    'ngAutocomplete',
+    'rzModule',
+    'ui.select'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
