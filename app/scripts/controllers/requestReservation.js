@@ -14,6 +14,18 @@ angular.module('bluereconlineApp')
             $scope.searchRentalTypeTT = {tip: 'Start your search by first selecting the Rental Type you wish to search for.', checked: true};
             $scope.showSearchRentalTypeTT= {show:true};
 
+            $scope.displaySearchResults=false;
+
+            $scope.searchResultsData= [{iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
+                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
+                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
+                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
+                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
+                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
+                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
+                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
+                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'}];
+
             $scope.userLoggedIn=false;
 
             $scope.userLoggedIn=ActiveUser.isLoggedIn();
@@ -40,6 +52,12 @@ angular.module('bluereconlineApp')
             $scope.durationSlider = {
                 ceil: 840,
                 floor: 0
+            };
+
+            $scope.isSearchIconBusy = false;
+
+            $scope.buttonClick = function () {
+                $scope.isSearchIconBusy = !$scope.isSearchIconBusy;
             };
 
             $scope.translate = function(value)
@@ -93,6 +111,9 @@ angular.module('bluereconlineApp')
             $scope.displayCustomFields=false;
 
             $scope.rentalCodeSearch = '';
+
+            $scope.facilitySearchItems=[];
+            $scope.selectedSearchFacilities.facilities=[];
 
             $scope.rentalDescription = 'N/A';
 
@@ -457,6 +478,16 @@ angular.module('bluereconlineApp')
                     $scope.showSearchRentalTypeTT.show=true;
                 }, 100, false);
 
+            };
+
+            $scope.onSearchRentalTimes = function() {
+                $scope.isSearchIconBusy = !$scope.isSearchIconBusy;
+
+                $scope.displaySearchResults = true;
+            };
+
+            $scope.onSelectRentalTime = function(selectedRow) {
+                selectedRow.iconBusy = !selectedRow.iconBusy;
             };
 
         }])

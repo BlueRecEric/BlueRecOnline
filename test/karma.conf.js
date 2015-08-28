@@ -47,6 +47,7 @@ module.exports = function(config) {
       'bower_components/ngAutocomplete/src/ngAutocomplete.js',
       'bower_components/angularjs-slider/rzslider.js',
       'bower_components/angular-ui-select/dist/select.js',
+      'bower_components/v-button/dist/v-button.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

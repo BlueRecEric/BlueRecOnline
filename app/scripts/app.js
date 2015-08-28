@@ -29,7 +29,8 @@ angular
     'ui.checkbox',
     'ngAutocomplete',
     'rzModule',
-    'ui.select'
+    'ui.select',
+    'vButton'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
