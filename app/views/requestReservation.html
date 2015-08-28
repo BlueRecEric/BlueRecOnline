@@ -123,12 +123,13 @@
 				<div class="form-group col-sm-12">
 					<div class="row">
 						<div class="col-sm-12">
-							<label>Rental's Duration:   <span style="padding-left:10px;color: rgb(240, 0, 16);">&nbsp;<i class="fa fa-calendar-o"></i>{{translateDuration(durationSelected)}}</span></label>
+							<label>Rental's Duration:</label>
 						</div>
 						<div class="text-right col-sm-12">
 							<rzslider
+									rz-slider-draggable-range="true"
 									rz-slider-hide-limit-labels="true"
-									rz-slider-step="5"
+									rz-slider-step="30"
 									rz-slider-model="durationSelected"
 									rz-slider-floor="durationSlider.floor"
 									rz-slider-ceil="durationSlider.ceil"
@@ -147,13 +148,13 @@
 				<div class="form-group col-sm-12">
 					<div class="row">
 						<div class="col-sm-12">
-							<label>Time frame to Search:  <span class="no-word-wrap" style="padding-left:10px;color: rgb(13, 185, 240);">
-								<i class="fa fa-clock-o"></i>{{translate(timeRangeStartSelected)}}
-								<span data-ng-if="timeRangeEndSelected!==''">-</span>{{translate(timeRangeEndSelected)}}</span></label>
+							<label>Time frame to Search:</label>
 						</div>
 						<div class="col-sm-12 text-left">
 							<rzslider
-									rz-slider-step="5"
+									rz-slider-draggable-range="false"
+									rz-slider-precision="true"
+									rz-slider-step="30"
 									rz-slider-model="timeRangeStartSelected"
 									rz-slider-floor="timeSlider.floor"
 									rz-slider-ceil="timeSlider.ceil"

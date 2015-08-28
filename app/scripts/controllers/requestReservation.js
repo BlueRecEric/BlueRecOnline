@@ -524,6 +524,8 @@ angular.module('bluereconlineApp')
             {
                 aa='PM';
                 hh=hh-12;
+                if(hh===0)
+                {hh=12;}
             }
             else
             {
