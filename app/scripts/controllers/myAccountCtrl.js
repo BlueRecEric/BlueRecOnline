@@ -17,6 +17,7 @@ angular.module('bluereconlineApp')
         $scope.myAccount = [];
         $scope.myAccount.addressForm = [];
         $scope.myAccount.residencyForm = [];
+        $scope.myAccount.emailForm = [];
 
         $scope.$watch('addrDetails', function () {
           console.log('details changed');
@@ -66,6 +67,11 @@ angular.module('bluereconlineApp')
         $scope.submitAddrForm = function()
         {
             $scope.myAccount.submitAddressForm();
+        };
+
+        $scope.submitEmailForm = function()
+        {
+          $scope.myAccount.submitEmailForm();
         };
 
         $scope.submitResidencyForm = function()
@@ -119,6 +125,14 @@ angular.module('bluereconlineApp')
                     acctload.addressForm.state = acctload.returnData.address.mailing_state;
                     acctload.addressForm.zip = acctload.returnData.address.mailing_zip;
 
+                    acctload.emailForm = [];
+
+                    acctload.emailForm.email_address = acctload.returnData.address.email_address;
+                    acctload.emailForm.email_status = acctload.returnData.address.email_status;
+                    acctload.emailForm.message = '';
+
+                    acctload.passwordForm = [];
+
                     acctload.passwordForm.current = '';
                     acctload.passwordForm.newpass = '';
                     acctload.passwordForm.conpass = '';
@@ -162,6 +176,31 @@ angular.module('bluereconlineApp')
                     acctload.addressForm.dataSubmitted = true;
                     acctload.addressForm.success = response.data.success;
                     acctload.addressForm.message = response.data.message;
+                }
+            );
+        };
+
+        var submitEmailForm = function() {
+            console.log('submit email');
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount' + '?action=update_email',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'uid': ActiveUser.userData.user_id,
+                    'email': acctload.emailForm.email_address}
+            };
+
+            return $http(req)
+                .then(
+                function success(response) {
+                    console.log(response.data);
+                    acctload.emailForm.dataSubmitted = true;
+                    acctload.emailForm.success = response.data.success;
+                    acctload.emailForm.message = response.data.message;
+                    console.log(acctload.emailForm);
                 }
             );
         };
@@ -225,6 +264,7 @@ angular.module('bluereconlineApp')
 
         acctload.loadAccount = loadAccount;
         acctload.submitAddressForm = submitAddressForm;
+        acctload.submitEmailForm = submitEmailForm;
         acctload.submitResidencyForm = submitResidencyForm;
         acctload.submitPasswordForm = submitPasswordForm;
         acctload.returnData = '';

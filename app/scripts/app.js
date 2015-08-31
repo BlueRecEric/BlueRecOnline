@@ -194,6 +194,30 @@ angular
         };
         return dataFactory;
     }])
+    .service('ShoppingCart', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http, BLUEREC_ONLINE_CONFIG, $routeParams) {
+        var cart = this;
+        cart.cartCount = 0;
+
+        function updateShoppingCart() {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/login',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {}
+            };
+
+            return $http(req)
+                .then(
+                function success(response) {
+                    return response;
+                }
+            );
+        }
+
+        cart.updateShoppingCart = updateShoppingCart;
+    }])
     .service('ActiveUser', ['AuthService','$window','$q',function(AuthService,$window,$q) {
         var currentUser = this;
         currentUser.userStore = $window.localStorage;

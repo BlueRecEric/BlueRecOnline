@@ -31,11 +31,15 @@
 <h4>Please select the household members that will be registering for this activity:</h4>
 
 
-<div class="panel panel-default" data-ng-repeat="person in proReg.household">
+<div class="panel panel-{{(person.addedToCart)?'success':'default'}}" data-ng-repeat="person in proReg.household">
   <div class="panel-heading">
     <!--<input type="checkbox" ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)" aria-label="Register {{person.firstname}} {{person.lastname}}"> {{person.firstname}} {{person.lastname}}-->
-    <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-primary" data-ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)"></checkbox> <label class="clickylabel" for="register_{{person.user_id}}">{{person.firstname}} {{person.lastname}}</label>
-    <span class="pull-right hidden-xs" data-ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span></div>
+    <checkbox id="register_{{person.user_id}}" data-ng-show="!person.addedToCart" name="register_{{person.user_id}}" class="btn-primary" data-ng-model="person.registrationSelected" data-ng-change="proReg.startRegistration($index)"></checkbox>
+      <label class="clickylabel" for="register_{{person.user_id}}">{{person.firstname}} {{person.lastname}}</label>
+      <span class="pull-right hidden-xs" data-ng-show='person.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span>
+      <label class="pull-right hidden-xs" data-ng-show="person.addedToCart"><i class="fa fa-shopping-cart"></i> In Cart</label>
+      <label class="pull-right visible-xs" data-ng-show="person.addedToCart"><i class="fa fa-shopping-cart"></i></label>
+  </div>
   <div class="panel-body">
 
     <!--<progressbar data-ng-show="person.step > 0" class="progress-striped active" type="{{(person.step < person.totalSteps)?'primary':'success'}}" max="max" value="(person.step/person.totalSteps) * 100">Step {{person.step}} of {{person.totalSteps}}</progressbar></a>-->
@@ -428,8 +432,11 @@
             </div>
 
             <div class="form-group">
-              <div class="col-sm-6">
-                <button type="button" id="submitFinal" value="Submit" class="btn btn-success" data-animation="am-fade-and-scale" data-placement="center" data-template="noPaymentGateway.html" bs-modal="modal"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> Add to Cart</button>
+              <div class="col-sm-6" data-ng-show="!proReg.household[$index].submittingCart">
+                <button type="submit" id="submitFinal" value="Submit" class="btn btn-success"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> Add to Cart</button>
+              </div>
+              <div class="col-sm-6" data-ng-show="proReg.household[$index].submittingCart">
+                Adding item to cart...
               </div>
             </div>
           </div>

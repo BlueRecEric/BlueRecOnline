@@ -70,6 +70,49 @@
 
   <div class="panel panel-default">
     <div class="panel-heading clearfix">
+      <h4 class="panel-title">Email Address</h4>
+    </div>
+    <form name="emailForm" class="form-horizontal" role="form" data-ng-submit="submitEmailForm()">
+      <ng-form name="emailForm">
+        <div class="panel-body">
+
+          <div class="alert alert-success" role="alert" data-ng-show="myAccount.emailForm.dataSubmitted && myAccount.emailForm.success">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{myAccount.emailForm.message}}
+          </div>
+
+          <div class="alert alert-danger" role="alert" data-ng-show="{{myAccount.emailForm.dataSubmitted && !myAccount.emailForm.success}}">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{myAccount.emailForm.message}}
+          </div>
+
+          <p>This email address must be verified before you can register online. Verifying your email ensures you receive receipt emails and any additional information about your purchase(s).</p>
+
+          <div class="alert alert-success" data-ng-show="myAccount.emailForm.email_status == 'verified'">
+            Your email address has been verified.
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2">Email:</label>
+            <div class="col-sm-6">
+              <input type="text" id="currentEmail" data-ng-model="myAccount.emailForm.email_address" value="" class="form-control" required/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label-center">&nbsp;</label>
+            <div class="col-sm-6">
+              <button type="submit" id="emailSubmit" value="Submit" class="btn btn-info"><i class="fa fa-save"></i> Save Email</button>
+            </div>
+          </div>
+
+        </div>
+      </ng-form>
+    </form>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
       <h4 class="panel-title">Residency</h4>
     </div>
     <form name="residencyForm" class="form-horizontal" role="form" data-ng-submit="submitResidencyForm()">
