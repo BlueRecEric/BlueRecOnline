@@ -17,14 +17,14 @@ angular.module('bluereconlineApp')
             $scope.displaySearchResults=false;
 
             $scope.searchResultsData= [{iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
-                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
-                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
-                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
-                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
-                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
-                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
-                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'},
-                                        {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '2:00 PM'}];
+                {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:00 AM', to: '10:30 AM'},
+                {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '10:30 AM', to: '11:00 AM'},
+                {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '11:00 AM', to: '11:30 AM'},
+                {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '11:30 AM', to: '12:00 PM'},
+                {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '12:00 PM', to: '12:30 PM'},
+                {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '12:30 PM', to: '1:00 PM'},
+                {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '1:00 PM', to: '1:30 PM'},
+                {iconBusy: false, facility_name: 'Challenge Center', date: '08/29/2015', from: '1:30 PM', to: '2:00 PM'}];
 
             $scope.userLoggedIn=false;
 
@@ -40,8 +40,8 @@ angular.module('bluereconlineApp')
             $scope.fromDate = ''; // &lt;- {{ getType('fromDate') }}
             $scope.untilDate = '';
 
-            $scope.timeRangeStartSelected = 600;
-            $scope.timeRangeEndSelected = 840;
+            $scope.timeRangeStartSelected = 420;
+            $scope.timeRangeEndSelected = 1260;
 
             $scope.timeSlider = {
                 floor: 420,
@@ -379,53 +379,53 @@ angular.module('bluereconlineApp')
             $scope.onSubmitRequest = function()
             {
                 console.table($scope.rentalCustomFields);
-                /* if($scope.agreementSigned.checked)
-                 {
-                 $scope.contactCheckAlert = false;
+                if($scope.agreementSigned.checked)
+                {
+                    $scope.contactCheckAlert = false;
 
-                 var $userID = ActiveUser.userData.user_id;
+                    var $userID = ActiveUser.userData.user_id;
 
-                 if($scope.rentalCodeSearch !== '' && $userID)
-                 {
-                 var $facilityString = $scope.getFacilityString();
+                    if($scope.rentalCodeSearch !== '' && $userID)
+                    {
+                        var $facilityString = $scope.getFacilityString();
 
-                 var req = {
-                 method: 'POST',
-                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/submitreservationrequest',
-                 headers: {
-                 'Content-Type': undefined
-                 },
-                 data: {
-                 'rental_code_item_id': $scope.rentalCodeSearch,
-                 'user_id': $userID,
-                 'facilityString': $facilityString,
-                 'startTime': $scope.formatMySQLDate($scope.selectedDate, $scope.startTime),
-                 'endTime': $scope.formatMySQLDate($scope.selectedDate, $scope.endTime),
-                 'details': $scope.reservationDetails,
-                 'notes': $scope.reservationNotes,
-                 'phoneNumber': $scope.phoneNumber,
-                 'emailAddress': $scope.emailAddress,
-                 'contactMethod': $scope.contactMethod,
-                 'feeAmount': $scope.feeAmount
-                 }
-                 };
+                        var req = {
+                            method: 'POST',
+                            url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/submitreservationrequest',
+                            headers: {
+                                'Content-Type': undefined
+                            },
+                            data: {
+                                'rental_code_item_id': $scope.rentalCodeSearch,
+                                'user_id': $userID,
+                                'facilityString': $facilityString,
+                                'startTime': $scope.formatMySQLDate($scope.selectedDate, $scope.startTime),
+                                'endTime': $scope.formatMySQLDate($scope.selectedDate, $scope.endTime),
+                                'details': $scope.reservationDetails,
+                                'notes': $scope.reservationNotes,
+                                'phoneNumber': $scope.phoneNumber,
+                                'emailAddress': $scope.emailAddress,
+                                'contactMethod': $scope.contactMethod,
+                                'feeAmount': $scope.feeAmount
+                            }
+                        };
 
-                 $http(req)
-                 .success(function () {
-                 //console.log( $scope.eventSource);
+                        $http(req)
+                            .success(function () {
+                                //console.log( $scope.eventSource);
 
-                 $scope.rentalCodeSearch = '';
+                                $scope.rentalCodeSearch = '';
 
-                 $scope.resetForm();
+                                $scope.resetForm();
 
-                 $scope.showConformationModal();
-                 });
-                 }
-                 }
-                 else
-                 {
-                 $scope.contactCheckAlert=true;
-                 }*/
+                                $scope.showConformationModal();
+                            });
+                    }
+                }
+                else
+                {
+                    $scope.contactCheckAlert=true;
+                }
             };
 
             $scope.resetForm = function() {
