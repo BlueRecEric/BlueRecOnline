@@ -80,6 +80,11 @@ angular
             .when('/:orgurl/memberships', {
                 templateUrl: 'views/memberships.html'
             })
+            .when('/:orgurl/membershipsignup/:itemid', {
+                templateUrl: 'views/membershipRegister.html',
+                controller: 'MembershipRegister',
+                controllerAs: 'memReg'
+            })
             .when('/:orgurl/reservations', {
                 templateUrl: 'views/requestReservation.html'
             })
@@ -432,6 +437,40 @@ angular
         return{
             request:addToken
         };
+    }])
+    .factory('MemInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
+        var memLoad = this;
+
+        var loadMembership = function() {
+
+            if(memLoad.busy) {
+                return false;
+            }
+            memLoad.busy = true;
+
+            var req = {
+                method: 'GET',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/membershiptypes/' + $routeParams.itemid,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            $http(req).then(function(response) {
+                var responseData;
+
+                responseData = JSON.parse(angular.toJson(response.data));
+                memLoad.returnData = responseData.data[0];
+
+                memLoad.busy = false;
+            }.bind(this));
+        };
+
+        memLoad.loadMembership = loadMembership;
+        memLoad.returnData = '';
+        memLoad.busy = false;
+
+        return memLoad;
     }])
   .factory('ProInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
     var proload = this;

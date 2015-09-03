@@ -1,0 +1,75 @@
+<h3>Enrolling in {{memInfo.returnData.item_name}}({{memInfo.returnData.item_code}})</h3>
+
+<h4>Please select the household members that will be enrolling in this membership:</h4>
+
+<a id="{{memInfo.anchorHash}}"><div data-ng-show="memInfo.step > 0" class="progress">
+  <div class="progress-bar progress-bar-{{(memInfo.step < memInfo.totalSteps)?'primary':'success'}} progress-bar-striped active" role="progressbar"
+       aria-valuenow="{{(memInfo.step/memInfo.totalSteps) * 100}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(memInfo.step/memInfo.totalSteps) * 100}}%;">
+    Step {{memInfo.step}} of {{memInfo.totalSteps}}
+  </div>
+</div></a>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <label>Household Members</label>
+    <span class="pull-right hidden-xs" data-ng-show='memInfo.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span>
+  </div>
+  <div class="panel-body">
+    <form name=memForm" class="form-horizontal" role="form">
+      <ng-form name="memForm">
+
+        <div class="row">
+          <div class="col-sm-3">
+            <p>Name</p>
+          </div>
+          <div class="col-sm-1">
+            <p>Age</p>
+          </div>
+          <div class="col-sm-2">
+            <p>Contact Type</p>
+          </div>
+          <div class="col-sm-2">
+            <p>Cost</p>
+          </div>
+        </div>
+
+        <div class="form-group" data-ng-repeat="person in memReg.household">
+          <div class="col-sm-3">
+            <checkbox id="select_{{person.user_id}}" class="btn-{{(person.members_selected)?'success':'primary'}}" data-ng-model="person.members_selected" data-ng-change="calculateFee()"></checkbox>
+            <label for="select_{{person.user_id}}" class="clickylabel">{{person.firstname}} {{person.lastname}}</label>
+          </div>
+          <div class="col-sm-1">
+            <label for="select_{{person.user_id}}" class="clickylabel">{{person.age}}</label>
+          </div>
+          <div class="col-sm-2">
+            <label for="select_{{person.user_id}}" class="clickylabel" data-ng-show="{{person.primary_contact === '1'}}">Primary</label>
+            <label for="select_{{person.user_id}}" class="clickylabel" data-ng-show="{{person.secondary_contact === '1'}}">Secondary</label>
+          </div>
+          <div class="col-sm-2">
+            <label for="select_{{person.user_id}}" class="clickylabel" data-ng-show="memReg.household[$index].members_selected">
+              ${{memReg.household[$index].fees[0].fee_amount}}
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group" data-ng-show="memInfo.returnData.allow_payment_plans === '1' && memInfo.totalMembershipFee > 0">
+          <div class="col-sm-12">
+            <p>This membership allows payments to be split up evenly by {{memInfo.returnData.num_of_payments}} payments of ${{(memInfo.totalMembershipFee/memInfo.returnData.num_of_payments).toFixed(2)}}.</p>
+          </div>
+          <div class="col-sm-12">
+            <checkbox id="memFormUsePlan" class="btn-{{(person.members_selected)?'success':'primary'}}" data-ng-model="memForm.use_payment_plan" data-ng-change="calculatePaymentFee()"></checkbox>
+            <label for="memFormUsePlan" class="clickylabel">Use Payment Plan</label>
+          </div>
+        </div>
+
+        <div class="form-group" data-ng-show="memInfo.returnData.allow_payment_plans === '1' && memInfo.totalMembershipFee > 0">
+          <div class="col-sm-12">
+            <h4>Total you will be charge today: ${{memInfo.toPayToday}}</h4>
+            <h4>Total membership cost: ${{memInfo.totalMembershipFee}}</h4>
+          </div>
+        </div>
+
+      </ng-form>
+    </form>
+  </div>
+</div>
