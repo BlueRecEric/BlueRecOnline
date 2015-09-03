@@ -12,7 +12,7 @@ angular.module('bluereconlineApp')
     var cart = this;
 
       $scope.cart = {};
-
+      $scope.removed = {};
 
       ActiveUser.getFromLocal().then(function() {
         cart.household = ActiveUser.userData.household;
@@ -47,6 +47,26 @@ angular.module('bluereconlineApp')
         );
       }
 
+      function removeItem(itemID)
+      {
+        var req = {
+          method: 'POST',
+          url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/remove',
+          headers: {
+            'Content-Type': undefined
+          },
+          data: {'userID': ActiveUser.userData.user_id, 'householdID':ActiveUser.userData.household_id, 'shoppingItemID':itemID}
+        };
+
+        return $http(req)
+            .then(
+            function success(response) {
+              $scope.removed = response.data;
+              loadCart();
+            }
+        );
+      }
+
       function goToCheckout()
       {
         $location.path('/' + $routeParams.orgurl + '/checkout');
@@ -55,5 +75,6 @@ angular.module('bluereconlineApp')
       loadCart();
 
       $scope.goToCheckout = goToCheckout;
+      $scope.removeItem = removeItem;
 
   }]);

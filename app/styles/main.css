@@ -292,6 +292,12 @@ body > .container {
 .bs-callout-warning h4{color:#aa6708}
 .bs-callout-info{border-left-color:#1b809e}
 .bs-callout-info h4{color:#1b809e}
+.bs-callout-success {
+    border-left-color: #5cb85c;
+}
+.bs-callout-success h4 {
+    color: #5cb85c;
+}
 
 
 /* Responsive: Portrait tablets and up */

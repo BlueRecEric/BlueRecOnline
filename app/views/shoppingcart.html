@@ -24,7 +24,7 @@
 
                             <div class="well" data-ng-repeat="item in cart.data">
                                 <div>
-                                     <span style="float: left;"> <span data-placement="right"><span class="fa-stack fa-lg clicky">
+                                     <span style="float: left;"> <span data-placement="right"><span class="fa-stack fa-lg clicky" data-ng-click="removeItem({{item.shopping_item_id}})">
                                           <i class="fa fa-square fa-stack-2x text-danger"></i>
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span></span>
@@ -50,7 +50,7 @@
                                     <div class="row">
                                         <div class="col-sm-2">&nbsp;</div>
                                         <div class="col-sm-1">
-                                        <span data-placement="right"><span class="fa-stack fa-1x clicky">
+                                        <span data-placement="right"><span class="fa-stack fa-1x clicky" data-ng-click="removeItem({{link.linked_shopping_item_id}})">
                                           <i class="fa fa-square fa-stack-2x text-danger"></i>
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span>

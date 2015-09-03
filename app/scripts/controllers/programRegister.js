@@ -35,6 +35,9 @@ angular.module('bluereconlineApp')
     $scope.proinfo = ProInfoLoader;
     $scope.proinfo.loadProgram();
 
+      console.log('program info');
+      console.log($scope.proinfo);
+
     $scope.formData = {};
     //$scope.formTemplate = {"fieldset":{"type":"fieldset","label":"Additional Information","fields":{"field_16":{"type":"number","label":"Number of numbers","model":"person.customFormResponse.field_16"},"submit":{"type":"submit","label":"Submit","model":"person.customFormResponse.field_submit"}}}};
 
@@ -491,8 +494,19 @@ angular.module('bluereconlineApp')
       proReg.submitData.addedByUserID = ActiveUser.userData.user_id;
       proReg.submitData.itemID = $routeParams.itemid;
       proReg.submitData.waivers = [];
+      proReg.submitData.fees = [];
       proReg.submitData.addons = [];
       proReg.submitData.paymentPlans = [];
+
+      var feeCount = 0;
+      if($scope.proinfo.returnData.fees.length > 0) {
+        for (var fees = 0; fees < 1; fees++) {
+          proReg.submitData.fees[feeCount] = {};
+          proReg.submitData.fees[feeCount].itemFeeID = $scope.proinfo.returnData.fees[fees].item_fee_id;
+          proReg.submitData.fees[feeCount].feeAmount = $scope.proinfo.returnData.fees[fees].fee_amount;
+          feeCount++
+        }
+      }
 
       var waiverCount = 0;
 
