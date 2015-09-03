@@ -504,7 +504,7 @@ angular.module('bluereconlineApp')
           proReg.submitData.fees[feeCount] = {};
           proReg.submitData.fees[feeCount].itemFeeID = $scope.proinfo.returnData.fees[fees].item_fee_id;
           proReg.submitData.fees[feeCount].feeAmount = $scope.proinfo.returnData.fees[fees].fee_amount;
-          feeCount++
+          feeCount++;
         }
       }
 
