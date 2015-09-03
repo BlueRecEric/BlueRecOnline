@@ -67,6 +67,26 @@ angular.module('bluereconlineApp')
         );
       }
 
+      function payCart()
+      {
+        var req = {
+          method: 'POST',
+          url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/process',
+          headers: {
+            'Content-Type': undefined
+          },
+          data: {'userID': ActiveUser.userData.user_id, 'householdID':ActiveUser.userData.household_id}
+        };
+
+        return $http(req)
+            .then(
+            function success(response) {
+              $scope.removed = response.data;
+              loadCart();
+            }
+        );
+      }
+
       function goToCheckout()
       {
         $location.path('/' + $routeParams.orgurl + '/checkout');
@@ -76,5 +96,6 @@ angular.module('bluereconlineApp')
 
       $scope.goToCheckout = goToCheckout;
       $scope.removeItem = removeItem;
+      $scope.payCart = payCart;
 
   }]);

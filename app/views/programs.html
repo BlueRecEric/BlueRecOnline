@@ -8,22 +8,32 @@
         <label>Keyword:</label>
         <input ng-model="query.item_name" class="form-control">
       </div>
+
+      <div class="form-group col-xs-4 checkbox-bump-down">
+        <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
+        <label for="searchTicket">Only Tickets</label>
+      </div>
     </form>
     </div>
   </div>
   <div class="well visible-xs-block">
     <form class="form-inline">
       <div class="row">
-          <div class="form-group col-xs-12">
+          <div class="form-group col-xs-6">
             <label>Keyword:</label>
             <input placeholder="Enter Keyword" ng-model="query.item_name" class="pull-right form-control">
+          </div>
+
+          <div class="form-group col-xs-6 checkbox-bump-down">
+            <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
+            <label for="searchTicket">Only Tickets</label>
           </div>
       </div>
     </form>
   </div>
 
   <div class="infiniteScroll" infinite-scroll='proloader.nextPage(query)' infinite-scroll-distance='0'>
-    <div class="panel panel-primary" data-ng-repeat="session in proloader.returnData | filter: query.item_name | unique: 'identifier'">
+    <div class="panel panel-primary" data-ng-repeat="session in proloader.returnData | filter: query.item_name | filter: query.has_tickets | unique: 'identifier'">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">({{session.item_code}}) {{session.item_name}}</h3>
       </div>

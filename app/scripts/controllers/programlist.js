@@ -46,10 +46,12 @@ angular.module('bluereconlineApp')
       {
         proload.thisSearchHash = md5.createHash(angular.toJson(proload.searchParams));
         proload.keyword = proload.searchParams.item_name;
+        proload.onlyTickets = proload.searchParams.has_tickets;
       }
       else
       {
         proload.keyword = '';
+        proload.onlyTickets = false;
       }
 
       if(proload.thisSearchHash !== proload.lastSearchHash)
@@ -72,7 +74,8 @@ angular.module('bluereconlineApp')
         url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/onlineprograms',
         data: {
           'after': proload.afterCount,
-          'keyword': proload.keyword
+          'keyword': proload.keyword,
+          'onlytickets': proload.onlyTickets
         },
         headers: {
           'Content-Type': undefined
