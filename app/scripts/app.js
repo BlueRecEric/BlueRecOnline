@@ -88,6 +88,11 @@ angular
             .when('/:orgurl/reservations', {
                 templateUrl: 'views/requestReservation.html'
             })
+            .when('/:orgurl/addedtocart', {
+                templateUrl: 'views/addedToCart.html',
+                controller: 'HomeCtrl',
+                controllerAs: 'home'
+            })
             .otherwise({
                 redirectTo: '/:orgurl/login'
             });
@@ -471,6 +476,40 @@ angular
         memLoad.busy = false;
 
         return memLoad;
+    }])
+    .factory('CustomFieldLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
+        var cfLoad = this;
+
+        var loadCustomFields = function(userID) {
+            if(cfLoad.busy) {
+                return false;
+            }
+            cfLoad.busy = true;
+
+            console.log('received ' + userID + ' as user id');
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $routeParams.itemid + '/customfields',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'uid':userID}
+            };
+
+            $http(req).then(function(response) {
+                var responseData;
+                responseData = JSON.parse(angular.toJson(response.data));
+                cfLoad.returnData = responseData;
+                cfLoad.busy = false;
+            }.bind(this));
+        };
+
+        cfLoad.loadCustomFields = loadCustomFields;
+        cfLoad.returnData = '';
+        cfLoad.busy = false;
+
+        return cfLoad;
     }])
   .factory('ProInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
     var proload = this;

@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('MembershipRegister', ['$scope', 'ActiveUser', 'MemInfoLoader', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$http', '$filter', 'md5', '$location', '$anchorScroll', function ($scope,ActiveUser,MemInfoLoader,BLUEREC_ONLINE_CONFIG,$routeParams,$http,$filter,md5,$location, $anchorScroll) {
+  .controller('MembershipRegister', ['$scope', 'ActiveUser', 'MemInfoLoader', 'CustomFieldLoader', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$http', '$filter', 'md5', '$location', '$anchorScroll', function ($scope,ActiveUser,MemInfoLoader,CustomFieldLoader,BLUEREC_ONLINE_CONFIG,$routeParams,$http,$filter,md5,$location, $anchorScroll) {
         var memReg = this;
 
         memReg.registered = false;
@@ -36,6 +36,14 @@ angular.module('bluereconlineApp')
         $scope.memInfo = MemInfoLoader;
         $scope.memInfo.loadMembership();
 
+        $scope.customFieldInfo = CustomFieldLoader;
+
+        console.log('passing ' + ActiveUser.userData.user_id + ' as user id');
+        $scope.$watch(function(){return $scope.memInfo.busy;}, $scope.customFieldInfo.loadCustomFields(ActiveUser.userData.user_id));
+
+        console.log('custom fields');
+        console.log($scope.customFieldInfo);
+
         $scope.memInfo.totalMembershipFee = 0;
         $scope.memInfo.toPayToday = 0;
 
@@ -46,6 +54,66 @@ angular.module('bluereconlineApp')
 
         $scope.householdForm = {};
         //memReg.householdForm = $scope.memInfo.returnData.data[0];
+
+        function submitMembershipForm()
+        {
+            var submitData = {};
+            submitData.householdID = ActiveUser.userData.household_id;
+            submitData.itemID = $routeParams.itemid;
+            submitData.userID = ActiveUser.userData.user_id;
+            submitData.addedByUserID = ActiveUser.userData.user_id;
+            submitData.usePaymentPlan = ($scope.memForm.use_payment_plan)?'1':'0';
+            submitData.itemType = 'MEMBERSHIP';
+            submitData.familyMembership = $scope.memInfo.returnData.is_family;
+            submitData.totalCharge = $scope.memInfo.totalMembershipFee;
+            submitData.waivers = [];
+            submitData.members = [];
+
+            var waiverCount = 0;
+
+            for(var waivers = 0; waivers < $scope.memInfo.returnData.waivers.data.length; waivers++)
+            {
+                if($scope.memInfo.returnData.waivers.data[waivers].agreed === true)
+                {
+                    submitData.waivers[waiverCount] = {};
+                    submitData.waivers[waiverCount].waiverID = $scope.memInfo.returnData.waivers.data[waivers].waiver_id;
+                    waiverCount++;
+                }
+            }
+
+            var selectedMembers = 0;
+
+            for (var p = 0; p < memReg.household.length; p++) {
+                if (memReg.household[p].members_selected) {
+                    submitData.members[selectedMembers] = memReg.household[p];
+                    selectedMembers++;
+                }
+            }
+
+            console.log('here is what we will submit');
+            console.log(submitData);
+
+            $scope.memInfo.submittingCart = true;
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/add',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: submitData
+            };
+
+            return $http(req)
+                .then(
+                function success(response) {
+                    submitData = {};
+                    $scope.memInfo.submittingCart = false;
+                    $location.path('/' + $routeParams.orgurl + '/addedtocart');
+                    return response.data;
+                }
+            );
+        }
 
         function calculatePaymentFee()
         {
@@ -61,6 +129,8 @@ angular.module('bluereconlineApp')
 
         function calculateFee()
         {
+            console.log('memInfo');
+            console.log($scope.memInfo);
             var memInfo = $scope.memInfo;
             if(!memInfo.busy) {
                 var selectedUsers = 0;
@@ -94,16 +164,16 @@ angular.module('bluereconlineApp')
                                     totalFee += Number(memberFees[f].fee_amount);
                                     userFeeSelected = true;
                                     memReg.household[p].fees[userFeeCount] = {};
-                                    memReg.household[p].fees[userFeeCount].item_fee_id = memberFees[f].item_fee_id;
-                                    memReg.household[p].fees[userFeeCount].fee_amount = memberFees[f].fee_amount;
+                                    memReg.household[p].fees[userFeeCount].itemFeeID = memberFees[f].item_fee_id;
+                                    memReg.household[p].fees[userFeeCount].feeAmount = memberFees[f].fee_amount;
                                     userFeeCount++;
                                 }
                                 else if (!userFeeSelected && memberFees[f].mem_add_family_member_fee === '0') {
                                     totalFee += Number(memberFees[f].fee_amount);
                                     userFeeSelected = true;
                                     memReg.household[p].fees[userFeeCount] = {};
-                                    memReg.household[p].fees[userFeeCount].item_fee_id = memberFees[f].item_fee_id;
-                                    memReg.household[p].fees[userFeeCount].fee_amount = memberFees[f].fee_amount;
+                                    memReg.household[p].fees[userFeeCount].itemFeeID = memberFees[f].item_fee_id;
+                                    memReg.household[p].fees[userFeeCount].feeAmount = memberFees[f].fee_amount;
                                     userFeeCount++;
                                 }
                             }
@@ -124,4 +194,5 @@ angular.module('bluereconlineApp')
 
         $scope.calculateFee = calculateFee;
         $scope.calculatePaymentFee = calculatePaymentFee;
+        $scope.submitMembershipForm = submitMembershipForm;
   }]);

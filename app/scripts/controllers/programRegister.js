@@ -578,6 +578,7 @@ angular.module('bluereconlineApp')
             proReg.household[idx].submittingCart = false;
             proReg.household[idx].registrationSelected = false;
             proReg.household[idx].addedToCart = true;
+            $location.path('/' + $routeParams.orgurl + '/addedtocart');
             return response.data;
           }
       );
