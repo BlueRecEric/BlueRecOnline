@@ -1,4 +1,4 @@
-<div class="aside right" tabindex="-1" role="dialog">
+<div class="aside right" tabindex="-1" role="dialog" data-ng-controller="ShoppingCartCtrl">
 
     <div class="aside-content">
         <div class="aside-header" ng-show="title">
@@ -18,110 +18,67 @@
 
                 </div>
 
-                <form name="cartForm" class="form-horizontal" role="form" ng-submit="">
+                <form name="cartForm" class="form-horizontal" role="form" ng-submit="goToCheckout()">
                     <ng-form name="cartForm">
                         <div class="panel-body">
 
-                            <div class="well">
+                            <div class="well" data-ng-repeat="item in cart.data">
                                 <div>
                                      <span style="float: left;"> <span data-placement="right"><span class="fa-stack fa-lg clicky">
                                           <i class="fa fa-square fa-stack-2x text-danger"></i>
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span></span>
 
-                                        <h4 style="padding-top: 10px;">Example Program 1</h4>
+                                        <h4 style="padding-top: 10px;">{{item.item_name}}</h4>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-sm-2">&nbsp;</div>
+                                    <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-7">
-                                        <em>- John Doe</em>
+                                        <em>- {{item.person_name}}</em>
                                     </div>
                                 </div>
 
                                 <div class="row" style="padding-top: 5px;">
-                                    <div class="col-sm-2">&nbsp;</div>
+                                    <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-7">
-                                        <h4>$85.00</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                            <div class="well">
-                                <div>
-                                     <span style="float: left;"> <span data-placement="right"><span class="fa-stack fa-lg clicky">
-                                          <i class="fa fa-square fa-stack-2x text-danger"></i>
-                                          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
-                                        </span></span></span>
-
-                                    <h4 style="padding-top: 10px;">Example Program 1</h4>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-2">&nbsp;</div>
-                                    <div class="col-sm-7">
-                                        <em>- John Doe</em>
+                                        <h4>${{item.total_fee}}</h4>
                                     </div>
                                 </div>
 
-                                <div class="row" style="padding-top: 5px;">
-                                    <div class="col-sm-2">&nbsp;</div>
-                                    <div class="col-sm-7">
-                                        <h4>$85.00</h4>
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-sm-2">&nbsp;</div>
-                                    <div class="col-sm-1">
+                                <div data-ng-repeat="link in item.linked_items.data">
+                                    <div class="row">
+                                        <div class="col-sm-2">&nbsp;</div>
+                                        <div class="col-sm-1">
                                         <span data-placement="right"><span class="fa-stack fa-1x clicky">
                                           <i class="fa fa-square fa-stack-2x text-danger"></i>
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span>
+                                        </div>
+                                        <div class="col-sm-7" data-ng-show="link.linked_item_name != item.item_name">
+                                            <h5 style="margin-top: 5px;">{{link.linked_item_name}}</h5>
+                                        </div>
+                                        <div class="col-sm-7" data-ng-show="link.linked_person_name != item.person_name">
+                                            <h5 style="margin-top: 5px;">{{link.linked_person_name}}</h5>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-7">
-                                        <h5 style="margin-top: 5px;">Add-on package 1</h5>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">&nbsp;</div>
+                                        <div class="col-sm-7">
+                                            <h5 style="margin-top: 5px;">${{link.linked_total_fee}}</h5>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-sm-3">&nbsp;</div>
-                                    <div class="col-sm-7">
-                                        <h5 style="margin-top: 5px;">$10.00</h5>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-sm-2">&nbsp;</div>
-                                    <div class="col-sm-1">
-                                        <span data-placement="right"><span class="fa-stack fa-1x clicky">
-                                          <i class="fa fa-square fa-stack-2x text-danger"></i>
-                                          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
-                                        </span></span>
-                                    </div>
-                                    <div class="col-sm-7">
-                                        <h5 style="margin-top: 5px;">Add-on package 2</h5>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-3">&nbsp;</div>
-                                    <div class="col-sm-7">
-                                        <h5 style="margin-top: 5px;">$10.00</h5>
-                                    </div>
-                                </div>
                             </div>
 
-
-                            <h3>Total: $190</h3>
+                            <h3>Total: ${{(cart.totalFee).toFixed(2)}}</h3>
 
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <button type="button" id="submitCart" value="Submit" class="btn btn-success"  data-placement="center"><i class="fa fa-check-square"></i>
+                                    <button type="submit" id="submitCart" value="Submit" class="btn btn-success"  data-placement="center" ng-click="$hide()"><i class="fa fa-check-square"></i>
                                         <i class="fa fa-shopping-cart"></i> Checkout</button>
                                 </div>
 

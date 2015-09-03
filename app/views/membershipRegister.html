@@ -146,7 +146,7 @@
 
         <div class="form-group">
           <div class="col-sm-6" data-ng-show="!memInfo.submittingCart">
-            <button type="submit" id="submitFinal" value="Submit" class="btn btn-success"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> Add to Cart</button>
+            <button type="submit" id="submitFinal" value="Submit" class="btn btn-success" data-ng-enable="memForm.$valid"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> Add to Cart</button>
           </div>
           <div class="col-sm-6" data-ng-show="memInfo.submittingCart">
             Adding item to cart...

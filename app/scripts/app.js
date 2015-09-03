@@ -93,6 +93,11 @@ angular
                 controller: 'HomeCtrl',
                 controllerAs: 'home'
             })
+            .when('/:orgurl/checkout', {
+                templateUrl: 'views/checkout.html',
+                controller: 'ShoppingCartCtrl',
+                controllerAs: 'cart'
+            })
             .otherwise({
                 redirectTo: '/:orgurl/login'
             });
