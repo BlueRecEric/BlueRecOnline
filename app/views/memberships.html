@@ -1,133 +1,148 @@
 <div class="row" data-ng-animate=" 'slide-animate' ">
-    <div class="container" data-ng-controller="CurrentMembershipCtrl" data-ng-show="showCurrent && currentMemberships.returnData.length > 0">
+	<div class="container">
+		<div data-ng-controller="CurrentMembershipCtrl"
+			 data-ng-show="showCurrent && currentMemberships.returnData.length > 0">
 
-        <h3>Active Memberships</h3>
+			<h3>Active Memberships</h3>
 
-        <div class="well well-sm" data-ng-repeat="mem in currentMemberships.returnData">
+			<div class="well well-sm" data-ng-repeat="mem in currentMemberships.returnData">
 
-            <h5>{{mem.member_name}}</h5>
+				<h5>{{mem.member_name}}</h5>
 
-            <div class="row">
-                <div class="col-xs-4">
-                    {{mem.item_name}}
-                </div>
-                <div class="col-xs-4">
-                    Starts: {{mem.start_date}}
-                </div>
-                <div class="col-xs-4">
-                    Expires: {{mem.expire_date}}
-                </div>
-            </div>
-        </div>
+				<div class="row">
+					<div class="col-xs-4">
+						{{mem.item_name}}
+					</div>
+					<div class="col-xs-4">
+						Starts: {{mem.start_date}}
+					</div>
+					<div class="col-xs-4">
+						Expires: {{mem.expire_date}}
+					</div>
+				</div>
+			</div>
 
-    </div>
+		</div>
 
-    <div class="bs-callout bs-callout-info" id="callout-type-b-i-elems" data-ng-controller="CurrentMembershipCtrl" data-ng-show="!showCurrent">
-        <div class="row">
-            <p><a href="#/{{orgurl}}/login"><i class="fa fa-sign-in fa-2x pull-left fa-border"></i></a>
-                <a href="#/{{orgurl}}/login">Sign in</a> to see your current memberships</p>
-        </div>
-    </div>
+		<div class="bs-callout bs-callout-info" id="callout-type-b-i-elems" data-ng-controller="CurrentMembershipCtrl"
+			 data-ng-show="!showCurrent">
+			<div class="row">
+				<p><a href="#/{{orgurl}}/login"><i class="fa fa-sign-in fa-2x pull-left fa-border"></i></a>
+					<a href="#/{{orgurl}}/login">Sign in</a> to see your current memberships</p>
+			</div>
+		</div>
 
-    <div data-ng-controller="MembershipListCtrl">
-        <h3>Search Memberships</h3>
-        <div class="well hidden-xs">
-            <div class="row">
-                <form class="form-inline">
-                    <div class="form-group col-xs-4">
-                        <label>Keyword:</label>
-                        <input ng-model="query.item_name" class="form-control">
-                    </div>
-                    <div class="form-group col-xs-4 checkbox-bump-down">
-                        <checkbox name="searchFamily" id="searchFamily" class="btn-primary" data-ng-false-value='' data-ng-model="query.family_mem"></checkbox>
-                        <label for="searchFamily">Only Family Memberships</label>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="well visible-xs-block">
-            <form class="form-inline">
-                <div class="row">
-                    <div class="form-group col-xs-6">
-                        <label>Keyword:</label>
-                        <input placeholder="Enter Keyword" ng-model="query.item_name" class="pull-right form-control">
-                    </div>
-                    <div class="form-group col-xs-6">
-                        <checkbox name="searchFamily" id="searchFamily" class="btn-primary" data-ng-false-value='' data-ng-model="query.family_mem"></checkbox>
-                        <label for="searchFamily">Only Family Memberships</label>
-                    </div>
-                </div>
-            </form>
-        </div>
+		<div data-ng-controller="MembershipListCtrl">
+			<h3>Search Memberships</h3>
+
+			<div class="well hidden-xs">
+				<div class="row">
+					<form class="form-inline">
+						<div class="form-group col-xs-4">
+							<label>Keyword:</label>
+							<input ng-model="query.item_name" class="form-control">
+						</div>
+						<div class="form-group col-xs-4 checkbox-bump-down">
+							<checkbox name="searchFamily" id="searchFamily" class="btn-primary" data-ng-false-value=''
+									  data-ng-model="query.family_mem"></checkbox>
+							<label for="searchFamily">Only Family Memberships</label>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="well visible-xs-block">
+				<form class="form-inline">
+					<div class="row">
+						<div class="form-group col-xs-6">
+							<label>Keyword:</label>
+							<input placeholder="Enter Keyword" ng-model="query.item_name"
+								   class="pull-right form-control">
+						</div>
+						<div class="form-group col-xs-6">
+							<checkbox name="searchFamily" id="searchFamily" class="btn-primary" data-ng-false-value=''
+									  data-ng-model="query.family_mem"></checkbox>
+							<label for="searchFamily">Only Family Memberships</label>
+						</div>
+					</div>
+				</form>
+			</div>
 
 
-        <div>
-            <div class="panel panel-primary" data-ng-repeat="memtype in listMemberships.returnData.data | filter: query.item_name | filter: query.family_mem | unique: 'item_id'">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">({{memtype.item_code}}) {{memtype.item_name}}</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <strong>Duration:</strong> {{memtype.membership_length}}
-                        </div>
-                        <div class="col-sm-3">
-                            <strong>Price:</strong> <span data-ng-repeat="memFee in memtype.fees.data" data-ng-show="memFee.mem_add_family_member_fee === '0'">{{memFee.fee_name}}: ${{memFee.fee_amount}}<br></span>
+			<div>
+				<div class="panel panel-primary"
+					 data-ng-repeat="memtype in listMemberships.returnData.data | filter: query.item_name | filter: query.family_mem | unique: 'item_id'">
+					<div class="panel-heading clearfix">
+						<h3 class="panel-title pull-left">({{memtype.item_code}}) {{memtype.item_name}}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<strong>Duration:</strong> {{memtype.membership_length}}
+							</div>
+							<div class="col-sm-3">
+								<strong>Price:</strong> <span data-ng-repeat="memFee in memtype.fees.data"
+															  data-ng-show="memFee.mem_add_family_member_fee === '0'">{{memFee.fee_name}}: ${{memFee.fee_amount}}<br></span>
 
-                        </div>
-                        <div class="col-sm-3">
-                            <strong>Family:</strong> {{(memtype.is_family === '1')?'Yes':'No'}}<span data-ng-if="memtype.is_family === 1"> ({{memtype.family_max}} members)</span>
-                        </div>
-                        <div class="col-sm-3">
-                            <strong>Auto-renew:</strong> {{(memtype.automatic_renewal === '1')?'Yes':'No'}}
-                        </div>
-                    </div>
+							</div>
+							<div class="col-sm-3">
+								<strong>Family:</strong> {{(memtype.is_family === '1')?'Yes':'No'}}<span
+									data-ng-if="memtype.is_family === 1"> ({{memtype.family_max}} members)</span>
+							</div>
+							<div class="col-sm-3">
+								<strong>Auto-renew:</strong> {{(memtype.automatic_renewal === '1')?'Yes':'No'}}
+							</div>
+						</div>
 
-                    <div class="row">
-                        <div class="col-sm-12 text-right">
-                            <!--<button type="button" id="enroll" value="enroll" class="btn btn-info text-left" data-animation="am-fade-and-scale" data-placement="center" data-template="noPaymentGateway.html" bs-modal="modal"><i class="fa fa-sign-in"></i> Enroll</button>-->
-                            <a href="#/{{listMemberships.orgurl}}/membershipsignup/{{memtype.item_id}}" class="btn btn-info"><i class="fa fa-sign-in"></i> Enroll</a>
-                        </div>
-                    </div>
-                    <div style='clear: both;'></div>
-                </div>
-            </div>
-        </div>
+						<div class="row">
+							<div class="col-sm-12 text-right">
+								<!--<button type="button" id="enroll" value="enroll" class="btn btn-info text-left" data-animation="am-fade-and-scale" data-placement="center" data-template="noPaymentGateway.html" bs-modal="modal"><i class="fa fa-sign-in"></i> Enroll</button>-->
+								<a href="#/{{listMemberships.orgurl}}/membershipsignup/{{memtype.item_id}}"
+								   class="btn btn-info"><i class="fa fa-sign-in"></i> Enroll</a>
+							</div>
+						</div>
+						<div style='clear: both;'></div>
+					</div>
+				</div>
+			</div>
 
-        <div class="bs-callout bs-callout-primary" ng-show='listMemberships.busy' id="callout-type-b-i-elems">
-            <div class="row">
-                <p><i class="fa fa-futbol-o fa-spin fa-2x text-primary pull-left"></i>
-                    We are searching for more activities that fit your search criteria...
-                </p>
-            </div>
-        </div>
+			<div class="bs-callout bs-callout-primary" ng-show='listMemberships.busy' id="callout-type-b-i-elems">
+				<div class="row">
+					<p><i class="fa fa-futbol-o fa-spin fa-2x text-primary pull-left"></i>
+						We are searching for more activities that fit your search criteria...
+					</p>
+				</div>
+			</div>
 
-        <div class="bs-callout bs-callout-danger" ng-show='listMemberships.noresults' id="callout-type-b-i-elems">
-            <div class="row">
-                <p><span class="fa-stack fa-lg pull-left"><i class="fa fa-futbol-o fa-stack-1x"></i><i class="fa fa-ban fa-stack-2x text-danger"></i></span>
-                    It looks like there are no additional memberships available. If you have entered search criteria, try modifying your search to include more memberships.
-                </p>
-            </div>
-        </div>
-    </div>
+			<div class="bs-callout bs-callout-danger" ng-show='listMemberships.noresults' id="callout-type-b-i-elems">
+				<div class="row">
+					<p><span class="fa-stack fa-lg pull-left"><i class="fa fa-futbol-o fa-stack-1x"></i><i
+							class="fa fa-ban fa-stack-2x text-danger"></i></span>
+						It looks like there are no additional memberships available. If you have entered search
+						criteria, try modifying your search to include more memberships.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script type="text/ng-template" id="noPaymentGateway.html">
-    <div class="modal text-left" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title text-danger">Unable to add</h3>
-                </div>
-                <div class="modal-body">
-                    <p>We apologize, but we were unable to add this item to your shopping cart.</p>
+	<div class="modal text-left" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title text-danger">Unable to add</h3>
+				</div>
+				<div class="modal-body">
+					<p>We apologize, but we were unable to add this item to your shopping cart.</p>
 
-                    <p>Reason: No payment gateway has been configured. If you are running in a demo or development setting, this is normal.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" ng-click="$hide()">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+					<p>Reason: No payment gateway has been configured. If you are running in a demo or development
+						setting, this is normal.</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger" ng-click="$hide()">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </script>
