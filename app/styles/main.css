@@ -503,6 +503,12 @@ aside .aside-dialog .aside-footer:before,
     background: #f00010 !important;
 }
 
+
+
+.rz-pointer2.rz-active:after {
+    background-color: #f00010!important;
+}
+
 .tooltip {
    top:0px!important;
 }
