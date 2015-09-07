@@ -1,15 +1,3 @@
-<style>
-	.ng-enter {
-		-webkit-transition: .3s;
-		transition: .3s;
-		opacity: 0;
-	}
-	.ng-enter-active {
-		opacity: 1;
-		-webkit-transition: .35s;
-		transition: .5s;
-	}
-</style>
 
 
 <div class="row" data-ng-animate="'slide'">
@@ -35,7 +23,7 @@
 		<h3 class="panel-title">
 			<a bs-collapse-toggle style="text-decoration: none;" ng-click="onSearchWindowOpenEvent()">
 				<div class="clicky no-select">
-					<span style="text-decoration: underline;">Advanced Search</span>&nbsp;
+					<span class="text-underline">Advanced Search</span>&nbsp;
 					<i style="top:2px;" class="glyphicon light-blue-color" ng-class="{'glyphicon-triangle-bottom': searchPanelActive===0, 'glyphicon-triangle-right': searchPanelActive===-1}"></i>
 				</div>
 			</a>

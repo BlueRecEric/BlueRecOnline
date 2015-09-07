@@ -1,170 +1,183 @@
 <!doctype html>
 <html class="no-js">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel='stylesheet' href='bower_components/angular-loading-bar/build/loading-bar.css' />
-    <link rel='stylesheet' href='bower_components/angularjs-slider/dist/rzslider.css' />
-    <link rel='stylesheet' href='bower_components/angular-ui-select/dist/select.css' />
-    <link rel='stylesheet' href='bower_components/v-button/dist/v-button.css' />
-    <!-- endbower -->
-    <!-- endbuild -->
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<!-- build:css(.) styles/vendor.css -->
+	<!-- bower:css -->
+	<link rel='stylesheet' href='bower_components/angular-loading-bar/build/loading-bar.css' />
+	<link rel='stylesheet' href='bower_components/angularjs-slider/dist/rzslider.css' />
+	<link rel='stylesheet' href='bower_components/angular-ui-select/dist/select.css' />
+	<link rel='stylesheet' href='bower_components/v-button/dist/v-button.css' />
+	<!-- endbower -->
+	<!-- endbuild -->
 
-      <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cerulean/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cerulean/bootstrap.min.css" rel="stylesheet">
 
-      <!-- build:css(.tmp) styles/main.css -->
+	<!-- build:css(.tmp) styles/main.css -->
 
-      <link rel="stylesheet" href="styles/angular-motion.min.css">
-      <link rel="stylesheet" href="styles/main.css">
-      <link rel="stylesheet" href="styles/calendar.css">
+	<link rel="stylesheet" href="styles/angular-motion.min.css">
+	<link rel="stylesheet" href="styles/main.css">
+	<link rel="stylesheet" href="styles/calendar.css">
 
-      <!-- endbuild -->
+	<!-- endbuild -->
 
-      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
 
-      <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <!--<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>-->
-    <script src='//maps.googleapis.com/maps/api/js?libraries=places&sensor=false'></script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/gsap/1.13.1/TweenMax.min.js'></script>
-  </head>
-  <body ng-app="bluereconlineApp"><a id="pageTop"></a>
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+	<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<!--<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>-->
+	<script src='//maps.googleapis.com/maps/api/js?libraries=places&sensor=false'></script>
+	<script src='//cdnjs.cloudflare.com/ajax/libs/gsap/1.13.1/TweenMax.min.js'></script>
+</head>
+<body ng-app="bluereconlineApp"><a id="pageTop"></a>
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+	your browser</a> to improve your experience.</p>
+<![endif]-->
 
-    <!-- Add your site or application content here -->
+<!-- Add your site or application content here -->
 <header>
-    <div class="wide">
-      <div class="container logo"><img class="img-responsive" src="images/header_logo_bv.png"></div>
-    </div>
+	<div class="wide">
+		<div class="container logo"><img class="img-responsive" src="images/header_logo_bv.png"></div>
+	</div>
 </header>
-    <div data-ng-controller="UserAuthCtrl"></div>
+<div data-ng-controller="UserAuthCtrl"></div>
 
-      <div id="nav" class="bluerecnav header navbar navbar-default" role="navigation"  bs-affix>
-      <div class="container" data-ng-controller="MenuCtrl" >
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
+<div id="nav" class="bluerecnav header navbar navbar-default navbar-fixed-top" role="navigation" bs-affix>
+	<div class="container" data-ng-controller="MenuCtrl">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#js-navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
 
-        <div class="collapse navbar-collapse" id="js-navbar-collapse">
+		<div class="collapse navbar-collapse collapsing" id="js-navbar-collapse">
 
-          <ul class="nav navbar-nav" >
-            <li data-ng-hide="!currentUser.validLogin"  ng-cloak><a ng-href="#/{{HomeLink}}"><i class="fa fa-home"></i> Home</a></li>
-            <li data-ng-hide="currentUser.validLogin" ng-cloak><a ng-href="#/{{LoginLink}}"><i class="fa fa-sign-in"></i> Login</a></li>
-            <li class="dropdown" data-ng-hide="!currentUser.validLogin" ng-cloak>
-              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> Settings<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#/{{MyAccountLink}}"><i class="fa fa-user"></i> My Account</a></li>
-                <li><a href="#/{{HouseholdLink}}"><i class="fa fa-users"></i> Household</a></li>
-                <li><a href="#/{{PurchasesLink}}"><i class="fa fa-usd"></i> Purchases</a></li>
-              </ul>
-            </li>
-            <li><a ng-href="#/{{ActivitiesLink}}" ng-cloak><i class="fa fa-futbol-o"></i> Activities</a></li>
-            <li><a ng-href="#/{{MembershipsLink}}" ng-cloak><i class="fa fa-credit-card"></i> Memberships</a></li>
-            <li><a ng-href="#/{{ReservationsLink}}" ng-cloak><i class="fa fa-check-square-o"></i> Reservations</a></li>
-            <li data-ng-show="false" ng-cloak><a ng-href="#/{{ShopLink}}"><i class="fa fa-tags"></i> Shop</a></li>
-          </ul>
+			<ul class="nav navbar-nav">
+				<li data-toggle="collapse" data-target=".in" data-ng-hide="!currentUser.validLogin" ng-cloak><a ng-href="#/{{HomeLink}}"><i
+						class="fa fa-home"></i> Home</a></li>
+				<li data-toggle="collapse" data-target=".in" data-ng-hide="currentUser.validLogin" ng-cloak><a ng-href="#/{{LoginLink}}"><i
+						class="fa fa-sign-in"></i> Login</a></li>
+				<li data-toggle="collapse" data-target=".in" class="dropdown" data-ng-hide="!currentUser.validLogin" ng-cloak>
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+					   aria-expanded="false"><i class="fa fa-cog"></i> Settings<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li data-toggle="collapse" data-target=".in"><a href="#/{{MyAccountLink}}"><i class="fa fa-user"></i> My Account</a></li>
+						<li data-toggle="collapse" data-target=".in"><a href="#/{{HouseholdLink}}"><i class="fa fa-users"></i> Household</a></li>
+						<li data-toggle="collapse" data-target=".in"><a href="#/{{PurchasesLink}}"><i class="fa fa-usd"></i> Purchases</a></li>
+					</ul>
+				</li>
+				<li data-toggle="collapse" data-target=".in"><a ng-href="#/{{ActivitiesLink}}" ng-cloak><i class="fa fa-futbol-o"></i> Activities</a></li>
+				<li data-toggle="collapse" data-target=".in"><a ng-href="#/{{MembershipsLink}}" ng-cloak><i class="fa fa-credit-card"></i> Memberships</a></li>
+				<li data-toggle="collapse" data-target=".in"><a ng-href="#/{{ReservationsLink}}" ng-cloak><i class="fa fa-check-square-o"></i> Reservations</a>
+				</li>
+				<li data-ng-show="false" ng-cloak><a ng-href="#/{{ShopLink}}"><i class="fa fa-tags"></i> Shop</a></li>
+			</ul>
 
-          <ul class="nav navbar-nav navbar-right">
-            <li ng-cloak  class="clicky" data-ng-hide="!currentUser.validLogin"
-                data-template="views/shoppingcart.html" data-placement="right" data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body">
-                <a><i class="fa fa-shopping-cart"></i> Cart <!--<span class="badge" > {{CartCount}} </span>--></a></li>
+			<ul class="nav navbar-nav navbar-right">
+				<li ng-cloak class="clicky" data-ng-hide="!currentUser.validLogin"
+					data-template="views/shoppingcart.html" data-placement="right"
+					data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body">
+					<a><i class="fa fa-shopping-cart"></i> Cart <!--<span class="badge" > {{CartCount}} </span>--></a>
+				</li>
 
-            <li class="clicky"  data-ng-hide="!currentUser.validLogin" ng-cloak>
-                <a ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+				<li class="clicky" data-ng-hide="!currentUser.validLogin" ng-cloak>
+					<a ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
 
-          </ul>
-        </div>
-      </div>
-    </div>
+<!--<div class="container view-animate-container">
+	<div ng-view="" class="view-animate"></div>
+</div>-->
 
-    <div class="container view-animate-container">
-      <div ng-view="" class="view-animate"></div>
-    </div>
+<div class="container view-animate-container">
+	<div ng-view=""></div>
+</div>
 
-    <footer class="header noborder ">
-      <div class="navbar navbar-inverse navbar-fixed-bottom">
-        <div class="container socialnav ">
-             <a href="https://twitter.com"><i class="fa fa-twitter fa-2x"></i></a>
-             <a href="https://facebook.com"><i class="fa fa-facebook-official fa-2x"></i></a>
-             <a href="https://plus.google.com"><i class="fa fa-google-plus-square fa-2x"></i></a>
-        </div>
-      </div>
-    </footer>
+<footer class="header noborder ">
+	<div class="navbar navbar-inverse navbar-fixed-bottom">
+		<div class="container socialnav ">
+			<a href="https://twitter.com"><i class="fa fa-twitter fa-2x"></i></a>
+			<a href="https://facebook.com"><i class="fa fa-facebook-official fa-2x"></i></a>
+			<a href="https://plus.google.com"><i class="fa fa-google-plus-square fa-2x"></i></a>
+		</div>
+	</div>
+</footer>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-       }(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+<script>
+	!function (A, n, g, u, l, a, r) {
+		A.GoogleAnalyticsObject = l, A[l] = A[l] || function () {
+			(A[l].q = A[l].q || []).push(arguments)
+		}, A[l].l = +new Date, a = n.createElement(g),
+				r = n.getElementsByTagName(g)[0], a.src = u, r.parentNode.insertBefore(a, r)
+	}(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>
+	ga('create', 'UA-XXXXX-X');
+	ga('send', 'pageview');
+</script>
 
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-messages/angular-messages.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
-    <script src="bower_components/angular-md5/angular-md5.js"></script>
-    <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-    <script src="bower_components/lodash/lodash.js"></script>
-    <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
-    <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
-    <script src="bower_components/angular-dynforms/dynamic-forms.js"></script>
-    <script src="bower_components/angular-strap/dist/angular-strap.js"></script>
-    <script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
-    <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
-    <script src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
-    <script src="bower_components/ngAutocomplete/src/ngAutocomplete.js"></script>
-    <script src="bower_components/angularjs-slider/rzslider.js"></script>
-    <script src="bower_components/angular-ui-select/dist/select.js"></script>
-    <script src="bower_components/v-button/dist/v-button.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
+<script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+<script src="bower_components/angular-md5/angular-md5.js"></script>
+<script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+<script src="bower_components/lodash/lodash.js"></script>
+<script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+<script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+<script src="bower_components/angular-dynforms/dynamic-forms.js"></script>
+<script src="bower_components/angular-strap/dist/angular-strap.js"></script>
+<script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
+<script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+<script src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
+<script src="bower_components/ngAutocomplete/src/ngAutocomplete.js"></script>
+<script src="bower_components/angularjs-slider/rzslider.js"></script>
+<script src="bower_components/angular-ui-select/dist/select.js"></script>
+<script src="bower_components/v-button/dist/v-button.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/sitescripts.js"></script>
-        <script src="scripts/config/config.js"></script>
-        <script src="scripts/app.js"></script>
-        <script src="scripts/calendar-tpls.js"></script>
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/sitescripts.js"></script>
+<script src="scripts/config/config.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/calendar-tpls.js"></script>
 
-        <script src="scripts/controllers/homeCtrl.js"></script>
-        <script src="scripts/controllers/shoppingCartCtrl.js"></script>
-        <script src="scripts/controllers/loginctrl.js"></script>
-        <script src="scripts/controllers/userAuthCtrl.js"></script>
-        <script src="scripts/controllers/menuCtrl.js"></script>
-        <script src="scripts/controllers/programlist.js"></script>
-        <script src="scripts/controllers/programinfo.js"></script>
-        <script src="scripts/controllers/programRegister.js"></script>
-        <script src="scripts/controllers/membershipRegister.js"></script>
-        <script src="scripts/controllers/requestReservation.js"></script>
-        <script src="scripts/controllers/currentMembershipCtrl.js"></script>
-        <script src="scripts/controllers/membershipListCtrl.js"></script>
-        <script src="scripts/controllers/myAccountCtrl.js"></script>
-        <script src="scripts/directives/stateSelect.js"></script>
-        <!-- endbuild -->
+<script src="scripts/controllers/homeCtrl.js"></script>
+<script src="scripts/controllers/shoppingCartCtrl.js"></script>
+<script src="scripts/controllers/loginctrl.js"></script>
+<script src="scripts/controllers/userAuthCtrl.js"></script>
+<script src="scripts/controllers/menuCtrl.js"></script>
+<script src="scripts/controllers/programlist.js"></script>
+<script src="scripts/controllers/programinfo.js"></script>
+<script src="scripts/controllers/programRegister.js"></script>
+<script src="scripts/controllers/membershipRegister.js"></script>
+<script src="scripts/controllers/requestReservation.js"></script>
+<script src="scripts/controllers/currentMembershipCtrl.js"></script>
+<script src="scripts/controllers/membershipListCtrl.js"></script>
+<script src="scripts/controllers/myAccountCtrl.js"></script>
+<script src="scripts/directives/stateSelect.js"></script>
+<!-- endbuild -->
 </body>
 </html>

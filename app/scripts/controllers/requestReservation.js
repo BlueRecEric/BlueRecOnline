@@ -56,6 +56,40 @@ angular.module('bluereconlineApp')
 
             $scope.isSearchIconBusy = false;
 
+            $scope.contactCheckAlert=false;
+
+            $scope.hideBasicInfo=true;
+
+            $scope.displayPackages=false;
+            $scope.displayCustomFields=false;
+
+            $scope.rentalCodeSearch = '';
+
+            $scope.facilitySearchItems=[];
+            $scope.selectedSearchFacilities.facilities=[];
+
+            $scope.rentalDescription = 'N/A';
+
+            $scope.reservationDetails = '';
+            $scope.reservationNotes = '';
+
+            $scope.phoneNumber = '';
+            $scope.emailAddress = '';
+            $scope.contactMethod = '';
+
+            $scope.selectedDate= new Date();
+
+            $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
+            $scope.endTime = new Date(1970, 0, 1, 9, 0, 40);
+
+            $scope.feeAmount = 0.00;
+
+            $scope.eventSource=[];
+
+            $scope.rentalPackages=[];
+            $scope.rentalCustomFields=[];
+
+
             $scope.buttonClick = function () {
                 $scope.isSearchIconBusy = !$scope.isSearchIconBusy;
             };
@@ -102,39 +136,6 @@ angular.module('bluereconlineApp')
             {
                 console.log('changed', $scope.priceSlider);
             };
-
-            $scope.contactCheckAlert=false;
-
-            $scope.hideBasicInfo=true;
-
-            $scope.displayPackages=false;
-            $scope.displayCustomFields=false;
-
-            $scope.rentalCodeSearch = '';
-
-            $scope.facilitySearchItems=[];
-            $scope.selectedSearchFacilities.facilities=[];
-
-            $scope.rentalDescription = 'N/A';
-
-            $scope.reservationDetails = '';
-            $scope.reservationNotes = '';
-
-            $scope.phoneNumber = '';
-            $scope.emailAddress = '';
-            $scope.contactMethod = '';
-
-            $scope.selectedDate= new Date();
-
-            $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
-            $scope.endTime = new Date(1970, 0, 1, 9, 0, 40);
-
-            $scope.feeAmount = 0.00;
-
-            $scope.eventSource=[];
-
-            $scope.rentalPackages=[];
-            $scope.rentalCustomFields=[];
 
             $anchorScroll('pageTop');
 
@@ -490,7 +491,7 @@ angular.module('bluereconlineApp')
                 selectedRow.iconBusy = !selectedRow.iconBusy;
             };
 
-        }])
+    }])
 
     .config(function($dropdownProvider) {
         angular.extend($dropdownProvider.defaults, {

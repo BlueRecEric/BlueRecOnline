@@ -532,3 +532,26 @@ input::-moz-focus-inner {
 input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     outline: 0!important;
 }
+
+.navbar-collapse.collapsing {
+    -webkit-transition: height 0.01s;
+    -moz-transition: height 0.01s;
+    -ms-transition: height 0.01s;
+    -o-transition: height 0.01s;
+    transition: height 0.01s;
+}
+
+.ng-enter {
+    -webkit-transition: .3s;
+    transition: .3s;
+    opacity: 0;
+}
+.ng-enter-active {
+    opacity: 1;
+    -webkit-transition: .35s;
+    transition: .5s;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
