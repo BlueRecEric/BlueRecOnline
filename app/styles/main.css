@@ -473,9 +473,13 @@ aside .aside-dialog .aside-footer:before,
 }
 
 .checkbox-weekday-spacing {
+     width: 95px!important;
+}
+
+.label-weekday-spacing {
     padding-left: 10px;
     padding-right: 10px;
-    width: 70px;
+    width: 70px!important;;
 }
 
 .no-word-wrap {
@@ -502,8 +506,6 @@ aside .aside-dialog .aside-footer:before,
 .rz-pointer2 {
     background: #f00010 !important;
 }
-
-
 
 .rz-pointer2.rz-active:after {
     background-color: #f00010!important;
@@ -560,4 +562,8 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 
 .text-underline {
     text-decoration: underline;
+}
+
+.has-error {
+    color: #f00010;
 }

@@ -16,7 +16,6 @@
 
 <h3 style="padding-bottom: 10px;">Reservation Request Form</h3>
 
-
 <div ng-show="!userLoggedIn">
 	<div class="alert alert-danger" role="alert">
 		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -26,248 +25,284 @@
 
 <div ng-show="userLoggedIn">
 <ng-form name="innerForm">
-<form class="form-horizontal">
-
 
 <div class="panel panel-default" ng-model="searchPanelActive" bs-collapse>
-	<div class="panel-heading clearfix">
-		<h3 class="panel-title">
-			<a bs-collapse-toggle style="text-decoration: none;" ng-click="onSearchWindowOpenEvent()">
-				<div class="clicky no-select">
-					<span class="text-underline">Advanced Search</span>&nbsp;
-					<i style="top:2px;" class="glyphicon light-blue-color"
-					   ng-class="{'glyphicon-triangle-bottom': searchPanelActive===0, 'glyphicon-triangle-right': searchPanelActive===-1}"></i>
+<div class="panel-heading clearfix">
+	<h3 class="panel-title">
+		<a bs-collapse-toggle style="text-decoration: none;" ng-click="onSearchWindowOpenEvent()">
+			<div class="clicky no-select">
+				<span class="text-underline">Advanced Search</span>&nbsp;
+				<i style="top:2px;" class="glyphicon light-blue-color"
+				   ng-class="{'glyphicon-triangle-bottom': searchPanelActive===0, 'glyphicon-triangle-right': searchPanelActive===-1}"></i>
+			</div>
+		</a>
+	</h3>
+</div>
+
+<div id="searchPanel" class="panel-body panel-collapse" bs-collapse-target style="padding:4px;">
+
+<div class="alert alert-danger animate-show animate-hide" role="alert" ng-show="searchErrorMessage.length>0"
+	 style="word-wrap: break-word;">
+	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+
+	{{searchErrorMessage}}
+</div>
+
+
+<form name="searchForm" novalidate>
+
+<div class="container">
+
+	<div class=" ">
+		<div class="col-sm-3">
+			<div class="form-group">
+				<div class="row" style="padding-left: 0px;">
+					<div class="col-sm-12">
+						<label for="searchRentalType"
+							   ng-class="{'has-error': searchForm.$submitted && searchForm.searchRentalType.$invalid}">*Rental
+							Type:</label>
+					</div>
+					<div class="col-sm-12">
+						<select ng-model="rentalCodeSearch" class="form-control" style="width: 100%;max-width:225px;"
+								ng-change="setNewRental(true)" id="searchRentalType" name="searchRentalType"
+								required>
+							<option value="">--Select Rental Type--</option>
+							<option ng-repeat="rentalRow in rentalDropDown" value="{{rentalRow.item_id}}">
+								{{rentalRow.item_name}}
+							</option>
+						</select>
+					</div>
 				</div>
-			</a>
-		</h3>
+			</div>
+		</div>
+		<div class="col-sm-9">
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-12">
+						<label for="searchFacilities"
+							   ng-class="{'has-error': searchForm.$submitted && searchForm.searchFacilities.$invalid}">*Facility:</label>
+					</div>
+					<div class="col-sm-12" style="padding-left: 12px;">
+						<ui-select multiple array-required ng-model="selectedSearchFacilities.facilities"
+								   id="searchFacilities" name="searchFacilities"
+								   style="width:100%;min-width:225px;max-width: 300px;" search-enabled="false">
+							<ui-select-match placeholder="Select Facility...">{{$item.item_name}}
+							</ui-select-match>
+							<ui-select-choices repeat=" facility in facilitySearchItems">
+								{{facility.item_name}}
+							</ui-select-choices>
+						</ui-select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="" style="padding-left: 0px;">
+	<div class="col-sm-3">
+		<div class="form-group col-sm-12" style="padding-top: 6px;">
+			<div class="row" style="padding-left: 0px;">
+				<div class="col-sm-12">
+					<label for="earliestStartDate"
+						   ng-class="{'has-error': searchForm.$submitted && searchForm.earliestStartDate.$invalid}">*From
+						Date:</label>
+				</div>
+				<div class="col-sm-12">
+					<input id="earliestStartDate" name="earliestStartDate" style="width: 170px;" container="body"
+						   type="text"
+						   class="form-control" ng-model="fromDate" data-max-date="{{untilDate}}"
+						   placeholder="From Date" data-autoclose="1" required bs-datepicker>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<div id="searchPanel" class="panel-body panel-collapse" bs-collapse-target style="padding:4px;">
-
-		<div class="container">
-
-			<div class="form-inline">
-				<div class="col-sm-3">
-					<div class="form-group">
-						<div class="row" style="padding-left: 0px;">
-							<div class="col-sm-12">
-								<label for="earliestStartDate">Rental Type:</label>
-							</div>
-							<div class="col-sm-12">
-								<select ng-model="rentalCodeSearch" class="form-control" style="width: 225px;"
-										ng-change="setNewRental(true)">
-									<option value="">--Select Rental Type--</option>
-									<option ng-repeat="rentalRow in rentalDropDown" value="{{rentalRow.item_id}}">
-										{{rentalRow.item_name}}
-									</option>
-								</select>
-							</div>
-						</div>
-					</div>
+	<div class="col-sm-3" style="padding-right: 10px;">
+		<div class="form-group col-sm-12" style="padding-top: 6px;">
+			<div class="row">
+				<div class="col-sm-12">
+					<label for="latestStartDate"
+						   ng-class="{'has-error': searchForm.$submitted && searchForm.latestStartDate.$invalid}">*Until
+						Date:</label>
 				</div>
-				<div class="col-sm-9">
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-12">
-								<label for="earliestStartDate">Facility:</label>
-							</div>
-							<div class="col-sm-12">
-								<ui-select multiple ng-model="selectedSearchFacilities.facilities"
-										   style="width:100%;min-width:225px;max-width: 300px;" search-enabled="false"
-										   ng-disabled="disabled">
-									<ui-select-match placeholder="Select Facility...">{{$item.item_name}}
-									</ui-select-match>
-									<ui-select-choices repeat="facility.item_id as facility in facilitySearchItems">
-										{{facility.item_name}}
-									</ui-select-choices>
-								</ui-select>
-							</div>
-						</div>
-					</div>
+				<div class="col-sm-12">
+					<input id="latestStartDate" name="latestStartDate" style="width: 170px;" container="body"
+						   type="text"
+						   class="form-control" ng-model="untilDate" data-min-date="{{fromDate}}"
+						   placeholder="Until Date" data-autoclose="1" required bs-datepicker>
 				</div>
 			</div>
 		</div>
-		<script>
-			$(function () {
-				$("#earliestStartDate").isOpen = false;
-			});
-		</script>
+	</div>
 
 
-		<div class="container" style="; padding-left: 0px;">
-			<div class="col-sm-3">
-				<div class="form-group col-sm-12" style="padding-top: 6px;">
-					<div class="row" style="padding-left: 0px;">
-						<div class="col-sm-12">
-							<label for="earliestStartDate">From Date:</label>
-						</div>
-						<div class="col-sm-12">
-							<input id="earliestStartDate" style="width: 170px;" container="body" type="text"
-								   class="form-control"
-								   ng-model="fromDate" data-max-date="{{fromDate}}" placeholder="From Date"
-								   data-autoclose="1" bs-datepicker>
-						</div>
-					</div>
+	<div class="col-sm-6">
+		<div class="form-group col-sm-12">
+			<div class="row">
+				<div class="col-sm-12">
+					<label ng-class="{'has-error': searchForm.$submitted && durationError}">
+						*Rental's Duration: {{searchForm.$submitted && durationError?'(Duration must be greater than
+						0 minutes)':''}}
+					</label>
 				</div>
-			</div>
-
-			<div class="col-sm-3" style="padding-right: 10px;">
-				<div class="form-group col-sm-12" style="padding-top: 6px;">
-					<div class="row">
-						<div class="col-sm-12">
-							<label for="latestStartDate">Until Date:</label>
-						</div>
-						<div class="col-sm-12">
-							<input id="latestStartDate" style="width: 170px;" container="body" type="text"
-								   class="form-control"
-								   ng-model="untilDate" data-min-date="{{untilDate}}" placeholder="Until Date"
-								   data-autoclose="1" bs-datepicker>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-			<div class="col-sm-6">
-				<div class="form-group col-sm-12">
-					<div class="row">
-						<div class="col-sm-12">
-							<label>Rental's Duration:</label>
-						</div>
-						<div class="text-right col-sm-12">
-							<rzslider
-									rz-slider-draggable-range="true"
-									rz-slider-hide-limit-labels="true"
-									rz-slider-step="30"
-									rz-slider-model="durationSelected"
-									rz-slider-floor="durationSlider.floor"
-									rz-slider-ceil="durationSlider.ceil"
-									rz-slider-always-show-bar="true"
-									rz-slider-translate="translateDuration"
-									rz-slider-tpl-url="rzSliderTpl2.html"></rzslider>
-						</div>
-					</div>
+				<div class="text-right col-sm-12">
+					<rzslider
+							rz-slider-draggable-range="true"
+							rz-slider-hide-limit-labels="true"
+							rz-slider-step="30"
+							rz-slider-model="durationSelected"
+							rz-slider-floor="durationSlider.floor"
+							rz-slider-ceil="durationSlider.ceil"
+							rz-slider-always-show-bar="true"
+							rz-slider-translate="translateDuration"
+							rz-slider-tpl-url="rzSliderTpl2.html"></rzslider>
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
 
-
-		<div class="container" style="padding-left: 0px;">
-			<div class="col-sm-12">
-				<div class="form-group col-sm-12">
-					<div class="row">
-						<div class="col-sm-12">
-							<label>Time frame to Search:</label>
-						</div>
-						<div class="col-sm-12 text-left">
-							<rzslider
-									rz-slider-draggable-range="false"
-									rz-slider-precision="true"
-									rz-slider-step="30"
-									rz-slider-model="timeRangeStartSelected"
-									rz-slider-floor="timeSlider.floor"
-									rz-slider-ceil="timeSlider.ceil"
-									rz-slider-high="timeRangeEndSelected"
-									rz-slider-translate="translate"></rzslider>
-						</div>
-					</div>
+<div class="" style="padding-left: 0px;">
+	<div class="col-sm-12">
+		<div class="form-group col-sm-12">
+			<div class="row">
+				<div class="col-sm-12">
+					<label ng-class="{'has-error': searchForm.$submitted && timeFrameError}">
+						*Time Frame to Search: {{searchForm.$submitted && timeFrameError?'(Start and End times
+						cannot be the same)':''}}
+					</label>
+				</div>
+				<div class="col-sm-12 text-left">
+					<rzslider
+							rz-slider-draggable-range="false"
+							rz-slider-precision="true"
+							rz-slider-step="30"
+							rz-slider-model="timeRangeStartSelected"
+							rz-slider-floor="timeSlider.floor"
+							rz-slider-ceil="timeSlider.ceil"
+							rz-slider-high="timeRangeEndSelected"
+							rz-slider-translate="translate"></rzslider>
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
 
 
-		<div class="container">
-			<div class="col-sm-12">
-				<div class="form-group col-sm-12">
-					<div class="row">
-						<div class="col-sm-12">
-							<label>Weekdays:</label>
-						</div>
-						<div class="col-sm-12">
-							<span class="no-word-wrap "><checkbox class="btn-default checkbox-dark-border"
-																  ng-model="chkSunday" ng-change="filterTrainerList()"
-																  id="checkSun"></checkbox><label for="checkSun"
-																								  class="checkbox-weekday-spacing">
+<div class="container" style="padding-left: 0px;">
+	<div class="col-sm-12">
+		<div class="form-group col-sm-12">
+			<div class="row">
+				<div class="col-sm-12">
+					<label ng-class="{'has-error': searchForm.$submitted && weekdaysError}">*Weekdays:</label>
+				</div>
+				<div class="col-sm-12">
+							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+									class="btn-default checkbox-dark-border"
+									ng-model="weekdaySearch.sunday"
+									ng-change="filterTrainerList()"
+									id="checkSun"></checkbox><label for="checkSun"
+																	 class="label-weekday-spacing">
 								Sun</label></span>
-							<span class="no-word-wrap"><checkbox class="btn-default checkbox-dark-border"
-																 ng-model="chkMonday" ng-change="filterTrainerList()"
-																 id="checkMon"></checkbox> <label for="checkMon"
-																								  class="checkbox-weekday-spacing">
+							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+									class="btn-default checkbox-dark-border"
+									ng-model="weekdaySearch.monday"
+									ng-change="filterTrainerList()"
+									id="checkMon"></checkbox><label for="checkMon"
+																	 class="label-weekday-spacing">
 								Mon</label></span>
-							<span class="no-word-wrap"><checkbox class="btn-default checkbox-dark-border"
-																 ng-model="chkTuesday" ng-change="filterTrainerList()"
-																 id="checkTues"></checkbox><label for="checkTues"
-																								  class="checkbox-weekday-spacing">
+							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+									class="btn-default checkbox-dark-border"
+									ng-model="weekdaySearch.tuesday"
+									ng-change="filterTrainerList()"
+									id="checkTues"></checkbox><label for="checkTues"
+																	 class="label-weekday-spacing">
 								Tues</label></span>
-							<span class="no-word-wrap"><checkbox class="btn-default checkbox-dark-border"
-																 ng-model="chkWednesday" ng-change="filterTrainerList()"
-																 id="checkWed"></checkbox><label for="checkWed"
-																								 class="checkbox-weekday-spacing">
+							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+									class="btn-default checkbox-dark-border"
+									ng-model="weekdaySearch.wednesday"
+									ng-change="filterTrainerList()"
+									id="checkWed"></checkbox><label for="checkWed"
+																	class="label-weekday-spacing">
 								Wed</label></span>
-							<span class="no-word-wrap"><checkbox class="btn-default checkbox-dark-border"
-																 ng-model="chkThursday" ng-change="filterTrainerList()"
-																 id="checkThur"></checkbox><label for="checkThur"
-																								  class="checkbox-weekday-spacing">
+							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+									class="btn-default checkbox-dark-border"
+									ng-model="weekdaySearch.thursday"
+									ng-change="filterTrainerList()"
+									id="checkThur"></checkbox><label for="checkThur"
+																	 class="label-weekday-spacing">
 								Thur</label></span>
-							<span class="no-word-wrap"><checkbox class="btn-default checkbox-dark-border"
-																 ng-model="chkFriday" ng-change="filterTrainerList()"
-																 id="checkFri"></checkbox><label for="checkFri"
-																								 class="checkbox-weekday-spacing">
+							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+									class="btn-default checkbox-dark-border"
+									ng-model="weekdaySearch.friday"
+									ng-change="filterTrainerList()"
+									id="checkFri"></checkbox><label for="checkFri"
+																	class="label-weekday-spacing">
 								Fri</label></span>
-							<span class="no-word-wrap"><checkbox class="btn-default checkbox-dark-border"
-																 ng-model="chkSaturday" ng-change="filterTrainerList()"
-																 id="checkSat"></checkbox><label for="checkSat"
-																								 class="checkbox-weekday-spacing">
+							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+									class="btn-default checkbox-dark-border"
+									ng-model="weekdaySearch.saturday"
+									ng-change="filterTrainerList()"
+									id="checkSat"></checkbox><label for="checkSat"
+																	class="label-weekday-spacing">
 								Sat</label></span>
-						</div>
-					</div>
 				</div>
-
 			</div>
-		</div>
-
-
-		<div class="container text-center">
-			<button style="min-width:220px;" class="btn btn-info" container="body" ng-click="onSearchRentalTimes()"
-					v-busy="isSearchIconBusy" v-busy-label="Searching..." v-pressable>Search Available Rental Times
-			</button>
-		</div>
-
-
-		<div class="container" data-ng-if="displaySearchResults">
-			<div class="table-responsive">
-				<table class="table table-striped">
-					<thead>
-					<tr>
-						<th width="108"></th>
-						<th>Facility</th>
-						<th>Date</th>
-						<th>From</th>
-						<th>To</th>
-
-					</tr>
-					</thead>
-					<tbody>
-					<tr ng-repeat="searchRow in searchResultsData">
-						<td>
-							<button style="width: 108px;" class="btn btn-info" container="body"
-									ng-click="onSelectRentalTime(searchRow)" v-busy="searchRow.iconBusy"
-									v-busy-label="Loading..." v-pressable>{{searchRow.iconBusy?"Loading...":"Select"}}
-							</button>
-						</td>
-						<td>{{searchRow.facility_name}}</td>
-						<td>{{searchRow.date}}</td>
-						<td>{{searchRow.from}}</td>
-						<td>{{searchRow.to}}</td>
-					</tr>
-
-					</tbody>
-				</table>
-			</div>
-
 		</div>
 
 	</div>
+</div>
+
+<div class="container text-center">
+	<button style="min-width:220px;" class="btn btn-info" container="body" type="submit"
+			v-busy="isSearchIconBusy" v-busy-label="Searching..." v-pressable
+			ng-click="onSearchRentalTimes((!searchForm.$error.required && !searchForm.searchRentalType.$invalid && !searchForm.searchFacilities.$invalid))">
+		Search Available Rental Times
+	</button>
+</div>
+
+<!--<br/><tt>searchForm.searchRentalType.$invalid = {{searchForm.searchRentalType.$invalid}}</tt><br/>
+<tt>searchForm.searchFacilities.$invalid = {{searchForm.searchFacilities.$invalid}}</tt><br/>
+<tt>searchForm.$error.required = {{!!searchForm.$error.required}}</tt><br/>
+<tt>searchForm.$submitted = {{!!searchForm.$submitted}}</tt><br/>
+<tt>searchForm.$error.submitted = {{!!searchForm.$error.submitted}}</tt><br/>-->
+</form>
+
+<div class="container" data-ng-if="displaySearchResults">
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th width="108"></th>
+				<th>Facility</th>
+				<th>Date</th>
+				<th>From</th>
+				<th>To</th>
+
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="searchRow in searchResultsData">
+				<td>
+					<button style="width: 108px;" class="btn btn-info" container="body"
+							ng-click="onSelectRentalTime(searchRow)" v-busy="searchRow.iconBusy"
+							v-busy-label="Loading..." v-pressable>{{searchRow.iconBusy?"Loading...":"Select"}}
+					</button>
+				</td>
+				<td>{{searchRow.facility_name}}</td>
+				<td>{{searchRow.date}}</td>
+				<td>{{searchRow.from}}</td>
+				<td>{{searchRow.to}}</td>
+			</tr>
+
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+</div>
 </div>
 
 <div class="panel panel-default">
@@ -656,9 +691,7 @@
 
 <div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
 	<div class="col-sm-12 text-center">
-
 		<button type="submit" class="btn btn-info btn-lg" ng-click="onSubmitRequest()">Submit Request</button>
-
 	</div>
 </div>
 

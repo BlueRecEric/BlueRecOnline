@@ -19,17 +19,9 @@ $(document).ready(function() {
         $('#nav + .container').css('margin-top', 0);
     });
 
-
     $('#sidebar').affix({
         offset: {
             top: 17
         }
     });
-
-    $(document).ready(function () {
-        $("nav").find("li").on("click", "a", function () {
-            $('.navbar-collapse.in').collapse('hide');
-        });
-    });
-
 });
