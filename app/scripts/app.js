@@ -30,7 +30,8 @@ angular
     'ngAutocomplete',
     'rzModule',
     'ui.select',
-    'vButton'
+    'vButton',
+    'smart-table'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;

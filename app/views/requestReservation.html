@@ -39,10 +39,10 @@
 	</h3>
 </div>
 
-<div id="searchPanel" class="panel-body panel-collapse" bs-collapse-target style="padding:4px;">
+<div id="searchPanel" class="panel-body panel-collapse" bs-collapse-target style="padding: 4px 0px;">
 
 <div class="alert alert-danger animate-show animate-hide" role="alert" ng-show="searchErrorMessage.length>0"
-	 style="word-wrap: break-word;">
+	 style="word-wrap: break-word;margin:10px;">
 	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 
 	{{searchErrorMessage}}
@@ -51,48 +51,45 @@
 
 <form name="searchForm" novalidate>
 
-<div class="container">
-
-	<div class=" ">
-		<div class="col-sm-3">
-			<div class="form-group">
-				<div class="row" style="padding-left: 0px;">
-					<div class="col-sm-12">
-						<label for="searchRentalType"
-							   ng-class="{'has-error': searchForm.$submitted && searchForm.searchRentalType.$invalid}">*Rental
-							Type:</label>
-					</div>
-					<div class="col-sm-12">
-						<select ng-model="rentalCodeSearch" class="form-control" style="width: 100%;max-width:225px;"
-								ng-change="setNewRental(true)" id="searchRentalType" name="searchRentalType"
-								required>
-							<option value="">--Select Rental Type--</option>
-							<option ng-repeat="rentalRow in rentalDropDown" value="{{rentalRow.item_id}}">
-								{{rentalRow.item_name}}
-							</option>
-						</select>
-					</div>
+<div class="container" style="padding-top:10px;">
+	<div class="col-sm-3">
+		<div class="form-group">
+			<div class="row" style="padding-left: 0px;">
+				<div class="col-sm-12">
+					<label for="searchRentalType"
+						   ng-class="{'has-error': searchForm.$submitted && searchForm.searchRentalType.$invalid}">*Rental
+						Type:</label>
+				</div>
+				<div class="col-sm-12">
+					<select ng-model="rentalCodeSearch" class="form-control" style="width: 100%;max-width:225px;"
+							ng-change="setNewRental(true)" id="searchRentalType" name="searchRentalType"
+							required>
+						<option value="">--Select Rental Type--</option>
+						<option ng-repeat="rentalRow in rentalDropDown" value="{{rentalRow.item_id}}">
+							{{rentalRow.item_name}}
+						</option>
+					</select>
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-9">
-			<div class="form-group">
-				<div class="row">
-					<div class="col-sm-12">
-						<label for="searchFacilities"
-							   ng-class="{'has-error': searchForm.$submitted && searchForm.searchFacilities.$invalid}">*Facility:</label>
-					</div>
-					<div class="col-sm-12" style="padding-left: 12px;">
-						<ui-select multiple array-required ng-model="selectedSearchFacilities.facilities"
-								   id="searchFacilities" name="searchFacilities"
-								   style="width:100%;min-width:225px;max-width: 300px;" search-enabled="false">
-							<ui-select-match placeholder="Select Facility...">{{$item.item_name}}
-							</ui-select-match>
-							<ui-select-choices repeat=" facility in facilitySearchItems">
-								{{facility.item_name}}
-							</ui-select-choices>
-						</ui-select>
-					</div>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-12">
+					<label for="searchFacilities"
+						   ng-class="{'has-error': searchForm.$submitted && searchForm.searchFacilities.$invalid}">*Facility:</label>
+				</div>
+				<div class="col-sm-12" style="padding-left: 12px;">
+					<ui-select multiple array-required ng-model="selectedSearchFacilities.facilities"
+							   id="searchFacilities" name="searchFacilities"
+							   style="width:100%;min-width:225px;max-width: 300px;" search-enabled="false">
+						<ui-select-match placeholder="Select Facility...">{{$item.item_name}}
+						</ui-select-match>
+						<ui-select-choices repeat=" facility in facilitySearchItems">
+							{{facility.item_name}}
+						</ui-select-choices>
+					</ui-select>
 				</div>
 			</div>
 		</div>
@@ -203,14 +200,14 @@
 									ng-model="weekdaySearch.sunday"
 									ng-change="filterTrainerList()"
 									id="checkSun"></checkbox><label for="checkSun"
-																	 class="label-weekday-spacing">
+																	class="label-weekday-spacing">
 								Sun</label></span>
 							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
 									class="btn-default checkbox-dark-border"
 									ng-model="weekdaySearch.monday"
 									ng-change="filterTrainerList()"
 									id="checkMon"></checkbox><label for="checkMon"
-																	 class="label-weekday-spacing">
+																	class="label-weekday-spacing">
 								Mon</label></span>
 							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
 									class="btn-default checkbox-dark-border"
@@ -261,43 +258,50 @@
 		Search Available Rental Times
 	</button>
 </div>
-
-<!--<br/><tt>searchForm.searchRentalType.$invalid = {{searchForm.searchRentalType.$invalid}}</tt><br/>
-<tt>searchForm.searchFacilities.$invalid = {{searchForm.searchFacilities.$invalid}}</tt><br/>
-<tt>searchForm.$error.required = {{!!searchForm.$error.required}}</tt><br/>
-<tt>searchForm.$submitted = {{!!searchForm.$submitted}}</tt><br/>
-<tt>searchForm.$error.submitted = {{!!searchForm.$error.submitted}}</tt><br/>-->
 </form>
 
-<div class="container" data-ng-if="displaySearchResults">
-	<div class="table-responsive">
-		<table class="table table-striped">
+<div>
+	<div data-ng-if="isSearchIconBusy || !displaySearchResults" style="height: 30px;"></div>
+	<div  data-ng-if="!isSearchIconBusy && !displayNoResults">
+		<table st-table="searchResultsData" st-safe-src="searchRowCollection" class="table table-striped" ng-show="displaySearchResults">
 			<thead>
 			<tr>
 				<th width="108"></th>
-				<th>Facility</th>
-				<th>Date</th>
-				<th>From</th>
-				<th>To</th>
-
+				<th stRatio="35">Facility</th>
+				<th stRatio="25">Date</th>
+				<th stRatio="20">From</th>
+				<th stRatio="20">To</th>
 			</tr>
 			</thead>
-			<tbody>
+			<tbody >
 			<tr ng-repeat="searchRow in searchResultsData">
-				<td>
+				<td width="108">
 					<button style="width: 108px;" class="btn btn-info" container="body"
 							ng-click="onSelectRentalTime(searchRow)" v-busy="searchRow.iconBusy"
 							v-busy-label="Loading..." v-pressable>{{searchRow.iconBusy?"Loading...":"Select"}}
 					</button>
 				</td>
-				<td>{{searchRow.facility_name}}</td>
-				<td>{{searchRow.date}}</td>
-				<td>{{searchRow.from}}</td>
-				<td>{{searchRow.to}}</td>
+				<td stRatio="35" style="width:250px;">{{searchRow.facility_item_name}}</td>
+				<td stRatio="25">{{searchRow.check_date}}</td>
+				<td stRatio="20">{{searchRow.start_check_time}}</td>
+				<td stRatio="20">{{searchRow.end_check_time}}</td>
 			</tr>
-
 			</tbody>
+
+			<tfoot>
+			<tr>
+				<td colspan="5" class="text-center" style="padding-bottom: 0px; padding-top: 0px;">
+					<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+				</td>
+			</tr>
+			</tfoot>
 		</table>
+	</div>
+
+	<div class="alert alert-danger animate-show animate-hide" role="alert" ng-show="displayNoResults" style="margin: 10px;">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+
+		No rental times found for your search criteria.
 	</div>
 
 </div>
