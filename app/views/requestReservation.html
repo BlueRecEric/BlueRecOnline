@@ -1,5 +1,4 @@
 <script type="text/ng-template" id="rzSliderTpl2.html">
-
 	<span class="rz-bar-wrapper"><span class="rz-bar rz-bar2"></span></span>
 	<span class="rz-bar-wrapper"><span class="rz-bar rz-bar2 rz-selection rz-selection2"></span></span>
 	<span class="rz-pointer rz-pointer2"></span>
@@ -9,6 +8,24 @@
 	<span class="rz-bubble"></span>
 	<span class="rz-bubble"></span>
 	<span class="rz-bubble"></span>
+</script>
+
+<script type="text/ng-template" id="pagination.custom.html">
+
+	<nav ng-if="numPages && pages.length >= 2">
+		<ul class="pagination">
+			<li><a ng-click="selectPage(1)" class="clicky">First</a>
+			</li>
+			<li><a ng-click="selectPage(currentPage - 1)" class="clicky">«</a></li>
+			<li ng-repeat="page in pages" ng-class="{active: page==currentPage}"><a
+					ng-click="selectPage(page)" class="clicky">{{page}}</a></li>
+			</li>
+			<li><a ng-click="selectPage(currentPage + 1)" class="clicky">»</a>
+			</li>
+			<li><a ng-click="selectPage(numPages)" class="clicky">Last</a></li>
+		</ul>
+	</nav>
+
 </script>
 
 <div class="row" data-ng-animate="'slide'">
@@ -24,7 +41,6 @@
 </div>
 
 <div ng-show="userLoggedIn">
-<ng-form name="innerForm">
 
 <div class="panel panel-default" ng-model="searchPanelActive" bs-collapse>
 <div class="panel-heading clearfix">
@@ -80,7 +96,7 @@
 					<label for="searchFacilities"
 						   ng-class="{'has-error': searchForm.$submitted && searchForm.searchFacilities.$invalid}">*Facility:</label>
 				</div>
-				<div class="col-sm-12" style="padding-left: 12px;">
+				<div class="col-sm-12" style="padding-left: 14px;">
 					<ui-select multiple array-required ng-model="selectedSearchFacilities.facilities"
 							   id="searchFacilities" name="searchFacilities"
 							   style="width:100%;min-width:225px;max-width: 300px;" search-enabled="false">
@@ -96,7 +112,7 @@
 	</div>
 </div>
 
-<div class="" style="padding-left: 0px;">
+<div style="padding-left: 0px;">
 	<div class="col-sm-3">
 		<div class="form-group col-sm-12" style="padding-top: 6px;">
 			<div class="row" style="padding-left: 0px;">
@@ -160,7 +176,7 @@
 	</div>
 </div>
 
-<div class="" style="padding-left: 0px;">
+<div style="padding-left: 0px;">
 	<div class="col-sm-12">
 		<div class="form-group col-sm-12">
 			<div class="row">
@@ -262,8 +278,9 @@
 
 <div>
 	<div data-ng-if="isSearchIconBusy || !displaySearchResults" style="height: 30px;"></div>
-	<div  data-ng-if="!isSearchIconBusy && !displayNoResults">
-		<table st-table="searchResultsData" st-safe-src="searchRowCollection" class="table table-striped" ng-show="displaySearchResults">
+	<div data-ng-if="!isSearchIconBusy && !displayNoResults">
+		<table st-table="searchResultsData" st-safe-src="searchRowCollection" class="table table-striped"
+			   ng-show="displaySearchResults">
 			<thead>
 			<tr>
 				<th width="108"></th>
@@ -273,32 +290,34 @@
 				<th stRatio="20">To</th>
 			</tr>
 			</thead>
-			<tbody >
+			<tbody>
 			<tr ng-repeat="searchRow in searchResultsData">
 				<td width="108">
-					<button style="width: 108px;" class="btn btn-info" container="body"
+					<button style="width: 108px;" class="btn btn-info control-label-center" container="body"
 							ng-click="onSelectRentalTime(searchRow)" v-busy="searchRow.iconBusy"
 							v-busy-label="Loading..." v-pressable>{{searchRow.iconBusy?"Loading...":"Select"}}
 					</button>
 				</td>
-				<td stRatio="35" style="width:250px;">{{searchRow.facility_item_name}}</td>
-				<td stRatio="25">{{searchRow.check_date}}</td>
-				<td stRatio="20">{{searchRow.start_check_time}}</td>
-				<td stRatio="20">{{searchRow.end_check_time}}</td>
+				<td stRatio="35" class="control-label-center" style="width:250px;">{{searchRow.facility_item_name}}</td>
+				<td stRatio="25" class="control-label-center">{{searchRow.check_date}}</td>
+				<td stRatio="20" class="control-label-center">{{searchRow.start_check_time}}</td>
+				<td stRatio="20" class="control-label-center">{{searchRow.end_check_time}}</td>
 			</tr>
 			</tbody>
 
 			<tfoot>
 			<tr>
 				<td colspan="5" class="text-center" style="padding-bottom: 0px; padding-top: 0px;">
-					<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+					<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"
+						 st-template="pagination.custom.html"></div>
 				</td>
 			</tr>
 			</tfoot>
 		</table>
 	</div>
 
-	<div class="alert alert-danger animate-show animate-hide" role="alert" ng-show="displayNoResults" style="margin: 10px;">
+	<div class="alert alert-danger animate-show animate-hide" role="alert" ng-show="displayNoResults"
+		 style="margin: 10px;">
 		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 
 		No rental times found for your search criteria.
@@ -308,6 +327,11 @@
 
 </div>
 </div>
+
+
+<form name="addressForm" class="form-horizontal" role="form">
+<ng-form name="addressForm">
+
 
 <div class="panel panel-default">
 	<div class="panel-heading clearfix">
@@ -338,7 +362,7 @@
 		</div>
 
 
-		<div class="form-group animate-show animate-hide" ng-hide="hideBasicInfo">
+		<div class="form-group animate-show" ng-hide="hideBasicInfo">
 			<label class="col-sm-2 control-label-center">Description</label>
 
 			<div class="col-sm-6">
@@ -376,7 +400,6 @@
 
 	</div>
 </div>
-
 
 <div class="panel panel-default animate-show animate-hide" ng-hide="hideBasicInfo">
 	<div class="panel-heading clearfix">
@@ -526,12 +549,12 @@
 </div>
 
 
-<div class="panel panel-default animate-show animate-hide" ng-show="!hideBasicInfo && displayCustomFields">
+<div class="panel panel-default animate-show" ng-show="!hideBasicInfo && displayCustomFields">
 	<div class="panel-heading clearfix">
 		<h3 class="panel-title">Options</h3>
 	</div>
 
-	<div class="panel-body">
+	<div class="panel-body ">
 
 		<div ng-repeat="field in rentalCustomFields">
 			<!-- TEXT FIELDS -->
@@ -667,9 +690,7 @@
 			<div class="col-sm-12 ">
 				<label data-placement="bottom-left" data-type="info" bs-enabled="agreementSigned.checked"
 					   style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none; font-weight: normal;"
-					   unselectable="on"
-					   onselectstart="return false;"
-					   onmousedown="return false;" for="agreement_1">
+					   unselectable="on" onselectstart="return false;" onmousedown="return false;" for="agreement_1">
 					<checkbox class="btn-default checkbox-dark-border" ng-model="agreementSigned.checked"
 							  id="agreement_1" name="agreement_1"></checkbox>
 					I have read, understand, and agree to the <a href="" target="_blank" style="font-weight: bold;">Terms
@@ -699,8 +720,9 @@
 	</div>
 </div>
 
-</form>
+
 </ng-form>
+</form>
 
 <h3 class="page-header" style="padding-bottom: 10px;" ng-hide="hideBasicInfo"></h3>
 
