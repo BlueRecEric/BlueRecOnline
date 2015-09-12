@@ -595,3 +595,14 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 .modal .modal-body .modal-footer .modal-header  {
     padding: 8px!important;
 }
+
+.modal.center .modal-dialog {
+    position:fixed;
+    top:40%;
+    left:50%;
+    min-width:320px;
+    max-width:630px;
+    width:50%;
+    -webkit-transform:translateX(-50%) translateY(-50%);
+    transform:translateX(-50%) translateY(-50%)
+}

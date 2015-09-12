@@ -114,7 +114,7 @@ angular.module('bluereconlineApp')
 
             var deferred;
 
-            var selectTimeModal = $modal({scope: $scope, controller: 'selectTimeCtrl', template: 'selectRentalTime.html', show: false});
+            var selectTimeModal = $modal({scope: $scope, controller: 'selectTimeCtrl', template: 'selectRentalTime.html', placement: 'center', show: false});
             var selectTimeModalShow = selectTimeModal.show;
 
             selectTimeModal.show = function() {
