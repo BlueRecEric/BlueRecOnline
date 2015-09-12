@@ -8,8 +8,8 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('RequestReservation', ['$scope', '$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$timeout', '$filter', '$anchorScroll', 'ActiveUser',
-        function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $timeout, $filter, $anchorScroll, ActiveUser) {
+    .controller('RequestReservation', ['$scope', '$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout', '$filter', '$anchorScroll', 'ActiveUser',
+        function ($scope, $http, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, ActiveUser) {
 
             $scope.searchRentalTypeTT = {
                 tip: 'Start your search by first selecting the Rental Type you wish to search for.',
@@ -39,11 +39,17 @@ angular.module('bluereconlineApp')
                 facilities: []
             };
 
-            $scope.fromDate = new Date(); // &lt;- {{ getType('fromDate') }}
-            $scope.untilDate = new Date();
+            //$scope.fromDate = new Date();
+            //$scope.untilDate = new Date();
 
-            $scope.timeRangeStartSelected = 420;
-            $scope.timeRangeEndSelected = 1260;
+            $scope.fromDate = new Date();
+            $scope.untilDate = new Date(2015, 8, 14, 9, 0, 40);
+
+            //$scope.timeRangeStartSelected = 420;
+            //$scope.timeRangeEndSelected = 1260;
+
+            $scope.timeRangeStartSelected = 600;
+            $scope.timeRangeEndSelected = 960;
 
             $scope.timeSlider = {
                 floor: 420,
@@ -75,7 +81,7 @@ angular.module('bluereconlineApp')
             $scope.displayPackages = false;
             $scope.displayCustomFields = false;
 
-            $scope.rentalCodeSearch = '';
+            $scope.rentalCodeSearch = '49';
 
             $scope.rentalDescription = 'N/A';
 
@@ -103,6 +109,35 @@ angular.module('bluereconlineApp')
             $scope.weekdaysError = false;
 
             $scope.itemsByPage=15;
+
+            $scope.searchTimeData = [];
+
+            var deferred;
+
+            var selectTimeModal = $modal({scope: $scope, controller: 'selectTimeCtrl', template: 'selectRentalTime.html', show: false});
+            var selectTimeModalShow = selectTimeModal.show;
+
+            selectTimeModal.show = function() {
+                deferred = $q.defer();
+                selectTimeModalShow();
+                return deferred.promise;
+            };
+
+            $scope.test = function(res) {
+                deferred.resolve(res);
+                selectTimeModal.hide();
+            };
+
+            $scope.onSelectRentalTime = function (selectedRow) {
+                //selectedRow.iconBusy = !selectedRow.iconBusy;
+
+                //console.table(selectedRow);
+                $scope.searchTimeData = selectedRow.time_data;
+
+                selectTimeModal.show().then(function(res) {
+                    console.warn('answered', res);
+                });
+            };
 
             $scope.translate = function (value) {
                 return $filter('time')(value, 'mm', 'hh:mm aa', true, false);
@@ -144,7 +179,7 @@ angular.module('bluereconlineApp')
             };
 
             $scope.onSliderChange = function () {
-                console.log('changed', $scope.priceSlider);
+                //console.log('changed', $scope.priceSlider);
             };
 
             $anchorScroll('pageTop');
@@ -152,7 +187,7 @@ angular.module('bluereconlineApp')
             $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/requestreservation')
                 .success(function (data) {
                     $scope.rentalDropDown = data;
-                    // //console.log( $scope.rentalDropDown[1]);
+                    //console.log( $scope.rentalDropDown[1]);
                 });
 
             $scope.agreementSigned = {
@@ -176,7 +211,7 @@ angular.module('bluereconlineApp')
             };
 
             $scope.setNewRental = function (bSearching) {
-                console.log($scope.rentalCodeSearch);
+                //console.log($scope.rentalCodeSearch);
                 if ($scope.rentalCodeSearch !== '' && $scope.rentalCodeSearch !== undefined) {
                     if (!bSearching) {
                         $scope.displayPackages = false;
@@ -321,7 +356,6 @@ angular.module('bluereconlineApp')
 
                 $scope.feeAmount = newFeeAmount * ((timeDiff / 60) / 60);
             };
-
 
             $scope.onFacilityChecked = function () {
                 var $facilityString = $scope.getFacilityString();
@@ -547,7 +581,7 @@ angular.module('bluereconlineApp')
 
 
             $scope.onSearchRentalTimes = function (searchValid) {
-                console.log('searchValid:  ' + searchValid);
+                //console.log('searchValid:  ' + searchValid);
                 if ($scope.durationSelected === 0) {
                     $scope.durationError = true;
                 }
@@ -580,6 +614,7 @@ angular.module('bluereconlineApp')
 
                         $scope.searchResultsData = [];
                         $scope.searchRowCollection = [];
+                        $scope.searchTimeData = [];
 
                         var facilitySearchString = $scope.getFacilitySearchString();
 
@@ -612,7 +647,7 @@ angular.module('bluereconlineApp')
                                     $scope.isSearchIconBusy = false;
 
                                     if(data.rowCount > 0) {
-                                        console.table(data);
+                                        //console.table(data);
                                         $scope.searchRowCollection = data.results;
 
                                         $scope.displayNoResults = false;
@@ -625,14 +660,16 @@ angular.module('bluereconlineApp')
                                     }
                                 }
                                 else if (data.error) {
+                                    $scope.isSearchIconBusy = false;
                                     $scope.displaySearchResults = false;
                                     $scope.displayNoResults = false;
                                     $scope.searchErrorMessage = data.message;
                                 }
                             })
                             .error(function (data) {
-                                $scope.searchResultsData = [];
+                                $scope.searchTimeData = [];
                                 $scope.searchRowCollection = [];
+                                $scope.searchResultsData = [];
 
                                 $scope.isSearchIconBusy = false;
                                 $scope.displaySearchResults = false;
@@ -642,6 +679,7 @@ angular.module('bluereconlineApp')
                             });
 
                         $scope.searchResultsData = [].concat($scope.searchRowCollection);
+                        $scope.searchTimeData = [];
                     }
                 }
                 else {
@@ -649,8 +687,11 @@ angular.module('bluereconlineApp')
                 }
             };
 
-            $scope.onSelectRentalTime = function (selectedRow) {
-                selectedRow.iconBusy = !selectedRow.iconBusy;
+            $scope.setNewRental(true);
+
+            $scope.selectedSearchFacilities = {
+                facilities: [{'item_id':'267','item_name':'Bay 1','checked':false,'fee_amount':'10.00','item_fee_id':'48','fee_id':'5'},
+                    {'item_id':'54','item_name':'Challenge Center','checked':false,'fee_amount':'10.00','item_fee_id':'48','fee_id':'5'}]
             };
         }])
 
@@ -744,7 +785,6 @@ angular.module('bluereconlineApp')
                 var ratio = +(attr.stRatio);
 
                 element.css('width', ratio + '%');
-
             }
         };
     })

@@ -566,3 +566,32 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 .has-error {
     color: #f00010;
 }
+
+.table-hover > tbody > tr:hover {
+    /*background-image: linear-gradient(#04519B, #10699b 40%, #13539b);*/
+    background-color: #13539b;
+    color: #fff;
+}
+
+.table-hover tbody > tr > td #arrow-icon{
+    visibility: hidden;
+
+}
+.table-hover  tbody > tr:hover td #arrow-icon {
+    visibility: visible;
+    color: #fff;
+    cursor: pointer;
+}
+
+.vtable > thead > tr > th,
+.vtable > tbody > tr > th,
+.vtable > tfoot > tr > th,
+.vtable > thead > tr > td,
+.vtable > tbody > tr > td,
+.vtable > tfoot > tr > td {
+    vertical-align: inherit!important;
+}
+
+.modal .modal-body .modal-footer .modal-header  {
+    padding: 8px!important;
+}

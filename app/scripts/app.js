@@ -270,7 +270,7 @@ angular
 
         if (pullUserFromLocalStorage()) {
           currentUser.userData = pullUserFromLocalStorage();
-          console.log(currentUser.userData);
+          //console.log(currentUser.userData);
           deferred.resolve(currentUser.userData);
         } else {
           deferred.reject('No user data found in local storage');
