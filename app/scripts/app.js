@@ -31,7 +31,8 @@ angular
     'rzModule',
     'ui.select',
     'vButton',
-    'smart-table'
+    'smart-table',
+    'angularMoment'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;

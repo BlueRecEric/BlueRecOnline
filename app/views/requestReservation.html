@@ -43,7 +43,7 @@
 <div ng-show="userLoggedIn">
 
 <div class="panel panel-default" ng-model="searchPanelActive" bs-collapse>
-<div class="panel-heading clearfix clicky" bs-collapse-toggle ng-click="onSearchWindowOpenEvent()">
+<div class="panel-heading clearfix clicky" bs-collapse-toggle ng-click="onSearchPanelOpen()">
 	<h3 class="panel-title">
 		<a style="text-decoration: none;">
 			<div class="clicky no-select">
@@ -100,7 +100,7 @@
 							   style="width:100%;min-width:225px;max-width: 300px;" search-enabled="false">
 						<ui-select-match placeholder="Select Facility...">{{$item.item_name}}
 						</ui-select-match>
-						<ui-select-choices repeat=" facility in facilitySearchItems">
+						<ui-select-choices repeat="facility in facilitySearchItems">
 							{{facility.item_name}}
 						</ui-select-choices>
 					</ui-select>
@@ -286,16 +286,16 @@
 				<td st-ratio="5" class="text-center clicky no-select" ng-click="onSelectRentalTime(searchRow)">
 					<i id="arrow-icon" class="fa fa-chevron-right fa-3x"></i>
 				</td>
-				<td st-ratio="20" class="text-center clicky no-select" ng-click="onSelectRentalTime(searchRow)">
+				<td st-ratio="20" class="text-left clicky no-select" ng-click="onSelectRentalTime(searchRow)">
 					{{searchRow.facility_item_name}}
 				</td>
-				<td st-ratio="20" class="text-center clicky no-select" ng-click="onSelectRentalTime(searchRow)">
+				<td st-ratio="30" class="text-left clicky no-select" ng-click="onSelectRentalTime(searchRow)">
 					{{searchRow.formatted_check_date}}
 				</td>
-				<td st-ratio="20" class="text-center clicky no-select" ng-click="onSelectRentalTime(searchRow)">
-					{{searchRow.start_check_time}}
+				<td st-ratio="15" class="text-left clicky no-select" ng-click="onSelectRentalTime(searchRow)">
+					<b>({{searchRow.available_time_slots}})</b>{{searchRow.start_check_time}}
 				</td>
-				<td st-ratio="20" class="text-center clicky no-select" ng-click="onSelectRentalTime(searchRow)">
+				<td st-ratio="15" class="text-left clicky no-select" ng-click="onSelectRentalTime(searchRow)">
 					{{searchRow.end_check_time}}
 				</td>
 				<td st-ratio="5" class="text-center clicky no-select" ng-click="onSelectRentalTime(searchRow)">
@@ -349,7 +349,7 @@
 			<label class="col-sm-2 control-label-center">Reservation Type</label>
 
 			<div class="col-sm-6">
-				<select ng-model="rentalCodeSearch" class="form-control" style="width: 240px;"
+				<select ng-model="rentalCodeSelected" class="form-control" style="width: 240px;"
 						ng-change="setNewRental(false)"
 						ng-options="rentalRow.item_id as rentalRow.item_name for rentalRow in rentalDropDown" required>
 					<option value="">--Select Rental Type--</option>
@@ -413,7 +413,7 @@
 					<span class="input-group-addon " style="width: 25px;">
 						 <i class="glyphicon glyphicon-calendar "></i>
 					</span>
-					<input class="form-control" ng-model="selectedDate" name="date" bs-datepicker type="text"
+					<input class="form-control" ng-model="selectedDate" name="date" data-autoclose="1" bs-datepicker type="text"
 						   style="width: 150px;">
 
 					<span class="input-group-addon" style="width: 250px;background-color: #ffffff; visibility: hidden;">
@@ -767,7 +767,7 @@
 
 <script type="text/ng-template" id="selectRentalTime.html">
 	<div class="modal text-left" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-select-rental-times">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h3 class="modal-title text-Success">Select Rental Time</h3>
@@ -775,12 +775,12 @@
 				<div class="modal-body clearfix">
 
 					<div class="col-xs-12 text-center" style="padding-left: 0px;padding-right: 0px;">
-						<button ng-repeat="time in searchTimeData" type="button" class="btn btn-primary"
-								style="height:50px; margin: 3px;" ng-click="$hide()"><b>{{time.start_time}}</b>-{{time.end_time}}</button>
+						<button ng-repeat="time in searchSelectedTimeData.time_data" type="button" class="btn btn-primary"
+								style="height:50px; margin: 3px;" ng-click="onSearchSelectRentalTime(time)"><b>{{time.start_time}}</b>-{{time.end_time}}</button>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-info" ng-click="test('yes')">Close</button>
+					<button class="btn btn-info" ng-click="onSearchCancelSelectTime('yes')">Cancel</button>
 				</div>
 			</div>
 		</div>
