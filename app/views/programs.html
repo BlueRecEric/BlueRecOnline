@@ -2,17 +2,92 @@
 
   <h3>Search Activities</h3>
   <div class="well hidden-xs">
-    <div class="row">
     <form class="form-inline">
-      <div class="form-group col-xs-4">
-        <label>Keyword:</label>
-        <input ng-model="query.item_name" class="form-control">
+      <div class="row">
+        <div class="form-group col-xs-4">
+          <label class="br-formlabel">Keyword:</label>
+          <input ng-model="query.item_name" class="form-control">
+        </div>
+
+        <div class="form-group col-xs-4">
+          <label class="br-formlabel">Category:</label>
+          <select class="form-control">
+            <option>Swimming</option>
+            <option>- Youth Swimming</option>
+            <option>- Adult Swimming</option>
+            <option>Adult Leagues</option>
+            <option>Rafting</option>
+            <option>Trips</option>
+          </select>
+        </div>
+
+        <div class="form-group col-xs-4 checkbox-bump-down">
+          <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
+          <label for="searchTicket">Only Tickets</label>
+        </div>
+      </div>
+      <div class="row spacing"></div>
+      <div class="row">
+        <div class="form-group col-xs-4">
+          <label class="br-formlabel">Participant:</label>
+          <select class="form-control">
+            <option data-ng-repeat="person in household">{{person.firstname}} {{person.lastname}}</option>
+          </select>
+        </div>
+
+        <div class="form-group col-xs-4">
+          <label class="br-formlabel">Location:</label>
+          <select class="form-control">
+            <option>Recreation Center</option>
+            <option>Fitness Center</option>
+            <option>Woodfield Park</option>
+            <option>Riverside Park</option>
+          </select>
+        </div>
+
+        <div class="form-group col-xs-4 checkbox-bump-down">
+          <checkbox name="searchLeagues" id="searchLeagues" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
+          <label for="searchLeagues">Only Leagues</label>
+        </div>
       </div>
 
-      <div class="form-group col-xs-4 checkbox-bump-down">
-        <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
-        <label for="searchTicket">Only Tickets</label>
+      <div class="row spacing"></div>
+      <div class="row">
+        <div class="form-group col-xs-4">
+          <label class="br-formlabel">Starts After:</label>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group col-xs-4">
+          <label class="br-formlabel">Ends Before:</label>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group col-xs-4 checkbox-bump-down">
+          <checkbox name="searchSingle" id="searchSingle" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
+          <label for="searchSingle">Single Day</label>
+        </div>
       </div>
+
+
+      <div class="row spacing"></div>
+      <div class="row">
+        <div class="form-group col-xs-4">
+          <label class="br-formlabel">Minimum Age:</label>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group col-xs-4">
+          <label class="br-formlabel">Maximum Age:</label>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group col-xs-4 checkbox-bump-down">
+          <checkbox name="searchCertificate" id="searchCertificate" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
+          <label for="searchCertificate">Requires Certification</label>
+        </div>
+      </div>
+
     </form>
     </div>
   </div>
@@ -24,10 +99,85 @@
             <input placeholder="Enter Keyword" ng-model="query.item_name" class="pull-right form-control">
           </div>
 
-          <div class="form-group col-xs-6 checkbox-bump-down">
-            <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
-            <label for="searchTicket">Only Tickets</label>
+          <div class="form-group col-xs-4">
+            <label class="br-formlabel">Category:</label>
+            <select class="form-control">
+              <option>Swimming</option>
+              <option>- Youth Swimming</option>
+              <option>- Adult Swimming</option>
+              <option>Adult Leagues</option>
+              <option>Rafting</option>
+              <option>Trips</option>
+            </select>
           </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-6">
+          <label class="br-formlabel">Participant:</label>
+          <select class="form-control">
+            <option data-ng-repeat="person in household">{{person.firstname}} {{person.lastname}}</option>
+          </select>
+        </div>
+
+        <div class="form-group col-xs-6">
+          <label class="br-formlabel">Location:</label>
+          <select class="form-control">
+            <option>Recreation Center</option>
+            <option>Fitness Center</option>
+            <option>Woodfield Park</option>
+            <option>Riverside Park</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-6">
+          <label class="br-formlabel">Minimum Age:</label>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group col-xs-6">
+          <label class="br-formlabel">Maximum Age:</label>
+          <input class="form-control">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-6">
+          <label class="br-formlabel">Starts After:</label>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group col-xs-6">
+          <label class="br-formlabel">Ends Before:</label>
+          <input class="form-control">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-6 checkbox-bump-down">
+          <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
+          <label for="searchTicket">Only Tickets</label>
+        </div>
+
+        <div class="form-group col-xs-6 checkbox-bump-down">
+          <checkbox name="searchLeagues" id="searchLeagues" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
+          <label for="searchLeagues">Only Leagues</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-6 checkbox-bump-down">
+          <checkbox name="searchSingle" id="searchSingle" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
+          <label for="searchSingle">Single Day</label>
+        </div>
+
+        <div class="form-group col-xs-6 checkbox-bump-down">
+          <checkbox name="searchCertificate" id="searchCertificate" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
+          <label for="searchCertificate">Req. Certificate</label>
+        </div>
+      </div>
       </div>
     </form>
   </div>

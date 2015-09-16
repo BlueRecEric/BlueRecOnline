@@ -65,7 +65,8 @@ body > .container {
 }
 
 .checkbox-bump-down {
-    padding-top: 6px;
+    margin-top:auto;
+    margin-bottom:auto;
 }
 
 /* Make the masthead heading the same height as the navigation */
@@ -267,6 +268,10 @@ body > .container {
 .scrollbox {
     max-height: 200px;
     overflow: scroll;
+}
+
+.br-formlabel {
+    width:30%;
 }
 
 /* center align text with icons */

@@ -8,11 +8,19 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ProgramList', ['$scope', 'ProLoader', '$timeout', function ($scope,ProLoader,$timeout) {
+  .controller('ProgramList', ['$scope', 'ProLoader', '$timeout', 'ActiveUser', function ($scope,ProLoader,$timeout,ActiveUser) {
     $scope.proloader = ProLoader;
     $scope.proloader.nextPage($scope.query);
 
     var filterTextTimeout;
+    $scope.household = {};
+
+    ActiveUser.getFromLocal().then(function() {
+      $scope.household = ActiveUser.userData.household;
+      //$scope.$root.currentUser = response.data;
+    }, function() {
+    }, function() {
+    });
 
     $scope.$watch('query.item_name', function () {
       if (filterTextTimeout) {
