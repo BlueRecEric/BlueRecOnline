@@ -137,8 +137,8 @@
 						Date:</label>
 				</div>
 				<div class="col-sm-12">
-					<input id="latestStartDate" name="latestStartDate" style="width: 170px;" container="body"
-						   type="text" class="form-control" ng-model="untilDate" data-min-date="{{fromDate}}"
+					<input id="latestStartDate" class="form-control" name="latestStartDate" style="width: 170px;" container="body"
+						   type="text" ng-model="untilDate" data-min-date="{{fromDate}}"
 						   placeholder="Until Date" data-autoclose="1" required bs-datepicker>
 				</div>
 			</div>
@@ -327,12 +327,13 @@
 </div>
 </div>
 
-<form name="addressForm" class="form-horizontal" role="form">
-<ng-form name="addressForm">
+<form class="form-horizontal" role="form">
+<ng-form>
 
-
+<a id="rentalCodeType"></a>
 <div class="panel panel-default">
 	<div class="panel-heading clearfix">
+
 		<h3 class="panel-title">Available Reservation</h3>
 	</div>
 
@@ -403,8 +404,6 @@
 	</div>
 
 	<div class="panel-body">
-
-
 		<div class="form-group">
 			<label class="col-sm-2 control-label-center">Requested Date*</label>
 
@@ -469,7 +468,6 @@
 	</div>
 
 	<div class="panel-body">
-
 		<div class="table-responsive hidden-xs">
 
 			<table class="table" style="margin-bottom: 0px;">
@@ -685,8 +683,7 @@
 		<div class="form-group">
 			<div class="col-sm-12 ">
 				<label data-placement="bottom-left" data-type="info" bs-enabled="agreementSigned.checked"
-					   style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none; font-weight: normal;"
-					   unselectable="on" onselectstart="return false;" onmousedown="return false;" for="agreement_1">
+					   style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none; font-weight: normal;" for="agreement_1">
 					<checkbox class="btn-default checkbox-dark-border" ng-model="agreementSigned.checked"
 							  id="agreement_1" name="agreement_1"></checkbox>
 					I have read, understand, and agree to the <a href="" target="_blank" style="font-weight: bold;">Terms
@@ -722,7 +719,7 @@
 
 <h3 class="page-header" style="padding-bottom: 10px;" ng-hide="hideBasicInfo"></h3>
 
-<h3 style="padding-bottom: 10px;" ng-hide="hideBasicInfo">Reservation Availability</h3>
+<h3 style="padding-bottom: 10px;" ng-hide="hideBasicInfo">Facility Calendar</h3>
 
 <div id='calcontainer' ng-hide="hideBasicInfo">
 
