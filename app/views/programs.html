@@ -2,15 +2,15 @@
 
   <h3>Search Activities</h3>
   <div class="well hidden-xs">
-    <form class="form-inline">
+    <form>
       <div class="row">
         <div class="form-group col-xs-4">
-          <label class="br-formlabel">Keyword:</label>
+          <label>Keyword:</label>
           <input ng-model="query.item_name" class="form-control">
         </div>
 
         <div class="form-group col-xs-4">
-          <label class="br-formlabel">Category:</label>
+          <label>Category:</label>
           <select class="form-control">
             <option>Swimming</option>
             <option>- Youth Swimming</option>
@@ -21,22 +21,8 @@
           </select>
         </div>
 
-        <div class="form-group col-xs-4 checkbox-bump-down">
-          <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
-          <label for="searchTicket">Only Tickets</label>
-        </div>
-      </div>
-      <div class="row spacing"></div>
-      <div class="row">
         <div class="form-group col-xs-4">
-          <label class="br-formlabel">Participant:</label>
-          <select class="form-control">
-            <option data-ng-repeat="person in household">{{person.firstname}} {{person.lastname}}</option>
-          </select>
-        </div>
-
-        <div class="form-group col-xs-4">
-          <label class="br-formlabel">Location:</label>
+          <label>Location:</label>
           <select class="form-control">
             <option>Recreation Center</option>
             <option>Fitness Center</option>
@@ -44,91 +30,99 @@
             <option>Riverside Park</option>
           </select>
         </div>
+      </div>
 
-        <div class="form-group col-xs-4 checkbox-bump-down">
+      <div class="row spacing" data-ng-show="showAdvancedSearch"></div>
+      <div class="row" data-ng-show="showAdvancedSearch">
+
+
+        <div class="form-group col-xs-4">
+          <label>Starts After:</label>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group col-xs-4">
+          <label>Ends Before:</label>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group col-xs-4">
+          <label>Participant:</label>
+          <select class="form-control">
+            <option data-ng-repeat="person in household">{{person.firstname}} {{person.lastname}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row" data-ng-show="showAdvancedSearch">
+        <div class="form-group col-xs-12" style="padding-bottom:2px;margin-bottom:2px;padding-top:2px;">
+          <label>Weekdays:</label>
+        </div>
+      </div>
+
+      <div class="row" data-ng-show="showAdvancedSearch">
+        <div class="form-group col-xs-12" style="padding-top:2px;">
+          <checkbox name="searchSunday" id="searchSunday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_sunday"></checkbox>
+          <label class="label-weekday" for="searchSunday">Sun</label>
+          <checkbox name="searchMonday" id="searchMonday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_monday"></checkbox>
+          <label class="label-weekday" for="searchMonday">Mon</label>
+          <checkbox name="searchTuesday" id="searchTuesday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_tuesday"></checkbox>
+          <label class="label-weekday" for="searchTuesday">Tue</label>
+          <checkbox name="searchWednesday" id="searchWednesday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_wednesday"></checkbox>
+          <label class="label-weekday" for="searchWednesday">Wed</label>
+          <checkbox name="searchThursday" id="searchThursday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_thursday"></checkbox>
+          <label class="label-weekday" for="searchThursday">Thu</label>
+          <checkbox name="searchFriday" id="searchFriday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_friday"></checkbox>
+          <label class="label-weekday" for="searchFriday">Fri</label>
+          <checkbox name="searchSaturday" id="searchSaturday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_saturday"></checkbox>
+          <label class="label-weekday" for="searchSaturday">Sat</label>
+        </div>
+      </div>
+
+      <div class="row" data-ng-show="showAdvancedSearch">
+        <div class="form-group col-xs-4">
+          <label>Minimum Age:</label>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group col-xs-4">
+          <label>Maximum Age:</label>
+          <input class="form-control">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-12" style="padding-bottom:2px;margin-bottom:2px;padding-top:2px;">
+          <label>Additional Filters:</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-2" style="padding-bottom:2px;margin-bottom:2px;">
+          <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
+          <label for="searchTicket">Only Tickets</label>
+        </div>
+        <div class="form-group col-xs-2" style="padding-bottom:2px;margin-bottom:2px;">
           <checkbox name="searchLeagues" id="searchLeagues" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
           <label for="searchLeagues">Only Leagues</label>
         </div>
-      </div>
-
-      <div class="row spacing"></div>
-      <div class="row">
-        <div class="form-group col-xs-4">
-          <label class="br-formlabel">Starts After:</label>
-          <input class="form-control">
-        </div>
-
-        <div class="form-group col-xs-4">
-          <label class="br-formlabel">Ends Before:</label>
-          <input class="form-control">
-        </div>
-
-        <div class="form-group col-xs-4 checkbox-bump-down">
-          <checkbox name="searchSingle" id="searchSingle" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
+        <div class="form-group col-xs-2" style="padding-bottom:2px;margin-bottom:2px;">
+          <checkbox name="searchSingle" id="searchSingle" class="btn-primary" data-ng-false-value='' data-ng-model="query.single_day"></checkbox>
           <label for="searchSingle">Single Day</label>
         </div>
-      </div>
-
-
-      <div class="row spacing"></div>
-      <div class="row">
-        <div class="form-group col-xs-4">
-          <label class="br-formlabel">Minimum Age:</label>
-          <input class="form-control">
-        </div>
-
-        <div class="form-group col-xs-4">
-          <label class="br-formlabel">Maximum Age:</label>
-          <input class="form-control">
-        </div>
-
-        <div class="form-group col-xs-4 checkbox-bump-down">
-          <checkbox name="searchCertificate" id="searchCertificate" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
+        <div class="form-group col-xs-3" style="padding-bottom:2px;margin-bottom:2px;">
+          <checkbox name="searchCertificate" id="searchCertificate" class="btn-primary" data-ng-false-value='' data-ng-model="query.requires_certificate"></checkbox>
           <label for="searchCertificate">Requires Certification</label>
         </div>
       </div>
-
-      <div class="row spacing"></div>
-      <div class="row">
-        <div class="form-group col-xs-1 checkbox-bump-down col-xs-offset-1">
-          <checkbox name="searchDay" id="searchDay" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
-          <label for="searchDay">Sun</label>
-        </div>
-
-        <div class="form-group col-xs-1 checkbox-bump-down">
-          <checkbox name="searchDay" id="searchDay" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
-          <label for="searchDay">Mon</label>
-        </div>
-
-        <div class="form-group col-xs-1 checkbox-bump-down">
-          <checkbox name="searchDay" id="searchDay" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
-          <label for="searchDay">Tue</label>
-        </div>
-
-        <div class="form-group col-xs-1 checkbox-bump-down">
-          <checkbox name="searchDay" id="searchDay" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
-          <label for="searchDay">Wed</label>
-        </div>
-
-        <div class="form-group col-xs-1 checkbox-bump-down">
-          <checkbox name="searchDay" id="searchDay" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
-          <label for="searchDay">Thu</label>
-        </div>
-
-        <div class="form-group col-xs-1 checkbox-bump-down">
-          <checkbox name="searchDay" id="searchDay" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
-          <label for="searchDay">Fri</label>
-        </div>
-
-        <div class="form-group col-xs-1 checkbox-bump-down">
-          <checkbox name="searchDay" id="searchDay" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
-          <label for="searchDay">Sat</label>
-        </div>
-      </div>
-
     </form>
+
+    <div style="margin-top:5px;" class="clicky no-select" ng-click="onSearchPanelOpen()">
+      <span class="text-underline">{{advancedSearchLabel}}</span>&nbsp;
+      <i class="glyphicon light-blue-color" data-ng-class="{'glyphicon-triangle-top': showAdvancedSearch===true, 'glyphicon-triangle-right': showAdvancedSearch===false}"></i>
     </div>
   </div>
+
   <div class="well visible-xs-block">
     <form class="form-inline">
       <div class="row">
@@ -258,9 +252,6 @@
           <checkbox name="searchDay" id="searchDay" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
           <label for="searchDay">Sat</label>
         </div>
-      </div>
-
-
       </div>
     </form>
   </div>

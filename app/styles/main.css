@@ -480,6 +480,12 @@ aside .aside-dialog .aside-footer:before,
     width: 95px!important;
 }
 
+.label-weekday {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 70px!important;
+}
+
 .label-weekday-spacing {
     padding-left: 10px;
     padding-right: 10px;
