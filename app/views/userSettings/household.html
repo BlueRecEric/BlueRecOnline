@@ -1,0 +1,65 @@
+<div>
+
+    <h3>Household Members</h3>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <button type="button" id="btnNewHouseholdMember" value="Add" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> New Household Member</button>
+        </div>
+    </div>
+
+    <div class="spacing"></div>
+
+    <div class="panel panel-{{(person.primary_contact === '1')?'primary':'default'}}" data-ng-repeat="person in household">
+        <div class="panel-heading clearfix">
+            <h4 class="panel-title">{{person.firstname}} {{person.lastname}}{{(person.primary_contact === '1')?' (Primary Contact)':''}}</h4>
+        </div>
+
+        <form name="householdMemberForm" class="form-horizontal" role="form" data-ng-submit="updateUser(person)">
+            <ng-form name="householdMemberForm">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="firstName" class="col-sm-2 control-label">First Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="firstName" data-ng-model="person.firstname" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="col-sm-2 control-label">Last Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="lastName" data-ng-model="person.lastname" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender" class="col-sm-2 control-label">Gender</label>
+                        <div class="col-sm-6">
+                            <select id="gender" class="form-control" data-style="btn-inverse" data-ng-model="person.gender" data-ng-options="genOp.value as genOp.name for genOp in genderOptions"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthday" class="col-sm-2 control-label">Birthday</label>
+                        <div class="col-sm-6">
+                             <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span><!--
+                            --><input class="form-control" ng-model="person.birthday" data-date-format="M/d/yyyy" id="birthday" name="date" bs-datepicker type="text"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="grade" class="col-sm-2 control-label">Grade</label>
+                        <div class="col-sm-6">
+                            <select id="grade" class="form-control" data-style="btn-inverse" data-ng-model="person.grade" data-ng-options="gradeOp.value as gradeOp.name for gradeOp in gradeOptions"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label-center">&nbsp;</label>
+                        <div class="col-sm-6">
+                            <button type="submit" id="submit" value="Submit" class="btn btn-info" data-ng-enable="householdMemberForm.$valid"><i class="fa fa-caret-square-o-up"></i> Update</button>
+                            <!--<button type="button" id="remove" value="Remove" class="btn btn-danger pull-right" data-ng-enable="householdMemberForm.$valid"><i class="fa fa-times"></i> Remove</button>-->
+                        </div>
+                    </div>
+                </div>
+            </ng-form>
+        </form>
+    </div>
+
+</div>

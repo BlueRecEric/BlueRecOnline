@@ -14,7 +14,7 @@ angular.module('bluereconlineApp')
 
     $scope.showAdvancedSearch = false;
 
-    $scope.advancedSearchLabel = "More Options";
+    $scope.advancedSearchLabel = 'More Options';
 
     var filterTextTimeout;
     $scope.household = {};
@@ -31,11 +31,11 @@ angular.module('bluereconlineApp')
 
       if($scope.showAdvancedSearch)
       {
-        $scope.advancedSearchLabel = "Fewer Options";
+        $scope.advancedSearchLabel = 'Fewer Options';
       }
       else
       {
-        $scope.advancedSearchLabel = "More Options";
+        $scope.advancedSearchLabel = 'More Options';
       }
     };
 

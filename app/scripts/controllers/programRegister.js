@@ -58,12 +58,16 @@ angular.module('bluereconlineApp')
 
     proReg.gradeOptions = [
       {
-        'value':'NA',
+        'value':'0',
         'name':'NA'
       },
       {
+        'value':'PreK',
+        'name':'Pre-K'
+      },
+      {
         'value':'K',
-        'name':'0'
+        'name':'K'
       },
       {
         'value':'1',
