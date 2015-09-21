@@ -590,8 +590,8 @@ angular.module('bluereconlineApp')
             $scope.gotoAnchor = function (anchorID, offset) {
                 $anchorScroll.yOffset = offset;
 
-                $location.hash(anchorID);
-                $anchorScroll();
+                //$location.hash(anchorID);
+                $anchorScroll(anchorID);
             };
 
             $scope.weekdayChecked = function () {
