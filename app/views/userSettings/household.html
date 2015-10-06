@@ -4,11 +4,70 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <button type="button" id="btnNewHouseholdMember" value="Add" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> New Household Member</button>
+            <button type="button" id="btnNewHouseholdMember" value="Add" class="btn btn-success btn-sm" data-ng-click="newMemberClicked()"><i class="fa fa-plus"></i> New Household Member</button>
         </div>
     </div>
 
+    <div class="spacing" data-ng-show="newMemberAdded"></div>
+    <div class="alert alert-success" role="success" data-ng-show="newMemberAdded">Household member added!</div>
+
     <div class="spacing"></div>
+
+    <div class="panel panel-success" data-ng-show="showNewMember">
+        <div class="panel-heading clearfix">
+            <h4 class="panel-title">New Household Member</h4>
+        </div>
+
+        <form name="newMemberForm" class="form-horizontal" role="form" data-ng-submit="saveNewUser()">
+            <ng-form name="newMemberForm">
+                <div class="panel-body">
+
+                    <div class="alert alert-danger" role="alert" data-ng-show="newMemberError">{{newMemberErrorText}}</div>
+
+
+                    <div class="form-group">
+                        <label for="newFirstName" class="col-sm-2 control-label">* First Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="newFirstName" data-ng-model="newMemberForm.firstname" class="form-control" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newLastName" class="col-sm-2 control-label">* Last Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="newLastName" data-ng-model="newMemberForm.lastname" class="form-control" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newGender" class="col-sm-2 control-label">* Gender</label>
+                        <div class="col-sm-6">
+                            <select id="newGender" class="form-control" data-style="btn-inverse" data-ng-model="newMemberForm.gender" data-ng-options="genOp.value as genOp.name for genOp in genderOptions" required></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newBirthday" class="col-sm-2 control-label">* Birthday</label>
+                        <div class="col-sm-6">
+                             <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span><!--
+                            --><input class="form-control" data-ng-model="newMemberForm.birthday" data-date-format="M/d/yyyy" id="newBirthday" name="date" bs-datepicker type="text" required></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newGrade" class="col-sm-2 control-label">Grade</label>
+                        <div class="col-sm-6">
+                            <select id="newGrade" class="form-control" data-style="btn-inverse" data-ng-model="newMemberForm.grade" data-ng-options="gradeOp.name for gradeOp in gradeOptions"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label-center">&nbsp;</label>
+                        <div class="col-sm-6">
+                            <button type="submit" id="newSubmit" value="Submit" class="btn btn-info" data-ng-enable="householdMemberForm.$valid"><i class="fa fa-caret-square-o-up"></i> Update</button>
+                            <button type="button" id="cancel" value="Cancel" class="btn btn-danger pull-right"><i class="fa fa-times"></i> Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </ng-form>
+        </form>
+    </div>
 
     <div class="panel panel-{{(person.primary_contact === '1')?'primary':'default'}}" data-ng-repeat="person in household">
         <div class="panel-heading clearfix">
@@ -40,7 +99,7 @@
                         <label for="birthday" class="col-sm-2 control-label">Birthday</label>
                         <div class="col-sm-6">
                              <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span><!--
-                            --><input class="form-control" ng-model="person.birthday" data-date-format="M/d/yyyy" id="birthday" name="date" bs-datepicker type="text"></span>
+                            --><input class="form-control" data-ng-model="person.birthday" data-date-format="M/d/yyyy" id="birthday" name="date" bs-datepicker type="text"></span>
                         </div>
                     </div>
                     <div class="form-group">

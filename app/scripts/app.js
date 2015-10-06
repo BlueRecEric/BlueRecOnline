@@ -236,7 +236,7 @@ angular
 
         cart.updateShoppingCart = updateShoppingCart;
     }])
-    .service('ActiveUser', ['AuthService','$window','$q',function(AuthService,$window,$q) {
+    .factory('ActiveUser', ['AuthService','$window','$q',function(AuthService,$window,$q) {
         var currentUser = this;
         currentUser.userStore = $window.localStorage;
         currentUser.userKey = 'user-data';
@@ -304,7 +304,7 @@ angular
         {
           if(AuthService.getToken())
           {
-            currentUser.checkUser();
+              currentUser.checkUser();
           }
         }
 
@@ -329,13 +329,21 @@ angular
         }
 
         function checkUser() {
-          currentUser.gettingUser = true;
-          AuthService.getUser().then(function success(response) {
-            currentUser.setActiveUser(response.data);
-            putUserInLocalStorage(response.data);
-            //currentUser.userStore.setItem(currentUser.userKey, JSON.stringify(angular.toJson(response.data)));
-            currentUser.gettingUser = false;
-          });
+            var deferred = $q.defer();
+            currentUser.gettingUser = true;
+            AuthService.getUser().then(function success(response) {
+                console.log('AuthService.getUser().then response');
+                console.log(response.data);
+                currentUser.setActiveUser(response.data);
+                putUserInLocalStorage(response.data).then(function success() {
+                        currentUser.gettingUser = false;
+                        deferred.resolve(true);
+                  }
+              );
+              //currentUser.userStore.setItem(currentUser.userKey, JSON.stringify(angular.toJson(response.data)));
+
+            });
+            return deferred.promise;
         }
 
         currentUser.getUser = getUser;
@@ -347,7 +355,9 @@ angular
 
         currentUser.isLoggedIn = isLoggedIn;
 
-        currentUser.getFromToken();
+        console.log('start the clock');
+        setTimeout(currentUser.getFromToken(),100000);
+        console.log('end the clock');
 
         return currentUser;
     }])
@@ -382,26 +392,28 @@ angular
                 return AuthToken.getToken();
             },
             getUser: function() {
-                if(AuthToken.getToken())
-                {
+                if(angular.isDefined($routeParams.orgurl)) {
                     var req = {
                         method: 'GET',
-                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/remember',
-                        headers: {
-                            'Content-Type': undefined
-                        }
+                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/remember'
                     };
 
-                    return $http(req)
-                        .then(
-                        function success(response) {
+                    return $http(req).then(function success(response) {
                             return response;
                         }
                     );
                 }
                 else
                 {
-                    $q.reject({data: 'No Auth Token Found'});
+                    var reqBad = {
+                        method: 'GET',
+                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/ping'
+                    };
+
+                    return $http(reqBad).then(function success(response) {
+                            return response;
+                        }
+                    );
                 }
             }
         };
@@ -430,7 +442,7 @@ angular
             setToken: setToken
         };
     }])
-    .factory('AuthInterceptor', ['AuthToken', function AuthInterceptor(AuthToken) {
+    .factory('AuthInterceptor', ['AuthToken', function (AuthToken) {
 
         function addToken(config) {
             var token = AuthToken.getToken();
