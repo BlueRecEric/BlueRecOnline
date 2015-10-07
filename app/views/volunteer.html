@@ -1,0 +1,59 @@
+<div>
+
+<h3>Volunteer</h3>
+
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
+      <h4 class="panel-title">Available Positions</h4>
+    </div>
+
+    <form name="volForm" class="form-horizontal" role="form" data-ng-submit="submitVolForm()">
+      <ng-form name="volForm">
+        <div class="panel-body">
+
+          <div class="alert alert-success" role="alert" data-ng-repeat="message in volLoad.messages">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{message.message.text}}
+          </div>
+
+          <div class="alert alert-danger" role="alert" data-ng-repeat="error in volLoad.errors">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{error.error.text}}
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2">Position:</label>
+            <div class="col-sm-6">
+              <select class="form-control" data-ng-model="volForm.role_id" ng-options="role.role_id as role.role_name for role in volLoad.roles">
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2">Household Member:</label>
+            <div class="col-sm-6">
+              <select class="form-control" data-ng-model="volForm.vol_user_id" ng-options="person.user_id as person.full_name for person in household">
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2">Comments:</label>
+            <div class="col-sm-6">
+              <textarea class="form-control" data-ng-model="volForm.vol_comments"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label-center">&nbsp;</label>
+            <div class="col-sm-6">
+              <button type="submit" id="addressSubmit" value="Submit" class="btn btn-info" data-ng-enable="addressForm.$valid"><i class="fa fa-save"></i> Volunteer</button>
+            </div>
+          </div>
+
+        </div>
+      </ng-form>
+    </form>
+  </div>
+</div>
+

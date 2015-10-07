@@ -308,6 +308,7 @@
                     <div class="col-xs-12 text-right">
                       <div class="row itembody btn-toolbar">
                         <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
+                        <a href="#/{{proloader.orgurl}}/volunteer/{{program.item_id}}" class="btn btn-info" data-ng-show="program.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
                         <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
                         <a href="#/{{proloader.orgurl}}/register/{{program.item_id}}" class="btn btn-info" data-ng-show="{{program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1'}}"><i class="fa fa-sign-in"></i> Register ({{program.remaining_spots}} openings)</a>
                       </div>
@@ -334,6 +335,7 @@
               <div class="row itembody">
                 <div class="btn-group btn-group-justified">
                   <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
+                  <a href="#/{{proloader.orgurl}}/volunteer/{{program.item_id}}" class="btn btn-info" data-ng-show="program.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
                   <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
                   <a href="#/{{proloader.orgurl}}/register/{{program.item_id}}" class="btn btn-info" data-ng-show="{{program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1'}}"><i class="fa fa-sign-in"></i> Register</a>
                 </div>

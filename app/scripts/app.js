@@ -79,6 +79,11 @@ angular
                 controller: 'ProgramRegister',
                 controllerAs: 'proReg'
             })
+            .when('/:orgurl/volunteer/:itemid', {
+                templateUrl: 'views/volunteer.html',
+                controller: 'Volunteer',
+                controllerAs: 'vol'
+            })
             .when('/:orgurl/memberships', {
                 templateUrl: 'views/memberships.html'
             })
@@ -250,14 +255,21 @@ angular
 
             deferred.notify('Setting user in local storage.');
 
-            putUserInLocalStorage(userData).then(function(response) {
-                currentUser.userData = userData;
-                deferred.resolve(response);
-              },
-              function(response) {
-                deferred.reject(response);
-              }
-            );
+            if(angular.isDefined(userData.data) && angular.isDefined(userData.data.ping))
+            {
+                //console.log('ping data');
+            }
+            else {
+
+                putUserInLocalStorage(userData).then(function (response) {
+                        currentUser.userData = userData;
+                        deferred.resolve(response);
+                    },
+                    function (response) {
+                        deferred.reject(response);
+                    }
+                );
+            }
 
 
           return deferred.promise;
@@ -332,14 +344,34 @@ angular
             var deferred = $q.defer();
             currentUser.gettingUser = true;
             AuthService.getUser().then(function success(response) {
-                console.log('AuthService.getUser().then response');
-                console.log(response.data);
+                //console.log('AuthService.getUser().then response');
+                //console.log(response.data);
                 currentUser.setActiveUser(response.data);
-                putUserInLocalStorage(response.data).then(function success() {
-                        currentUser.gettingUser = false;
+                if(angular.isDefined(response.data.data))
+                {
+                    if(angular.isDefined(response.data.data.ping))
+                    {
+                        // successful ping, do not mess with stored data.
+                        //console.log('ping data');
                         deferred.resolve(true);
-                  }
-              );
+                    }
+                    else
+                    {
+                        console.log('remember user data');
+                        putUserInLocalStorage(response.data.data).then(function success() {
+                            currentUser.gettingUser = false;
+                            deferred.resolve(true);
+                        });
+                    }
+                }
+                else
+                {
+                    //console.log('user data');
+                    putUserInLocalStorage(response.data).then(function success() {
+                            currentUser.gettingUser = false;
+                            deferred.resolve(true);
+                      });
+                }
               //currentUser.userStore.setItem(currentUser.userKey, JSON.stringify(angular.toJson(response.data)));
 
             });
@@ -355,13 +387,11 @@ angular
 
         currentUser.isLoggedIn = isLoggedIn;
 
-        console.log('start the clock');
-        setTimeout(currentUser.getFromToken(),100000);
-        console.log('end the clock');
+        currentUser.getFromToken();
 
         return currentUser;
     }])
-    .factory('AuthService', ['$http', '$q', 'md5', 'BLUEREC_ONLINE_CONFIG', 'AuthToken', '$routeParams', function($http,$q,md5,BLUEREC_ONLINE_CONFIG, AuthToken,$routeParams) {
+    .factory('AuthService', ['$http', '$q', 'md5', 'BLUEREC_ONLINE_CONFIG', 'AuthToken', '$route','$routeParams', function($http,$q,md5,BLUEREC_ONLINE_CONFIG, AuthToken,$route,$routeParams) {
         return {
             login: function (loginemail,passwd) {
                 var pdata = {};
@@ -399,6 +429,18 @@ angular
                     };
 
                     return $http(req).then(function success(response) {
+                            return response;
+                        }
+                    );
+                }
+                else if(angular.isDefined($route.current) && angular.isDefined($route.current.params.orgurl))
+                {
+                    var reqRoute = {
+                        method: 'GET',
+                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $route.current.params.orgurl + '/secured/remember'
+                    };
+
+                    return $http(reqRoute).then(function success(response) {
                             return response;
                         }
                     );
