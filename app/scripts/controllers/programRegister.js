@@ -593,7 +593,8 @@ angular.module('bluereconlineApp')
             proReg.submitData = {};
             resetUserRegistration(idx);
             proReg.household[idx].showLoadingRegistration = false;
-            proReg.household[idx].submittingCart = false;
+            proReg.household[idx].submittingCart    `````````````````````````````````````````````````````````````````````````````
+              11    `   `11111111111= false;
             proReg.household[idx].registrationSelected = false;
             proReg.household[idx].addedToCart = true;
             $location.path('/' + $routeParams.orgurl + '/addedtocart');

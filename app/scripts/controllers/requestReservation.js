@@ -19,6 +19,11 @@ angular.module('bluereconlineApp')
             $scope.searchResultsData = [];
             $scope.searchRowCollection = [];
 
+            $scope.displayApprovedRentals = false;
+
+            $scope.approvedRentalData = [];
+            $scope.approvedRentalCollection = [];
+
             $scope.userLoggedIn = false;
 
             $scope.userLoggedIn = ActiveUser.isLoggedIn();
@@ -96,6 +101,7 @@ angular.module('bluereconlineApp')
             //$scope.endTime = moment('2015-09-16 16:00:00');
 
             $scope.feeAmount = 0.00;
+            $scope.feeItemID = 0;
 
             $scope.eventSource = [];
 
@@ -334,7 +340,7 @@ angular.module('bluereconlineApp')
 
                     $http(req)
                         .success(function (data) {
-                            //console.table(data);
+                            console.table(data);
 
                             if (!bSearching) {
                                 $scope.rentalFacilities = data;
@@ -444,11 +450,16 @@ angular.module('bluereconlineApp')
 
                 var newFeeAmount = 0;
 
+                $scope.feeItemID = 0;
+
                 for (var i = 0; i < $scope.rentalFacilities.length; i++) {
                     if ($scope.rentalFacilities[i].checked) {
                         newFeeAmount = Number(newFeeAmount) + Number($scope.rentalFacilities[i].fee_amount);
+                        $scope.feeItemID = $scope.rentalFacilities[i].item_fee_id;
                     }
                 }
+
+                console.log($scope.feeItemID);
 
                 var timeDiff = ($scope.endTime.getTime() / 1000.0) - ($scope.startTime.getTime() / 1000.0);
 
@@ -538,7 +549,8 @@ angular.module('bluereconlineApp')
                                 'phoneNumber': $scope.phoneNumber,
                                 'emailAddress': $scope.emailAddress,
                                 'contactMethod': $scope.contactMethod,
-                                'feeAmount': $scope.feeAmount
+                                'feeAmount': $scope.feeAmount,
+                                'feeItemID': $scope.feeItemID
                             }
                         };
 
@@ -797,6 +809,86 @@ angular.module('bluereconlineApp')
              facilities: [{'item_id':'267','item_name':'Bay 1','checked':false,'fee_amount':'10.00','item_fee_id':'48','fee_id':'5'},
              {'item_id':'54','item_name':'Challenge Center','checked':false,'fee_amount':'10.00','item_fee_id':'48','fee_id':'5'}]
              };*/
+
+            $scope.getUserApprovedRequests = function () {
+                $scope.displayApprovedRentals = false;
+
+                $scope.approvedRentalData = [];
+                $scope.approvedRentalCollection = [];
+
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/approvedreservations',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {'uid': ActiveUser.userData.user_id}
+                };
+
+                $http(req)
+                    .success(function (data) {
+                        // console.table(data);
+
+                        $scope.approvedRentalCollection = data;
+
+                        if ($scope.approvedRentalCollection.length > 0) {
+                            $scope.displayApprovedRentals = true;
+                        }
+                    });
+
+                $scope.approvedRentalData = [].concat($scope.approvedRentalCollection);
+            };
+
+            if ($scope.userLoggedIn) {
+                $scope.getUserApprovedRequests();
+            }
+
+            $scope.onSelectApprovedRental = function (selectedRow) {
+
+                console.table(selectedRow);
+
+                var submitData = {};
+                submitData.request_id = selectedRow.request_id;
+                submitData.householdID = ActiveUser.userData.household_id;
+                submitData.itemID = selectedRow.rental_code_item_id;
+                submitData.userID = ActiveUser.userData.user_id;
+                submitData.addedByUserID = ActiveUser.userData.user_id;
+                submitData.usePaymentPlan = '0';
+                submitData.itemType = 'RENTAL CODE';
+                submitData.familyMembership = '0';
+                submitData.totalCharge = selectedRow.fee_estimate;
+                submitData.waivers = [];
+                submitData.members = [];
+
+                submitData.fees = [];
+                if (selectedRow.item_fee_id !== 0 && selectedRow.item_fee_id !== null) {
+                    submitData.fees[0] = {};
+                    submitData.fees[0].itemFeeID = selectedRow.item_fee_id;
+                    submitData.fees[0].feeAmount = selectedRow.fee_estimate;
+                }
+
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + selectedRow.rental_code_item_id + '/addtocart',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: submitData
+                };
+
+                $http(req)
+                    .success(function (data) {
+                        $scope.getUserApprovedRequests();
+
+                        // console.table(data);
+
+                        /*$scope.approvedRentalCollection = data;
+
+                         if($scope.approvedRentalCollection.length > 0) {
+                         $scope.displayApprovedRentals = true;
+                         }*/
+                    });
+            };
 
             console.timeEnd('request reservation load time');
         }])

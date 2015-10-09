@@ -43,8 +43,6 @@ angular.module('bluereconlineApp')
               }
             }
         );
-
-
       };
 
       $scope.genderOptions = [
