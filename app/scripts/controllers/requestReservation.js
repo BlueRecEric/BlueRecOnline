@@ -83,7 +83,7 @@ angular.module('bluereconlineApp')
             $scope.rentalCodeSearch = '';
 
             $scope.rentalCodeSelected = '';
-            $scope.rentalDescription = 'N/A';
+            $scope.rentalDescription = 'This is an example description.';
 
             $scope.reservationDetails = '';
             $scope.reservationNotes = '';
@@ -314,10 +314,14 @@ angular.module('bluereconlineApp')
                     if (!bSearching) {
                         console.log(useRentalCode);
                         if(useRentalCode === '7656')
-                        {$scope.depositAmount = 400.00;}
+                        {
+                            $scope.depositAmount = 400.00;
+                            $scope.rentalDescription = 'This is an example description.';
+                        }
                         else
                         {
                             $scope.depositAmount = 200.00;
+                            $scope.rentalDescription = 'This is a long description that takes several lines.';
                         }
 
                         $scope.displayPackages = false;
