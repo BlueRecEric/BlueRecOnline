@@ -32,7 +32,8 @@ angular
     'ui.select',
     'vButton',
     'smart-table',
-    'angularMoment'
+    'angularMoment',
+    'djds4rce.angular-socialshare'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;

@@ -653,7 +653,15 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     padding: 6px;
 }
 
+.social li{
+    display:inline;
+}
 
+
+.fb-share-button{
+    position:relative;
+    top:-5px;
+}
 
 @media screen {
     #printSection {
