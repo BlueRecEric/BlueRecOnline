@@ -31,7 +31,7 @@ angular.module('bluereconlineApp')
           headers: {
             'Content-Type': undefined
           },
-          data: {'userID': ActiveUser.userData.user_id, 'householdID':ActiveUser.userData.household_id, 'promocode':$scope.promoCode}
+          data: {'userID': ActiveUser.userData.user_id, 'householdID':ActiveUser.userData.household_id, 'promoCode':$scope.promoCode}
         };
 
         return $http(req)
