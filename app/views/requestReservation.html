@@ -390,7 +390,6 @@
 		<h3 class="panel-title">Select Reservation</h3>
 	</div>
 
-
 	<div class="panel-body">
 		<div class="alert alert-info animate-show animate-hide" role="alert" ng-hide="!hideBasicInfo">
 			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -715,7 +714,7 @@
 			<label class="col-sm-2 control-label-center">Estimated Cost</label>
 
 			<div class="col-sm-10">
-				<label class=" control-label-center">{{feeAmount | currency}} (Includes $0.00 deposit)</label>
+				<label class=" control-label-center">{{feeAmount | currency}} (Includes {{depositAmount | currency}} deposit)</label>
 				<br>
 
 				<p>The estimated rental cost is based on information supplied at the time of the request and may change

@@ -47,7 +47,7 @@ module.exports = function(config) {
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/angular-ui-select/dist/select.js',
       'bower_components/angular-ui-utils/ui-utils.js',
-      'bower_components/angularjs-slider/dist/rzslider.js',
+      'bower_components/angularjs-slider/rzslider.js',
       'bower_components/ngAutocomplete/src/ngAutocomplete.js',
       'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
       'bower_components/v-button/dist/v-button.js',

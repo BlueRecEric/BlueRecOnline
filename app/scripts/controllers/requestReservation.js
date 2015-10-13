@@ -100,6 +100,8 @@ angular.module('bluereconlineApp')
 
             //$scope.endTime = moment('2015-09-16 16:00:00');
 
+            $scope.depositAmount = 0.00;
+
             $scope.feeAmount = 0.00;
             $scope.feeItemID = 0;
 
@@ -310,21 +312,32 @@ angular.module('bluereconlineApp')
 
                 if (useRentalCode !== '' && useRentalCode !== undefined) {
                     if (!bSearching) {
+                        console.log(useRentalCode);
+                        if(useRentalCode === '7656')
+                        {$scope.depositAmount = 400.00;}
+                        else
+                        {
+                            $scope.depositAmount = 200.00;
+                        }
+
                         $scope.displayPackages = false;
                         $scope.displayCustomFields = false;
 
                         var index, len;
 
                         for (index = 0, len = $scope.rentalDropDown.length; index < len; ++index) {
+
                             if ($scope.rentalDropDown[index].item_id === useRentalCode) {
+
                                 $scope.rentalDescription = $scope.rentalDropDown[index].rental_code_description;
                                 if ($scope.rentalDescription === '') {
-                                    $scope.rentalDescription = 'N/A';
+                                    //$scope.rentalDescription = 'N/A';
                                 }
                             }
                         }
                     }
                     else {
+                        console.log('test 2');
                         $scope.facilitySearchItems = [];
                         $scope.selectedSearchFacilities.facilities = [];
                     }
@@ -400,7 +413,7 @@ angular.module('bluereconlineApp')
 
                 $http(req)
                     .success(function (data) {
-                        //console.table(data);
+                        console.log(data);
 
                         $scope.rentalPackages = data.packageForm;
 
@@ -541,14 +554,14 @@ angular.module('bluereconlineApp')
                         submitData.usePaymentPlan = '0';
                         submitData.itemType = 'RENTAL CODE';
                         submitData.familyMembership = '0';
-                        submitData.totalCharge = $scope.feeAmount;
+                        submitData.totalCharge = $scope.feeAmount+$scope.depositAmount;
                         submitData.waivers = [];
                         submitData.members = [];
 
                         submitData.fees = [];
                         submitData.fees[0] = {};
                         submitData.fees[0].itemFeeID = 1;
-                        submitData.fees[0].feeAmount = $scope.feeAmount;
+                        submitData.fees[0].feeAmount = $scope.feeAmount+$scope.depositAmount;
 
                         var req = {
                             method: 'POST',
