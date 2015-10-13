@@ -652,3 +652,41 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 .timepicker.dropdown-menu tbody button {
     padding: 6px;
 }
+
+
+
+@media screen {
+    #printSection {
+        display: none;
+    }
+}
+
+@media print {
+    body * {
+        visibility:hidden;
+    }
+
+    .noprint {
+        visibility: hidden;
+    }
+
+    #printSection, #printSection * {
+        visibility:visible;
+        margin-left:auto;
+        margin-right:auto;
+        font-size: 12px;
+        line-height: 1.2;
+        width: 100%;
+    }
+
+    table {
+        page-break-inside:avoid;
+    }
+
+    #printSection {
+        position:absolute;
+        left:0;
+        top:0;
+    }
+}
+

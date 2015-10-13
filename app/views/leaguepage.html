@@ -1,0 +1,338 @@
+<div data-ng-animate=" 'slide-animate' ">
+
+  <h3>Adult Basketball - Demo League</h3>
+
+  <h4>League Supervisor: Charles F. Burdge <button class="btn btn-primary btn-sm" data-ng-click="removeItem({{item.shopping_item_id}})"><i class="glyphicon glyphicon-envelope icon-white"></i> </button></h4>
+
+  <div id="leagueStandings">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Regular Season Standings</h3>
+        <button class="btn btn-primary btn-sm pull-right hidden-print" ng-print print-element-id="leagueStandings"><i class="glyphicon glyphicon-print"></i></button>
+      </div>
+      <div class="panel-body">
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <td>Team</td>
+              <td>Win</td>
+              <td>Loss</td>
+              <td>Pct</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td scope="row">
+                Bombers
+              </td>
+              <td>0</td>
+              <td>0</td>
+              <td>0%</td>
+            </tr>
+
+            <tr>
+              <td scope="row">
+                Bulldogs
+              </td>
+              <td>0</td>
+              <td>0</td>
+              <td>0%</td>
+            </tr>
+
+            <tr>
+              <td scope="row">
+                Eagles
+              </td>
+              <td>0</td>
+              <td>0</td>
+              <td>0%</td>
+            </tr>
+
+            <tr>
+              <td scope="row">
+                Fighters
+              </td>
+              <td>0</td>
+              <td>0</td>
+              <td>0%</td>
+            </tr>
+
+            <tr>
+              <td scope="row">
+                Lions
+              </td>
+              <td>0</td>
+              <td>0</td>
+              <td>0%</td>
+            </tr>
+
+            <tr>
+              <td scope="row">
+                Tigers
+              </td>
+              <td>0</td>
+              <td>0</td>
+              <td>0%</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="leagueSchedule">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Regular Season Schedule</h3>
+        <button class="btn btn-primary btn-sm pull-right hidden-print" ng-print print-element-id="leagueSchedule"><i class="glyphicon glyphicon-print"></i></button>
+      </div>
+      <div class="panel-body">
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <caption><strong>Week 1</strong></caption>
+            <tbody>
+            <tr class="danger">
+              <td class="col-md-2">
+                10/13<br>7:00PM
+              </td>
+              <td class="col-md-2">
+                Bombers<br>
+                @ Tigers
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #2</td>
+              <td class="col-md-4">Cancelled/Weather</td>
+            </tr>
+
+            <tr class="danger">
+              <td class="col-md-2">
+                10/13<br>7:00PM
+              </td>
+              <td class="col-md-2">
+                Eagles<br>
+                @ Fighters
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #3</td>
+              <td class="col-md-4">Cancelled/Weather</td>
+            </tr>
+
+            <tr class="danger">
+              <td class="col-md-2">
+                10/15<br>8:00PM
+              </td>
+              <td class="col-md-2">
+                Bulldogs<br>
+                @ Lions
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #1</td>
+              <td class="col-md-4">Cancelled/Weather</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <caption><strong>Week 2</strong></caption>
+            <tbody>
+            <tr>
+              <td class="col-md-2">
+                10/20<br>8:00PM
+              </td>
+              <td class="col-md-2">
+                Fighters<br>
+                @ Bombers
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #1</td>
+              <td class="col-md-4"></td>
+            </tr>
+
+            <tr>
+              <td class="col-md-2">
+                10/22<br>7:00PM
+              </td>
+              <td class="col-md-2">
+                Tigers<br>
+                @ Lions
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #1</td>
+              <td class="col-md-4"></td>
+            </tr>
+
+            <tr>
+              <td class="col-md-2">
+                10/22<br>8:00PM
+              </td>
+              <td class="col-md-2">
+                Bulldogs<br>
+                @ Eagles
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #2</td>
+              <td class="col-md-4"></td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <caption><strong>Week 3</strong></caption>
+            <tbody>
+            <tr class="warning">
+              <td class="col-md-2">
+                10/27<br>7:00PM
+              </td>
+              <td class="col-md-2">
+                Bombers<br>
+                @ Tigers
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #2</td>
+              <td class="col-md-4">Make-up for 10/13</td>
+            </tr>
+
+            <tr>
+              <td class="col-md-2">
+                10/27<br>8:00PM
+              </td>
+              <td class="col-md-2">
+                Fighters<br>
+                @ Eagles
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #3</td>
+              <td class="col-md-4"></td>
+            </tr>
+
+            <tr class="warning">
+              <td class="col-md-2">
+                10/27<br>8:30PM
+              </td>
+              <td class="col-md-2">
+                Bulldogs<br>
+                @ Lions
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #1</td>
+              <td class="col-md-4">Make-up for 10/15</td>
+            </tr>
+
+            <tr class="warning">
+              <td class="col-md-2">
+                10/29<br>7:00PM
+              </td>
+              <td class="col-md-2">
+                Eagles<br>
+                @ Fighters
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #3</td>
+              <td class="col-md-4">Make-up for 10/13</td>
+            </tr>
+
+            <tr>
+              <td class="col-md-2">
+                10/29<br>7:30PM
+              </td>
+              <td class="col-md-2">
+                Bombers<br>
+                @ Bulldogs
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #2</td>
+              <td class="col-md-4"></td>
+            </tr>
+
+            <tr>
+              <td class="col-md-2">
+                10/29<br>8:30PM
+              </td>
+              <td class="col-md-2">
+                Tigers<br>
+                @ Lions
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #3</td>
+              <td class="col-md-4"></td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <caption><strong>Week 4</strong></caption>
+            <tbody>
+            <tr>
+              <td class="col-md-2">
+                11/03<br>7:00PM
+              </td>
+              <td class="col-md-2">
+                Bulldogs<br>
+                @ Tigers
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #1</td>
+              <td class="col-md-4"></td>
+            </tr>
+
+            <tr>
+              <td class="col-md-2">
+                11/05<br>7:00PM
+              </td>
+              <td class="col-md-2">
+                Fighters<br>
+                @ Bombers
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #1</td>
+              <td class="col-md-4"></td>
+            </tr>
+
+            <tr>
+              <td class="col-md-2">
+                11/05<br>8:00PM
+              </td>
+              <td class="col-md-2">
+                Lions<br>
+                @ Eagles
+              </td>
+              <td class="col-md-1">0<br>0</td>
+              <td class="col-md-3">Rec-Center Court #2</td>
+              <td class="col-md-4"></td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <caption><strong>Week 5 - TBD</strong></caption>
+          </table>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <caption><strong>Week 6 - TBD</strong></caption>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

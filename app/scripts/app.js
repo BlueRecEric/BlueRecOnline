@@ -70,6 +70,14 @@ angular
                 templateUrl: 'views/programs.html',
                 controller: 'ProgramList'
             })
+            .when('/:orgurl/leagues', {
+                templateUrl: 'views/leagues.html',
+                controller: 'LeagueList'
+            })
+            .when('/:orgurl/leagues/:leaguecode', {
+                templateUrl: 'views/leaguepage.html',
+                controller: 'LeaguePage'
+            })
             .when('/:orgurl/programinfo/:itemid', {
                 templateUrl: 'views/programinfo.html',
                 controller: 'ProgramInfo'
