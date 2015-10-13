@@ -80,7 +80,7 @@ angular.module('bluereconlineApp')
             $scope.displayPackages = false;
             $scope.displayCustomFields = false;
 
-            $scope.rentalCodeSearch = '49';
+            $scope.rentalCodeSearch = '';
 
             $scope.rentalCodeSelected = '';
             $scope.rentalDescription = 'N/A';
@@ -937,6 +937,23 @@ angular.module('bluereconlineApp')
             };
 
             console.timeEnd('request reservation load time');
+
+            $scope.mapClicked = function(test) {
+                if(test === 1)
+                {
+                    $scope.rentalCodeSelected = '49';
+                    $scope.setNewRental(false);
+                   // $scope.searchSelectedFacItemID = $scope.searchSelectedTimeData.facility_item_id;
+                }
+                else if(test === 2)
+                {
+                    $scope.rentalCodeSelected = '7656';
+                    $scope.setNewRental(false);
+                   /// $scope.searchSelectedFacItemID = $scope.searchSelectedTimeData.facility_item_id;
+                }
+
+                console.log('mapClicked');
+            };
         }])
 
     .config(function ($dropdownProvider) {

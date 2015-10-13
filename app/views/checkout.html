@@ -29,6 +29,15 @@
     </div>
   </div>
 
+  <div class="row clearfix spacing">
+    <div class="col-sm-3">
+      <input type="text" class="form-control" data-ng-model="promoCode" name="promo-code" id="promo-code" placeholder="">
+    </div>
+    <div class="col-sm-3">
+      <button class="btn btn-success btn-sm" data-ng-click="checkPromo()"><span class="fa-stack fa-md"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-tag fa-stack"></i></span> Apply Promo Code</button>
+    </div>
+  </div>
+
   <h3>Total: ${{(cart.totalFee).toFixed(2)}}</h3>
 
   <div class="panel panel-default" data-ng-show="cart.totalFee > 0">

@@ -26,8 +26,14 @@
 	</nav>
 </script>
 
+
+
 <div class="row" data-ng-animate="'slide'">
 <div data-ng-controller="RequestReservation" class="container">
+
+<div class="hidden-xs">
+	<button type="button" class="" ng-click="mapClicked(1)" style="padding: 0px;border: 0px;margin: 0px;"><img src="../images/map1.jpg" style="padding: 0px;border: 0px;margin: 0px;"></button><button type="button " class="" ng-click="mapClicked(2)" style="padding: 0px;border: 0px;margin: 0px;"><img src="../images/map2.jpg" style="padding: 0px;border: 0px;margin: 0px;"></button>
+</div>
 
 <div ng-show="displayApprovedRentals">
 	<h3 style="padding-bottom: 10px;">Approved Reservation Requests</h3>
@@ -112,6 +118,7 @@
 
 <form name="searchForm" novalidate>
 
+{{rentalCodeSearch}}
 <div class="container" style="padding-top:10px;">
 	<div class="col-sm-3">
 		<div class="form-group">

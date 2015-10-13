@@ -14,12 +14,34 @@ angular.module('bluereconlineApp')
       $scope.cart = {};
       $scope.removed = {};
 
+      $scope.promoCode = '';
+
       ActiveUser.getFromLocal().then(function() {
         cart.household = ActiveUser.userData.household;
       }, function() {
         sendToLogin();
       }, function() {
       });
+
+      function checkPromo()
+      {
+        var req = {
+          method: 'POST',
+          url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/promo',
+          headers: {
+            'Content-Type': undefined
+          },
+          data: {'userID': ActiveUser.userData.user_id, 'householdID':ActiveUser.userData.household_id, 'promocode':$scope.promoCode}
+        };
+
+        return $http(req)
+            .then(
+            function success(response) {
+              $scope.removed = response.data;
+              loadCart();
+            }
+        );
+      }
 
       function sendToLogin()
       {
@@ -97,5 +119,6 @@ angular.module('bluereconlineApp')
       $scope.goToCheckout = goToCheckout;
       $scope.removeItem = removeItem;
       $scope.payCart = payCart;
+      $scope.checkPromo = checkPromo;
 
   }]);
