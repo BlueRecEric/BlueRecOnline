@@ -532,7 +532,53 @@ angular.module('bluereconlineApp')
                     if ($scope.rentalCodeSelected !== '' && $userID) {
                         var $facilityString = $scope.getFacilityString();
 
+                        var submitData = {};
+                        submitData.request_id = 1;
+                        submitData.householdID = ActiveUser.userData.household_id;
+                        submitData.itemID = $scope.rentalCodeSelected;
+                        submitData.userID = ActiveUser.userData.user_id;
+                        submitData.addedByUserID = ActiveUser.userData.user_id;
+                        submitData.usePaymentPlan = '0';
+                        submitData.itemType = 'RENTAL CODE';
+                        submitData.familyMembership = '0';
+                        submitData.totalCharge = $scope.feeAmount;
+                        submitData.waivers = [];
+                        submitData.members = [];
+
+                        submitData.fees = [];
+                        submitData.fees[0] = {};
+                        submitData.fees[0].itemFeeID = 1;
+                        submitData.fees[0].feeAmount = $scope.feeAmount;
+
                         var req = {
+                            method: 'POST',
+                            url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalCodeSelected + '/addtocart',
+                            headers: {
+                                'Content-Type': undefined
+                            },
+                            data: submitData
+                        };
+
+                        $http(req)
+                            .success(function (data) {
+                                $scope.rentalCodeSelected = '';
+
+                                $scope.resetForm();
+
+                                $scope.showConformationModal();
+
+                                //$scope.getUserApprovedRequests();
+
+                                // console.table(data);
+
+                                /*$scope.approvedRentalCollection = data;
+
+                                 if($scope.approvedRentalCollection.length > 0) {
+                                 $scope.displayApprovedRentals = true;
+                                 }*/
+                            });
+
+                        /*var req = {
                             method: 'POST',
                             url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/submitreservationrequest',
                             headers: {
@@ -563,7 +609,7 @@ angular.module('bluereconlineApp')
                                 $scope.resetForm();
 
                                 $scope.showConformationModal();
-                            });
+                            });*/
                     }
                 }
                 else {
@@ -1025,7 +1071,4 @@ angular.module('bluereconlineApp')
 
             }
         };
-
     });
-
-
