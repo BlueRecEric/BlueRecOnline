@@ -5,6 +5,49 @@
 }
 
 
+
+
+
+.panel {
+    margin-bottom: 5px!important;
+}
+
+.panel-body {
+    padding: 5px;
+}
+
+.alert {
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.bs-callout {
+    padding-top: 5px!important;
+    padding-bottom: 5px!important;
+}
+
+.well {
+    padding: 5px!important;
+    margin-bottom: 5px!important;
+}
+
+.well-sm {
+    padding: 5px!important;
+}
+
+.progress {
+    margin-bottom: 5px!important;
+}
+
+.form-group {
+    margin-bottom: 5px!important;
+}
+
+
+
+
+
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Open Sans', sans-serif;
 }
