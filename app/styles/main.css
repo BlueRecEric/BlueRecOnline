@@ -7,6 +7,9 @@
 
 
 
+.panel-heading {
+    padding: 10px 10px!important;
+}
 
 .panel {
     margin-bottom: 5px!important;
