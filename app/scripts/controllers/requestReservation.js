@@ -276,7 +276,7 @@ angular.module('bluereconlineApp')
             $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/requestreservation')
                 .success(function (data) {
                     $scope.rentalDropDown = data;
-                    //console.log( $scope.rentalDropDown[1]);
+                    console.log($scope.rentalDropDown);
                 });
 
             $scope.agreementSigned = {
@@ -952,6 +952,10 @@ angular.module('bluereconlineApp')
                          }*/
                     });
             };
+
+            $scope.onFacilityClick = function(rentalCodeRow, facItemID) {
+                console.log(rentalCodeRow['item_id'] +' - '+facItemID);
+            }
 
             console.timeEnd('request reservation load time');
 
