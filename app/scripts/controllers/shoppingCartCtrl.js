@@ -111,7 +111,7 @@ angular.module('bluereconlineApp')
 
       function goToCheckout()
       {
-        $location.path('/' + $routeParams.orgurl + '/checkout');
+        $location.path('/' + $routeParams.orgurl + '/precheckout');
       }
 
       loadCart();

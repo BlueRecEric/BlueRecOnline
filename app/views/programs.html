@@ -263,7 +263,6 @@
       </div>
       <div class="panel-body">
         <p>
-
           <div class="media">
             <div class="media-left listing" data-ng-show="session.has_photo">
               <img class="media-object thumbnail" data-ng-src="https://alphadev.bluerec.com/php/organization_files/{{session.photo.organization_id}}/files/item_photos/{{session.photo.file_name}}" alt="{{session.item_name}}">
@@ -273,71 +272,93 @@
             </div>
           </div>
 
-          <div id="sessiondiv col-xs-12" data-ng-repeat="program in session.programs | filter: query.item_name">
-            <div class="hidden-xs">
-              <div class="panel panel-primary">
-                <div class="panel-heading clearfix">
-                  <div class="row hidden-xs">
-                    <div class="col-xs-2">Code</div>
-                    <div class="col-xs-2">Price</div>
-                    <div class="col-xs-4">Registration</div>
-                    <div class="col-xs-4">Class Dates</div>
+          <div id="sessionList_{{session.identifier}}" class="panel-group">
+            <div class="panel panel-primary" data-ng-repeat="program in session.programs | filter: query.item_name">
+              <div class="panel-heading clearfix clickable" data-parent="#sessionList_{{session.identifier}}" data-toggle="collapse" data-target="#programdetail_{{program.item_id}}">
+                <h3 class="panel-title">
+                  <div class="row">
+                    <div class="col-md-2 col-xs-4">{{program.item_code}}</div>
+                    <div class="col-md-2 hidden-xs"><span data-ng-repeat="location in program.locations">{{location.location_name}} </span></div>
+                    <div class="col-md-2 col-xs-8">{{program.display_dates}}</div>
+                    <div class="col-md-3 hidden-xs">{{program.weekday_display}}</div>
                   </div>
-                </div>
+                </h3>
+                <span class="pull-right clickable"><i class="glyphicon glyphicon-menu-hamburger"></i></span>
+              </div>
+
+              <div class="panel-collapse collapse" id="programdetail_{{program.item_id}}">
                 <div class="panel-body">
-                  <div class="row hidden-xs">
-                    <div class="col-xs-2">{{program.item_code}}</div>
-                    <div class="col-xs-2">
-                      <div data-ng-repeat="fee in program.fees track by fee.item_fee_id">
-                        {{fee.fee_name}}: ${{fee.fee_amount}}
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                      <div class="row clearfix">
+                        <div class="col-sm-6">
+                          <div class="row"><div class="col-sm-12"><h4>Registration</h4></div></div>
+                          <div class="row striped-row"><div class="col-xs-6">Res/Online:</div><div class="col-xs-6">{{program.format_online_registration_start}}</div></div>
+                          <div class="row striped-row"><div class="col-xs-6">NonRes/Online:</div><div class="col-xs-6">{{program.format_nonres_online_registration_start}}</div></div>
+                          <div class="row striped-row"><div class="col-xs-6">Late Reg:</div><div class="col-xs-6">{{program.format_registration_late_end}}</div></div>
+                          <div class="row striped-row"><div class="col-xs-6">Ends:</div><div class="col-xs-6">{{program.format_registration_end}}</div></div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="row"><div class="col-sm-12"><h4>Fees</h4></div></div>
+                          <div class="row striped-row" data-ng-repeat="fee in program.fees track by fee.item_fee_id"><div class="col-xs-6">{{fee.fee_name}}:</div><div class="col-xs-6">${{fee.fee_amount}}</div></div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="row"><div class="col-sm-12"><h4>Location(s)</h4></div></div>
+                          <div class="row striped-row" data-ng-repeat="location in program.locations">{{location.location_name}}</div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="row"><div class="col-sm-12"><h4>Times</h4></div></div>
+                          <div class="row striped-row" data-ng-repeat="weekday in program.weekdays"><div class="col-xs-6">{{weekday.program_weekdays}}:</div><div class="col-xs-6">{{weekday.program_times}}</div></div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="row" data-ng-show="{{(program.restrict_age === '1' || program.restrict_grade === '1' || program.restrict_birthday === '1' || program.restrict_gender === '1')?true:false}}"><div class="col-sm-12"><h4>Eligibility</h4></div></div>
+                          <div class="row striped-row" data-ng-show="{{(program.restrict_age === '1')?true:false}}"><div class="col-xs-12">{{program.minimum_age}} - {{program.maximum_age}} years old</div></div>
+                          <div class="row striped-row" data-ng-show="{{(program.restrict_grade === '1')?true:false}}"><div class="col-xs-12">Grade(s) {{program.minimum_grade}} - {{program.maximum_grade}}</div></div>
+                          <div class="row striped-row" data-ng-show="{{(program.restrict_gender === '1')?true:false}}"><div class="col-xs-12">Gender: {{program.gender}}</div></div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-xs-4">
-                      Res/Online:	{{program.format_online_registration_start}}<br>
-                      NonRes/Online:	{{program.format_nonres_online_registration_start}}<br>
-                      Late Reg:	{{program.format_registration_late_end}}<br>
-                      Ends:	{{program.format_registration_end}}
-                    </div>
-                    <div class="col-xs-4">
-                      {{program.format_start_date}} - {{program.format_end_date}}<br>
-                      <!--MO 9:00AM-12:00PM<br>
-                      TU 9:00AM-12:00PM<br>
-                      WE 9:00AM-12:00PM<br>-->
+
                     </div>
 
-                    <div class="col-xs-12 text-right">
-                      <div class="row itembody btn-toolbar">
-                        <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
-                        <a href="#/{{proloader.orgurl}}/volunteer/{{program.item_id}}" class="btn btn-info" data-ng-show="program.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
-                        <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
-                        <a href="#/{{proloader.orgurl}}/register/{{program.item_id}}" class="btn btn-info" data-ng-show="{{program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1'}}"><i class="fa fa-sign-in"></i> Register ({{program.remaining_spots}} openings)</a>
-                      </div>
+                    <div class="col-sm-3 col-md-3">
+                      <div class="row"><div class="col-sm-12"><h4>Register</h4></div></div>
+                      <ul class="list-group">
+                        <li class="list-group-item" data-ng-repeat="person in household">
+                          <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-{{(program.regData[$index].regError)?'danger':'default'}}" data-ng-model="program.regData[$index].selected" data-ng-change="verifyProgramParticipant($parent.$parent.$index, $parent.$index, $index, person.user_id, program.item_id)"></checkbox>
+                          <label class="clickable" for="register_{{person.user_id}}">
+                            {{person.firstname}} {{person.lastname}}
+                          </label>
+                          <div data-ng-show="program.regData[$index].regError"><span class="text-danger">{{program.regData[$index].errorText}}</span></div>
+                        </li>
+                      </ul>
+
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="visible-xs-block col-xs-12" data-ng-repeat="program in session.programs | filter: query.item_name">
-              <div class="row itemheader">
-                <div class="col-xs-3">Session</div>
-                <div class="col-xs-9">{{program.item_code}}</div>
-              </div>
-              <div class="row itembody">
-                <div class="col-xs-12">
-                  Openings: {{program.remaining_spots}}<br>
-                  <div data-ng-repeat="fee in program.fees track by fee.item_fee_id">
-                    {{fee.fee_name}}: ${{fee.fee_amount}}
+
+                  <div class="row clearfix">
+                    <div class="hidden-xs col-sm-9">
+                      <div class="spacing"></div>
+                      <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-default"><i class="glyphicon glyphicon-question-sign"></i> More Information</a>
+                      <a href="#/{{proloader.orgurl}}/volunteer/{{program.item_id}}" class="btn btn-default" data-ng-show="program.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-3">
+                      <div class="spacing"></div>
+                      <button class="btn btn-success btn-block" data-ng-click="addUsersToCart($parent.$index, $index)"><i class="glyphicon glyphicon-shopping-cart"></i> Add to cart</button>
+                      <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
+                    </div>
+
+                    <div class="visible-xs col-xs-12">
+                      <div class="spacing"></div>
+                      <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-default btn-block"><i class="glyphicon glyphicon-question-sign"></i> More Info</a>
+                      <a href="#/{{proloader.orgurl}}/volunteer/{{program.item_id}}" class="btn btn-default btn-block" data-ng-show="program.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
+                    </div>
                   </div>
-                  Registration Ends: {{program.format_registration_end}}<br>
-                  Class Dates: {{program.format_start_date}} - {{program.format_end_date}}<br><br>
-                </div>
-              </div>
-              <div class="row itembody">
-                <div class="btn-group btn-group-justified">
-                  <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
-                  <a href="#/{{proloader.orgurl}}/volunteer/{{program.item_id}}" class="btn btn-info" data-ng-show="program.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
-                  <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
-                  <a href="#/{{proloader.orgurl}}/register/{{program.item_id}}" class="btn btn-info" data-ng-show="{{program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1'}}"><i class="fa fa-sign-in"></i> Register</a>
+
                 </div>
               </div>
             </div>

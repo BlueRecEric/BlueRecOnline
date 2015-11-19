@@ -114,6 +114,10 @@ angular
                 controller: 'ShoppingCartCtrl',
                 controllerAs: 'cart'
             })
+            .when('/:orgurl/precheckout', {
+                templateUrl: 'views/precheckout.html',
+                controller: 'Precheck'
+            })
             .otherwise({
                 redirectTo: '/:orgurl/login'
             });

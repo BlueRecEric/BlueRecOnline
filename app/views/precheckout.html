@@ -1,0 +1,187 @@
+
+<div class="row">
+
+<h3>Pre-Checkout</h3>
+
+  <p>Before you can complete your purchase, some additional items are required.</p>
+
+  <div class="panel panel-default" data-ng-show="preLoad.hasAddons">
+    <div class="panel-heading">
+      <label>Add-Ons</label>
+    </div>
+    <div class="panel-body">
+
+      <div data-ng-repeat="regField in preLoad.fields">
+
+        <h4>{{regField.item_name}} information for {{regField.user_name}}</h4>
+
+        <form name="customForm" class="form-horizontal" role="form">
+          <ng-form name="customForm">
+            <div ng-repeat="field in regField.fields.customForm">
+              <!-- TEXT FIELDS -->
+              <div ng-if="field.type=='text'" class="form-group">
+                <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
+                <div class="col-sm-6">
+                  <input type="{{field.type}}" id="{{field.id}}" data-ng-model="field.response_value" class="form-control" required/>
+                </div>
+              </div>
+
+              <!-- NUMERIC FIELDS -->
+              <div ng-if="field.type=='number'" class="form-group">
+                <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
+                <div class="col-sm-6">
+                  <input type="text" id="{{field.name}}" data-ng-model="field.response_value"  class="form-control" required/>
+                </div>
+              </div>
+
+              <!-- SELECT FIELDS -->
+              <div ng-if="field.type=='select'" class="form-group" >
+                <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
+                <div class="col-sm-6">
+                  <select data-ng-model="field.response_value" class="form-control" prompt="Select One" required>
+                    <option data-ng-repeat="option in field.options">{{option}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- CHECKBOX FIELDS -->
+              <div ng-if="field.type=='checkbox'" class="form-group" >
+                <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
+                <div class="col-sm-6">
+                  <!--<input type="checkbox" data-ng-if="person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}" required/>
+                  <input type="checkbox" data-ng-if="!person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}"/>
+
+                  --><checkbox class="btn-primary checkbox-bump-down" data-ng-if="field.required" data-ng-model="field.response_value" required></checkbox>
+                  <checkbox class="btn-primary checkbox-bump-down" data-ng-if="!field.required" data-ng-model="field.response_value"></checkbox>
+                </div>
+              </div>
+            </div>
+          </ng-form>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="spacing"> </div>
+
+  <div class="panel panel-default" data-ng-show="preLoad.hasAddons">
+    <div class="panel-heading">
+      <label>Add-Ons</label>
+    </div>
+    <div class="panel-body">
+
+      <div data-ng-repeat="addon in preLoad.addons">
+
+        <h4>{{addon.item_name}} add-ons for {{addon.user_name}}</h4>
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <td>Purchase</td>
+              <td>Add-On Name</td>
+              <td>Add-On Code</td>
+              <td>Fee(s)</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="pkg in addon.addons.packages">
+              <td>
+                <checkbox class="btn-primary" data-ng-model="pkg.selected" name="pkg.item_name" data-ng-if="pkg.required" required></checkbox>
+                <checkbox class="btn-primary" data-ng-model="pkg.selected" name="pkg.item_name" data-ng-if="!pkg.required"></checkbox>
+              </td>
+              <td>{{pkg.item_name}}</td>
+              <td>{{pkg.item_code}}</td>
+              <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="spacing"> </div>
+
+  <div class="panel panel-default" data-ng-show="preLoad.hasPayments">
+    <div class="panel-heading">
+      <label>Payment Plan Options</label>
+    </div>
+    <div class="panel-body">
+
+      <div data-ng-repeat="payment in preLoad.payments">
+
+        <h4>{{payment.item_name}} payment options for {{payment.user_name}}</h4>
+
+        <checkbox class="btn-primary" data-ng-model="payment.use_payments" id="payment.payment_plan_id" name="payment.payment_plan_id"></checkbox>
+        <label class="spacing" for="payment.payment_plan_id">Click here if you wish to enroll in the payment plan listed below</label>
+
+        <div data-ng-if="payment.use_payments">
+          <checkbox class="btn-primary" data-ng-model="payment.use_eft" id="payment.payment_plan_eft_id" name="payment.payment_plan_eft_id"></checkbox>
+          <label class="spacing" for="payment.payment_plan_id">Enroll in auto-debit</label>
+          <p>By enrolling in auto-debit, you are authorizing the payments listed below to be automatically charged to your credit/debit card on their respective due dates. You may update your payment information at
+          any time after your purchase if you wish to use a different card for future payments. If you decide to make any of the following payments ahead of schedule, you may do so without incurring additional charges.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <td data-ng-if="payment.use_payments">Pay Now</td>
+              <td>Payment</td>
+              <td>Due Date</td>
+              <td>Fee(s)</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="pay in payment.payments">
+              <td data-ng-if="payment.use_payments">
+                <checkbox class="btn-primary" data-ng-model="pay.selected" name="pay.item_name" data-ng-if="pay.required && payment.use_payments" required></checkbox>
+                <checkbox class="btn-primary" data-ng-model="pay.selected" name="pay.item_name" data-ng-if="!pay.required && payment.use_payments"></checkbox>
+              </td>
+              <td>{{pay.item_name}}</td>
+              <td>{{pay.format_due_date}}<span data-ng-if="payment.use_payments && payment.use_eft && !pay.selected"> (Auto-Debit)</span></td>
+              <td><p data-ng-repeat="fee in pay.fees">{{fee.fee_name}} ${{fee.fee_amount}}</p></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="spacing"> </div>
+
+  <div class="panel panel-default" data-ng-show="preLoad.hasWaivers">
+    <div class="panel-heading">
+      <label>Waivers</label>
+    </div>
+    <div class="panel-body">
+      <div class="panel panel-primary" data-ng-repeat="waiverData in preLoad.waivers">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title">{{waiverData.waiver_name}}</h3>
+        </div>
+
+        <div class="panel-body">
+          <div name="txtWaiver" id="txtWaiver" class="well scrollbox" data-ng-enable="false" data-ng-bind-html="waiverData.waiver_text" rows="3"></div>
+
+          <div class="form-group" >
+            <div data-ng-repeat="signoff in waiverData.signoff">
+              <div class="col-xs-12 spacing">
+                <checkbox class="btn-primary" data-ng-model="signoff.agreed" id="signoff.name" name="signoff.name" required></checkbox>
+                <label for="signoff.name">I agree to the terms outlined in the above waiver on behalf of {{signoff.user_name}}.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

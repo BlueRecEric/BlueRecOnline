@@ -54,14 +54,11 @@
     margin-bottom: 5px!important;
 }
 
-
-
-
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif, Arial, Helvetica;
 }
 p, div {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif, Arial, Helvetica;
 }
 
 .browsehappy {
@@ -117,7 +114,7 @@ body > .container {
 }
 
 .checkbox-bump-down {
-    margin-top:auto;
+    margin-top:5px;
     margin-bottom:auto;
 }
 
@@ -206,6 +203,51 @@ body > .container {
     top: 0;
     bottom: 0;
     margin: auto;
+}
+
+.clickable
+{
+    cursor: pointer;
+    text-decoration:none;
+    font-weight: 400;
+}
+
+.panel-heading span.clickable
+{
+    margin-top: -23px;
+    font-size: 15px;
+    margin-right: 0px;
+}
+
+.clickable .glyphicon
+{
+    background: rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px
+}
+
+.truncate-ellipsis {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.truncate-ellipsis > * {
+    display: table-cell;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.striped-row {
+    margin: 0px;
+    padding: 5px;
+    border-bottom: #e0e0e0 dashed thin;
+}
+
+.striped-row:nth-of-type(odd) {
+    background: #eee;
 }
 
 .itemheader,
