@@ -37,7 +37,16 @@ angular.module('bluereconlineApp')
         preloader.fields = [];
         preloader.addons = [];
 
-        var updateAddonFees = function(proIdx, pkgIdx) {
+        var updateAddonFees = function(pkgUUID, proIdx, pkgIdx) {
+
+            for(var ap = 0; ap < preloader.addons[proIdx].addons.packages.length; ap++)
+            {
+                if(preloader.addons[proIdx].addons.packages[ap].uuid == pkgUUID)
+                {
+                    preloader.addons[proIdx].addons.packages[ap].selected = (preloader.addons[proIdx].addons.packages[ap].selected == '1')?'0':'1';
+                }
+            }
+
             console.log('update addon fees ' + [proIdx]);
             console.log(preloader.addons[proIdx].addons.packages);
             console.log('package selected!');

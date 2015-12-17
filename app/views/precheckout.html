@@ -89,7 +89,7 @@
                 <tbody>
                 <tr data-ng-repeat="pkg in addon.addons.packages">
                   <td>
-                    <checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
+                    <checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees(pkg.uuid, $parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkgopt.selected" name="pkg.item_name"></checkbox>
                     <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
                   </td>
                   <td>{{pkg.item_name}}</td>
