@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ProgramList', ['$scope', 'ProLoader', '$timeout', 'ActiveUser', function ($scope,ProLoader,$timeout,ActiveUser) {
+  .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', function ($scope,$aside,ProLoader,$timeout,ActiveUser) {
     $scope.proloader = ProLoader;
     $scope.proloader.nextPage($scope.query);
 
@@ -59,9 +59,24 @@ angular.module('bluereconlineApp')
       }
     };
 
+    $scope.openAside = function openAside() {
+
+      // Pre-fetch an external template populated with a custom scope
+      var myOtherAside = $aside({scope: $scope, template: 'views/shoppingcart.html'});
+      // Show when some event occurs (use $promise property to ensure the template has been loaded)
+      myOtherAside.$promise.then(function() {
+        myOtherAside.show();
+      });
+
+    };
+
     $scope.addUsersToCart = function(programIndex, sessionIndex)
     {
-      $scope.proloader.addToCart(programIndex, sessionIndex);
+      $scope.proloader.addToCart(programIndex, sessionIndex).then(
+          function success() {
+            $scope.openAside();
+          }
+      );
     };
   }])
   .factory('ProLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams,ActiveUser) {
@@ -73,6 +88,10 @@ angular.module('bluereconlineApp')
       cartData.itemType = 'program';
       cartData.registrations = [];
       var regData = {};
+
+      proload.returnData[programIndex].programs[sessionIndex].addingToCart = true;
+
+      //proload.returnData[programIndex].programs[sessionIndex].addCartButton.disabled = 'disabled';
 
       for(var a = 0; a < proload.returnData[programIndex].programs[sessionIndex].regData.length; a++)
       {
@@ -86,7 +105,10 @@ angular.module('bluereconlineApp')
             'householdID':proload.returnData[programIndex].programs[sessionIndex].regData[a].householdID,
             'addedByUserID':proload.returnData[programIndex].programs[sessionIndex].regData[a].addedByUserID,
             'itemType':proload.returnData[programIndex].programs[sessionIndex].regData[a].itemType,
-            'usePaymentPlan':proload.returnData[programIndex].programs[sessionIndex].regData[a].usePaymentPlan
+            'usePaymentPlan':proload.returnData[programIndex].programs[sessionIndex].regData[a].usePaymentPlan,
+            'programIndex':programIndex,
+            'sessionIndex':sessionIndex,
+            'userIndex':a
           };
           cartData.registrations.push(regData);
         }
@@ -109,6 +131,12 @@ angular.module('bluereconlineApp')
             .then(
             function success(response) {
               console.log(response.data);
+              proload.returnData[programIndex].programs[sessionIndex].addingToCart = false;
+
+              for(var c = 0; c < cartData.registrations.length; c++)
+              {
+                proload.returnData[cartData.registrations[c].programIndex].programs[cartData.registrations[c].sessionIndex].regData[cartData.registrations[c].userIndex].added = true;
+              }
             }
         );
       }
@@ -136,6 +164,10 @@ angular.module('bluereconlineApp')
               proload.returnData[programIndex].programs[sessionIndex].regData[userIndex].selected = false;
               proload.returnData[programIndex].programs[sessionIndex].regData[userIndex].regError = true;
               proload.returnData[programIndex].programs[sessionIndex].regData[userIndex].errorText = response.data.data.problems;
+            }
+            else
+            {
+              proload.returnData[programIndex].programs[sessionIndex].regData[userIndex].regValid = true;
             }
 
           }
