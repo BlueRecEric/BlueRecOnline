@@ -11,6 +11,8 @@ angular.module('bluereconlineApp')
     .controller('Precheck', ['$scope', 'ActiveUser', 'PreCheckRequest', function ($scope,ActiveUser,PreCheckRequest) {
         $scope.preLoad = [];
 
+        $scope.wkdPkgOpt = [];
+
         if(ActiveUser.isLoggedIn())
         {
             var preLoad = PreCheckRequest;
@@ -36,6 +38,170 @@ angular.module('bluereconlineApp')
         preloader.payments = [];
         preloader.fields = [];
         preloader.addons = [];
+
+        var updateEveryDateAddonFees = function(proIdx, pkgIdx, pkgItmID, weekday)
+        {
+            console.log('updateEveryDateAddonFees');
+            console.log('proIdx: ' + proIdx);
+            console.log('pkgItmID: ' + pkgItmID);
+            console.log('weekday: ' + weekday);
+
+            var weekdayItem = preloader.addons[proIdx].addons.packages.weekdays[weekday].items[pkgIdx];
+
+            for(var p = 0; p < preloader.addons[proIdx].addons.packages.weeks.length; p++)
+            {
+                var pkgWeekList = preloader.addons[proIdx].addons.packages.weeks[p].weekday[weekday];
+
+                for(var pi = 0; pi < pkgWeekList.packages.length; pi++)
+                {
+                    var pkgItem = pkgWeekList.packages[pi];
+
+                    if(pkgItem.item_id == pkgItmID)
+                    {
+                        if(weekdayItem.selected == '1')
+                        {
+                            updateDateAddonSelection(proIdx, pkgItem.uuid, pkgItem.item_id);
+                        }
+                    }
+                }
+            }
+
+            updateDateCheckedFees(proIdx, pkgItmID);
+        };
+
+        var updateDateAddonSelection = function(proIdx, pkgUUID, pkgItemID)
+        {
+            for(var p = 0; p < preloader.addons[proIdx].addons.packages.weeks.length; p++)
+            {
+                var pkgWeekList = preloader.addons[proIdx].addons.packages.weeks[p];
+
+                for(var wd = 0; wd < pkgWeekList.weekday.length; wd++)
+                {
+                    var weekdayList = pkgWeekList.weekday[wd];
+
+                    for(var di = 0; di < weekdayList.packages.length; di++)
+                    {
+                        var dayItems = weekdayList.packages[di];
+
+                        if(dayItems.uuid === pkgUUID)
+                        {
+                            dayItems.selected = '1';
+                        }
+                    }
+                }
+            }
+        };
+
+        var clickDateAddon = function(proIdx, pkgUUID, pkgItemID)
+        {
+            console.log('proIdx: ' + proIdx);
+            updateDateCheckedFees(proIdx, pkgItemID);
+            updateDateCheckedDays(proIdx, pkgItemID);
+        };
+
+        var updateDateCheckedDays = function(proIdx, itemID)
+        {
+            // clear selected days for the itemID
+
+            for(var u = 0; u < preloader.addons[proIdx].addons.packages.uniqueItems.length; u++)
+            {
+                var thisPackage = preloader.addons[proIdx].addons.packages.uniqueItems[u];
+                if(thisPackage.item_id === itemID)
+                {
+                    thisPackage.selected_days = [];
+                    thisPackage.selected_count = 0;
+                }
+            }
+
+            for(var p = 0; p < preloader.addons[proIdx].addons.packages.weeks.length; p++)
+            {
+                var pkgWeekList = preloader.addons[proIdx].addons.packages.weeks[p];
+
+                for(var wd = 0; wd < pkgWeekList.weekday.length; wd++)
+                {
+                    var weekdayList = pkgWeekList.weekday[wd];
+
+                    for(var di = 0; di < weekdayList.packages.length; di++)
+                    {
+                        var dayItems = weekdayList.packages[di];
+
+                        if(dayItems.item_id === itemID && dayItems.selected == '1')
+                        {
+                            for(var u = 0; u < preloader.addons[proIdx].addons.packages.uniqueItems.length; u++)
+                            {
+                                var thisPackage = preloader.addons[proIdx].addons.packages.uniqueItems[u];
+                                if(thisPackage.item_id === itemID)
+                                {
+                                    thisPackage.selected_days.push(dayItems.item_day)
+                                    thisPackage.selected_count++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            console.log(preloader.addons[proIdx].addons.packages);
+        };
+
+        var updateDateCheckedFees = function(proIdx, itemID)
+        {
+            // first set all fees in the 'selected fees' array to $0
+            for(var u = 0; u < preloader.addons[proIdx].addons.packages.uniqueItems.length; u++)
+            {
+                var thisPackage = preloader.addons[proIdx].addons.packages.uniqueItems[u];
+
+                if(thisPackage.item_id === itemID)
+                {
+                    console.log('found selected fee');
+
+                    for(var f = 0; f < thisPackage.fees.data.length; f++)
+                    {
+                        var thisFee = thisPackage.fees.data[f];
+
+                        thisFee.fee_amount = 0;
+                    }
+                }
+            }
+
+            for(var p = 0; p < preloader.addons[proIdx].addons.packages.weeks.length; p++)
+            {
+                var pkgWeekList = preloader.addons[proIdx].addons.packages.weeks[p];
+
+                for(var wd = 0; wd < pkgWeekList.weekday.length; wd++)
+                {
+                    var weekdayList = pkgWeekList.weekday[wd];
+
+                    for(var di = 0; di < weekdayList.packages.length; di++)
+                    {
+                        var dayItems = weekdayList.packages[di];
+
+                        if(dayItems.item_id === itemID && dayItems.selected == '1')
+                        {
+                            console.log('found selected item');
+
+                            for(var u = 0; u < preloader.addons[proIdx].addons.packages.uniqueItems.length; u++)
+                            {
+                                var thisPackage = preloader.addons[proIdx].addons.packages.uniqueItems[u];
+
+                                if(thisPackage.item_id === itemID)
+                                {
+                                    console.log('found selected fee');
+
+                                    for(var f = 0; f < thisPackage.fees.data.length; f++)
+                                    {
+                                        var thisFee = thisPackage.fees.data[f];
+                                        var baseFee = thisPackage.original_fees.data[f];
+
+                                        thisFee.fee_amount = Number(thisFee.fee_amount) + Number(baseFee.fee_amount);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
 
         var updateAddonFees = function(pkgUUID, proIdx, pkgIdx) {
 
@@ -119,6 +285,29 @@ angular.module('bluereconlineApp')
                         preloader.hasAddons = response.data.data.addons.length > 0;
                         var addons = JSON.parse(angular.toJson(response.data.data.addons));
                         preloader.addons = addons;
+                        for(var a = 0; a < preloader.addons.length; a++)
+                        {
+                            for(var u = 0; u < preloader.addons[a].addons.packages.uniqueItems.length; u++)
+                            {
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt = {};
+
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6] = [];
+
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6].selected = '0';
+                            }
+                        }
 
                         preloader.fields = [];
                         preloader.hasFields = response.data.data.fields.length > 0;
@@ -165,6 +354,11 @@ angular.module('bluereconlineApp')
             );
         };
 
+        preloader.updateDateCheckedDays = updateDateCheckedDays;
+        preloader.clickDateAddon = clickDateAddon;
+        preloader.updateDateCheckedFees = updateDateCheckedFees;
+        preloader.updateDateAddonSelection = updateDateAddonSelection;
+        preloader.updateEveryDateAddonFees = updateEveryDateAddonFees;
         preloader.getCartRequirements = getCartRequirements;
         preloader.submitPreCheckRequest = submitPreCheckRequest;
         preloader.updateAddonFees = updateAddonFees;
