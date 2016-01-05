@@ -92,10 +92,19 @@ angular.module('bluereconlineApp')
             $scope.contactMethod = '';
 
             $scope.selectedDate = new Date();
-            $scope.selectedDate2 = null;
+            $scope.selectedDate2 = {'start':  new Date(), 'end':  new Date()};
+
+            Date.prototype.AddDays = function(noOfDays) {
+                this.setTime(this.getTime() + (noOfDays * (1000 * 60 * 60 * 24)));
+                return this;
+            }
+
+            $scope.selectedDate2.end.AddDays(7);
 
             $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
             $scope.endTime = new Date(1970, 0, 1, 9, 0, 40);
+
+            $scope.selectedTime = {'startTime':  new Date(1970, 0, 1, 9, 0, 40), 'endTime':  new Date(1970, 0, 1, 9, 0, 40)};
 
             //$scope.endTime = moment('2015-09-16 16:00:00');
 
@@ -202,6 +211,10 @@ angular.module('bluereconlineApp')
 
                 reservationService.set(facilityRow);
 
+                //console.log( $scope.selectedTime);
+                $scope.selectedTime = {'startTime':  new Date(1970, 0, 1, facilityRow.start_time_hour, facilityRow.start_time_minutes, 40),
+                    'endTime':  new Date(1970, 0, 1, facilityRow.end_time_hour, facilityRow.end_time_minutes, 40)};
+
                 var foundFacData = [];
 
                 for (var i = 0; i < rentalCodeRow.facility_data.length; i++) {
@@ -233,11 +246,14 @@ angular.module('bluereconlineApp')
                 {
                     var tempFacData = reservationService.get();
 
-                    tempFacData['search_start_date'] = $scope.selectedDate;
-                    tempFacData['search_end_date'] = $scope.selectedDate2;
+                    //tempFacData.search_start_date = $filter('date')($scope.selectedDate2.start, 'yyyy-MM-dd') + ' ' + $scope.selectedTime.startTime;
+                    //tempFacData.search_end_date = $filter('date')($scope.selectedDate2.end, 'yyyy-MM-dd') + ' ' + $scope.startTime;
 
-                    tempFacData['search_start_time'] = $scope.startTime;
-                    tempFacData['search_end_time'] = $scope.endTime;
+                    tempFacData.search_start_date = $scope.selectedDate2.start;
+                    tempFacData.search_end_date = $scope.selectedDate2.end;
+
+                    tempFacData.search_start_time = $scope.selectedTime.startTime;
+                    tempFacData.search_end_time = $scope.selectedTime.endTime;
 
                     //tempFacData['available_start_date'] = $scope.formatMySQLDate($scope.selectedDate, $scope.startTime);
                     //tempFacData['available_end_date'] = $scope.formatMySQLDate($scope.selectedDate, $scope.endTime);
@@ -657,7 +673,7 @@ angular.module('bluereconlineApp')
                         submitData.userID = ActiveUser.userData.user_id;
                         submitData.addedByUserID = ActiveUser.userData.user_id;
                         submitData.usePaymentPlan = '0';
-                        submitData.itemType = 'RENTAL CODE';
+                        submitData.itemType = 'rental code';
                         submitData.familyMembership = '0';
                         submitData.totalCharge = $scope.feeAmount+$scope.depositAmount;
                         submitData.waivers = [];

@@ -591,10 +591,13 @@ angular
 
     .factory('reservationService', function() {
         var reservationData = [];
+
         function set(data) {
+            localStorage.setItem('savedData', JSON.stringify(data));
             reservationData = data;
         }
         function get() {
+            reservationData = JSON.parse(localStorage.getItem('savedData'));
             return reservationData;
         }
 

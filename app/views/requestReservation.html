@@ -945,7 +945,7 @@
                                             <span class="input-group-addon " style="width: 25px;">
                                                 <i class="glyphicon glyphicon-calendar "></i>
                                             </span>
-                        <input class="form-control" data-ng-model="selectedDate" name="date" data-date-format="MM/dd/yyyy"
+                        <input class="form-control" ng-model="selectedDate2.start" name="date1" data-date-format="MM/dd/yyyy"
                                data-autoclose="1" bs-datepicker placeholder="Start Date"
                                type="text"
                                style="width: 150px;">
@@ -966,7 +966,7 @@
                                             <span class="input-group-addon " style="width: 25px;">
                                                 <i class="glyphicon glyphicon-calendar "></i>
                                             </span>
-                        <input class="form-control" data-ng-model="selectedDate2" name="date"
+                        <input class="form-control" ng-model="selectedDate2.end" name="date2"
                                data-autoclose="1" bs-datepicker datepicker-popup="yyyy-MM-dd" data-min-date="{{selectedDate}}" data-date-format="MM/dd/yyyy"
                                type="text" placeholder="End Date"
                                style="width: 150px;">
@@ -986,12 +986,10 @@
                     <div class="input-group" style="margin-bottom: 5px;">
                         <div class="input-group-addon" style="width: 25px;"><i
                                 class="glyphicon glyphicon-time"></i></div>
-                        <input class="form-control" size="8" data-ng-model="startTime" name="startTime"
-                               bs-timepicker
-                               data-length="1"
+                        <input class="form-control" size="8" data-ng-model="selectedTime.startTime" name="startTime"
+                               bs-timepicker data-length="1"
                                data-minute-step="15" data-arrow-behavior="picker" type="text"
-                               style="width: 150px;"
-                               data-ng-change="timeChanged()">
+                               style="width: 150px;" data-ng-change="timeChanged()">
 
                     </div>
                 </div>
@@ -1005,7 +1003,7 @@
                     <div class="input-group" style="margin-bottom: 5px;">
                         <div class="input-group-addon" style="width:25px;"><i
                                 class="glyphicon glyphicon-time"></i></div>
-                        <input class="form-control" size="8" data-ng-model="endTime" name="endTime"
+                        <input class="form-control" size="8" data-ng-model="selectedTime.endTime" name="endTime"
                                bs-timepicker data-length="1"
                                data-minute-step="15" data-arrow-behavior="picker" type="text"
                                style="width: 150px;"
