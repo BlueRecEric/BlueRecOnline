@@ -103,13 +103,13 @@ angular.module('bluereconlineApp')
         {
             // clear selected days for the itemID
 
-            for(var u = 0; u < preloader.addons[proIdx].addons.packages.uniqueItems.length; u++)
+            for(var ui = 0; ui < preloader.addons[proIdx].addons.packages.uniqueItems.length; ui++)
             {
-                var thisPackage = preloader.addons[proIdx].addons.packages.uniqueItems[u];
-                if(thisPackage.item_id === itemID)
+                var thisIPackage = preloader.addons[proIdx].addons.packages.uniqueItems[ui];
+                if(thisIPackage.item_id === itemID)
                 {
-                    thisPackage.selected_days = [];
-                    thisPackage.selected_count = 0;
+                    thisIPackage.selected_days = [];
+                    thisIPackage.selected_count = 0;
                 }
             }
 
@@ -132,7 +132,7 @@ angular.module('bluereconlineApp')
                                 var thisPackage = preloader.addons[proIdx].addons.packages.uniqueItems[u];
                                 if(thisPackage.item_id === itemID)
                                 {
-                                    thisPackage.selected_days.push(dayItems.item_day)
+                                    thisPackage.selected_days.push(dayItems.item_day);
                                     thisPackage.selected_count++;
                                 }
                             }
@@ -147,19 +147,19 @@ angular.module('bluereconlineApp')
         var updateDateCheckedFees = function(proIdx, itemID)
         {
             // first set all fees in the 'selected fees' array to $0
-            for(var u = 0; u < preloader.addons[proIdx].addons.packages.uniqueItems.length; u++)
+            for(var ui = 0; ui < preloader.addons[proIdx].addons.packages.uniqueItems.length; ui++)
             {
-                var thisPackage = preloader.addons[proIdx].addons.packages.uniqueItems[u];
+                var thisIPackage = preloader.addons[proIdx].addons.packages.uniqueItems[ui];
 
-                if(thisPackage.item_id === itemID)
+                if(thisIPackage.item_id === itemID)
                 {
                     console.log('found selected fee');
 
-                    for(var f = 0; f < thisPackage.fees.data.length; f++)
+                    for(var fi = 0; fi < thisIPackage.fees.data.length; fi++)
                     {
-                        var thisFee = thisPackage.fees.data[f];
+                        var thisIFee = thisIPackage.fees.data[fi];
 
-                        thisFee.fee_amount = 0;
+                        thisIFee.fee_amount = 0;
                     }
                 }
             }
@@ -287,25 +287,26 @@ angular.module('bluereconlineApp')
                         preloader.addons = addons;
                         for(var a = 0; a < preloader.addons.length; a++)
                         {
-                            for(var u = 0; u < preloader.addons[a].addons.packages.uniqueItems.length; u++)
-                            {
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt = {};
+                            if(preloader.addons[a].addons.package_dates) {
+                                for (var u = 0; u < preloader.addons[a].addons.packages.uniqueItems.length; u++) {
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt = {};
 
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0] = [];
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1] = [];
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2] = [];
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3] = [];
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4] = [];
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5] = [];
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6] = [];
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0] = [];
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1] = [];
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2] = [];
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3] = [];
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4] = [];
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5] = [];
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6] = [];
 
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0].selected = '0';
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1].selected = '0';
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2].selected = '0';
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3].selected = '0';
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4].selected = '0';
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5].selected = '0';
-                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6].selected = '0';
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0].selected = '0';
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1].selected = '0';
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2].selected = '0';
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3].selected = '0';
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4].selected = '0';
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5].selected = '0';
+                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6].selected = '0';
+                                }
                             }
                         }
 
