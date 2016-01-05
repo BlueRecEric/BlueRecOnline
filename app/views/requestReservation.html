@@ -30,15 +30,15 @@
 <div class="row" data-ng-animate="'slide'">
 <div data-ng-controller="RequestReservation" class="container">
 
-<div class="hidden-xs" data-ng-hide="true">
+<!--<div class="hidden-xs" data-ng-hide="true">
     <button type="button" class="" data-ng-click="mapClicked(1)" style="padding: 0px;border: 0px;margin: 0px;"><img
             src="images/map1.jpg" style="padding: 0px;border: 0px;margin: 0px;"></button>
     <button type="button " class="" data-ng-click="mapClicked(2)" style="padding: 0px;border: 0px;margin: 0px;"><img
             src="images/map2.jpg" style="padding: 0px;border: 0px;margin: 0px;"></button>
-</div>
+</div>-->
 
 <div data-ng-show="displayApprovedRentals">
-    <h3 style="">Approved Reservation Requests</h3>
+    <h3>Approved Reservation Requests</h3>
 </div>
 
 <div class="panel panel-default" data-ng-show="displayApprovedRentals">
@@ -408,9 +408,9 @@
 </div>
 </div>
 
-<div class="panel panel-primary" data-ng-repeat="rentalRow in rentalDropDown">
+<div class="panel panel-primary" data-ng-repeat="rentalRow in rentalDropDown | orderBy:'item_name'">
     <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">({{rentalRow.item_code}}) {{rentalRow.item_name}}</h3>
+        <h3 class="panel-title pull-left">{{rentalRow.item_code !== ''?'(':''}}{{rentalRow.item_code}}{{rentalRow.item_code !== ''?')':''}} {{rentalRow.item_name}}</h3>
     </div>
     <div class="panel-body ">
         <div class="media">
@@ -420,12 +420,17 @@
             </div>
             <div class="media-left listing" data-ng-show="rentalRow.item_code === 'MPR'">
                 <img class="media-object thumbnail"
-                     data-ng-src="http://www.ci.vandalia.oh.us/images/Council/RecCenter1.JPG">
+                     data-ng-src="https://champaignparks.com/wp-content/uploads/2014/08/LeonhardRec_13_mini-300x300.jpg">
             </div>
 
             <div class="media-left listing" data-ng-show="rentalRow.item_code === 'LMPA'">
                 <img class="media-object thumbnail"
                      data-ng-src="https://www.waukeshacounty.gov/uploadedImages/Media/Images/Parks_and_Land_Use/Park_System/Park_Icons/MukPicnic%20Area%201.jpg">
+            </div>
+
+            <div class="media-left listing" data-ng-show="rentalRow.group_id >  0">
+                <img class="media-object thumbnail"
+                     data-ng-src="http://lombardparks.com/wp-content/uploads/2014/06/Cake_Blurb.png">
             </div>
 
             <div class="media-body">
@@ -437,10 +442,10 @@
             <ul class="list-group">
                 <li class="list-group-item" data-ng-repeat="facilityRow in rentalRow.facility_data">
                     <div class="row">
-                        <div class="col-xs-5"><a href=""
-                                                 data-ng-click="onFacilityClick(rentalRow, facilityRow.item_id, 0)"><b>{{facilityRow.item_name}}</b></a>
+                        <div class="col-xs-4"><a href=""
+                                                 data-ng-click="onFacilityClick(rentalRow, facilityRow.item_id, 0, facilityRow)"><b>{{facilityRow.rental_name}}-{{facilityRow.item_name}}</b></a>
                         </div>
-                        <div class="col-xs-5">8:00AM to 9:00PM</div>
+                        <div class="col-xs-6">{{facilityRow.weekday_display}}</div>
                         <div class="col-xs-2">${{facilityRow.fee_amount}}/{{facilityRow.booking_type}}</div>
                     </div>
                 </li>
@@ -933,15 +938,15 @@
         <div class="panel-body">
             <div class="form-group">
                 <div class="col-sm-4">
-                    <label class="control-label-center">*Requested Date</label>
+                    <label class="control-label-center">*Start Date</label>
                 </div>
                 <div class="col-sm-8">
                     <div class="input-group" style="margin-bottom: 5px;">
                                             <span class="input-group-addon " style="width: 25px;">
                                                 <i class="glyphicon glyphicon-calendar "></i>
                                             </span>
-                        <input class="form-control" data-ng-model="selectedDate" name="date"
-                               data-autoclose="1" bs-datepicker
+                        <input class="form-control" data-ng-model="selectedDate" name="date" data-date-format="MM/dd/yyyy"
+                               data-autoclose="1" bs-datepicker placeholder="Start Date"
                                type="text"
                                style="width: 150px;">
                                             <span class="input-group-addon"
@@ -954,7 +959,28 @@
 
             <div class="form-group">
                 <div class="col-sm-4">
-                    <label class="control-label-center">*Start Time</label>
+                    <label class="control-label-center">End Date</label>
+                </div>
+                <div class="col-sm-8">
+                    <div class="input-group" style="margin-bottom: 5px;">
+                                            <span class="input-group-addon " style="width: 25px;">
+                                                <i class="glyphicon glyphicon-calendar "></i>
+                                            </span>
+                        <input class="form-control" data-ng-model="selectedDate2" name="date"
+                               data-autoclose="1" bs-datepicker datepicker-popup="yyyy-MM-dd" data-min-date="{{selectedDate}}" data-date-format="MM/dd/yyyy"
+                               type="text" placeholder="End Date"
+                               style="width: 150px;">
+                                            <span class="input-group-addon"
+                                                  style="width: 250px;background-color: #ffffff; visibility: hidden;">
+                                            </span>
+                        </input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label class="control-label-center">*Start After</label>
                 </div>
                 <div class="col-sm-8">
                     <div class="input-group" style="margin-bottom: 5px;">
@@ -973,7 +999,7 @@
 
             <div class="form-group">
                 <div class="col-sm-4">
-                    <label class="control-label-center">*End Time</label>
+                    <label class="control-label-center">*End Before</label>
                 </div>
                 <div class="col-sm-8">
                     <div class="input-group" style="margin-bottom: 5px;">
@@ -992,7 +1018,7 @@
     </form>
 </div>
 
-<div data-ng-show="selectTimePageID === 1">
+<div data-ng-show="selectTimePageID === 12">
     <form>
         <div class="panel-body">
             <div class="panel-heading" data-ng-hide="rentalCustomFields.length===0">
@@ -1067,7 +1093,8 @@
         <div class="panel-body" data-ng-hide="rentalPackages.length===0">
             <div class="table-responsive hidden-xs">
 
-                <table class="table" style="margin-bottom: 0px;">
+                <table class="table" style="margin-bottom: 0px;">r9 270
+
                     <thead>
                     <tr>
                         <td></td>
@@ -1139,14 +1166,14 @@
                                 ${{pkgfee.fee_amount}}</label></p>
                         </td>
                     </tr>
-                    </tbody>
+                     </tbody>
                 </table>
             </div>
         </div>
     </form>
 </div>
 
-<div data-ng-show="selectTimePageID === 2">
+<div data-ng-show="selectTimePageID === 112">
     <form>
 
         <div class="panel-heading clearfix">

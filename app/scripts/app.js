@@ -104,6 +104,9 @@ angular
             .when('/:orgurl/reservations', {
                 templateUrl: 'views/requestReservation.html'
             })
+            .when('/:orgurl/reservationtimes', {
+                templateUrl: 'views/reservationAvailableTimes.html'
+            })
             .when('/:orgurl/addedtocart', {
                 templateUrl: 'views/addedToCart.html',
                 controller: 'HomeCtrl',
@@ -585,6 +588,22 @@ angular
 
         return cfLoad;
     }])
+
+    .factory('reservationService', function() {
+        var reservationData = [];
+        function set(data) {
+            reservationData = data;
+        }
+        function get() {
+            return reservationData;
+        }
+
+        return {
+            set: set,
+            get: get
+        };
+    })
+
   .factory('ProInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
     var proload = this;
 

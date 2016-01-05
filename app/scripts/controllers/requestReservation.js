@@ -9,9 +9,8 @@
  */
 angular.module('bluereconlineApp')
     .controller('RequestReservation', ['$scope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout',
-        '$filter', '$anchorScroll', 'moment', 'ActiveUser',
-        function ($scope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment, ActiveUser) {
-
+        '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'reservationService',
+        function ($scope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment, ActiveUser, reservationService) {
 
             $scope.displaySearchResults = false;
             $scope.displayNoResults = false;
@@ -93,10 +92,10 @@ angular.module('bluereconlineApp')
             $scope.contactMethod = '';
 
             $scope.selectedDate = new Date();
+            $scope.selectedDate2 = null;
 
             $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
             $scope.endTime = new Date(1970, 0, 1, 9, 0, 40);
-
 
             //$scope.endTime = moment('2015-09-16 16:00:00');
 
@@ -175,7 +174,6 @@ angular.module('bluereconlineApp')
             $scope.selectedRentalCodeRow = [];
             $scope.selectedFacItem = 0;
 
-
             var selectTimeModalShow2 = selectTimeModal2.show;
 
             selectTimeModal2.show = function () {
@@ -197,11 +195,14 @@ angular.module('bluereconlineApp')
                 selectTimeModal2.hide();
             };
 
-            $scope.onFacilityClick = function(rentalCodeRow, facItemID, setPageID) {
+            $scope.onFacilityClick = function(rentalCodeRow, facItemID, setPageID, facilityRow) {
                 $scope.selectTimePageID = setPageID;
 
-               console.log(rentalCodeRow);
-               var foundFacData = [];
+                console.log(facilityRow);
+
+                reservationService.set(facilityRow);
+
+                var foundFacData = [];
 
                 for (var i = 0; i < rentalCodeRow.facility_data.length; i++) {
                     if (rentalCodeRow.facility_data[i].item_id === facItemID) {
@@ -225,6 +226,32 @@ angular.module('bluereconlineApp')
             $scope.onSelectTimeContinue = function() {
 
                 $scope.selectTimePageID =  $scope.selectTimePageID + 1;
+
+                //console.log('selectTimePageID:  '+$scope.selectTimePageID);
+
+                if($scope.selectTimePageID === 1)
+                {
+                    var tempFacData = reservationService.get();
+
+                    tempFacData['search_start_date'] = $scope.selectedDate;
+                    tempFacData['search_end_date'] = $scope.selectedDate2;
+
+                    tempFacData['search_start_time'] = $scope.startTime;
+                    tempFacData['search_end_time'] = $scope.endTime;
+
+                    //tempFacData['available_start_date'] = $scope.formatMySQLDate($scope.selectedDate, $scope.startTime);
+                    //tempFacData['available_end_date'] = $scope.formatMySQLDate($scope.selectedDate, $scope.endTime);
+
+                    reservationService.set(tempFacData);
+
+                    $scope.selectedRentalCodeRow = [];
+                    $scope.selectedFacItem = 0;
+
+                    deferred.resolve();
+                    selectTimeModal2.hide();
+
+                    $location.path('/' +  $routeParams.orgurl + '/reservationtimes');
+                }
             };
 
             $scope.anchorRentalCode = false;
@@ -585,13 +612,13 @@ angular.module('bluereconlineApp')
                     ////console.table($scope.eventSource);
                 }
 
-                $scope.$broadcast('eventSourceElementChanged');
+               // $scope.$broadcast('eventSourceElementChanged');
 
                 $scope.calculateFeeAmount();
             };
 
             $scope.timeChanged = function () {
-                $scope.calculateFeeAmount();
+                //$scope.calculateFeeAmount();
             };
 
             $scope.changeMode = function (mode) {
@@ -756,8 +783,8 @@ angular.module('bluereconlineApp')
 
             $scope.onSearchPanelOpen = function () {
                 $timeout(function () {
-                    $scope.$broadcast('reCalcViewDimensions');
-                    $scope.$broadcast('rzSliderForceRender');
+                   // $scope.$broadcast('reCalcViewDimensions');
+                   // $scope.$broadcast('rzSliderForceRender');
                 }, 100, false);
             };
 
