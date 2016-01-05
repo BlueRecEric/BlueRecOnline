@@ -336,7 +336,7 @@ angular.module('bluereconlineApp')
 
                             //$scope.showConformationModal();
 
-                           // $location.path('/' +  $routeParams.orgurl + '/reservations');
+                            $location.path('/' +  $routeParams.orgurl + '/reservations');
                     });
                 }
             };
