@@ -67,6 +67,7 @@ angular.module('bluereconlineApp')
             }
 
             updateDateCheckedFees(proIdx, pkgItmID);
+            updateDateCheckedDays(proIdx, pkgItmID);
         };
 
         var updateDateAddonSelection = function(proIdx, pkgUUID, pkgItemID)
@@ -85,15 +86,27 @@ angular.module('bluereconlineApp')
 
                         if(dayItems.uuid === pkgUUID)
                         {
-                            dayItems.selected = '1';
+                            if(dayItems.remaining > 0)
+                            {
+                                dayItems.selected = '1';
+                            }
+                            else
+                            {
+                                dayItems.selected = '0';
+                            }
                         }
                     }
                 }
             }
         };
 
-        var clickDateAddon = function(proIdx, pkgUUID, pkgItemID)
+        var clickDateAddon = function(proIdx, weekIdx, dayIdx, pkgIdx, pkgUUID, pkgItemID, pkgRemaining)
         {
+            if(pkgRemaining <= 0)
+            {
+                preloader.addons[proIdx].addons.packages.weeks[weekIdx].weekday[dayIdx].packages[pkgIdx].selected = '0';
+            }
+
             console.log('proIdx: ' + proIdx);
             updateDateCheckedFees(proIdx, pkgItemID);
             updateDateCheckedDays(proIdx, pkgItemID);
@@ -205,13 +218,11 @@ angular.module('bluereconlineApp')
 
         var updateAddonFees = function(pkgUUID, proIdx, pkgIdx) {
 
-            for(var ap = 0; ap < preloader.addons[proIdx].addons.packages.length; ap++)
+            if(Number(preloader.addons[proIdx].addons.packages[pkgIdx].remaining) <= 0)
             {
-                if(preloader.addons[proIdx].addons.packages[ap].uuid == pkgUUID)
-                {
-                    preloader.addons[proIdx].addons.packages[ap].selected = (preloader.addons[proIdx].addons.packages[ap].selected == '1')?'0':'1';
-                }
+                preloader.addons[proIdx].addons.packages[pkgIdx].selected = '0';
             }
+
 
             console.log('update addon fees ' + [proIdx]);
             console.log(preloader.addons[proIdx].addons.packages);

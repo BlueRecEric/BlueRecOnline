@@ -116,8 +116,8 @@
                 <div data-ng-show="addon.addons.packages.weekdays[$index].enabled" class="col-md-1" style="outline: 2px solid #ccc;height: 95px;margin-top: 0;margin-bottom: 0;" data-ng-repeat="weekday in week.weekday">
                   {{weekday.label}}
                   <div data-ng-repeat="pkg in weekday.packages">
-                    <checkbox class="btn-primary" data-ng-change="preLoad.clickDateAddon($parent.$parent.$parent.$index, pkg.uuid, pkg.item_id)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
-                    {{pkg.item_name}}
+                    <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.clickDateAddon($parent.$parent.$parent.$index, $parent.$parent.$index, $parent.$index, $index, pkg.uuid, pkg.item_id, pkg.remaining)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
+                    <span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}
                     <div class="spacing"></div>
                   </div>
                 </div>
@@ -150,10 +150,10 @@
                 <tbody>
                 <tr data-ng-repeat="pkg in addon.addons.packages">
                   <td>
-                    <checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees(pkg.uuid, $parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkgopt.selected" name="pkg.item_name"></checkbox>
+                    <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.updateAddonFees(pkg.uuid, $parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
                     <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
                   </td>
-                  <td>{{pkg.item_name}}</td>
+                  <td><span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}</td>
                   <td>{{pkg.item_code}}</td>
                   <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
                 </tr>
