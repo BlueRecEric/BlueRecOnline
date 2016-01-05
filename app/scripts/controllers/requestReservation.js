@@ -99,7 +99,7 @@ angular.module('bluereconlineApp')
                 return this;
             }
 
-            $scope.selectedDate2.end.AddDays(7);
+            $scope.selectedDate2.end.AddDays(10);
 
             $scope.startTime = new Date(1970, 0, 1, 9, 0, 40);
             $scope.endTime = new Date(1970, 0, 1, 9, 0, 40);
