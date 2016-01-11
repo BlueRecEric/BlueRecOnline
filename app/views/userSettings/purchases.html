@@ -3,5 +3,55 @@
     <h3>Purchase History</h3>
 
 
+    <div data-ng-repeat="household in purchases.returnData.households">
+        <div class="row">
+            <div class="col-xs-12"><h4>{{household.house_name}} Transactions</h4></div>
+        </div>
 
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th>Receipt</th>
+                    <th>Date</th>
+                    <th class="hidden-xs">Location</th>
+                    <th>Charged</th>
+                    <th>Paid</th>
+                    <th class="hidden-xs">Method</th>
+                    <th>Print</th>
+                </tr>
+            </thead>
+
+            <tbody dir-paginate="trans in household.transactions | itemsPerPage:10" current-page="household.page_number" pagination-id="household.house_index">
+                <tr class="active">
+                    <td class="col-md-2">{{trans.details.transaction_id}}</td>
+                    <td class="col-md-3">{{trans.details.display_date}}</td>
+                    <td class="col-md-3 hidden-xs">{{trans.details.facility_name}}</td>
+                    <td class="col-md-1">{{trans.details.amount_charged_total | currency}}</td>
+                    <td class="col-md-1">{{trans.details.amount_paid_total | currency}}</td>
+                    <td class="col-md-1 hidden-xs">{{trans.details.payment_methods}}</td>
+                    <td class="col-md-1"><button class="btn btn-primary btn-sm pull-right hidden-print" ng-print print-element-id="leagueSchedule"><i class="glyphicon glyphicon-print"></i></button></td>
+                </tr>
+
+                <tr data-ng-repeat="lineItem in trans.items">
+                    <td class="col-md-2"></td>
+                    <td class="col-md-6 hidden-xs" colspan="2">
+                        - {{lineItem.item_name}}
+                    <div data-ng-repeat="itemInfo in lineItem.details">-- {{itemInfo.text}}</div>
+                    </td>
+                    <td class="col-xs-6 visible-xs" colspan="4">
+                        - {{lineItem.item_name}}
+                        <div data-ng-repeat="itemInfo in lineItem.details">-- {{itemInfo.text}}</div>
+                    </td>
+                    <td class="col-md-1 hidden-xs">{{lineItem.total_item_charge | currency}}</td>
+                    <td class="col-md-1 hidden-xs">{{lineItem.total_item_payment | currency}}</td>
+                    <td class="col-md-1 hidden-xs">{{lineItem.payment_methods}}</td>
+                    <td class="col-md-1 hidden-xs"></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+        <dir-pagination-controls pagination-id="household.house_index"></dir-pagination-controls>
+    </div>
 </div>

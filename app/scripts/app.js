@@ -33,6 +33,7 @@ angular
     'vButton',
     'smart-table',
     'angularMoment',
+    'angularUtils.directives.dirPagination',
     'djds4rce.angular-socialshare'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
@@ -65,7 +66,7 @@ angular
             })
             .when('/:orgurl/purchases', {
                 templateUrl: 'views/userSettings/purchases.html',
-                controller: 'MyPurchasesCtrl'
+                controller: 'PurchasesCtrl'
             })
             .when('/:orgurl/programs', {
                 templateUrl: 'views/programs.html',
