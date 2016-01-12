@@ -97,7 +97,7 @@ angular.module('bluereconlineApp')
             Date.prototype.AddDays = function(noOfDays) {
                 this.setTime(this.getTime() + (noOfDays * (1000 * 60 * 60 * 24)));
                 return this;
-            }
+            };
 
             $scope.selectedDate2.end.AddDays(10);
 

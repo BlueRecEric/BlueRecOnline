@@ -1,0 +1,79 @@
+<div>
+
+    <div class="row">
+        <div class="col-md-12"><h3>Tax Receipt</h3></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right"><button class="btn btn-primary btn-sm" ng-print  print-element-id="taxReceiptReport"><i class="glyphicon glyphicon-print"></i> Printable Version</button></div>
+    </div>
+    <div class="spacing"></div>
+
+    <div class="row">
+        <div class="container" id="taxReceiptReport">
+            <div class="row">
+                <div class="col-xs-12" style="outline: 1px solid #d0d0d0;">
+                    <div class="row">
+
+                        <div class="col-xs-6">
+                            <img data-ng-src="{{reportData.returnData.header.org_logo}}" class="report-image"><br>
+                            {{reportData.returnData.header.org_address}}<br>
+                            {{reportData.returnData.header.org_city}}, {{reportData.returnData.header.org_state}}&nbsp;&nbsp;{{reportData.returnData.header.org_zip}}
+                        </div>
+
+                        <div class="col-xs-6 text-right">
+                            <h2 style="margin:0px;padding:0px;">Customer Tax Receipt</h2>
+                            Account Contact: {{reportData.returnData.header.user.primary_name}}<br>
+                            {{reportData.returnData.header.user.street_address}}<br>
+                            {{reportData.returnData.header.user.mailing_city}}, {{reportData.returnData.header.user.mailing_state}}&nbsp;&nbsp;{{reportData.returnData.header.user.mailing_zip}}
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 text-right">Report Generated: {{reportData.returnData.header.generated}}<br><hr></div>
+                    </div>
+
+                    <div class="row" data-ng-repeat="taxYear in reportData.returnData.content">
+                        <div class="col-xs-12">
+                            <h4>{{taxYear.tax_year}}</h4>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="row table-fixed" style="border-bottom:1px solid #d0d0d0;">
+                                <div class="col-print-3">
+                                    Activity
+                                </div>
+
+                                <div class="col-print-3">
+                                    Participant
+                                </div>
+
+                                <div class="col-print-3 text-right">
+                                    Amount Paid
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="row table-fixed" style="border-bottom:1px dotted #d0d0d0;" data-ng-repeat="purchase in taxYear.data">
+                                <div class="col-print-3">
+                                    {{purchase.item_name}}
+                                </div>
+
+                                <div class="col-print-3">
+                                    {{purchase.participant_name}}
+                                </div>
+
+                                <div class="col-print-3 text-right">
+                                    {{purchase.amount_paid | currency}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

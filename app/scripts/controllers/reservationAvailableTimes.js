@@ -47,26 +47,26 @@ angular.module('bluereconlineApp')
             $scope.startTime = new Date($scope.facilityData.search_start_time);
             $scope.endTime = new Date($scope.facilityData.search_end_time);
 
-            for (var i = 0; i < $scope.facilityData['weekday_indexes'].length; i++) {
-                if ($scope.facilityData.weekday_indexes[i] === "0") {
+            for (var i = 0; i < $scope.facilityData.weekday_indexes.length; i++) {
+                if ($scope.facilityData.weekday_indexes[i] === '0') {
                     $scope.weekdaySearch.sunday = true;
                 }
-                else if ($scope.facilityData.weekday_indexes[i] === "1") {
+                else if ($scope.facilityData.weekday_indexes[i] === '1') {
                     $scope.weekdaySearch.monday = true;
                 }
-                else if ($scope.facilityData.weekday_indexes[i] === "2") {
+                else if ($scope.facilityData.weekday_indexes[i] === '2') {
                     $scope.weekdaySearch.tuesday = true;
                 }
-                else if ($scope.facilityData.weekday_indexes[i] === "3") {
+                else if ($scope.facilityData.weekday_indexes[i] === '3') {
                     $scope.weekdaySearch.wednesday = true;
                 }
-                else if ($scope.facilityData.weekday_indexes[i] === "4") {
+                else if ($scope.facilityData.weekday_indexes[i] === '4') {
                     $scope.weekdaySearch.thursday = true;
                 }
-                else if ($scope.facilityData.weekday_indexes[i] === "5") {
+                else if ($scope.facilityData.weekday_indexes[i] === '5') {
                     $scope.weekdaySearch.friday = true;
                 }
-                else if ($scope.facilityData.weekday_indexes[i] === "6") {
+                else if ($scope.facilityData.weekday_indexes[i] === '6') {
                     $scope.weekdaySearch.saturday = true;
                 }
             }
@@ -145,7 +145,7 @@ angular.module('bluereconlineApp')
 
                 var timeDiff = (($scope.endTime.getTime() / 1000.0) - ($scope.startTime.getTime() / 1000.0))/60;
 
-                console.log(tempStartTime + "   |   " + timeDiff);
+                console.log(tempStartTime + '   |   ' + timeDiff);
 
                 $scope.isSearchIconBusy = false;
 
@@ -229,7 +229,7 @@ angular.module('bluereconlineApp')
             Date.prototype.AddHours = function(noOfHours) {
                 this.setTime(this.getTime() + (noOfHours * (1000 * 60* 60)));
                 return this;
-            }
+            };
 
             $scope.formatMySQLDate = function (formatDate) {
                 //Grab each of your components

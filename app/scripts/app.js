@@ -68,6 +68,10 @@ angular
                 templateUrl: 'views/userSettings/purchases.html',
                 controller: 'PurchasesCtrl'
             })
+            .when('/:orgurl/taxreceipt', {
+                templateUrl: 'views/reports/taxReceipt.html',
+                controller: 'TaxReceiptCtrl'
+            })
             .when('/:orgurl/programs', {
                 templateUrl: 'views/programs.html',
                 controller: 'ProgramList'

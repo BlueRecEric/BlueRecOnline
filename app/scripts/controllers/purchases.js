@@ -8,11 +8,12 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('PurchasesCtrl', ['$scope', 'ActiveUser', 'PurchasesLoader', '$routeParams', function ($scope,ActiveUser,PurchasesLoader) {
+    .controller('PurchasesCtrl', ['$scope', 'ActiveUser', 'PurchasesLoader', '$routeParams', function ($scope,ActiveUser,PurchasesLoader, $routParams) {
         if(ActiveUser.isLoggedIn())
         {
             $scope.purchases = PurchasesLoader;
             $scope.purchases.loadPurchases();
+            $scope.orgurl = $routParams.orgurl;
         }
     }])
     .factory('PurchasesLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser) {

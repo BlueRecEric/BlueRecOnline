@@ -1,7 +1,12 @@
 <div>
 
-    <h3>Purchase History</h3>
+    <div class="row">
+        <div class="col-md-12"><h3>Purchase History</h3></div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-12 text-right"><a class="btn btn-primary btn-sm" href="/#/{{orgurl}}/taxreceipt" ng-print><i class="glyphicon glyphicon-print"></i> Print Tax Receipt</a></div>
+    </div>
 
     <div data-ng-repeat="household in purchases.returnData.households">
         <div class="row">
@@ -17,8 +22,8 @@
                     <th class="hidden-xs">Location</th>
                     <th>Charged</th>
                     <th>Paid</th>
-                    <th class="hidden-xs">Method</th>
-                    <th>Print</th>
+                    <th class="hidden-xs text-center">Method</th>
+                    <th class="hidden-xs text-right">Print</th>
                 </tr>
             </thead>
 
@@ -29,12 +34,12 @@
                     <td class="col-md-3 hidden-xs">{{trans.details.facility_name}}</td>
                     <td class="col-md-1">{{trans.details.amount_charged_total | currency}}</td>
                     <td class="col-md-1">{{trans.details.amount_paid_total | currency}}</td>
-                    <td class="col-md-1 hidden-xs">{{trans.details.payment_methods}}</td>
-                    <td class="col-md-1"><button class="btn btn-primary btn-sm pull-right hidden-print" ng-print print-element-id="leagueSchedule"><i class="glyphicon glyphicon-print"></i></button></td>
+                    <td class="col-md-1 hidden-xs text-center">{{trans.details.payment_methods}}</td>
+                    <td class="col-md-1 hidden-xs"><button class="btn btn-primary btn-sm pull-right hidden-print" ng-print print-element-id="leagueSchedule"><i class="glyphicon glyphicon-print"></i></button></td>
                 </tr>
 
                 <tr data-ng-repeat="lineItem in trans.items">
-                    <td class="col-md-2"></td>
+                    <td class="col-md-2 hidden-xs"></td>
                     <td class="col-md-6 hidden-xs" colspan="2">
                         - {{lineItem.item_name}}
                     <div data-ng-repeat="itemInfo in lineItem.details">-- {{itemInfo.text}}</div>
@@ -45,7 +50,7 @@
                     </td>
                     <td class="col-md-1 hidden-xs">{{lineItem.total_item_charge | currency}}</td>
                     <td class="col-md-1 hidden-xs">{{lineItem.total_item_payment | currency}}</td>
-                    <td class="col-md-1 hidden-xs">{{lineItem.payment_methods}}</td>
+                    <td class="col-md-1 hidden-xs text-center">{{lineItem.payment_methods}}</td>
                     <td class="col-md-1 hidden-xs"></td>
                 </tr>
             </tbody>
