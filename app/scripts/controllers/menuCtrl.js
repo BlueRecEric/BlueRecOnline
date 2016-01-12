@@ -31,6 +31,7 @@ angular.module('bluereconlineApp')
             $scope.MyAccountLink = $routeParams.orgurl + '/myaccount';
             $scope.HouseholdLink = $routeParams.orgurl + '/household';
             $scope.PurchasesLink = $routeParams.orgurl + '/purchases';
+            $scope.AutoPayCardsLink = $routeParams.orgurl + '/autopayments';
         });
 
         $scope.logout = function()

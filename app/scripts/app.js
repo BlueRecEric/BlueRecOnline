@@ -72,6 +72,10 @@ angular
                 templateUrl: 'views/reports/taxReceipt.html',
                 controller: 'TaxReceiptCtrl'
             })
+            .when('/:orgurl/autopayments', {
+                templateUrl: 'views/userSettings/autoPayments.html',
+                controller: 'AutoPaymentCtrl'
+            })
             .when('/:orgurl/programs', {
                 templateUrl: 'views/programs.html',
                 controller: 'ProgramList'
