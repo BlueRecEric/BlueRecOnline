@@ -27,8 +27,11 @@
 </script>
 
 
-<div class="row" data-ng-animate="'slide'">
-<div data-ng-controller="RequestReservation" class="container">
+<div data-ng-animate="'slide'">
+
+    <h3>Make a Reservation</h3>
+
+<div data-ng-controller="RequestReservation">
 
 <!--<div class="hidden-xs" data-ng-hide="true">
     <button type="button" class="" data-ng-click="mapClicked(1)" style="padding: 0px;border: 0px;margin: 0px;"><img
@@ -103,21 +106,20 @@
 
 <div data-ng-show="userLoggedIn">
 
-<div class="panel panel-default" style="margin-bottom: 10px !important;" data-ng-model="searchPanelActive"
-     bs-collapse>
-<div class="panel-heading clearfix clicky" bs-collapse-toggle data-ng-click="onSearchPanelOpen()">
+<div class="panel panel-default" style="margin-bottom: 10px !important;">
+<div class="panel-heading clearfix clicky" data-ng-click="onSearchPanelOpen()">
     <h3 class="panel-title">
         <a style="text-decoration: none;">
             <div class="clicky no-select">
+                <i style="top:2px;" data-ng-class="{'text-primary fa fa-lg fa-chevron-circle-down': searchPanelActive===1, 'text-primary fa fa-lg fa-chevron-circle-right': searchPanelActive===0}"></i>&nbsp;
                 <span class="text-underline">Advanced Search</span>&nbsp;
-                <i style="top:2px;" class="glyphicon light-blue-color"
-                   data-ng-class="{'glyphicon-triangle-bottom': searchPanelActive===0, 'glyphicon-triangle-right': searchPanelActive===-1}"></i>
+                <span class="text-underline">{{advancedSearchLabel}}</span>&nbsp;
             </div>
         </a>
     </h3>
 </div>
 
-<div id="searchPanel" class="panel-body panel-collapse" bs-collapse-target style="padding: 4px 0px;">
+<div id="searchPanel" class="panel-body" data-ng-show="searchPanelActive === 1" style="padding: 4px 0px;">
 
 <div class="alert alert-danger animate-show animate-hide" role="alert"
      data-ng-show="searchErrorMessage.length>0"

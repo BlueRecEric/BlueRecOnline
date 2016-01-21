@@ -53,6 +53,7 @@ module.exports = function(config) {
       'bower_components/v-button/dist/v-button.js',
       'bower_components/angular-socialshare/angular-socialshare.js',
       'bower_components/angularUtils-pagination/dirPagination.js',
+      'bower_components/AngularJS-Toaster/toaster.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

@@ -31,7 +31,8 @@
     "v-button": "~1.1.1",
     "angular-image-maps-rwd": "https://github.com/cowglow/angular-image-maps-rwd.git#d7c8fc391c9fd470688a9f0d29475bc8a829a5bb",
     "angular-socialshare": "~1.4.1",
-    "angularUtils-pagination": "angular-utils-pagination#~0.9.4"
+    "angularUtils-pagination": "angular-utils-pagination#~0.9.4",
+    "AngularJS-Toaster": "angularjs-toaster#~0.4.181"
   },
   "devDependencies": {
     "angular-mocks": "^1.3.0"

@@ -33,6 +33,7 @@ angular
     'vButton',
     'smart-table',
     'angularMoment',
+    'toaster',
     'angularUtils.directives.dirPagination',
     'djds4rce.angular-socialshare'
   ])
@@ -67,6 +68,10 @@ angular
             .when('/:orgurl/purchases', {
                 templateUrl: 'views/userSettings/purchases.html',
                 controller: 'PurchasesCtrl'
+            })
+            .when('/:orgurl/invoices', {
+                templateUrl: 'views/userSettings/invoices.html',
+                controller: 'InvoicesCtrl'
             })
             .when('/:orgurl/taxreceipt', {
                 templateUrl: 'views/reports/taxReceipt.html',
@@ -265,6 +270,16 @@ angular
         }
 
         cart.updateShoppingCart = updateShoppingCart;
+    }])
+    .service('MakeToast', ['toaster', function(toaster) {
+        var bread = this;
+
+        var popOn = function(style, title, text)
+        {
+            toaster.pop(style, title, text);
+        };
+
+        bread.popOn = popOn;
     }])
     .factory('ActiveUser', ['AuthService','$window','$q',function(AuthService,$window,$q) {
         var currentUser = this;
@@ -557,7 +572,34 @@ angular
             }.bind(this));
         };
 
+        var loadMembershipForHousehold = function(userID, householdID) {
+
+            if(memLoad.busy) {
+                return false;
+            }
+            memLoad.busy = true;
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/membershiptypes/' + $routeParams.itemid,
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'userID':userID, 'householdID':householdID}
+            };
+
+            $http(req).then(function(response) {
+                var responseData;
+
+                responseData = JSON.parse(angular.toJson(response.data));
+                memLoad.returnData = responseData.data[0];
+
+                memLoad.busy = false;
+            }.bind(this));
+        };
+
         memLoad.loadMembership = loadMembership;
+        memLoad.loadMembershipForHousehold = loadMembershipForHousehold;
         memLoad.returnData = '';
         memLoad.busy = false;
 

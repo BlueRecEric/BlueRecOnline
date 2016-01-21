@@ -34,7 +34,7 @@ angular.module('bluereconlineApp')
         $scope.memInfo = [];
 
         $scope.memInfo = MemInfoLoader;
-        $scope.memInfo.loadMembership();
+        $scope.memInfo.loadMembershipForHousehold(ActiveUser.userData.user_id, ActiveUser.userData.household_id);
 
         $scope.customFieldInfo = CustomFieldLoader;
 

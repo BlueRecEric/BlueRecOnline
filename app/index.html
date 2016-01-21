@@ -13,10 +13,12 @@
 	<link rel='stylesheet' href='bower_components/angularjs-slider/dist/rzslider.css' />
 	<link rel='stylesheet' href='bower_components/v-button/dist/v-button.css' />
 	<link rel='stylesheet' href='bower_components/angular-socialshare/angular-socialshare.css' />
+	<link rel='stylesheet' href='bower_components/AngularJS-Toaster/toaster.css' />
 	<!-- endbower -->
 	<!-- endbuild -->
 
-	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css" rel="stylesheet">
+	<!--<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css" rel="stylesheet">-->
+	<link href="//alphadev.bluerec.com/php/API/ORG/alphadev/css?css" rel="stylesheet">
 
 	<script src="https://platform.twitter.com/widgets.js"></script>
 	<!-- build:css(.tmp) styles/main.css -->
@@ -80,12 +82,13 @@
 						class="fa fa-sign-in"></i> Login</a></li>
 				<li data-toggle="collapse" data-target=".in" class="dropdown" data-ng-hide="!currentUser.validLogin" ng-cloak>
 					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-					   aria-expanded="false"><i class="fa fa-cog"></i> Settings<span class="caret"></span></a>
+					   aria-expanded="false"><i class="fa fa-cog"></i> Account<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li data-toggle="collapse" data-target=".in"><a href="#/{{MyAccountLink}}"><i class="fa fa-user"></i> My Account</a></li>
-						<li data-toggle="collapse" data-target=".in"><a href="#/{{HouseholdLink}}"><i class="fa fa-users"></i> Household</a></li>
-						<li data-toggle="collapse" data-target=".in"><a href="#/{{PurchasesLink}}"><i class="fa fa-usd"></i> Purchases</a></li>
-						<li data-toggle="collapse" data-target=".in"><a href="#/{{AutoPayCardsLink}}"><i class="fa fa-credit-card"></i> Auto-Pay Cards</a></li>
+						<li data-toggle="collapse" data-target=".in"><a href="#/{{MyAccountLink}}"><i class="fa fa-user fa-fw"></i> Profile</a></li>
+						<li data-toggle="collapse" data-target=".in"><a href="#/{{HouseholdLink}}"><i class="fa fa-users fa-fw"></i> Household</a></li>
+						<li data-toggle="collapse" data-target=".in"><a href="#/{{PurchasesLink}}"><i class="fa fa-usd fa-fw"></i> Purchases</a></li>
+						<li data-toggle="collapse" data-target=".in"><a href="#/{{AutoPayCardsLink}}"><i class="fa fa-credit-card fa-fw"></i> Auto-Pay Cards</a></li>
+						<li data-toggle="collapse" data-target=".in"><a href="#/{{InvoicesLink}}"><i class="fa fa-envelope-o fa-fw"></i> Invoices</a></li>
 					</ul>
 				</li>
 				<li data-toggle="collapse" data-target=".in"><a ng-href="#/{{ActivitiesLink}}" ng-cloak><i class="fa fa-futbol-o"></i> Activities</a></li>
@@ -117,7 +120,7 @@
 <div class="container">
 	<div ng-view="" ></div>
 </div>
-
+<toaster-container></toaster-container>
 <footer class="header noborder ">
 	<div class="navbar navbar-inverse navbar-fixed-bottom">
 		<div class="container socialnav ">
@@ -174,6 +177,7 @@
 <script src="bower_components/v-button/dist/v-button.js"></script>
 <script src="bower_components/angular-socialshare/angular-socialshare.js"></script>
 <script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+<script src="bower_components/AngularJS-Toaster/toaster.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -207,6 +211,7 @@
 <script src="scripts/controllers/leaguepage.js"></script>
 <script src="scripts/controllers/precheckout.js"></script>
 <script src="scripts/controllers/taxReceipt.js"></script>
+<script src="scripts/controllers/invoices.js"></script>
 <!-- endbuild -->
 </body>
 </html>

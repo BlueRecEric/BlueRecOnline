@@ -1,0 +1,43 @@
+<div>
+
+    <div class="row">
+        <div class="col-md-12"><h3>Invoices</h3></div>
+    </div>
+
+    <div data-ng-repeat="item in invoices.returnData">
+        <div class="row">
+            <div class="col-xs-12"><h4>{{item.item_name}} - {{item.participant}}</h4></div>
+        </div>
+
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th>Payment</th>
+                    <th>Due</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                    <th>Paid</th>
+                    <th>Due</th>
+                    <th>Pay</th>
+                </tr>
+            </thead>
+
+            <tbody data-ng-repeat="payment in item.payments">
+                <tr class="{{(payment.payment_due <= 0)?'success':(payment.due_now == '1')?'danger':''}}">
+                    <td class="col-md-1">{{payment.payment_order}}</td>
+                    <td class="col-md-1">{{payment.due_date}}</td>
+                    <td class="col-md-1">{{payment.payment_status}}</td>
+                    <td class="col-md-1">{{payment.payment_fee | currency}}</td>
+                    <td class="col-md-1">{{payment.payment_paid | currency}}</td>
+                    <td class="col-md-1">{{payment.payment_due | currency}}</td>
+                    <td class="col-md-1">
+                        <button data-ng-show="payment.payment_due > 0 && !payment.inCart" class="btn btn-success btn-sm" data-ng-click="invoices.addInvoiceToCart($parent.$index, $index)"><i class="glyphicon glyphicon-shopping-cart"></i> Add to cart</button>
+                        <button data-ng-show="payment.payment_due > 0 && payment.inCart" class="btn btn-disabled btn-sm"><i class="glyphicon glyphicon-shopping-cart"></i> In cart</button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>

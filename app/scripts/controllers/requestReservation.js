@@ -27,7 +27,7 @@ angular.module('bluereconlineApp')
 
             $scope.userLoggedIn = ActiveUser.isLoggedIn();
 
-            $scope.searchPanelActive = -1;
+            $scope.searchPanelActive = 0;
 
             $scope.searchDisabled = true;
 
@@ -798,10 +798,13 @@ angular.module('bluereconlineApp')
             };
 
             $scope.onSearchPanelOpen = function () {
+                $scope.searchPanelActive = ($scope.searchPanelActive === 0)?1:0;
+
                 $timeout(function () {
-                   // $scope.$broadcast('reCalcViewDimensions');
-                   // $scope.$broadcast('rzSliderForceRender');
+                   $scope.$broadcast('reCalcViewDimensions');
+                   $scope.$broadcast('rzSliderForceRender');
                 }, 100, false);
+
             };
 
             $scope.getFacilitySearchString = function () {
