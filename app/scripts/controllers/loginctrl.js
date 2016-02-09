@@ -8,14 +8,26 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('LoginCtrl',['$scope','$http','AuthService','$routeParams','$location','ActiveUser', '$q', function ($scope,$http,AuthService,$routeParams,$location,ActiveUser,$q) {
+  .controller('LoginCtrl',['$scope','$http','AuthService','$routeParams','$location','ActiveUser', '$q', 'Page', 'MakeToast', function ($scope,$http,AuthService,$routeParams,$location,ActiveUser,$q,Page,MakeToast) {
     var log = this;
+
+    console.log(Page);
 
     log.orgurl = $routeParams.orgurl;
 
-      if(ActiveUser.isLoggedIn())
-      {
+    if(ActiveUser.isLoggedIn())
+    {
         $location.path('/' + log.orgurl + '/home');
+    }
+
+      function socialSignIn(serviceName)
+      {
+          MakeToast.popOn('danger',serviceName,serviceName + ' log in is currently disabled.');
+      }
+
+      function passwordRecovery()
+      {
+          MakeToast.popOn('danger','Feature Unavailable', 'Password recovery is currently unavailable.');
       }
 
     function login(em,pass)
@@ -29,11 +41,6 @@ angular.module('bluereconlineApp')
               }, function () {
               }
           );
-          /*
-          log.setUser(response.data);
-          //console.log('send to: '+ '/' + log.orgurl + '/home');
-          $location.path('/' + log.orgurl + '/home');
-          */
         }
       );
     }
@@ -95,6 +102,8 @@ angular.module('bluereconlineApp')
       $scope.logpass = '';
     }
 
+      log.passwordRecovery = passwordRecovery;
+      log.socialSignIn = socialSignIn;
     log.setLoginError = setLoginError;
     log.loginError = false;
     log.errorMessage = '';

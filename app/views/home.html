@@ -4,35 +4,60 @@
 
 		<p>This page will help you find what you are looking for.</p>
 
-		<h4>Activities</h4>
+		<div class="row row-eq-height">
 
-		<p>In the Activities section, you can find and register for a number of programs, classes, and leagues. You can
-			also find out more information about the activities you are registered for, such as the dates that the
-			activity takes place, which facility it is located at and, for some activities, even volunteer to help
-			out!</p>
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<h4>Household Management</h4>
 
-		<div class="spacing clearfix"><a href="#/{{home.orgurl}}/programs" class="btn btn-info col-md-2"><i
-				class="fa fa-futbol-o"></i> Go to Activities</a></div>
+				<p>The household management section allows you to update your profile, add household members, view past transactions and invoices, and update your saved payment methods</p>
 
-		<h4>Memberships</h4>
+				<div class="spacing clearfix"><a href="#/{{home.orgurl}}/household" class="btn btn-info"><i
+						class="fa fa-users"></i> Go to Household</a></div>
+			</div>
 
-		<p>The membership section is designed to help you find and purchase the membership that is right for you!
-			Already have a membership? You can renew existing memberships or, if necessary, cancel an existing
-			membership
-			right from your computer!</p>
+			<div data-ng-show="nav.options.showActivities" class="col-md-6 col-sm-12 col-xs-12">
+				<h4>Activities</h4>
 
-		<div class="spacing clearfix"><a href="#/{{home.orgurl}}/memberships" class="btn btn-info col-md-2"><i
-				class="fa fa-credit-card"></i> Go to Memberships</a></div>
+				<p>In the Activities section, you can find and register for a number of programs, classes, and leagues. You can
+					also find out more information about the activities you are registered for, such as the dates that the
+					activity takes place, which facility it is located at and, for some activities, even volunteer to help
+					out!</p>
 
-		<h4>Facility Reservations</h4>
+				<div class="spacing clearfix"><a href="#/{{home.orgurl}}/programs" class="btn btn-info"><i
+						class="fa fa-futbol-o"></i> Go to Activities</a></div>
+			</div>
 
-		<p>The reservation section can help you find available times to rent at our various facilities. You can see what
-			times are already booked, request a time for your rental and see the estimated cost. We also give
-			you the opportunity to fill out any additional information so your reservation can be booked as quickly as
-			possible!</p>
+			<div data-ng-show="nav.options.showMemberships" class="col-md-6 col-sm-12 col-xs-12">
+				<h4>Memberships</h4>
 
-		<div class="spacing clearfix"><a href="#/{{home.orgurl}}/reservations" class="btn btn-info col-md-2"><i
-				class="fa fa-check-square-o"></i> Go to Reservations</a></div>
+				<p>The membership section is designed to help you find and purchase the membership that is right for you!
+					Already have a membership? You can renew existing memberships or, if necessary, cancel an existing
+					membership
+					right from your computer!</p>
+
+				<div class="spacing clearfix"><a href="#/{{home.orgurl}}/memberships" class="btn btn-info"><i
+						class="fa fa-credit-card"></i> Go to Memberships</a></div>
+			</div>
+
+			<div data-ng-show="nav.options.showReservations" class="col-md-6 col-sm-12 col-xs-12">
+				<h4>Facility Reservations</h4>
+
+				<p>The reservation section can help you find available times to rent at our various facilities. You can see what
+					times are already booked, request a time for your rental and see the estimated cost. We also give
+					you the opportunity to fill out any additional information so your reservation can be booked as quickly as
+					possible!</p>
+
+				<div class="spacing clearfix"><a href="#/{{home.orgurl}}/reservations" class="btn btn-info"><i
+						class="fa fa-check-square-o"></i> Go to Reservations</a></div>
+			</div>
+
+		</div>
+
+
+
+
+
+
 	</div>
 
 </div>

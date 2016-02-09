@@ -134,6 +134,7 @@
           <div class="form-group col-xs-4">
             <label class="br-formlabel">Category:</label>
             <select class="form-control">
+              <option></option>
               <option>Swimming</option>
               <option>- Youth Swimming</option>
               <option>- Adult Swimming</option>
@@ -155,6 +156,7 @@
         <div class="form-group col-xs-6">
           <label class="br-formlabel">Location:</label>
           <select class="form-control">
+            <option></option>
             <option>Recreation Center</option>
             <option>Fitness Center</option>
             <option>Woodfield Park</option>
@@ -278,7 +280,7 @@
                 <h3 class="panel-title">
                   <div class="row">
                     <div class="col-md-2 col-xs-4">{{program.item_code}}</div>
-                    <div class="col-md-2 hidden-xs"><span data-ng-repeat="location in program.locations">{{location.location_name}} </span></div>
+                    <div class="col-md-2 hidden-xs"><span data-ng-repeat="location in program.locations">{{location.location_name | limitTo:18}} </span></div>
                     <div class="col-md-2 col-xs-8">{{program.display_dates}}</div>
                     <div class="col-md-3 hidden-xs">{{program.weekday_display}}</div>
                   </div>

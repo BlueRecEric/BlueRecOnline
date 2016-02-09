@@ -1,6 +1,6 @@
 <!doctype html>
-<html class="no-js">
-<head>
+<html class="no-js" ng-app="bluereconlineApp">
+<head data-ng-controller="appController">
 	<meta charset="utf-8">
 	<title></title>
 	<meta name="description" content="">
@@ -18,7 +18,10 @@
 	<!-- endbuild -->
 
 	<!--<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css" rel="stylesheet">-->
-	<link href="//alphadev.bluerec.com/php/API/ORG/alphadev/css?css" rel="stylesheet">
+	<style type="text/css">
+		body {visibility:hidden;}
+	</style>
+	<link data-ng-if="CssLink" data-ng-href="https://alphadev.bluerec.com/php/API/ORG/{{ CssLink }}/css?css" rel="stylesheet">
 
 	<script src="https://platform.twitter.com/widgets.js"></script>
 	<!-- build:css(.tmp) styles/main.css -->
@@ -26,6 +29,7 @@
 	<link rel="stylesheet" href="styles/angular-motion.min.css">
 	<link rel="stylesheet" href="styles/main.css">
 	<link rel="stylesheet" href="styles/calendar.css">
+	<link rel="stylesheet" href="styles/bootstrap-social.css">
 
 	<!-- endbuild -->
 
@@ -39,7 +43,7 @@
 	<script src='//maps.googleapis.com/maps/api/js?libraries=places&sensor=false'></script>
 	<script src='//cdnjs.cloudflare.com/ajax/libs/gsap/1.13.1/TweenMax.min.js'></script>
 </head>
-<body ng-app="bluereconlineApp"><a id="pageTop"></a>
+<body><a id="pageTop"></a>
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];
@@ -54,9 +58,9 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<header>
+<header data-ng-controller="appController">
 	<div class="wide">
-		<div class="container logo"><img class="img-responsive" src="images/header_logo_bv.png"></div>
+		<div class="container logo"><img class="img-responsive" data-ng-if="CssLink" data-ng-src="images/{{ CssLink }}.png"></div>
 	</div>
 </header>
 <div data-ng-controller="UserAuthCtrl"></div>
@@ -91,10 +95,10 @@
 						<li data-toggle="collapse" data-target=".in"><a href="#/{{InvoicesLink}}"><i class="fa fa-envelope-o fa-fw"></i> Invoices</a></li>
 					</ul>
 				</li>
-				<li data-toggle="collapse" data-target=".in"><a ng-href="#/{{ActivitiesLink}}" ng-cloak><i class="fa fa-futbol-o"></i> Activities</a></li>
-				<li data-toggle="collapse" data-target=".in"><a ng-href="#/{{LeaguesLink}}" ng-cloak><i class="fa fa-trophy"></i> Leagues</a></li>
-				<li data-toggle="collapse" data-target=".in"><a ng-href="#/{{MembershipsLink}}" ng-cloak><i class="fa fa-credit-card"></i> Memberships</a></li>
-				<li data-toggle="collapse" data-target=".in"><a ng-href="#/{{ReservationsLink}}" ng-cloak><i class="fa fa-check-square-o"></i> Reservations</a>
+				<li data-toggle="collapse" data-ng-show="nav.options.showActivities" data-target=".in"><a ng-href="#/{{ActivitiesLink}}" ng-cloak><i class="fa fa-futbol-o"></i> Activities</a></li>
+				<li data-toggle="collapse" data-ng-show="nav.options.showLeagues" data-target=".in"><a ng-href="#/{{LeaguesLink}}" ng-cloak><i class="fa fa-trophy"></i> Leagues</a></li>
+				<li data-toggle="collapse" data-ng-show="nav.options.showMemberships" data-target=".in"><a ng-href="#/{{MembershipsLink}}" ng-cloak><i class="fa fa-credit-card"></i> Memberships</a></li>
+				<li data-toggle="collapse" data-ng-show="nav.options.showReservations" data-target=".in"><a ng-href="#/{{ReservationsLink}}" ng-cloak><i class="fa fa-check-square-o"></i> Reservations</a>
 				</li>
 				<li data-ng-show="false" ng-cloak><a ng-href="#/{{ShopLink}}"><i class="fa fa-tags"></i> Shop</a></li>
 			</ul>
@@ -187,9 +191,12 @@
 <script src="scripts/app.js"></script>
 <script src="scripts/calendar-tpls.js"></script>
 
+<script src="scripts/factories/navFactory.js"></script>
+
 <script src="scripts/controllers/homeCtrl.js"></script>
 <script src="scripts/controllers/shoppingCartCtrl.js"></script>
 <script src="scripts/controllers/loginctrl.js"></script>
+<script src="scripts/controllers/signupCtrl.js"></script>
 <script src="scripts/controllers/userAuthCtrl.js"></script>
 <script src="scripts/controllers/menuCtrl.js"></script>
 <script src="scripts/controllers/programlist.js"></script>

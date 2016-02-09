@@ -8,10 +8,16 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('HomeCtrl', ['$scope', '$routeParams', '$location', 'ActiveUser', function ($scope,$routeParams,$location,ActiveUser) {
+  .controller('HomeCtrl', ['$scope', '$routeParams', '$location', 'ActiveUser', 'NavFactory', function ($scope,$routeParams,$location,ActiveUser,NavFactory) {
     var home = this;
     home.orgurl = $routeParams.orgurl;
     home.validUser = false;
+
+      $scope.$on('$routeChangeSuccess', function() {
+
+          $scope.nav = NavFactory;
+          $scope.nav.getNavSettings();
+      });
 
     ActiveUser.getFromLocal().then(function() {
       checkValidUser();

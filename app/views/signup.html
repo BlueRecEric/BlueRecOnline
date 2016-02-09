@@ -1,0 +1,199 @@
+<h3>Signup</h3>
+
+<div class="panel panel-primary" data-ng-show="!sign.remote.accountCreated">
+  <div class="panel-heading">
+    <h3 class="panel-title">Create Account</h3>
+  </div>
+    <div class="panel-body">
+
+      <div class="row">
+
+          <div class="col-md-8 col-xs-12">
+
+            <form name="newAccount" class="form-horizontal" role="form" data-ng-submit="sign.sendSignupRequest()">
+              <ng-form name="newAccount">
+
+                <fieldset><legend>Primary Contact/Guardian</legend>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.remoteError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.remoteError.message}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.firstnameError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.firstnameError.message}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="newFirstName" class="col-sm-3 control-label">First Name:</label>
+                    <div class="col-sm-6">
+                      <span class="input-group"><span class="input-group-addon"><i class="fa fa-pencil-square-o"></i></span><input type="text" id="newFirstName" data-ng-model="sign.newAccount.firstname" class="form-control"/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.lastnameError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.lastnameError.message}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="newLastName" class="col-sm-3 control-label">Last Name:</label>
+                    <div class="col-sm-6">
+                      <span class="input-group"><span class="input-group-addon"><i class="fa fa-pencil-square-o"></i></span><input type="text" id="newLastName" data-ng-model="sign.newAccount.lastname" class="form-control"/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.birthdayError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.birthdayError.message}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="newBirthday" class="col-sm-3 control-label">Birthday:</label>
+                    <div class="col-sm-6">
+                           <span class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><!--
+                          --><input class="form-control" data-ng-model="sign.newAccount.birthday" data-date-format="M/d/yyyy" id="newBirthday" name="date" data-autoclose="true" data-start-view="2" bs-datepicker type="text"></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="newBirthday" class="col-sm-3 control-label"></label>
+                    <div class="col-sm-6">
+                        <a data-toggle="modal" data-target="#whyBirthday">Why do we need your birthday?</a></p>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="whyBirthday" tabindex="-1" role="dialog" aria-labelledby="whyBirthdayLabel">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          Age Requirement
+                        </div>
+
+                        <div class="modal-body">
+                          In order to comply with the <a href="http://www.coppa.org/coppa.htm" target="_blank">Children's Online Privacy Protection Act</a>,
+                          we do not allow a new account to be created by an individual under the age of 13.
+                          <br><br>
+                          Once your primary contact account is established, you may add individuals to your account that are under the age of 13.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.emailError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.emailError.message}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="newEmail" class="col-sm-3 control-label">Email:</label>
+                    <div class="col-sm-6">
+                      <span class="input-group"><span class="input-group-addon"><i class="fa fa-envelope-o"></i></span><input type="text" id="newEmail" data-ng-model="sign.newAccount.email" class="form-control"/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="newEmail" class="col-sm-3 control-label"></label>
+                    <div class="col-sm-6">
+                      <a data-toggle="modal" data-target="#whyEmail">Why do you need my email address?</a></p>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="whyEmail" tabindex="-1" role="dialog" aria-labelledby="whyEmailLabel">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          Email Addresses
+                        </div>
+
+                        <div class="modal-body">
+                          Your email address will be used for logging in, sending you purchase receipts, class/program updates, and other communications related to your activities.
+                          <br><br>
+                          Before you can purchase anything through the online portal, we must validate your email address. We will send you a confirmation email that contains a unique link back to our site. By clicking the link, you will verify that you are able to receive emails from us.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.passwordError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.passwordError.message}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="newPassword" class="col-sm-3 control-label">Password:</label>
+                    <div class="col-sm-6">
+                      <span class="input-group"><span class="input-group-addon"><i class="fa fa-key"></i></span><input type="password" id="newPassword" data-ng-model="sign.newAccount.password" class="form-control"/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.cPasswordError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.cPasswordError.message}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="newCPassword" class="col-sm-3 control-label">Re-type password:</label>
+                    <div class="col-sm-6">
+                      <span class="input-group"><span class="input-group-addon"><i class="fa fa-key"></i></span><input type="password" id="newCPassword" data-ng-model="sign.newAccount.cpassword" class="form-control"/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                      <div class="col-sm-6 col-sm-offset-3">
+                          <button type="submit" id="newAccountSubmit" value="submit" class="btn btn-info pull-right"><i class="fa fa-sign-in"></i> Create Account</button>
+                      </div>
+                  </div>
+
+                </fieldset>
+              </ng-form>
+            </form>
+
+          </div>
+
+          <div class="col-md-4 col-xs-12">
+            <div class="well">
+
+                <div class="row"><div class="col-xs-10 col-md-offset-1"><h3>Account Benefits</h3></div></div>
+
+
+                <div class="row"><div class="col-xs-10 col-md-offset-1"><p>With an online account, you can register for programs/classes, pay your invoices, renew memberships, manage your recurring payment information and more all from one
+                convenient portal!</p></div></div>
+            </div>
+
+            <div class="well">
+                <div class="row"><div class="col-xs-10 col-md-offset-1"><h3>Primary Contact</h3></div></div>
+
+
+                <div class="row"><div class="col-xs-10 col-md-offset-1"><p>
+                    The primary contact should be an adult who will manage the household's online account. Even if you are only registering your child for a class, you should enter your information
+                    as the primary contact. This allows us to have a contact on file and will save you time filling out the information later while you are on-site.
+                </p></div></div>
+
+            </div>
+          </div>
+
+
+      </div>
+
+
+    </div>
+</div>
+
+<div class="panel panel-primary" data-ng-show="sign.remote.accountCreated">
+  <div class="panel-heading">
+    <h3 class="panel-title">Account Created!</h3>
+  </div>
+  <div class="panel-body">
+    <h3>Your account had been successfully created!</h3>
+    <p>You may now <a data-ng-href="#/{{sign.orgurl}}/login">log in to your account</a> and continue adding household members or start browsing our activities.</p>
+  </div>
+</div>

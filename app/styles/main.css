@@ -33,6 +33,12 @@
     padding-bottom: 5px!important;
 }
 
+.col-footer {
+    position: absolute;
+    bottom: 0;
+    display: block;
+}
+
 .well {
     padding: 5px!important;
     margin-bottom: 5px!important;
@@ -182,10 +188,13 @@ body > .container {
 .wide {
     width:100%;
     height:150px;
-    background-image:url('../images/header_bgbv.jpg');
     background-size:cover;
     border-bottom: 0px solid #e5e5e5;
     margin-bottom: 0px;
+}
+
+.nopad {
+    padding:0px;
 }
 
 .logo {

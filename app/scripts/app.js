@@ -57,6 +57,11 @@ angular
                 controller: 'LoginCtrl',
                 controllerAs: 'log'
             })
+            .when('/:orgurl/signup', {
+                templateUrl: 'views/signup.html',
+                controller: 'SignupCtrl',
+                controllerAs: 'sign'
+            })
             .when('/:orgurl/myaccount', {
                 templateUrl: 'views/userSettings/myAccount.html',
                 controller: 'MyAccountCtrl'
@@ -157,7 +162,6 @@ angular
 
         $rootScope.$on('$routeChangeStart', function (event, next) {
             if(next.params.orgurl !== undefined) {
-
                 if (next.requireLogin) {
                     $location.path('/' + next.params.orgurl + '/login');
                     event.preventDefault();
@@ -281,6 +285,13 @@ angular
 
         bread.popOn = popOn;
     }])
+    .factory('Page', function() {
+        var ThisPage = this;
+        ThisPage.title = 'Online Registration';
+        ThisPage.css = '';
+
+        return ThisPage;
+    })
     .factory('ActiveUser', ['AuthService','$window','$q',function(AuthService,$window,$q) {
         var currentUser = this;
         currentUser.userStore = $window.localStorage;
@@ -727,4 +738,9 @@ angular
     proload.busy = false;
 
     return proload;
-  }]);
+  }])
+.controller('appController',['$scope','$http','$routeParams', function ($scope,$http,$routeParams) {
+    $scope.$on('$routeChangeSuccess', function() {
+        $scope.CssLink = $routeParams.orgurl;
+    });
+}]);

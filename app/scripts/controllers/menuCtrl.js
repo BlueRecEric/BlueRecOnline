@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('MenuCtrl', ['$scope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', '$aside', function ($scope,$routeParams,$route,AuthService,$location,ActiveUser, $aside) {
+    .controller('MenuCtrl', ['$scope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', '$aside', 'NavFactory', function ($scope,$routeParams,$route,AuthService,$location,ActiveUser, $aside, NavFactory) {
 
         $scope.$watch(function() { return ActiveUser.getUser(); }, function() {
             $scope.currentUser = ActiveUser.getUser();
@@ -20,6 +20,10 @@ angular.module('bluereconlineApp')
         }
 
         $scope.$on('$routeChangeSuccess', function() {
+
+            $scope.nav = NavFactory;
+            $scope.nav.getNavSettings();
+
             $scope.ActivitiesLink = $routeParams.orgurl + '/programs/';
             $scope.LeaguesLink = $routeParams.orgurl + '/leagues/';
             $scope.MembershipsLink = $routeParams.orgurl + '/memberships/';

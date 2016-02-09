@@ -1,70 +1,120 @@
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <h3 class="panel-title">Please Sign In</h3>
-  </div>
-  <div class="panel-body">
+<div class="row text-center">
 
-    <div class="row hidden-xs">
+    <div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-4">
 
-      <div class="col-md-4" >
-        <a href="#"><img src="images/fb-login.png" /></a><br/>
-        <a href="#"><img src="images/tw-login.png" /></a><br/>
-        <a href="#"><img src="images/gplus-login.png" /></a>
-      </div>
+        <h3>Login</h3>
 
-      <div class="col-md-8" style="border-left:1px solid #ccc;">
-        <form name="brLoginForm" class="form-horizontal" data-ng-submit="log.login(logem,logpass)">
-          <fieldset>
-            <div class="alert alert-danger" role="alert" data-ng-show="log.loginError">{{log.errorMessage}}</div>
-            <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logem.$dirty || brLoginForm.logem.$touched) && brLoginForm.logem.$invalid">Username/Email must not be blank</div>
-            <input required data-ng-model="logem" id="logem" name="logem" type="text" placeholder="Enter User Name/Email" class="form-control input-md">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Please Sign In</h3>
+            </div>
+            <div class="panel-body">
 
-            <div class="spacing"><input type="checkbox" name="checkboxes" id="checkboxes-0" value="1"><small> Remember me</small></div>
+                <div class="row">
 
-            <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logpass.$dirty || brLoginForm.logpass.$touched) && brLoginForm.logpass.$invalid">Password must not be blank</div>
+                    <div class="col-xs-12">
+                        <form name="brLoginForm" class="form-horizontal" data-ng-submit="log.login(logem,logpass)">
+                            <fieldset>
 
-            <input required data-ng-model="logpass" id="logpass" name="logpass" type="password" placeholder="Enter Password" class="form-control input-md">
+                                <div class="alert alert-danger" role="alert" data-ng-show="log.loginError">{{log.errorMessage}}</div>
+                                <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logem.$dirty || brLoginForm.logem.$touched) && brLoginForm.logem.$invalid">Username/Email must not be blank</div>
 
-            <div class="spacing"><a href="#"><small> Forgot Password?</small></a><br/></div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <input data-ng-model="logem" id="logem" name="logem" type="text" placeholder="Enter User Name/Email" class="form-control input-md">
+                                    </div>
+                                </div>
 
-            <button type="submit" id="submit" value="Submit" class="btn btn-info pull-right" data-ng-enable="brLoginForm.logem.$valid && brLoginForm.logpass.$valid"><i class="fa fa-sign-in"></i> Sign In</button>
-          </fieldset>
-        </form>
-      </div>
+                                <div class="spacing"></div>
+
+                                <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logpass.$dirty || brLoginForm.logpass.$touched) && brLoginForm.logpass.$invalid">Password must not be blank</div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <input data-ng-model="logpass" id="logpass" name="logpass" type="password" placeholder="Enter Password" class="form-control input-md">
+                                    </div>
+                                </div>
+<!--
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="btn-group btn-group-justified">
+                                            <a class="btn" href="#">Lost Password</a>
+                                            <a class="btn" data-ng-href="#/{{log.orgurl}}/signup">Sign Up</a>
+                                        </div>
+                                    </div>
+                                </div>
+-->
+                                <div class="spacing"></div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="btn-group col-xs-12 nopad">
+                                            <button class='btn btn-info col-xs-12 text-left' type="submit" data-ng-enable="brLoginForm.logem.$valid && brLoginForm.logpass.$valid"><i class="fa fa-sign-in fa-fw"></i> Log In</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="spacing col-xs-12 text-center">OR</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="btn-group col-xs-12 nopad">
+                                            <a class='btn btn-primary col-xs-12 text-left' data-ng-href="#/{{log.orgurl}}/signup"><i class="fa fa-user-plus fa-fw"></i> Create Account</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="spacing"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="btn-group col-xs-12 nopad">
+                                            <button type="button" class='btn btn-warning col-xs-12 text-left' data-ng-click="log.passwordRecovery()"><i class="fa fa-unlock-alt fa-fw"></i> Recover Password</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="spacing"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <button type="button" class="btn btn-block btn-social btn-facebook" data-ng-click="log.socialSignIn('Facebook')"><span class="fa fa-facebook"></span> Sign in with Facebook</button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="spacing"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <button type="button" class="btn btn-block btn-social btn-twitter" data-ng-click="log.socialSignIn('Twitter')"><span class="fa fa-twitter"></span> Sign in with Twitter</button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="spacing"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <button type="button" class="btn btn-block btn-social btn-google" data-ng-click="log.socialSignIn('Google')"><span class="fa fa-google"></span> Sign in with Google</button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="row visible-xs">
-
-      <div class="col-md-12">
-        <form name="brLoginForm" class="form-horizontal" data-ng-submit="log.login(logem,logpass)">
-          <fieldset>
-            <div class="alert alert-danger" role="alert" data-ng-show="log.loginError">{{log.errorMessage}}</div>
-            <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logem.$dirty || brLoginForm.logem.$touched) && brLoginForm.logem.$invalid">Username/Email must not be blank</div>
-            <input required data-ng-model="logem" id="logem" name="logem" type="text" placeholder="Enter User Name/Email" class="form-control input-md">
-
-            <div class="spacing"><input type="checkbox" name="checkboxes" id="checkboxes-0" value="1"><small> Remember me</small></div>
-
-            <div class="alert alert-danger" role="alert" data-ng-show="(brLoginForm.logpass.$dirty || brLoginForm.logpass.$touched) && brLoginForm.logpass.$invalid">Password must not be blank</div>
-
-            <input required data-ng-model="logpass" id="logpass" name="logpass" type="password" placeholder="Enter Password" class="form-control input-md">
-
-            <div class="spacing"><a href="#"><small> Forgot Password?</small></a><br/></div>
-
-            <button type="submit" id="submit" value="Submit" class="btn btn-info pull-right" data-ng-enable="brLoginForm.logem.$valid && brLoginForm.logpass.$valid"><i class="fa fa-sign-in"></i> Sign In</button>
-          </fieldset>
-        </form>
-      </div>
-      <div class="spacing"></div>
-    </div>
-
-    <div class="row visible-xs">
-      <div class="col-md-12 text-center" >
-        <a href="#"><img src="images/fb-login.png" /></a><br/>
-        <a href="#"><img src="images/tw-login.png" /></a><br/>
-        <a href="#"><img src="images/gplus-login.png" /></a>
-      </div>
-    </div>
-
-
-  </div>
 </div>
