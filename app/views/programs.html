@@ -11,23 +11,17 @@
 
         <div class="form-group col-xs-4">
           <label>Category:</label>
-          <select class="form-control">
-            <option>Swimming</option>
-            <option>- Youth Swimming</option>
-            <option>- Adult Swimming</option>
-            <option>Adult Leagues</option>
-            <option>Rafting</option>
-            <option>Trips</option>
+          <select class="form-control" ng-model="query.type_id" data-ng-change="doSearch()">
+            <option value=""></option>
+            <option data-ng-repeat="type in proloader.types track by type.type_id" value="{{type.type_id}}">{{type.tree_name}}</option>
           </select>
         </div>
 
         <div class="form-group col-xs-4">
           <label>Location:</label>
-          <select class="form-control">
-            <option>Recreation Center</option>
-            <option>Fitness Center</option>
-            <option>Woodfield Park</option>
-            <option>Riverside Park</option>
+          <select class="form-control" ng-model="query.location_id" data-ng-change="doSearch()">
+            <option value=""></option>
+            <option data-ng-repeat="loc in proloader.locations track by loc.location_id" value="{{loc.location_id}}">{{loc.location_name}}</option>
           </select>
         </div>
       </div>
@@ -134,13 +128,8 @@
           <div class="form-group col-xs-4">
             <label class="br-formlabel">Category:</label>
             <select class="form-control">
-              <option></option>
-              <option>Swimming</option>
-              <option>- Youth Swimming</option>
-              <option>- Adult Swimming</option>
-              <option>Adult Leagues</option>
-              <option>Rafting</option>
-              <option>Trips</option>
+              <option value=""></option>
+              <option data-ng-repeat="type in proloader.types" value="type.type_id">{{type.tree_name}}</option>
             </select>
           </div>
       </div>
@@ -269,8 +258,7 @@
             <div class="media-left listing" data-ng-show="session.has_photo">
               <img class="media-object thumbnail" data-ng-src="https://alphadev.bluerec.com/php/organization_files/{{session.photo.organization_id}}/files/item_photos/{{session.photo.file_name}}" alt="{{session.item_name}}">
             </div>
-            <div class="media-body">
-              {{session.description}}<br><br>
+            <div class="media-body" data-ng-bind-html="session.description | sanitize">
             </div>
           </div>
 
@@ -295,10 +283,7 @@
                       <div class="row clearfix">
                         <div class="col-sm-6">
                           <div class="row"><div class="col-sm-12"><h4>Registration</h4></div></div>
-                          <div class="row striped-row"><div class="col-xs-6">Res/Online:</div><div class="col-xs-6">{{program.format_online_registration_start}}</div></div>
-                          <div class="row striped-row"><div class="col-xs-6">NonRes/Online:</div><div class="col-xs-6">{{program.format_nonres_online_registration_start}}</div></div>
-                          <div class="row striped-row"><div class="col-xs-6">Late Reg:</div><div class="col-xs-6">{{program.format_registration_late_end}}</div></div>
-                          <div class="row striped-row"><div class="col-xs-6">Ends:</div><div class="col-xs-6">{{program.format_registration_end}}</div></div>
+                          <div class="row striped-row" data-ng-repeat="date in program.dates"><div class="col-xs-6">{{date.label}}</div><div class="col-xs-6">{{date.date}}</div></div>
                         </div>
 
                         <div class="col-sm-6">
