@@ -207,31 +207,48 @@ angular.module('bluereconlineApp')
             $scope.onFacilityClick = function(rentalCodeRow, facItemID, setPageID, facilityRow) {
                 $scope.selectTimePageID = setPageID;
 
-                console.log(facilityRow);
+                reservationService.set('');
 
-                reservationService.set(facilityRow);
+                console.log(rentalCodeRow);
 
-                //console.log( $scope.selectedTime);
+                var totalMins = 0;
+                for (var a = 0; a < facilityRow.min_hours.length; a++) {
+                    totalMins += parseInt(facilityRow.min_hours[a]);
+                }
                 $scope.selectedTime = {'startTime':  new Date(1970, 0, 1, facilityRow.start_time_hour, facilityRow.start_time_minutes, 40),
                     'endTime':  new Date(1970, 0, 1, facilityRow.end_time_hour, facilityRow.end_time_minutes, 40)};
 
-                var foundFacData = [];
+                /*var foundFacData = [];
 
                 for (var i = 0; i < rentalCodeRow.facility_data.length; i++) {
                     if (rentalCodeRow.facility_data[i].item_id === facItemID) {
                         foundFacData = rentalCodeRow.facility_data[i];
-
                     }
-                }
+                }*/
 
                 $scope.selectedRentalCodeRow = rentalCodeRow;
-                $scope.selectedFacItem = foundFacData;
+                //$scope.selectedFacItem = foundFacData;
                 $scope.rentalPackages = rentalCodeRow.packageForm;
                 $scope.rentalCustomFields = rentalCodeRow.customForm;
 
-                selectTimeModal2.show().then(function (res) {
+                facilityRow.search_start_date = $scope.selectedDate2.start;
+                facilityRow.search_end_date = $scope.selectedDate2.end;
+
+                facilityRow.search_start_time = $scope.selectedTime.startTime;
+                facilityRow.search_end_time = $scope.selectedTime.endTime;
+
+                //tempFacData['available_start_date'] = $scope.formatMySQLDate($scope.selectedDate, $scope.startTime);
+                //tempFacData['available_end_date'] = $scope.formatMySQLDate($scope.selectedDate, $scope.endTime);
+
+                console.log(rentalCodeRow);
+
+                reservationService.set(facilityRow);
+
+                $location.path('/' +  $routeParams.orgurl + '/reservationtimes');
+
+                /*selectTimeModal2.show().then(function (res) {
                     //$scope.searchRentalTimeSelected(res);
-                });
+                });*/
             };
 
             $scope.selectTimePageID = 0;
@@ -392,6 +409,11 @@ angular.module('bluereconlineApp')
 
             $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/requestreservation')
                 .success(function (data) {
+                    for ( var i = 0; i < data.length; i++)
+                    {
+                        data[i].rental_code_desc_short = data[i].rental_code_description.substr(0, 125)+'...';
+                    }
+
                     $scope.rentalDropDown = data;
                     console.log($scope.rentalDropDown);
                 });

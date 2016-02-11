@@ -24,13 +24,13 @@ angular.module('bluereconlineApp')
             $scope.nav = NavFactory;
             $scope.nav.getNavSettings();
 
-            $scope.ActivitiesLink = $routeParams.orgurl + '/programs/';
-            $scope.LeaguesLink = $routeParams.orgurl + '/leagues/';
-            $scope.MembershipsLink = $routeParams.orgurl + '/memberships/';
-            $scope.ReservationsLink = $routeParams.orgurl + '/reservations/';
-            $scope.ShopLink = $routeParams.orgurl + '/shop/';
-            $scope.LoginLink = $routeParams.orgurl + '/login/';
-            $scope.HomeLink = $routeParams.orgurl + '/home/';
+            $scope.ActivitiesLink = $routeParams.orgurl + '/programs';
+            $scope.LeaguesLink = $routeParams.orgurl + '/leagues';
+            $scope.MembershipsLink = $routeParams.orgurl + '/memberships';
+            $scope.ReservationsLink = $routeParams.orgurl + '/reservations';
+            $scope.ShopLink = $routeParams.orgurl + '/shop';
+            $scope.LoginLink = $routeParams.orgurl + '/login';
+            $scope.HomeLink = $routeParams.orgurl + '/home';
 
             $scope.MyAccountLink = $routeParams.orgurl + '/myaccount';
             $scope.HouseholdLink = $routeParams.orgurl + '/household';

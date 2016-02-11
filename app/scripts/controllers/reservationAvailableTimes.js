@@ -38,8 +38,35 @@ angular.module('bluereconlineApp')
 
             $scope.facilityData = reservationService.get();
 
+            $scope.facilityArray = [];
+
+            for(var ia=0; ia < $scope.facilityData.facility_ids.length; ia++)
+            {
+                $scope.facilityArray.push(true);
+                /*if($scope.facilityData.force_facility_order)
+                {
+                    $scope.facilityArray.push(true);
+                }
+                else
+                {
+
+                }*/
+            }
+
             console.log('FACILITYDATA');
             console.log($scope.facilityData);
+
+            $scope.rentalDuration = '1 Hour';
+
+            $scope.weekdaySearch2 = [];
+
+            $scope.weekdaySearch2[0]=false;
+            $scope.weekdaySearch2[1]=false;
+            $scope.weekdaySearch2[2]=false;
+            $scope.weekdaySearch2[3]=false;
+            $scope.weekdaySearch2[4]=false;
+            $scope.weekdaySearch2[5]=false;
+            $scope.weekdaySearch2[6]=false;
 
             $scope.fromDate = $scope.facilityData.search_start_date;
             $scope.untilDate = $scope.facilityData.search_end_date;
@@ -50,24 +77,31 @@ angular.module('bluereconlineApp')
             for (var i = 0; i < $scope.facilityData.weekday_indexes.length; i++) {
                 if ($scope.facilityData.weekday_indexes[i] === '0') {
                     $scope.weekdaySearch.sunday = true;
+                    $scope.weekdaySearch2[0]=true;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '1') {
                     $scope.weekdaySearch.monday = true;
+                    $scope.weekdaySearch2[1]=true;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '2') {
                     $scope.weekdaySearch.tuesday = true;
+                    $scope.weekdaySearch2[2]=true;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '3') {
                     $scope.weekdaySearch.wednesday = true;
+                    $scope.weekdaySearch2[3]=true;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '4') {
                     $scope.weekdaySearch.thursday = true;
+                    $scope.weekdaySearch2[4]=true;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '5') {
                     $scope.weekdaySearch.friday = true;
+                    $scope.weekdaySearch2[5]=true;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '6') {
                     $scope.weekdaySearch.saturday = true;
+                    $scope.weekdaySearch2[6]=true;
                 }
             }
 
@@ -75,44 +109,44 @@ angular.module('bluereconlineApp')
             {
                 var weekdaysString = '';
 
-                if ($scope.weekdaySearch.sunday) {
-                    weekdaysString += 'Sun';
-                }
-                if ($scope.weekdaySearch.monday) {
-                    if (weekdaysString !== '') {
-                        weekdaysString += ',';
-                    }
+                if ($scope.weekdaySearch2[0]) {
                     weekdaysString += 'Mon';
                 }
-                if ($scope.weekdaySearch.tuesday) {
+                if ($scope.weekdaySearch2[1]) {
                     if (weekdaysString !== '') {
                         weekdaysString += ',';
                     }
                     weekdaysString += 'Tue';
                 }
-                if ($scope.weekdaySearch.wednesday) {
+                if ($scope.weekdaySearch2[2]) {
                     if (weekdaysString !== '') {
                         weekdaysString += ',';
                     }
                     weekdaysString += 'Wed';
                 }
-                if ($scope.weekdaySearch.thursday) {
+                if ($scope.weekdaySearch2[3]) {
                     if (weekdaysString !== '') {
                         weekdaysString += ',';
                     }
-                    weekdaysString += 'Thu';
+                    weekdaysString += 'Thur';
                 }
-                if ($scope.weekdaySearch.friday) {
+                if ($scope.weekdaySearch2[4]) {
                     if (weekdaysString !== '') {
                         weekdaysString += ',';
                     }
                     weekdaysString += 'Fri';
                 }
-                if ($scope.weekdaySearch.saturday) {
+                if ($scope.weekdaySearch2[5]) {
                     if (weekdaysString !== '') {
                         weekdaysString += ',';
                     }
                     weekdaysString += 'Sat';
+                }
+                if ($scope.weekdaySearch2[6]) {
+                    if (weekdaysString !== '') {
+                        weekdaysString += ',';
+                    }
+                    weekdaysString += 'Sun';
                 }
 
                 return weekdaysString;
@@ -120,6 +154,19 @@ angular.module('bluereconlineApp')
 
             $scope.onSearchRentalTimes = function ()
             {
+                var totalFacilitiesSel = 0;
+                for(var i=0;i < $scope.facilityArray.length; i++)
+                {
+                    if($scope.facilityArray[i])
+                    {
+                        totalFacilitiesSel++;
+                    }
+                }
+
+                console.log('totalFacilitiesSel:  '+totalFacilitiesSel);
+
+                console.log('facilityArray:  '+$scope.facilityArray);
+
                 $scope.durationSelected = 180;
 
                 $scope.displaySearchResults = false;
@@ -145,11 +192,20 @@ angular.module('bluereconlineApp')
 
                 var timeDiff = (($scope.endTime.getTime() / 1000.0) - ($scope.startTime.getTime() / 1000.0))/60;
 
-                console.log(tempStartTime + '   |   ' + timeDiff);
+                //console.log(tempStartTime + '   |   ' + timeDiff);
 
                 $scope.isSearchIconBusy = false;
 
                var rentalCodeSearch = $scope.facilityData.rental_code_item_id;
+
+                var totalMins = 0;
+                for (var a = 0; a < $scope.facilityData.min_hours.length; a++) {
+                    totalMins += parseInt($scope.facilityData.min_hours[a]);
+                }
+
+                if(totalMins > 0)
+                {timeDiff = totalMins;}
+
 
                 var req = {
                     method: 'POST',
@@ -172,7 +228,7 @@ angular.module('bluereconlineApp')
                 $http(req)
                     .success(function (data) {
 
-                        console.log(data);
+                        //console.log(data);
                         if (data.success) {
                             $scope.isSearchIconBusy = false;
 
@@ -208,11 +264,13 @@ angular.module('bluereconlineApp')
                     });
 
                 $scope.searchResultsData = [].concat($scope.searchRowCollection);
+
+                //console.log($scope.searchResultsData);
                 $scope.searchSelectedTimeData = [];
             };
 
-            $scope.onSearchRentalTimes();
 
+            $scope.onSearchRentalTimes();
 
             var confirmationModal = $modal({
                 scope: $scope,
@@ -248,7 +306,7 @@ angular.module('bluereconlineApp')
             $scope.onSelectRentalTime = function (selectedRow) {
                 //selectedRow.iconBusy = !selectedRow.iconBusy;
                 ////console.table(selectedRow);
-                console.log(selectedRow);
+                //console.log(selectedRow);
 
                 $scope.searchSelectedTimeData = selectedRow;
 
@@ -257,7 +315,7 @@ angular.module('bluereconlineApp')
                 if ($scope.facilityData.rental_code_item_id !== '' && $userID) {
                     //var $facilityString = $scope.getFacilityString();
 
-                    console.log($scope.facilityData.rental_code_item_id);
+                   // console.log($scope.facilityData.rental_code_item_id);
 
                     var submitData = {};
                     submitData.request_id = 1;
@@ -286,8 +344,8 @@ angular.module('bluereconlineApp')
                     var tempDate = new Date($scope.searchSelectedTimeData.check_date + 'T' + $scope.searchSelectedTimeData.start_check_time_24);
                     var tempTime = new Date('1970-01-01T'+$scope.searchSelectedTimeData.start_check_time_24);
 
-                    console.log(tempDate);
-                    console.log(tempTime);
+                    //console.log(tempDate);
+                    //console.log(tempTime);
 
                    // var startDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDay(), tempTime.getHours(), tempTime.getMinutes(), 40);
                     var startDate = tempDate;
@@ -301,8 +359,8 @@ angular.module('bluereconlineApp')
 
                         endDate.AddHours($scope.facilityData.min_hours[i]);
 
-                        console.log(startDate);
-                        console.log(endDate);
+                        //console.log(startDate);
+                        //console.log(endDate);
 
                         eventData = {};
                         eventData = {
@@ -316,8 +374,7 @@ angular.module('bluereconlineApp')
                         startDate.AddHours($scope.facilityData.min_hours[i]) ;
                     }
 
-
-                    console.log(eventData);
+                    //console.log(eventData);
 
                     var req = {
                         method: 'POST',
@@ -336,7 +393,8 @@ angular.module('bluereconlineApp')
 
                             //$scope.showConformationModal();
 
-                            $location.path('/' +  $routeParams.orgurl + '/reservations');
+                            $location.path('/' + $routeParams.orgurl + '/addedtocart');
+                           // $location.path('/' +  $routeParams.orgurl + '/reservations');
                     });
                 }
             };

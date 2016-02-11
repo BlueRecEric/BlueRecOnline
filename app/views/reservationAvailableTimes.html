@@ -26,7 +26,7 @@
 
 
             <div class="panel-heading clearfix">
-                <h3 class="panel-title">Search Options</h3>
+                <h3 class="panel-title">({{facilityData.rental_code}}) {{facilityData.rental_name}}</h3>
             </div>
 
             <div id="searchPanel" class="panel-body" style="padding: 4px 0px;">
@@ -41,30 +41,42 @@
 
                 <form name="searchForm" novalidate>
 
-                    <div class="container" style="padding-top:10px;">
-                        <div class="col-sm-3">
+                    <div class="container" style="padding-left: 0px;" ng-hide="facilityData.force_facility_order">
+                        <div class="col-sm-12">
+                            <div class="col-sm-12">
+                                <label data-ng-class="{'has-error': searchForm.$submitted && weekdaysError}">Select One or More Facility to Rental</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 form-group" data-ng-repeat="fac in facilityData.facility_names">
+                            <div class="col-sm-12">
+                            <span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+                                    class="btn-default checkbox-dark-border"
+                                    data-ng-model="facilityArray[$index]"
+                                    data-ng-disabled="facilityData.force_facility_order"></checkbox>
+                                <label class="label-weekday-spacing" style="width:125px">{{fac}}</label>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container" style="padding-top:10px;" data-ng-hide="true">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="row" style="padding-left: 0px;">
                                     <div class="col-sm-12">
-                                        <label for="searchRentalType"
-                                               data-ng-class="{'has-error': searchForm.$submitted && searchForm.searchRentalType.$invalid}">*Rental
-                                            Type</label>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        {{facilityData.rental_name}}
+                                        <label for="searchRentalType">Selected Rental Code <font style="font-weight: normal!important;">- </font></label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-9" ng-show="false">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <label for="searchFacilities"
-                                               data-ng-class="{'has-error': searchForm.$submitted && searchForm.searchFacilities.$invalid}">*Facility</label>
+                                        <label for="searchFacilities">Facility</label>
                                     </div>
                                     <div class="col-sm-12" style="padding-left: 24px;">
-                                        {{facilityData.item_name}}
+                                        {{facilityData.facility_name_string}}
                                     </div>
                                 </div>
                             </div>
@@ -72,160 +84,182 @@
                     </div>
 
                     <div class="container" style="padding-left: 0px;">
-                    <div style="padding-left: 0px;">
-                        <div class="col-sm-3">
-                            <div class="form-group col-sm-12" style="padding-top: 6px;">
-                                <div class="row" style="padding-left: 0px;">
-                                    <div class="col-sm-12">
-                                        <label for="earliestStartDate"
-                                               data-ng-class="{'has-error': searchForm.$submitted && searchForm.earliestStartDate.$invalid}">*From
-                                            Date</label>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="input-group" style="margin-bottom: 5px;">
+                        <div style="padding-left: 0px;">
+                            <div class="col-sm-3">
+                                <div class="form-group col-sm-12" style="padding-top: 6px;">
+                                    <div class="row" style="padding-left: 0px;">
+                                        <div class="col-sm-12">
+                                            <label for="earliestStartDate" data-ng-class="{'has-error': searchForm.$submitted && searchForm.earliestStartDate.$invalid}">Search Start Date</label>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="input-group" style="margin-bottom: 5px;">
                                              <span class="input-group-addon " style="width: 25px;">
                                                 <i class="glyphicon glyphicon-calendar "></i>
                                             </span>
-                                        <input id="earliestStartDate" name="earliestStartDate" style="width: 170px;"
-                                               container="body"
-                                               type="text" class="form-control" data-ng-model="fromDate"
-                                               data-max-date="{{untilDate}}" datepicker-popup="yyyy-MM-dd"
-                                               placeholder="From Date" data-autoclose="1" required bs-datepicker>
-                                         </div>
+                                                <input id="earliestStartDate" name="earliestStartDate" style="width: 170px;"
+                                                       container="body"
+                                                       type="text" class="form-control" data-ng-model="fromDate"
+                                                       data-max-date="{{untilDate}}" datepicker-popup="yyyy-MM-dd"
+                                                       placeholder="From Date" data-autoclose="1" required bs-datepicker>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-3" style="padding-right: 10px;">
-                            <div class="form-group col-sm-12" style="padding-top: 6px;">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <label for="latestStartDate"
-                                               data-ng-class="{'has-error': searchForm.$submitted && searchForm.latestStartDate.$invalid}">*Until
-                                            Date</label>
-                                    </div>
-                                    <div class="col-sm-12">
+                            <div class="col-sm-3" style="padding-right: 10px;">
+                                <div class="form-group col-sm-12" style="padding-top: 6px;">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="latestStartDate"
+                                                   data-ng-class="{'has-error': searchForm.$submitted && searchForm.latestStartDate.$invalid}">Search End Date</label>
+                                        </div>
+                                        <div class="col-sm-12">
 
-                                        <div class="input-group" style="margin-bottom: 5px;">
+                                            <div class="input-group" style="margin-bottom: 5px;">
                                              <span class="input-group-addon " style="width: 25px;">
                                                 <i class="glyphicon glyphicon-calendar "></i>
                                             </span>
-                                        <input id="latestStartDate" class="form-control" name="latestStartDate"
-                                               style="width: 170px;"
-                                               container="body" datepicker-popup="yyyy-MM-dd"
-                                               type="text" data-ng-model="untilDate" data-min-date="{{fromDate}}"
-                                               placeholder="Until Date" data-autoclose="1" required bs-datepicker>
-                                </div>
+                                                <input id="latestStartDate" class="form-control" name="latestStartDate"
+                                                       style="width: 170px;"
+                                                       container="body" datepicker-popup="yyyy-MM-dd"
+                                                       type="text" data-ng-model="untilDate" data-min-date="{{fromDate}}"
+                                                       placeholder="Until Date" data-autoclose="1" required bs-datepicker>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
 
                     <div class="container" style="padding-left: 0px;">
-                    <div style="padding-left: 0px;">
-                        <div class="col-sm-3">
-                            <div class="form-group col-sm-12" style="padding-top: 6px;">
-                                <div class="row" style="padding-left: 0px;">
-                                    <div class="col-sm-12">
-                                        <label for="earliestStartTimer"
-                                               data-ng-class="{'has-error': searchForm.$submitted && searchForm.earliestStartTimer.$invalid}">*Start
-                                            After</label>
+                        <div style="padding-left: 0px;" ng-hide="facilityData.force_facility_order">
+                            <div class="col-sm-3">
+                                <div class="form-group col-sm-12" style="padding-top: 6px;">
+                                    <div class="row" style="padding-left: 0px;">
+                                        <div class="col-sm-12">
+                                            <label for="earliestStartTimer">Start Time</label>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="input-group" style="margin-bottom: 5px;">
+                                                <div class="input-group-addon" style="width: 25px;"><i
+                                                        class="glyphicon glyphicon-time"></i></div>
+                                                <input class="form-control" size="8" data-ng-model="startTime" name="startTime"
+                                                       bs-timepicker data-length="1"
+                                                       data-minute-step="15" data-arrow-behavior="picker" type="text"
+                                                       style="width: 150px;">
+                                            </div> </div>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="input-group" style="margin-bottom: 5px;">
-                                        <div class="input-group-addon" style="width: 25px;"><i
-                                                class="glyphicon glyphicon-time"></i></div>
-                                        <input class="form-control" size="8" data-ng-model="startTime" name="startTime"
-                                               bs-timepicker data-length="1"
-                                               data-minute-step="15" data-arrow-behavior="picker" type="text"
-                                               style="width: 150px;">
-                                    </div> </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-3" style="padding-right: 10px;">
-                            <div class="form-group col-sm-12" style="padding-top: 6px;">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <label for="latestEndTime"
-                                               data-ng-class="{'has-error': searchForm.$submitted && searchForm.latestEndTime.$invalid}">*End
-                                            After</label>
+                            <div class="col-sm-3" style="padding-right: 10px;" data-ng-hide="true">
+                                <div class="form-group col-sm-12" style="padding-top: 6px;">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="latestEndTime">End After</label>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="input-group" style="margin-bottom: 5px;">
+                                                <div class="input-group-addon" style="width: 25px;"><i
+                                                        class="glyphicon glyphicon-time"></i></div>
+                                                <input class="form-control" size="8" data-ng-model="endTime" name="endTime"
+                                                       bs-timepicker data-length="1"
+                                                       data-minute-step="15" data-arrow-behavior="picker" type="text"
+                                                       style="width: 150px;">
+                                            </div> </div>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="input-group" style="margin-bottom: 5px;">
-                                        <div class="input-group-addon" style="width: 25px;"><i
-                                                class="glyphicon glyphicon-time"></i></div>
-                                        <input class="form-control" size="8" data-ng-model="endTime" name="endTime"
-                                               bs-timepicker data-length="1"
-                                               data-minute-step="15" data-arrow-behavior="picker" type="text"
-                                               style="width: 150px;">
-                                    </div> </div>
                                 </div>
                             </div>
+
+                            <div class="col-sm-3" style="padding-right: 10px;">
+                                <div class="form-group col-sm-12" style="padding-top: 6px;">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label>Rental Duration</label>
+                                        </div>
+                                        <div class="col-sm-12">
+
+                                                <input class="form-control" size="8" data-ng-model="rentalDuration" name="endTime"
+                                                       type="text" style="width: 150px;" disabled>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                         </div>
-
-                    </div>
                     </div>
 
 
-                    <div class="container" style="padding-left: 0px;">
+                    <div class="container" style="padding-left: 0px;" >
+                        <div class="col-sm-12">
+                            <div class="col-sm-12">
+                                <label data-ng-class="{'has-error': searchForm.$submitted && weekdaysError}">Weekdays</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 form-group" data-ng-repeat="week in facilityData.weekday_indexes2">
+                            <div class="col-sm-12">
+                            <span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+                                    class="btn-default checkbox-dark-border"
+                                    data-ng-model="weekdaySearch2[facilityData.weekday_indexes[$index]]"></checkbox>
+                                <label class="label-weekday-spacing" style="width:125px">{{week}}</label>
+
+                                <label style="font-weight: normal!important;"> {{facilityData.weekday_start[$index]}} - {{facilityData.weekday_end[$index]}}</label>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="container" style="padding-left: 0px;" data-ng-hide="true">
                         <div class="col-sm-12">
                             <div class="form-group col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <label data-ng-class="{'has-error': searchForm.$submitted && weekdaysError}">*Weekdays</label>
+                                        <label data-ng-class="{'has-error': searchForm.$submitted && weekdaysError}">Weekdays</label>
                                     </div>
                                     <div class="col-sm-12">
-							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.sunday">
+                                <checkbox
                                     class="btn-default checkbox-dark-border"
                                     data-ng-model="weekdaySearch.sunday"
-                                    data-ng-change="filterTrainerList()"
-                                    id="checkSun"></checkbox><label for="checkSun"
-                                                                    class="label-weekday-spacing">
-                                Sun</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+                                    id="checkSun"></checkbox>
+                                <label for="checkSun" class="label-weekday-spacing"> Sun</label>
+                            </span>
+							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.monday"><checkbox
                                     class="btn-default checkbox-dark-border"
                                     data-ng-model="weekdaySearch.monday"
-                                    data-ng-change="filterTrainerList()"
                                     id="checkMon"></checkbox><label for="checkMon"
                                                                     class="label-weekday-spacing">
                                 Mon</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.tuesday"><checkbox
                                     class="btn-default checkbox-dark-border"
                                     data-ng-model="weekdaySearch.tuesday"
-                                    data-ng-change="filterTrainerList()"
                                     id="checkTues"></checkbox><label for="checkTues"
                                                                      class="label-weekday-spacing">
                                 Tues</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.wednesday"><checkbox
                                     class="btn-default checkbox-dark-border"
                                     data-ng-model="weekdaySearch.wednesday"
-                                    data-ng-change="filterTrainerList()"
                                     id="checkWed"></checkbox><label for="checkWed"
                                                                     class="label-weekday-spacing">
                                 Wed</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.thursday"><checkbox
                                     class="btn-default checkbox-dark-border"
                                     data-ng-model="weekdaySearch.thursday"
-                                    data-ng-change="filterTrainerList()"
                                     id="checkThur"></checkbox><label for="checkThur"
                                                                      class="label-weekday-spacing">
                                 Thur</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.friday"><checkbox
                                     class="btn-default checkbox-dark-border"
                                     data-ng-model="weekdaySearch.friday"
-                                    data-ng-change="filterTrainerList()"
                                     id="checkFri"></checkbox><label for="checkFri"
                                                                     class="label-weekday-spacing">
                                 Fri</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
+							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.saturday"><checkbox
                                     class="btn-default checkbox-dark-border"
                                     data-ng-model="weekdaySearch.saturday"
-                                    data-ng-change="filterTrainerList()"
                                     id="checkSat"></checkbox><label for="checkSat"
                                                                     class="label-weekday-spacing">
                                 Sat</label></span>
@@ -237,9 +271,9 @@
                     </div>
 
                     <div class="container text-center">
-                        <button style="min-width:220px;" class="btn btn-info" container="body" type="submit"
+                        <button style="min-width:220px;" class="btn btn-success" container="body" type="submit"
                                 v-busy="isSearchIconBusy" v-busy-label="Searching..." v-pressable
-                                data-ng-click="onSearchRentalTimes((!searchForm.$error.required && !searchForm.searchRentalType.$invalid && !searchForm.searchFacilities.$invalid))">
+                                data-ng-click="onSearchRentalTimes((!searchForm.$error.required ))">
                             Search Available Rental Times
                         </button>
                     </div>
@@ -261,17 +295,17 @@
                                         data-ng-click="onSelectRentalTime(searchRow)">
                                         <i id="arrow-icon" class="fa fa-chevron-right fa-3x"></i>
                                     </td>
-                                    <td st-ratio="20" class="text-left clicky no-select"
-                                        data-ng-click="onSelectRentalTime(searchRow)"
-                                        data-ng-bind="::facilityData.item_name">
+                                    <td st-ratio="25" class="text-left clicky no-select"
+                                        data-ng-click="onSelectRentalTime(searchRow)">
+                                        <!--data-ng-bind="::searchRow.facility_item_name"-->{{facilityData.facility_name_string}}
                                     </td>
-                                    <td st-ratio="30" class="text-left clicky no-select"
+                                    <td st-ratio="25" class="text-left clicky no-select"
                                         data-ng-click="onSelectRentalTime(searchRow)"
                                         data-ng-bind="::searchRow.formatted_check_date">
                                     </td>
                                     <td st-ratio="15" class="text-left clicky no-select"
                                         data-ng-click="onSelectRentalTime(searchRow)">
-                                        <b>({{::searchRow.available_time_slots}})</b>{{::searchRow.start_check_time}} to {{::searchRow.end_check_time}}
+                                        <!--<b>({{::searchRow.available_time_slots}})</b>-->{{::searchRow.start_check_time}} to {{::searchRow.end_check_time}}
                                     </td>
                                     <td st-ratio="5" class="text-center clicky no-select"
                                         data-ng-click="onSelectRentalTime(searchRow)">

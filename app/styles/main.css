@@ -688,7 +688,7 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 
 .table-hover > tbody > tr:hover {
     /*background-image: linear-gradient(#04519B, #10699b 40%, #13539b);*/
-    background-color: #13539b;
+    background-color: #53C1D0;
     color: #fff;
 }
 
@@ -852,3 +852,7 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     }
 }
 
+
+.header-no-margin {
+    margin: 0px !important;
+}
