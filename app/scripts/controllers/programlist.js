@@ -8,9 +8,12 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', function ($scope,$aside,ProLoader,$timeout,ActiveUser) {
+  .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', 'md5', function ($scope,$aside,ProLoader,$timeout,ActiveUser,md5) {
     $scope.proloader = ProLoader;
     $scope.proloader.nextPage($scope.query);
+
+    $scope.proloader.getProgramTypes();
+    $scope.proloader.getProgramLocations();
 
     $scope.showAdvancedSearch = false;
 
@@ -41,10 +44,30 @@ angular.module('bluereconlineApp')
       }
     };
 
-    $scope.$watch('query.item_name', function () {
+    function doSearch()
+    {
+      $scope.proloader.nextPage($scope.query);
+    }
+
+    function getSearchHash()
+    {
+      var returnVal = '';
+
+      if(angular.isDefined($scope.query))
+      {
+        returnVal = md5.createHash(angular.toJson($scope.query));
+      }
+
+      return returnVal;
+    }
+
+    $scope.$watch(getSearchHash(), function () {
       if (filterTextTimeout) {
         $timeout.cancel(filterTextTimeout);
       }
+
+      console.log('run search');
+
       filterTextTimeout = $timeout(function() {
         $scope.proloader.nextPage($scope.query);
       }, 250); // delay 250 ms
@@ -78,9 +101,14 @@ angular.module('bluereconlineApp')
           }
       );
     };
+
+    $scope.doSearch = doSearch;
   }])
   .factory('ProLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams,ActiveUser) {
     var proload = this;
+
+    proload.typeBusy = false;
+    proload.types = {};
 
     var addToCart = function(programIndex, sessionIndex)
     {
@@ -174,6 +202,58 @@ angular.module('bluereconlineApp')
       );
     };
 
+    var getProgramTypes = function() {
+
+      if(proload.typeBusy) {
+        return false;
+      }
+      proload.typeBusy = true;
+
+      var req = {
+        method: 'POST',
+        skipAuthorization:true,
+        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/onlineprogramtypes',
+        headers: {
+          'Content-Type': undefined
+        }
+      };
+
+      $http(req).then(function(response) {
+        var types = response.data;
+        proload.types = types;
+        console.log('program types:');
+        console.log(proload.types);
+        proload.typeBusy = false;
+      }.bind(this));
+
+    };
+
+    var getProgramLocations = function() {
+
+      if(proload.locationBusy) {
+        return false;
+      }
+      proload.locationBusy = true;
+
+      var req = {
+        method: 'POST',
+        skipAuthorization:true,
+        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/onlineprogramlocations',
+        headers: {
+          'Content-Type': undefined
+        }
+      };
+
+      $http(req).then(function(response) {
+        var locations = response.data;
+        proload.locations = locations;
+        console.log('program types:');
+        console.log(proload.types);
+        proload.locationBusy = false;
+      }.bind(this));
+
+    };
+
     var nextPage = function(query) {
       //console.log('Try to load the next page.');
       //console.log('search query:');
@@ -189,11 +269,16 @@ angular.module('bluereconlineApp')
 
       proload.thisSearchHash = '';
 
+      proload.typeId = '';
+      proload.locationId = '';
+
       if(angular.isDefined(proload.searchParams))
       {
         proload.thisSearchHash = md5.createHash(angular.toJson(proload.searchParams));
         proload.keyword = proload.searchParams.item_name;
         proload.onlyTickets = proload.searchParams.has_tickets;
+        proload.typeId = proload.searchParams.type_id;
+        proload.locationId = proload.searchParams.location_id;
       }
       else
       {
@@ -255,7 +340,9 @@ angular.module('bluereconlineApp')
         data: {
           'after': proload.afterCount,
           'keyword': proload.keyword,
-          'onlytickets': proload.onlyTickets
+          'onlytickets': proload.onlyTickets,
+          'typeId': proload.typeId,
+          'locationId': proload.locationId
         },
         headers: {
           'Content-Type': undefined
@@ -263,12 +350,22 @@ angular.module('bluereconlineApp')
       };
 
       $http(req).then(function(response) {
+
         var programs = response.data;
-        //console.log(programs);
-        for (var i = 0; i < programs.length; i++) {
-          //console.log(programs[i]);
-          proload.responseData.push(programs[i]);
+
+        if(proload.afterCount > 0)
+        {
+          //console.log(programs);
+          for (var i = 0; i < programs.length; i++) {
+            //console.log(programs[i]);
+            proload.responseData.push(programs[i]);
+          }
         }
+        else
+        {
+          proload.responseData = programs;
+        }
+
         proload.returnData = JSON.parse(angular.toJson(proload.responseData));
 
         proload = createRegistrantList(proload);
@@ -281,11 +378,22 @@ angular.module('bluereconlineApp')
           proload.noresults = true;
         }
 
+        for(var s = 0; s < proload.returnData.length; s++)
+        {
+          for(var p = 0; p < proload.returnData[s].programs.length; p++)
+          {
+            proload.returnData[s].programs[p].online_description = [];
+
+          }
+        }
+
         proload.busy = false;
       }.bind(this));
 
     };
 
+    proload.getProgramTypes = getProgramTypes;
+    proload.getProgramLocations = getProgramLocations;
     proload.nextPage = nextPage;
     proload.responseData = [];
     proload.searchParams = [];

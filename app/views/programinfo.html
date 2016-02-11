@@ -71,117 +71,32 @@
       <h4>Dates and Registration</h4>
     </div>
 
-    <div class="hidden-xs">
+    <div class="col-xs-12 text-left">
       <!-- program start and end -->
-      <div class="col-xs-3 text-left">
-        Class Starts:
-      </div>
-      <div class="col-xs-2 text-left">
-        {{proinfo.returnData.format_start_date}}
-      </div>
-      <div class="col-xs-3 text-left">
-        Class Ends:
-      </div>
-      <div class="col-xs-2 text-left">
-        {{proinfo.returnData.format_end_date}}
-      </div>
-      <div class="col-xs-2">&nbsp;</div>
-      <!-- resident registration dates -->
-      <div class="col-xs-3 text-left">
-        Walk-In Registration (resident):
-      </div>
-      <div class="col-xs-2 text-left">
-        {{proinfo.returnData.format_resident_registration_start}}
-      </div>
-      <div class="col-xs-3 text-left">
-        Online Registration (resident):
-      </div>
-      <div class="col-xs-2 text-left">
-        {{proinfo.returnData.format_online_registration_start}}
-      </div>
-      <div class="col-xs-2">&nbsp;</div>
-      <!-- non-resident registration dates -->
-      <div class="col-xs-3 text-left">
-        Walk-In Registration (everybody):
-      </div>
-      <div class="col-xs-2 text-left">
-        {{proinfo.returnData.format_nonresident_registration_start}}
-      </div>
-      <div class="col-xs-3 text-left">
-        Online Registration (everybody):
-      </div>
-      <div class="col-xs-2 text-left">
-        {{proinfo.returnData.format_nonres_online_registration_start}}
-      </div>
-      <div class="col-xs-2">&nbsp;</div>
-      <!-- registration end dates -->
-      <div class="col-xs-3 text-left">
-        Registration Ends:
-      </div>
-      <div class="col-xs-2 text-left">
-        {{proinfo.returnData.format_registration_end}}
-      </div>
-      <div class="col-xs-3 text-left">
-        Late Registration Until:
-      </div>
-      <div class="col-xs-2 text-left">
-        {{proinfo.returnData.format_registration_late_end}}
-      </div>
-      <div class="col-xs-2">&nbsp;</div>
-    </div>
+        <div class="col-xs-3 text-left">
+          Class Starts:
+        </div>
+        <div class="col-xs-3 text-left">
+          {{proinfo.returnData.format_start_date}}
+        </div>
+        <div class="col-xs-3 text-left">
+          Class Ends:
+        </div>
+        <div class="col-xs-3 text-left">
+          {{proinfo.returnData.format_end_date}}
+        </div>
 
-    <div class="visible-xs-block">
-      <div class="col-xs-8">
-        Class Starts:
+      <!-- registration dates -->
+      <div data-ng-repeat="date in proinfo.returnData.dates">
+          <div class="col-xs-3 text-left">
+            {{date.label}}
+          </div>
+          <div class="col-xs-3 text-left">
+            {{date.date}}
+          </div>
       </div>
-      <div class="col-xs-4">
-        {{proinfo.returnData.format_start_date}}
-      </div>
-      <div class="col-xs-8">
-        Class Ends:
-      </div>
-      <div class="col-xs-4">
-        {{proinfo.returnData.format_end_date}}
-      </div>
-      <!-- resident registration dates -->
-      <div class="col-xs-8 text-left">
-        Walk-In Registration (resident):
-      </div>
-      <div class="col-xs-4 text-left">
-        {{proinfo.returnData.format_resident_registration_start}}
-      </div>
-      <div class="col-xs-8 text-left">
-        Online Registration (resident):
-      </div>
-      <div class="col-xs-4 text-left">
-        {{proinfo.returnData.format_online_registration_start}}
-      </div>
-      <!-- non-resident registration dates -->
-      <div class="col-xs-8 text-left">
-        Walk-In Registration (everybody):
-      </div>
-      <div class="col-xs-4 text-left">
-        {{proinfo.returnData.format_nonresident_registration_start}}
-      </div>
-      <div class="col-xs-8 text-left">
-        Online Registration (everybody):
-      </div>
-      <div class="col-xs-4 text-left">
-        {{proinfo.returnData.format_nonres_online_registration_start}}
-      </div>
-      <!-- registration end dates -->
-      <div class="col-xs-8 text-left">
-        Registration Ends:
-      </div>
-      <div class="col-xs-4 text-left">
-        {{proinfo.returnData.format_registration_end}}
-      </div>
-      <div class="col-xs-8 text-left">
-        Late Registration Until:
-      </div>
-      <div class="col-xs-4 text-left">
-        {{proinfo.returnData.format_registration_late_end}}
-      </div>
+
+
     </div>
 
     <div class="col-xs-12 text-left">
