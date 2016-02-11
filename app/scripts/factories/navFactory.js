@@ -11,30 +11,32 @@ angular.module('bluereconlineApp')
 
         function getNavSettings() {
 
-            orgUrl = $routeParams.orgurl;
-            console.log('Request nav config from ' + API + '/ORG/' + orgUrl + '/navconfig');
+            if(angular.isDefined($routeParams.orgurl)) {
+                orgUrl = $routeParams.orgurl;
+                console.log('Request nav config from ' + API + '/ORG/' + orgUrl + '/navconfig');
 
-            if(busyLoading) {
-                return false;
-            }
-
-            busyLoading = true;
-
-            var req = {
-                method: 'GET',
-                url: API + '/ORG/' + orgUrl + '/navconfig',
-                headers: {
-                    'Content-Type': undefined
+                if (busyLoading) {
+                    return false;
                 }
-            };
 
-            $http(req).then(function(response) {
+                busyLoading = true;
 
-                nav.options = response.data;
-                console.log('nav results');
-                console.log(nav.options);
-                busyLoading = false;
-            });
+                var req = {
+                    method: 'GET',
+                    url: API + '/ORG/' + orgUrl + '/navconfig',
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                };
+
+                $http(req).then(function (response) {
+
+                    nav.options = response.data;
+                    console.log('nav results');
+                    console.log(nav.options);
+                    busyLoading = false;
+                });
+            }
         }
 
         nav.getNavSettings = getNavSettings;

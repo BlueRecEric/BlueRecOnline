@@ -739,8 +739,54 @@ angular
 
     return proload;
   }])
-.controller('appController',['$scope','$http','$routeParams', function ($scope,$http,$routeParams) {
+.controller('appController',['$scope','$http','$routeParams', '$q', function ($scope,$http,$routeParams,$q) {
+
+    function isImage(src) {
+
+        var deferred = $q.defer();
+
+        var image = new Image();
+        image.onerror = function() {
+            deferred.resolve(false);
+        };
+        image.onload = function() {
+            deferred.resolve(true);
+        };
+        image.src = src;
+
+        return deferred.promise;
+    }
+
     $scope.$on('$routeChangeSuccess', function() {
         $scope.CssLink = $routeParams.orgurl;
+
+        $scope.headerLogo = '';
+
+        isImage('images/'+$routeParams.orgurl+'.png').then(function(test) {
+            if(test)
+            {
+                $scope.headerLogo = 'images/'+$routeParams.orgurl+'.png';
+                console.log('images/'+$routeParams.orgurl+'.png is an image!');
+            }
+            else
+            {
+                console.log('images/'+$routeParams.orgurl+'.png is NOT an image!');
+
+                var splitParts = $routeParams.orgurl.split('-');
+
+                isImage('images/'+splitParts[0]+'.png').then(function(test) {
+                    if(test) {
+                        $scope.headerLogo = 'images/'+splitParts[0]+'.png';
+                        console.log('images/' + splitParts[0] + '.png is an image!');
+                    }
+                    else {
+                        console.log('images/' + splitParts[0] + '.png is NOT an image!');
+                    }
+                });
+            }
+        });
+
+
+
     });
 }]);

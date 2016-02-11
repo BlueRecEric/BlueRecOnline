@@ -60,7 +60,7 @@
 <!-- Add your site or application content here -->
 <header data-ng-controller="appController">
 	<div class="wide">
-		<div class="container logo"><img class="img-responsive" data-ng-if="CssLink" data-ng-src="images/{{ CssLink }}.png"></div>
+		<div class="container logo"><img class="img-responsive" data-ng-if="headerLogo" data-ng-src="{{headerLogo}}"></div>
 	</div>
 </header>
 <div data-ng-controller="UserAuthCtrl"></div>

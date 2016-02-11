@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', 'md5', function ($scope,$aside,ProLoader,$timeout,ActiveUser,md5) {
+  .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', 'md5', '$routeParams', function ($scope,$aside,ProLoader,$timeout,ActiveUser,md5,$routeParams) {
     $scope.proloader = ProLoader;
     $scope.proloader.nextPage($scope.query);
 
