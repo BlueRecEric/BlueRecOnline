@@ -7,7 +7,7 @@
       <div class="row">
           <div class="form-group col-xs-12 col-md-4">
             <label for="searchKeyword">Keyword:</label>
-            <input id="searchKeyword" ng-model="query.item_name" class="form-control">
+            <input id="searchKeyword" ng-model="query.item_name" class="form-control" data-ng-change="doSearch()">
           </div>
 
           <div class="form-group col-xs-12 col-md-4">
