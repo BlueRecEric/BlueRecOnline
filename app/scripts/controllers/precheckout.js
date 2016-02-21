@@ -11,6 +11,9 @@ angular.module('bluereconlineApp')
     .controller('Precheck', ['$scope', 'ActiveUser', 'PreCheckRequest', function ($scope,ActiveUser,PreCheckRequest) {
         $scope.preLoad = [];
 
+        $scope.regularPackages = {};
+        $scope.regularPackages.weekday = '';
+
         $scope.wkdPkgOpt = [];
 
         if(ActiveUser.isLoggedIn())
@@ -216,54 +219,122 @@ angular.module('bluereconlineApp')
             }
         };
 
-        var updateAddonFees = function(pkgUUID, proIdx, pkgIdx) {
+        var updateAddonFees = function(pkgUUID) {
 
-            if(Number(preloader.addons[proIdx].addons.packages[pkgIdx].remaining) <= 0)
+            var proIdx = 0;
+            var pkgIdx = 0;
+
+            var skipUpdate = false;
+
+            for(var $u = 0; $u < preloader.addons.length; $u++)
             {
-                preloader.addons[proIdx].addons.packages[pkgIdx].selected = '0';
-            }
-
-
-            console.log('update addon fees ' + [proIdx]);
-            console.log(preloader.addons[proIdx].addons.packages);
-            console.log('package selected!');
-            console.log(preloader.addons[proIdx].addons.packages[pkgIdx]);
-            console.log(preloader.addons[proIdx].addons.packages[pkgIdx].selected);
-
-            if(preloader.addons[proIdx].addons.packages[pkgIdx].selected == '1')
-            {
-                console.log('package is checked');
-            }
-
-            var req = {
-                method: 'POST',
-                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/requirements/updatepackageprices',
-                headers: {
-                    'Content-Type': undefined
-                },
-                data: preloader.addons[proIdx].addons
-            };
-
-            $http(req).then(
-                function success(response) {
-                    console.log(response.data);
-                    //preloader.addons[proIdx].addons.packages = response.data.data.packages;
-
-                    for(var p = 0; p < preloader.addons[proIdx].addons.packages.length; p++)
+                for(var $a = 0; $a < preloader.addons[$u].addons.packages.length; $a++)
+                {
+                    if(preloader.addons[$u].addons.packages[$a].uuid == pkgUUID)
                     {
-                        for(var pf = 0; pf < response.data.data.packages.length; pf++)
+                        proIdx = $u;
+                        pkgIdx = $a;
+                    }
+                }
+            }
+
+            if(angular.isDefined(proIdx) && angular.isDefined(pkgIdx))
+            {
+                console.log('look for package at index ' + [proIdx] + ' :: ' + [pkgIdx]);
+
+                if(Number(preloader.addons[proIdx].addons.packages[pkgIdx].remaining) <= 0)
+                {
+                    preloader.addons[proIdx].addons.packages[pkgIdx].selected = '0';
+                }
+
+
+                console.log('update addon fees ' + [proIdx] + ' :: ' + [pkgIdx]);
+                console.log(preloader.addons[proIdx].addons.packages);
+                console.log('package selected!');
+                console.log(preloader.addons[proIdx].addons.packages[pkgIdx]);
+                console.log(preloader.addons[proIdx].addons.packages[pkgIdx].selected);
+
+                if(preloader.addons[proIdx].addons.packages[pkgIdx].item_type == 'PKG-D' && (preloader.addons[proIdx].addons.packages[pkgIdx].min_days > 0 || preloader.addons[proIdx].addons.packages[pkgIdx].max_days > 0))
+                {
+                    var searchItemId = preloader.addons[proIdx].addons.packages[pkgIdx].item_id;
+                    var dayCount = 0;
+                    var minDays = preloader.addons[proIdx].addons.packages[pkgIdx].min_days;
+                    var maxDays = preloader.addons[proIdx].addons.packages[pkgIdx].max_days;
+
+                    console.log('Check day count');
+
+                    for(var $p = 0; $p < preloader.addons[proIdx].addons.packages.length; $p++)
+                    {
+                        console.log('Check package ' + $p);
+
+                        if(preloader.addons[proIdx].addons.packages[$p].item_id == searchItemId)
                         {
-                            if(preloader.addons[proIdx].addons.packages[p].uuid == response.data.data.packages[pf].uuid)
+                            console.log('Package ' + $p + ' is the same item type.');
+
+                            if(preloader.addons[proIdx].addons.packages[$p].selected == '1')
                             {
-                                console.log('update fees');
-                                preloader.addons[proIdx].addons.packages[p].fees = response.data.data.packages[pf].fees;
-                                preloader.addons[proIdx].addons.packages[p].original_fees = response.data.data.packages[pf].original_fees;
+
+
+                                if(dayCount >= maxDays)
+                                {
+                                    preloader.addons[proIdx].addons.packages[pkgIdx].selected = '0';
+                                    skipUpdate = true;
+                                }
+                                else
+                                {
+                                    dayCount++;
+                                }
+
+                                if(dayCount < minDays)
+                                {
+
+                                }
+
+                                if(dayCount == maxDays)
+                                {
+
+                                }
                             }
                         }
                     }
-
                 }
-            );
+
+                if(preloader.addons[proIdx].addons.packages[pkgIdx].selected == '1')
+                {
+                    console.log('package is checked');
+                }
+
+                if(!skipUpdate) {
+                    var req = {
+                        method: 'POST',
+                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/requirements/updatepackageprices',
+                        headers: {
+                            'Content-Type': undefined
+                        },
+                        data: preloader.addons[proIdx].addons
+                    };
+
+                    $http(req).then(
+                        function success(response) {
+                            console.log(response.data);
+                            //preloader.addons[proIdx].addons.packages = response.data.data.packages;
+
+                            for (var p = 0; p < preloader.addons[proIdx].addons.packages.length; p++) {
+                                for (var pf = 0; pf < response.data.data.packages.length; pf++) {
+                                    if (preloader.addons[proIdx].addons.packages[p].uuid == response.data.data.packages[pf].uuid) {
+                                        console.log('update fees');
+                                        preloader.addons[proIdx].addons.packages[p].fees = response.data.data.packages[pf].fees;
+                                        preloader.addons[proIdx].addons.packages[p].original_fees = response.data.data.packages[pf].original_fees;
+                                    }
+                                }
+                            }
+
+                        }
+                    );
+                }
+            }
+
+
         };
 
         var getCartRequirements = function () {

@@ -24,6 +24,20 @@ angular.module('bluereconlineApp')
     var filterTextTimeout;
     $scope.household = {};
 
+    $scope.$on('$routeChangeSuccess', function() {
+      console.log('route change success');
+      $scope.$watch(
+          function getOrgUrlChange() {
+            return $routeParams.orgurl;
+          },
+          function handleOrgUrlChange() {
+            console.log('orgurl has changed');
+            $scope.proloader.nextPage(null);
+          }
+      );
+    });
+
+
     ActiveUser.getFromLocal().then(function() {
       $scope.household = ActiveUser.userData.household;
       //$scope.$root.currentUser = response.data;
@@ -258,11 +272,47 @@ angular.module('bluereconlineApp')
       //console.log('Try to load the next page.');
       //console.log('search query:');
       //console.log(query);
-      proload.searchParams = query;
+
+      console.log('Proload before:');
+      console.log(proload);
+
+      if(angular.isDefined(query) && query !== null)
+      {
+        proload.searchParams = query;
+
+        if(angular.isDefined(proload.searchParams) && proload.searchParams !== null)
+        {
+          proload.thisSearchHash = md5.createHash(angular.toJson(proload.searchParams)+$routeParams.orgurl);
+          proload.keyword = proload.searchParams.item_name;
+          proload.onlyTickets = proload.searchParams.has_tickets;
+          proload.typeId = proload.searchParams.type_id;
+          proload.locationId = proload.searchParams.location_id;
+        }
+        else
+        {
+          proload.keyword = '';
+          proload.onlyTickets = false;
+          proload.typeId = '';
+          proload.locationId = '';
+        }
+      }
+      else
+      {
+        if(angular.isDefined(proload.thisSearchHash) && angular.isDefined(proload.lastSearchHash) && (proload.thisSearchHash !== proload.lastSearchHash)) {
+          proload.afterCount = 0;
+          proload.keyword = '';
+          proload.onlyTickets = false;
+          proload.typeId = '';
+          proload.locationId = '';
+        }
+      }
+
 
       proload.orgurl = $routeParams.orgurl;
 
       if(proload.busy) {
+        console.log('Proload After (busy):');
+        console.log(proload);
         return false;
       }
       proload.busy = true;
@@ -272,19 +322,7 @@ angular.module('bluereconlineApp')
       proload.typeId = '';
       proload.locationId = '';
 
-      if(angular.isDefined(proload.searchParams))
-      {
-        proload.thisSearchHash = md5.createHash(angular.toJson(proload.searchParams));
-        proload.keyword = proload.searchParams.item_name;
-        proload.onlyTickets = proload.searchParams.has_tickets;
-        proload.typeId = proload.searchParams.type_id;
-        proload.locationId = proload.searchParams.location_id;
-      }
-      else
-      {
-        proload.keyword = '';
-        proload.onlyTickets = false;
-      }
+
 
       if(proload.thisSearchHash !== proload.lastSearchHash)
       {
@@ -297,6 +335,8 @@ angular.module('bluereconlineApp')
       if(proload.noresults)
       {
         proload.busy = false;
+        console.log('Proload After (no results):');
+        console.log(proload);
         return false;
       }
 
@@ -305,21 +345,21 @@ angular.module('bluereconlineApp')
         ActiveUser.getFromLocal().then(function() {
           var household = ActiveUser.userData.household;
 
-          for(var s = 0; s < proData.returnData.length; s++)
+          for(var s = 0; s < proData.length; s++)
           {
-            for(var p = 0; p < proData.returnData[s].programs.length; p++)
+            for(var p = 0; p < proData[s].programs.length; p++)
             {
-              proData.returnData[s].programs[p].regData = [];
+              proData[s].programs[p].regData = [];
 
               for(var u = 0; u < household.length; u++)
               {
-                proData.returnData[s].programs[p].regData[u] = {};
-                proData.returnData[s].programs[p].regData[u].userID = household[u].user_id;
-                proData.returnData[s].programs[p].regData[u].householdID = ActiveUser.userData.household_id;
-                proData.returnData[s].programs[p].regData[u].itemType = 'program';
-                proData.returnData[s].programs[p].regData[u].addedByUserID = ActiveUser.userData.user_id;
-                proData.returnData[s].programs[p].regData[u].usePaymentPlan = '0';
-                proData.returnData[s].programs[p].regData[u].selected = false;
+                proData[s].programs[p].regData[u] = {};
+                proData[s].programs[p].regData[u].userID = household[u].user_id;
+                proData[s].programs[p].regData[u].householdID = ActiveUser.userData.household_id;
+                proData[s].programs[p].regData[u].itemType = 'program';
+                proData[s].programs[p].regData[u].addedByUserID = ActiveUser.userData.user_id;
+                proData[s].programs[p].regData[u].usePaymentPlan = '0';
+                proData[s].programs[p].regData[u].selected = false;
               }
             }
           }
@@ -353,6 +393,9 @@ angular.module('bluereconlineApp')
 
         var programs = response.data;
 
+        console.log('returned programs');
+        console.log(programs);
+
         if(proload.afterCount > 0)
         {
           //console.log(programs);
@@ -368,7 +411,7 @@ angular.module('bluereconlineApp')
 
         proload.returnData = JSON.parse(angular.toJson(proload.responseData));
 
-        proload = createRegistrantList(proload);
+        proload.returnData = createRegistrantList(proload.returnData);
 
         console.log(proload.returnData);
         proload.afterCount += proload.increment;
@@ -388,7 +431,9 @@ angular.module('bluereconlineApp')
         }
 
         proload.busy = false;
-      }.bind(this));
+        console.log('Proload After:');
+        console.log(proload);
+      });
 
     };
 
@@ -401,7 +446,7 @@ angular.module('bluereconlineApp')
     proload.thisSearchHash = '';
     proload.returnData = '';
     proload.afterCount = 0;
-    proload.increment = 10;
+    proload.increment = 25;
     proload.busy = false;
     proload.noresults = false;
     proload.slowReload = false;
