@@ -126,6 +126,9 @@ angular
             .when('/:orgurl/reservationtimes', {
                 templateUrl: 'views/reservationAvailableTimes.html'
             })
+            .when('/:orgurl/reservationaddons', {
+                templateUrl: 'views/reservationAddons.html'
+            })
             .when('/:orgurl/addedtocart', {
                 templateUrl: 'views/addedToCart.html',
                 controller: 'HomeCtrl',
@@ -655,11 +658,29 @@ angular
         var reservationData = [];
 
         function set(data) {
-            localStorage.setItem('savedData', JSON.stringify(data));
+            localStorage.setItem('savedRentalData', JSON.stringify(data));
             reservationData = data;
         }
         function get() {
-            reservationData = JSON.parse(localStorage.getItem('savedData'));
+            reservationData = JSON.parse(localStorage.getItem('savedRentalData'));
+            return reservationData;
+        }
+
+        return {
+            set: set,
+            get: get
+        };
+    })
+
+    .factory('reservationTimeService', function() {
+        var reservationData = [];
+
+        function set(data) {
+            localStorage.setItem('savedRentalTimeData', JSON.stringify(data));
+            reservationData = data;
+        }
+        function get() {
+            reservationData = JSON.parse(localStorage.getItem('savedRentalTimeData'));
             return reservationData;
         }
 

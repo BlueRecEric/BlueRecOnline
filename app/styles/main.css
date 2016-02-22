@@ -688,7 +688,7 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 
 .table-hover > tbody > tr:hover {
     /*background-image: linear-gradient(#04519B, #10699b 40%, #13539b);*/
-    background-color: #53C1D0;
+    background-color: #033c73;
     color: #fff;
 }
 
@@ -848,7 +848,7 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     .seven-cols .col-sm-1,
     .seven-cols .col-lg-1 {
         width: 14.285714285714285714285714285714%;
-        *width: 14.285714285714285714285714285714%;
+        width: 14.285714285714285714285714285714%;
     }
 }
 

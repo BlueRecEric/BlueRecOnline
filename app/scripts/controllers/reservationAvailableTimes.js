@@ -9,8 +9,10 @@
  */
 angular.module('bluereconlineApp')
     .controller('ReservationAvailableTimes', ['$scope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout',
-        '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'reservationService',
-        function ($scope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment, ActiveUser, reservationService) {
+        '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'reservationService', 'reservationTimeService',
+        function ($scope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment, ActiveUser, reservationService, reservationTimeService) {
+
+            $scope.renderSlider = false;
 
             $scope.searchPanelActive = true;
 
@@ -56,7 +58,15 @@ angular.module('bluereconlineApp')
             console.log('FACILITYDATA');
             console.log($scope.facilityData);
 
-            $scope.rentalDuration = '1 Hour';
+            $scope.durationSlider = {
+                ceil: $scope.facilityData.max_hour,
+                floor: $scope.facilityData.min_hour};
+
+            $scope.rentalDuration = {selectedTime:  $scope.facilityData.min_hour};
+
+            $timeout(function () {
+                $scope.renderSlider = true;
+            }, 500, false);
 
             $scope.weekdaySearch2 = [];
 
@@ -152,22 +162,73 @@ angular.module('bluereconlineApp')
                 return weekdaysString;
             };
 
+            $scope.translateDuration = function (value) {
+                var label = value;
+
+                if (value < 60) {
+                    label = value + ' mins';
+                }
+                if (value >= 60) {
+                    var totalSeconds = value * 60;
+
+                    var hours = Math.floor(totalSeconds / 3600);
+                    var minutes = Math.floor((totalSeconds % 3600) / 60);
+
+                    label = hours;
+
+                    if (hours === 1) {
+                        label += ' hr';
+                    }
+                    else {
+                        label += ' hrs';
+                    }
+
+                    if (minutes > 0) {
+                        label += ' ' + minutes;
+
+                        if (minutes === 1) {
+                            label += ' min';
+                        }
+                        else {
+                            label += ' mins';
+                        }
+                    }
+                }
+                return label;
+            };
+
+            $scope.getFacilitySearchString = function () {
+
+                ////console.table( $scope.selectedSearchFacilities.facilities);
+                var facilitySearchString = '';
+
+                for (var i=0;i < $scope.facilityArray.length; i++) {
+                    if($scope.facilityArray[i]) {
+                        if (facilitySearchString !== '') {
+                            facilitySearchString += ', ';
+                        }
+                        facilitySearchString += $scope.facilityData.facility_ids[i];
+                    }
+                }
+
+                return facilitySearchString;
+            };
+
+
             $scope.onSearchRentalTimes = function ()
             {
-                var totalFacilitiesSel = 0;
+                /*var totalFacilitiesSel = 0;
                 for(var i=0;i < $scope.facilityArray.length; i++)
                 {
                     if($scope.facilityArray[i])
                     {
                         totalFacilitiesSel++;
                     }
-                }
+                }*/
 
-                console.log('totalFacilitiesSel:  '+totalFacilitiesSel);
+                //console.log('totalFacilitiesSel:  '+totalFacilitiesSel);
 
                 console.log('facilityArray:  '+$scope.facilityArray);
-
-                $scope.durationSelected = 180;
 
                 $scope.displaySearchResults = false;
                 $scope.displayNoResults = false;
@@ -179,7 +240,7 @@ angular.module('bluereconlineApp')
                 $scope.searchRowCollection = [];
                 $scope.searchSelectedTimeData = [];
 
-                var facilitySearchString = $scope.facilityData.facility_item_id_string;
+                var facilitySearchString = $scope.getFacilitySearchString();
 
                 $scope.translate = function (value) {
                     return $filter('time')(value, 'mm', 'hh:mm aa', true, false);
@@ -190,7 +251,7 @@ angular.module('bluereconlineApp')
 
                 var weekdaysString = $scope.getWeekdaysString();
 
-                var timeDiff = (($scope.endTime.getTime() / 1000.0) - ($scope.startTime.getTime() / 1000.0))/60;
+                //var timeDiff = (($scope.endTime.getTime() / 1000.0) - ($scope.startTime.getTime() / 1000.0))/60;
 
                 //console.log(tempStartTime + '   |   ' + timeDiff);
 
@@ -198,14 +259,13 @@ angular.module('bluereconlineApp')
 
                var rentalCodeSearch = $scope.facilityData.rental_code_item_id;
 
-                var totalMins = 0;
+                /*var totalMins = 0;
                 for (var a = 0; a < $scope.facilityData.min_hours.length; a++) {
                     totalMins += parseInt($scope.facilityData.min_hours[a]);
                 }
 
                 if(totalMins > 0)
-                {timeDiff = totalMins;}
-
+                {timeDiff = totalMins;}*/
 
                 var req = {
                     method: 'POST',
@@ -218,7 +278,7 @@ angular.module('bluereconlineApp')
                         facilities: facilitySearchString,
                         from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd') + ' ' + tempStartTime,
                         until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd') + ' ' + tempEndTime,
-                        duration: timeDiff,
+                        duration: $scope.rentalDuration.selectedTime,
                         start_time: tempStartTime,
                         end_time: tempEndTime,
                         weekdays: weekdaysString
@@ -302,7 +362,6 @@ angular.module('bluereconlineApp')
                 return yyyy + '-' + (MM[1] ? MM : '0' + MM[0]) + '-' + (dd[1] ? dd : '0' + dd[0]) + ' ' + (hh[1] ? hh : '0' + hh[0]) + ':' + (mm[1] ? mm : '0' + mm[0]) + ':00';
             };
 
-
             $scope.onSelectRentalTime = function (selectedRow) {
                 //selectedRow.iconBusy = !selectedRow.iconBusy;
                 ////console.table(selectedRow);
@@ -310,7 +369,11 @@ angular.module('bluereconlineApp')
 
                 $scope.searchSelectedTimeData = selectedRow;
 
-                var $userID = ActiveUser.userData.user_id;
+                reservationTimeService.set($scope.searchSelectedTimeData);
+
+                $location.path('/' + $routeParams.orgurl + '/reservationaddons');
+
+                /*var $userID = ActiveUser.userData.user_id;
 
                 if ($scope.facilityData.rental_code_item_id !== '' && $userID) {
                     //var $facilityString = $scope.getFacilityString();
@@ -335,14 +398,8 @@ angular.module('bluereconlineApp')
                     submitData.fees[0].itemFeeID =  $scope.facilityData.item_fee_id;
                     submitData.fees[0].feeAmount =  $scope.facilityData.fee_amount;
 
-                    /*submitData.events = [];
-                    submitData.events[0] = {};
-                    submitData.events[0].facility_item_id =  '278';
-                    submitData.events[0].event_start =  '2016-01-05 10:00:00';
-                    submitData.events[0].event_end =  '2016-01-05 12:00:00';*/
-
                     var tempDate = new Date($scope.searchSelectedTimeData.check_date + 'T' + $scope.searchSelectedTimeData.start_check_time_24);
-                    var tempTime = new Date('1970-01-01T'+$scope.searchSelectedTimeData.start_check_time_24);
+                    //var tempTime = new Date('1970-01-01T'+$scope.searchSelectedTimeData.start_check_time_24);
 
                     //console.log(tempDate);
                     //console.log(tempTime);
@@ -396,6 +453,6 @@ angular.module('bluereconlineApp')
                             $location.path('/' + $routeParams.orgurl + '/addedtocart');
                            // $location.path('/' +  $routeParams.orgurl + '/reservations');
                     });
-                }
+                }*/
             };
         }]);
