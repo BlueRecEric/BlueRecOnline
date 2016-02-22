@@ -38,7 +38,6 @@ angular.module('bluereconlineApp')
             $scope.startTime = new Date($scope.rentalCodeSelected.start_time_check_24);
             $scope.endTime = new Date($scope.facilityData.end_time_check_24);
 
-
             console.log('  $scope.startTime: ' +   $scope.startTime);
 
             $scope.rentalPackages = [];

@@ -44,7 +44,7 @@ angular.module('bluereconlineApp')
 
             for(var ia=0; ia < $scope.facilityData.facility_ids.length; ia++)
             {
-                $scope.facilityArray.push(true);
+                $scope.facilityArray.push(false);
                 /*if($scope.facilityData.force_facility_order)
                 {
                     $scope.facilityArray.push(true);
@@ -87,31 +87,31 @@ angular.module('bluereconlineApp')
             for (var i = 0; i < $scope.facilityData.weekday_indexes.length; i++) {
                 if ($scope.facilityData.weekday_indexes[i] === '0') {
                     $scope.weekdaySearch.sunday = true;
-                    $scope.weekdaySearch2[0]=true;
+                    $scope.weekdaySearch2[0]=false;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '1') {
                     $scope.weekdaySearch.monday = true;
-                    $scope.weekdaySearch2[1]=true;
+                    $scope.weekdaySearch2[1]=false;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '2') {
                     $scope.weekdaySearch.tuesday = true;
-                    $scope.weekdaySearch2[2]=true;
+                    $scope.weekdaySearch2[2]=false;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '3') {
                     $scope.weekdaySearch.wednesday = true;
-                    $scope.weekdaySearch2[3]=true;
+                    $scope.weekdaySearch2[3]=false;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '4') {
                     $scope.weekdaySearch.thursday = true;
-                    $scope.weekdaySearch2[4]=true;
+                    $scope.weekdaySearch2[4]=false;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '5') {
                     $scope.weekdaySearch.friday = true;
-                    $scope.weekdaySearch2[5]=true;
+                    $scope.weekdaySearch2[5]=false;
                 }
                 else if ($scope.facilityData.weekday_indexes[i] === '6') {
                     $scope.weekdaySearch.saturday = true;
-                    $scope.weekdaySearch2[6]=true;
+                    $scope.weekdaySearch2[6]=false;
                 }
             }
 
@@ -308,11 +308,11 @@ angular.module('bluereconlineApp')
                             $scope.isSearchIconBusy = false;
                             $scope.displaySearchResults = false;
                             $scope.displayNoResults = false;
-                            $scope.searchErrorMessage = data.message;
+                            //$scope.searchErrorMessage = data.message;
                         }
                     })
                     .error(function (data) {
-                        $scope.searchSelectedTimeData = [];
+                        /*$scope.searchSelectedTimeData = [];
                         $scope.searchRowCollection = [];
                         $scope.searchResultsData = [];
 
@@ -320,7 +320,7 @@ angular.module('bluereconlineApp')
                         $scope.displaySearchResults = false;
                         $scope.displayNoResults = false;
 
-                        $scope.searchErrorMessage = data;
+                        $scope.searchErrorMessage = data;*/
                     });
 
                 $scope.searchResultsData = [].concat($scope.searchRowCollection);
