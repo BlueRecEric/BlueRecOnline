@@ -107,7 +107,6 @@
                                                 <i class="glyphicon glyphicon-calendar "></i>
                                             </span>
                                                 <input id="earliestStartDate" name="earliestStartDate" style="width: 170px;"
-                                                ="body"
                                                 type="text" class="form-control" data-ng-model="fromDate"
                                                 data-max-date="{{untilDate}}" datepicker-popup="yyyy-MM-dd"
                                                 placeholder="From Date" data-autoclose="1" required bs-datepicker>
@@ -131,8 +130,7 @@
                                                 <i class="glyphicon glyphicon-calendar "></i>
                                             </span>
                                                 <input id="latestStartDate" class="form-control" name="latestStartDate"
-                                                       style="width: 170px;"
-                                                ="body" datepicker-popup="yyyy-MM-dd"
+                                                       style="width: 170px;" datepicker-popup="yyyy-MM-dd"
                                                 type="text" data-ng-model="untilDate" data-min-date="{{fromDate}}"
                                                 placeholder="Until Date" data-autoclose="1" required bs-datepicker>
                                             </div>
@@ -295,7 +293,7 @@
 
                     <div class="panel-body text-center nopad">
                         <div class="">
-                            <button style="min-width:220px;" class="btn btn-info" ="body" type="submit"
+                            <button style="min-width:220px;" class="btn btn-info" type="submit"
                             v-busy="isSearchIconBusy" v-busy-label="Searching..." v-pressable
                             data-ng-click="onSearchRentalTimes((!searchForm.$error.required ))">
                             Search Available Rental Times</button>

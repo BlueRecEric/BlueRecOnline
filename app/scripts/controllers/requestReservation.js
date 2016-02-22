@@ -144,7 +144,7 @@ angular.module('bluereconlineApp')
                         $scope.locationData = data;
                         console.log($scope.locationData);
                     });
-            }
+            };
 
             $scope.getLocationData();
 
@@ -157,6 +157,7 @@ angular.module('bluereconlineApp')
                 placement: 'center',
                 show: false
             });
+
             var selectTimeModalShow = selectTimeModal.show;
 
             selectTimeModal.show = function () {
@@ -451,7 +452,7 @@ angular.module('bluereconlineApp')
                        $scope.rentalDropDown = data;
                        console.log($scope.rentalDropDown);
                    });
-           }
+           };
 
             $scope.getRentalData();
 
