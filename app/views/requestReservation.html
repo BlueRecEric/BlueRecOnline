@@ -107,7 +107,7 @@
 
         <div data-ng-show="userLoggedIn">
 
-            <div class="panel panel-default" style="margin-bottom: 10px !important;">
+            <div class="panel panel-default" style="margin-bottom: 10px !important;" data-ng-if="false">
                 <div class="panel-heading clearfix clicky" data-ng-click="onSearchPanelOpen()">
                     <h3 class="panel-title">
                         <a style="text-decoration: none;">
@@ -409,6 +409,7 @@
 
                 </div>
             </div>
+
             <div class="bs-callout bs-callout-info" id="callout-type-b-i-elems">
                 <div class="row">
                     <div class="col-xs-12">
@@ -420,7 +421,20 @@
                         <p>Find the rental below that you are interested in reserving and click the link to continue.</p>
                     </div>
                 </div>
+            </div>
 
+            <div class="panel panel-primary">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Locations</h3>
+                </div>
+                <div class="panel-body ">
+                    <select data-ng-model="selectedLocation" class="form-control"
+                            style="width: 100%;max-width:225px;"
+                            data-ng-change="getRentalData()"
+                            data-ng-options="locationRow.location_id as locationRow.location_name for locationRow in locationData">
+                        <option value="">--Select Location--</option>
+                    </select>
+                </div>
             </div>
 
             <div class="panel panel-primary" data-ng-repeat="rentalRow in rentalDropDown | orderBy:'item_name'">

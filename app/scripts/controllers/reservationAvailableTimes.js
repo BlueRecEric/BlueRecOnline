@@ -288,7 +288,7 @@ angular.module('bluereconlineApp')
                 $http(req)
                     .success(function (data) {
 
-                        //console.log(data);
+                        console.log(data);
                         if (data.success) {
                             $scope.isSearchIconBusy = false;
 
@@ -369,6 +369,30 @@ angular.module('bluereconlineApp')
 
                 $scope.searchSelectedTimeData = selectedRow;
 
+                var tempDate = new Date($scope.searchSelectedTimeData.check_date + 'T' + $scope.searchSelectedTimeData.start_check_time_24);
+                var tempDate2 = new Date($scope.searchSelectedTimeData.check_date + 'T' + $scope.searchSelectedTimeData.end_check_time_24);
+
+                var timeDiff = ((tempDate2.getTime() / 1000.0) - (tempDate.getTime() / 1000.0))/60;
+                timeDiff = timeDiff / 60;
+                //console.log(timeDiff * $scope.facilityData.fee_amount);
+
+                //$scope.searchSelectedTimeData.rental_fee_amount += timeDiff * $scope.facilityData.fee_amount;
+
+                var feeAmount = 0;
+                var selectedFacilities = [];
+                for (var i=0;i < $scope.facilityArray.length; i++) {
+                    if ($scope.facilityArray[i]) {
+                        feeAmount = feeAmount + (timeDiff * $scope.facilityData.facility_fees[i].per_hour_amount);
+
+                        selectedFacilities.push($scope.facilityData.facility_ids[i]);
+                    }
+                }
+
+                console.log('feeAmount: ' + feeAmount);
+
+                $scope.searchSelectedTimeData.rental_fee_amount = feeAmount;
+
+                $scope.searchSelectedTimeData.selectedFacilityIds = selectedFacilities;
                 reservationTimeService.set($scope.searchSelectedTimeData);
 
                 $location.path('/' + $routeParams.orgurl + '/reservationaddons');

@@ -127,6 +127,27 @@ angular.module('bluereconlineApp')
             $scope.searchSelectedTimeData = [];
             $scope.searchSelectedFacItemID = '';
 
+            $scope.selectedLocation = 0;
+            $scope.locationData = [];
+
+            $scope.getLocationData = function () {
+                var req = {
+                    method: 'GET',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/reservationlocations',
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                };
+
+                $http(req)
+                    .success(function (data) {
+                        $scope.locationData = data;
+                        console.log($scope.locationData);
+                    });
+            }
+
+            $scope.getLocationData();
+
             var deferred;
 
             var selectTimeModal = $modal({
@@ -169,8 +190,6 @@ angular.module('bluereconlineApp')
                     $scope.searchRentalTimeSelected($scope.searchSelectedTimeData.time_data[0]);
                 }
             };
-
-
 
             var selectTimeModal2 = $modal({
                 scope: $scope,
@@ -407,18 +426,34 @@ angular.module('bluereconlineApp')
                 //console.log('changed', $scope.priceSlider);
             };
 
-            $anchorScroll('pageTop');
+            //$anchorScroll('pageTop');
 
-            $http.post(BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/requestreservation')
-                .success(function (data) {
-                    for ( var i = 0; i < data.length; i++)
-                    {
-                        data[i].rental_code_desc_short = data[i].rental_code_description.substr(0, 125)+'...';
-                    }
+           $scope.getRentalData = function () {
+               var req = {
+                   method: 'POST',
+                   url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/requestreservation',
+                   headers: {
+                       'Content-Type': undefined
+                   },
+                   data: {
+                       user_id: ActiveUser.userData.user_id,
+                       location_id: $scope.selectedLocation
+                   }
+               };
 
-                    $scope.rentalDropDown = data;
-                    console.log($scope.rentalDropDown);
-                });
+               $http(req)
+                   .success(function (data) {
+                       for ( var i = 0; i < data.length; i++)
+                       {
+                           data[i].rental_code_desc_short = data[i].rental_code_description.substr(0, 125)+'...';
+                       }
+
+                       $scope.rentalDropDown = data;
+                       console.log($scope.rentalDropDown);
+                   });
+           }
+
+            $scope.getRentalData();
 
             $scope.agreementSigned = {
                 'checked': false
