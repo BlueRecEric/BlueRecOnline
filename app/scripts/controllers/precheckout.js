@@ -11,6 +11,8 @@ angular.module('bluereconlineApp')
     .controller('Precheck', ['$scope', 'ActiveUser', 'PreCheckRequest', function ($scope,ActiveUser,PreCheckRequest) {
         $scope.preLoad = [];
 
+        $scope.itemId = {'id':0};
+
         $scope.regularPackages = {};
         $scope.regularPackages.weekday = '';
 
@@ -22,8 +24,8 @@ angular.module('bluereconlineApp')
             preLoad.getCartRequirements().then(
                 function()
                 {
-                    console.log('preLoad waivers');
-                    console.log(preLoad.waivers);
+                    //console.log('preLoad waivers');
+                    //console.log(preLoad.waivers);
                     $scope.preLoad = preLoad;
                 }
             );
@@ -35,7 +37,7 @@ angular.module('bluereconlineApp')
             $scope.submitPreCheckRequest = submitPreCheckRequest;
         }
     }])
-    .factory('PreCheckRequest', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', '$location', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser,$location) {
+    .factory('PreCheckRequest', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', '$location', '$q', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser,$location,$q) {
         var preloader = this;
         preloader.waivers = [];
         preloader.payments = [];
@@ -44,10 +46,10 @@ angular.module('bluereconlineApp')
 
         var updateEveryDateAddonFees = function(proIdx, pkgIdx, pkgItmID, weekday)
         {
-            console.log('updateEveryDateAddonFees');
-            console.log('proIdx: ' + proIdx);
-            console.log('pkgItmID: ' + pkgItmID);
-            console.log('weekday: ' + weekday);
+            //console.log('updateEveryDateAddonFees');
+            //console.log('proIdx: ' + proIdx);
+            //console.log('pkgItmID: ' + pkgItmID);
+            //console.log('weekday: ' + weekday);
 
             var weekdayItem = preloader.addons[proIdx].addons.packages.weekdays[weekday].items[pkgIdx];
 
@@ -110,7 +112,7 @@ angular.module('bluereconlineApp')
                 preloader.addons[proIdx].addons.packages.weeks[weekIdx].weekday[dayIdx].packages[pkgIdx].selected = '0';
             }
 
-            console.log('proIdx: ' + proIdx);
+            //console.log('proIdx: ' + proIdx);
             updateDateCheckedFees(proIdx, pkgItemID);
             updateDateCheckedDays(proIdx, pkgItemID);
         };
@@ -157,7 +159,7 @@ angular.module('bluereconlineApp')
                 }
             }
 
-            console.log(preloader.addons[proIdx].addons.packages);
+            //console.log(preloader.addons[proIdx].addons.packages);
         };
 
         var updateDateCheckedFees = function(proIdx, itemID)
@@ -169,7 +171,7 @@ angular.module('bluereconlineApp')
 
                 if(thisIPackage.item_id === itemID)
                 {
-                    console.log('found selected fee');
+                    //console.log('found selected fee');
 
                     for(var fi = 0; fi < thisIPackage.fees.data.length; fi++)
                     {
@@ -194,7 +196,7 @@ angular.module('bluereconlineApp')
 
                         if(dayItems.item_id === itemID && dayItems.selected == '1')
                         {
-                            console.log('found selected item');
+                            //console.log('found selected item');
 
                             for(var u = 0; u < preloader.addons[proIdx].addons.packages.uniqueItems.length; u++)
                             {
@@ -202,7 +204,7 @@ angular.module('bluereconlineApp')
 
                                 if(thisPackage.item_id === itemID)
                                 {
-                                    console.log('found selected fee');
+                                    //console.log('found selected fee');
 
                                     for(var f = 0; f < thisPackage.fees.data.length; f++)
                                     {
@@ -240,44 +242,32 @@ angular.module('bluereconlineApp')
 
             if(angular.isDefined(proIdx) && angular.isDefined(pkgIdx))
             {
-                console.log('look for package at index ' + [proIdx] + ' :: ' + [pkgIdx]);
-
                 if(Number(preloader.addons[proIdx].addons.packages[pkgIdx].remaining) <= 0)
                 {
                     preloader.addons[proIdx].addons.packages[pkgIdx].selected = '0';
                 }
 
-
-                console.log('update addon fees ' + [proIdx] + ' :: ' + [pkgIdx]);
-                console.log(preloader.addons[proIdx].addons.packages);
-                console.log('package selected!');
-                console.log(preloader.addons[proIdx].addons.packages[pkgIdx]);
-                console.log(preloader.addons[proIdx].addons.packages[pkgIdx].selected);
-
                 if(preloader.addons[proIdx].addons.packages[pkgIdx].item_type == 'PKG-D' && (preloader.addons[proIdx].addons.packages[pkgIdx].min_days > 0 || preloader.addons[proIdx].addons.packages[pkgIdx].max_days > 0))
                 {
+                    console.log('run weekday check');
+
                     var searchItemId = preloader.addons[proIdx].addons.packages[pkgIdx].item_id;
                     var dayCount = 0;
                     var minDays = preloader.addons[proIdx].addons.packages[pkgIdx].min_days;
                     var maxDays = preloader.addons[proIdx].addons.packages[pkgIdx].max_days;
 
-                    console.log('Check day count');
+                    var updatePurchaseFlag = false;
 
                     for(var $p = 0; $p < preloader.addons[proIdx].addons.packages.length; $p++)
                     {
-                        console.log('Check package ' + $p);
-
                         if(preloader.addons[proIdx].addons.packages[$p].item_id == searchItemId)
                         {
-                            console.log('Package ' + $p + ' is the same item type.');
-
                             if(preloader.addons[proIdx].addons.packages[$p].selected == '1')
                             {
-
-
                                 if(dayCount >= maxDays)
                                 {
                                     preloader.addons[proIdx].addons.packages[pkgIdx].selected = '0';
+                                    updatePurchaseFlag = true;
                                     skipUpdate = true;
                                 }
                                 else
@@ -287,14 +277,30 @@ angular.module('bluereconlineApp')
 
                                 if(dayCount < minDays)
                                 {
-
+                                    updatePurchaseFlag = false;
                                 }
 
-                                if(dayCount == maxDays)
+                                if(dayCount >= minDays && dayCount <= maxDays)
                                 {
-
+                                    updatePurchaseFlag = true;
                                 }
                             }
+                        }
+                    }
+
+                    for(var $pc = 0; $pc < preloader.addons[proIdx].addons.packages.length; $pc++)
+                    {
+                        if(preloader.addons[proIdx].addons.packages[$pc].item_id == searchItemId)
+                        {
+                            preloader.addons[proIdx].addons.packages[$pc].day_count = dayCount;
+                        }
+                    }
+
+                    for(var $pf = 0; $pf < preloader.addons[proIdx].addons.packages.length; $pf++)
+                    {
+                        if(preloader.addons[proIdx].addons.packages[$pf].item_id == searchItemId)
+                        {
+                            preloader.addons[proIdx].addons.packages[$pf].readyToPurchase = updatePurchaseFlag;
                         }
                     }
                 }
@@ -302,6 +308,7 @@ angular.module('bluereconlineApp')
                 if(preloader.addons[proIdx].addons.packages[pkgIdx].selected == '1')
                 {
                     console.log('package is checked');
+                    console.log('skip update: ' + skipUpdate.toString());
                 }
 
                 if(!skipUpdate) {
@@ -334,88 +341,156 @@ angular.module('bluereconlineApp')
                 }
             }
 
+            // make an array of checked addon item ids
 
+            var checkedAddonItemIds = [];
+
+            for(var $pro = 0; $pro < preloader.addons.length; $pro++)
+            {
+                for(var $addon = 0; $addon < preloader.addons[$pro].addons.packages.length; $addon++)
+                {
+                    if (checkedAddonItemIds.indexOf(preloader.addons[$pro].addons.packages[$addon].item_id) == -1) {
+                        if (preloader.addons[$pro].addons.packages[$addon].item_type == 'PKG' && preloader.addons[$pro].addons.packages[$addon].selected == '1') {
+                            checkedAddonItemIds.push(preloader.addons[$pro].addons.packages[$addon].item_id);
+                        }
+
+                        if (preloader.addons[$pro].addons.packages[$addon].item_type == 'PKG-D' && preloader.addons[$pro].addons.packages[$addon].readyToPurchase) {
+                            checkedAddonItemIds.push(preloader.addons[$pro].addons.packages[$addon].item_id);
+                        }
+                    }
+                }
+            }
+
+            getCartPayments(checkedAddonItemIds);
+
+            console.log('checked addon ids:');
+            console.log(checkedAddonItemIds);
+            console.log(preloader.addons);
         };
 
-        var getCartRequirements = function () {
-            console.log('get requirements');
+        var getCartWaivers = function () {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/waivers',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'userID': ActiveUser.userData.user_id, 'householdID': ActiveUser.userData.household_id}
+            };
 
-            if(ActiveUser.isLoggedIn())
-            {
-                var req = {
-                    method: 'POST',
-                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/requirements',
-                    headers: {
-                        'Content-Type': undefined
-                    },
-                    data: {'userID': ActiveUser.userData.user_id, 'householdID': ActiveUser.userData.household_id}
-                };
+            return $http(req).then(
+                function success(response) {
+                    preloader.waivers = [];
+                    preloader.hasWaivers = response.data.data.waivers.length > 0;
+                    var waivers = JSON.parse(angular.toJson(response.data.data.waivers));
+                    preloader.waivers = waivers;
+                });
+        };
 
-                return $http(req).then(
-                    function success(response) {
-                        preloader.waivers = [];
-                        preloader.hasWaivers = response.data.data.waivers.length > 0;
-                        var waivers = JSON.parse(angular.toJson(response.data.data.waivers));
-                        preloader.waivers = waivers;
+        var getCartPayments = function (idArray) {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/payments',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'userID': ActiveUser.userData.user_id, 'householdID': ActiveUser.userData.household_id, 'extraItems':idArray}
+            };
 
-                        preloader.payments = [];
-                        preloader.hasPayments = response.data.data.payments.length > 0;
-                        var payments = JSON.parse(angular.toJson(response.data.data.payments));
-                        preloader.payments = payments;
+            return $http(req).then(
+                function success(response) {
+                    preloader.payments = [];
+                    preloader.hasPayments = response.data.data.payments.length > 0;
+                    var payments = JSON.parse(angular.toJson(response.data.data.payments));
+                    preloader.payments = payments;
+                });
+        };
 
-                        preloader.addons = [];
-                        preloader.hasAddons = response.data.data.addons.length > 0;
-                        var addons = JSON.parse(angular.toJson(response.data.data.addons));
-                        preloader.addons = addons;
-                        for(var a = 0; a < preloader.addons.length; a++)
-                        {
-                            if(preloader.addons[a].addons.package_dates) {
-                                for (var u = 0; u < preloader.addons[a].addons.packages.uniqueItems.length; u++) {
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt = {};
+        var getCartCustomFields = function () {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/customfields',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'userID': ActiveUser.userData.user_id, 'householdID': ActiveUser.userData.household_id}
+            };
 
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0] = [];
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1] = [];
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2] = [];
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3] = [];
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4] = [];
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5] = [];
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6] = [];
+            return $http(req).then(
+                function success(response) {
+                    preloader.fields = [];
+                    preloader.hasFields = response.data.data.fields.length > 0;
+                    var fields = JSON.parse(angular.toJson(response.data.data.fields));
+                    preloader.fields = fields;
+                });
+        };
 
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0].selected = '0';
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1].selected = '0';
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2].selected = '0';
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3].selected = '0';
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4].selected = '0';
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5].selected = '0';
-                                    preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6].selected = '0';
-                                }
-                            }
-                        }
+        var getCartAddons = function () {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/addons',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'userID': ActiveUser.userData.user_id, 'householdID': ActiveUser.userData.household_id}
+            };
 
-                        preloader.fields = [];
-                        preloader.hasFields = response.data.data.fields.length > 0;
-                        var fields = JSON.parse(angular.toJson(response.data.data.fields));
-                        preloader.fields = fields;
+            return $http(req).then(
+                function success(response) {
+                    preloader.addons = [];
+                    preloader.hasAddons = response.data.data.addons.length > 0;
+                    var addons = JSON.parse(angular.toJson(response.data.data.addons));
+                    preloader.addons = addons;
 
-                        if(preloader.hasFields || preloader.hasAddons || preloader.hasPayments || preloader.hasWaivers)
-                        {
-                            console.log(preloader.addons);
-                        }
-                        else
-                        {
-                            if(ActiveUser.isLoggedIn())
-                            {
-                                $location.path('/' + $routeParams.orgurl + '/checkout');
+                    console.log('addons');
+                    console.log(preloader.addons);
+
+                    for(var a = 0; a < preloader.addons.length; a++)
+                    {
+                        if(preloader.addons[a].addons.package_dates) {
+                            for (var u = 0; u < preloader.addons[a].addons.packages.uniqueItems.length; u++) {
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt = {};
+
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5] = [];
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6] = [];
+
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[2].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[3].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5].selected = '0';
+                                preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6].selected = '0';
                             }
                         }
                     }
-                );
+                });
+        };
+
+        var getCartRequirements = function () {
+            //console.log('get requirements');
+
+            if(ActiveUser.isLoggedIn())
+            {
+                return $q.all([
+                    getCartAddons(),
+                    getCartCustomFields(),
+                    getCartPayments(),
+                    getCartWaivers(),
+                ]).then(function(data) {
+
+                });
             }
         };
 
         var submitPreCheckRequest = function (preForm) {
-            console.log('request');
-            console.log(preForm);
+            //console.log('request');
+            //console.log(preForm);
 
             var req = {
                 method: 'POST',
@@ -428,7 +503,7 @@ angular.module('bluereconlineApp')
 
             $http(req).then(
                 function success(response) {
-                    console.log(response.data);
+                    //console.log(response.data);
                     if(ActiveUser.isLoggedIn())
                     {
                         $location.path('/' + $routeParams.orgurl + '/checkout');
@@ -445,5 +520,9 @@ angular.module('bluereconlineApp')
         preloader.getCartRequirements = getCartRequirements;
         preloader.submitPreCheckRequest = submitPreCheckRequest;
         preloader.updateAddonFees = updateAddonFees;
+        preloader.getCartWaivers = getCartWaivers;
+        preloader.getCartAddons = getCartAddons;
+        preloader.getCartPayments = getCartPayments;
+        preloader.getCartCustomFields = getCartCustomFields;
         return preloader;
     }]);
