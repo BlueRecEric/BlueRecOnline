@@ -34,6 +34,7 @@ angular.module('bluereconlineApp')
         $scope.memInfo = [];
 
         $scope.memInfo = MemInfoLoader;
+
         $scope.memInfo.loadMembershipForHousehold(ActiveUser.userData.user_id, ActiveUser.userData.household_id);
 
         $scope.customFieldInfo = CustomFieldLoader;
@@ -71,13 +72,13 @@ angular.module('bluereconlineApp')
 
             var waiverCount = 0;
 
-            for(var waivers = 0; waivers < $scope.memInfo.returnData.waivers.data.length; waivers++)
-            {
-                if($scope.memInfo.returnData.waivers.data[waivers].agreed === true)
-                {
-                    submitData.waivers[waiverCount] = {};
-                    submitData.waivers[waiverCount].waiverID = $scope.memInfo.returnData.waivers.data[waivers].waiver_id;
-                    waiverCount++;
+            if($scope.memInfo.returnData.waivers != null) {
+                for (var waivers = 0; waivers < $scope.memInfo.returnData.waivers.data.length; waivers++) {
+                    if ($scope.memInfo.returnData.waivers.data[waivers].agreed === true) {
+                        submitData.waivers[waiverCount] = {};
+                        submitData.waivers[waiverCount].waiverID = $scope.memInfo.returnData.waivers.data[waivers].waiver_id;
+                        waiverCount++;
+                    }
                 }
             }
 
