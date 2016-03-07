@@ -287,6 +287,10 @@ angular.module('bluereconlineApp')
           proload.onlyTickets = proload.searchParams.has_tickets;
           proload.typeId = proload.searchParams.type_id;
           proload.locationId = proload.searchParams.location_id;
+          if(proload.thisSearchHash !== proload.lastSearchHash)
+          {
+            proload.afterCount = 0;
+          }
         }
         else
         {
@@ -298,7 +302,7 @@ angular.module('bluereconlineApp')
       }
       else
       {
-        if(angular.isDefined(proload.thisSearchHash) && angular.isDefined(proload.lastSearchHash) && (proload.thisSearchHash !== proload.lastSearchHash)) {
+        if(angular.isDefined(proload.thisSearchHash) && angular.isDefined(proload.searchParams) && angular.isDefined(proload.lastSearchHash) && (proload.thisSearchHash !== proload.lastSearchHash)) {
           proload.afterCount = 0;
           proload.keyword = '';
           proload.onlyTickets = false;

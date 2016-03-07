@@ -36,7 +36,14 @@ angular.module('bluereconlineApp')
         function success(response) {
           ActiveUser.setActiveUser(response.data).then(
             function success() {
-                $location.path('/' + log.orgurl + '/home');
+                if(response.data.questions_answered == '1')
+                {
+                    $location.path('/' + log.orgurl + '/home');
+                }
+                else
+                {
+                    $location.path('/' + log.orgurl + '/accountupdate');
+                }
               }, function () {
               }, function () {
               }

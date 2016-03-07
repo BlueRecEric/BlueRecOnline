@@ -1,0 +1,68 @@
+<div>
+
+  <h3>Account Update Required</h3>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading clearfix">
+      <h4 class="panel-title">Security Questions</h4>
+    </div>
+
+    <div class="panel-body">
+
+      <div class="alert alert-warning" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        We've recently added an additional security measure to prevent your account information from being compromised. Please
+        select two questions below and provide an answer that you can remember. You will be required to answer these questions later
+        if you forget your password or need to update sensitive information.
+      </div>
+
+      <form data-ng-submit="saveQuestions(updateQuestionForm)">
+        <ng-form>
+
+          <div class="row form-group">
+            <label class="col-sm-2">Select Question 1:</label>
+            <div class="col-sm-6">
+              <select id="qOne" class="form-control" data-style="btn-inverse" data-ng-model="updateQuestionForm.qOne" data-ng-options="question.question_id as question.question_name for question in accountUpdater.securityQuestions"></select>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <label for="aOne" class="col-sm-2 control-label">Answer:</label>
+            <div class="col-sm-6">
+              <input type="text" id="aOne" data-ng-model="updateQuestionForm.aOne" class="form-control"/>
+            </div>
+          </div>
+
+          <div id="spacing">&nbsp;</div>
+
+          <div class="row form-group">
+            <label class="col-sm-2">Select Question 2:</label>
+            <div class="col-sm-6">
+              <select id="qTwo" class="form-control" data-style="btn-inverse" data-ng-model="updateQuestionForm.qTwo" data-ng-options="question.question_id as question.question_name for question in accountUpdater.securityQuestions"></select>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <label for="aTwo" class="col-sm-2 control-label">Answer:</label>
+            <div class="col-sm-6">
+              <input type="text" id="aTwo" data-ng-model="updateQuestionForm.aTwo" class="form-control"/>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <label class="col-sm-2 control-label-center">&nbsp;</label>
+            <div class="col-sm-6">
+              <button type="submit" id="questionSubmit" value="Submit" class="btn btn-info"><i class="fa fa-save"></i> Save Responses</button>
+            </div>
+          </div>
+
+        </ng-form>
+      </form>
+
+
+    </div>
+
+  </div>
+
+</div>
+

@@ -52,6 +52,10 @@ angular
                 controller: 'HomeCtrl',
                 controllerAs: 'home'
             })
+            .when('/:orgurl/accountupdate', {
+                templateUrl: 'views/userSettings/accountUpdate.html',
+                controller: 'AccountUpdateCtrl'
+            })
             .when('/:orgurl/login', {
                 templateUrl: 'views/login.html',
                 controller: 'LoginCtrl',
