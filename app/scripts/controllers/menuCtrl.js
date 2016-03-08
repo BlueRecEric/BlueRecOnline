@@ -8,11 +8,21 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('MenuCtrl', ['$scope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', '$aside', 'NavFactory', function ($scope,$routeParams,$route,AuthService,$location,ActiveUser, $aside, NavFactory) {
+    .controller('MenuCtrl', ['$scope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', '$aside', 'NavFactory', 'UserData', function ($scope,$routeParams,$route,AuthService,$location,ActiveUser, $aside, NavFactory, UserData) {
 
         $scope.$watch(function() { return ActiveUser.getUser(); }, function() {
             $scope.currentUser = ActiveUser.getUser();
             $scope.loggedIn = ActiveUser.isLoggedIn();
+        });
+
+        if(ActiveUser.isLoggedIn())
+        {
+            ActiveUser.beginUpdates();
+        }
+
+        $scope.$on('user:updated', function() {
+            console.log('we just received work that the user was updated!');
+            ActiveUser.putUserInLocalStorage(UserData.getUserData());
         });
 
         if(angular.isDefined($routeParams.current)) {
@@ -43,10 +53,14 @@ angular.module('bluereconlineApp')
         {
             $scope.loggedIn=false;
 
+            if(angular.isDefined(ActiveUser.userUpdate) && ActiveUser.userUpdate != null)
+            {
+                ActiveUser.endUpdates();
+            }
+
             AuthService.logout();
             $scope.currentUser = {};
             ActiveUser.setActiveUser('');
-
 
             $location.path('/' + $routeParams.orgurl + '/login');
         };

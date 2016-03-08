@@ -8,8 +8,27 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('MyHouseholdCtrl', ['$scope', 'ActiveUser', 'UserUpdate', function ($scope,ActiveUser,UserUpdate) {
+  .controller('MyHouseholdCtrl', ['$scope', 'ActiveUser', 'UserUpdate', 'md5', function ($scope,ActiveUser,UserUpdate,md5) {
       $scope.household = {};
+
+      if(ActiveUser.isLoggedIn())
+      {
+          $scope.household = ActiveUser.userData.household;
+      }
+
+      function updateHouseholdData()
+      {
+          if(ActiveUser.isLoggedIn())
+          {
+              $scope.household = ActiveUser.userData.household;
+          }
+      }
+
+      $scope.$on('user:updated', function() {
+          console.log('looks like household data was updated.');
+          setTimeout(updateHouseholdData,500);
+      });
+
       $scope.showNewMember = false;
       $scope.newMemberForm = [];
 
@@ -31,10 +50,10 @@ angular.module('bluereconlineApp')
 
               if(UpdateResult.data.added)
               {
+                ActiveUser.updateUser();
                 $scope.showNewMember = false;
                 $scope.newMemberForm = [];
                 $scope.newMemberAdded = true;
-                ActiveUser.checkUser().then($scope.updateHousehold());
               }
               else
               {
@@ -59,16 +78,6 @@ angular.module('bluereconlineApp')
           'name':'Female'
         }
       ];
-
-      $scope.updateHousehold = function()
-      {
-        ActiveUser.getFromLocal().then(function() {
-          $scope.household = ActiveUser.userData.household;
-          console.log($scope.household);
-        }, function() {
-        }, function() {
-        });
-      };
 
       $scope.gradeOptions = [
         {
@@ -144,8 +153,6 @@ angular.module('bluereconlineApp')
         console.log(person);
         Updater.submitPartForm(person);
       };
-
-      $scope.updateHousehold();
   }])
   .factory('UserUpdate', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', '$filter', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams,$filter,ActiveUser) {
 
@@ -168,6 +175,7 @@ angular.module('bluereconlineApp')
             .then(
             function success(response) {
               console.log(response);
+              ActiveUser.updateUser();
             }
         );
       }
@@ -190,7 +198,7 @@ angular.module('bluereconlineApp')
             'firstname': formData.firstname,
             'lastname': formData.lastname,
             'gender': formData.gender,
-            'grade': formData.grade.value,
+            'grade': angular.isDefined(formData.grade.value)?formData.grade.value:'NA',
             'birthday': formData.formatBirthday
           }
         };

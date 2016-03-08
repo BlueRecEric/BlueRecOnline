@@ -18,27 +18,34 @@ angular.module('bluereconlineApp')
           $scope.updateQuestionForm.qTwo = '';
           $scope.updateQuestionForm.aTwo = '';
 
+          $scope.errors = {};
           $scope.accountUpdater = AccountUpdateLoader;
           $scope.accountUpdater.getSecurityQuestions();
 
           $scope.saveQuestions = function() {
-              AccountUpdateLoader.saveSecurityQuestions($scope.updateQuestionForm).then(function(response) {
-                  console.log(response);
-                    if(response.data.updated == '1')
-                      {
-                          $location.path('/' + $routeParams.orgurl + '/home');
-                      }
-                      else
-                      {
-                          console.log(response.data);
-                      }
-                  }
+              $scope.accountUpdater.saveSecurityQuestions($scope.updateQuestionForm).then(
+                    function checkResponse(response)
+                    {
+                        console.log('response returned');
+                        console.log($scope.accountUpdater.securityUpdateResult);
+
+                        if($scope.accountUpdater.securityUpdateResult.data.updated == '1')
+                        {
+                            $location.path('/' + $routeParams.orgurl + '/home');
+                        }
+                        else
+                        {
+                            $scope.errors = $scope.accountUpdater.securityUpdateResult.errors;
+                        }
+                    }
               );
           };
       }
   }])
     .factory('AccountUpdateLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
         var updateLoader = this;
+
+
 
         var saveSecurityQuestions = function(qForm) {
 
@@ -53,8 +60,8 @@ angular.module('bluereconlineApp')
                 data: angular.toJson(qForm)
             };
 
-            $http(req).then(function(response) {
-
+            return $http(req).then(function(response) {
+                updateLoader.securityUpdateResult = response.data;
             }.bind(this));
 
         };

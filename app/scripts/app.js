@@ -299,12 +299,15 @@ angular
 
         return ThisPage;
     })
-    .factory('ActiveUser', ['AuthService','$window','$q',function(AuthService,$window,$q) {
+    .factory('ActiveUser', ['AuthService','$window','$q','$interval','UserData',function(AuthService,$window,$q,$interval,UserData) {
         var currentUser = this;
         currentUser.userStore = $window.localStorage;
         currentUser.userKey = 'user-data';
         currentUser.userData = {};
         currentUser.gettingUser = false;
+
+        var updateInterval = 60000;
+        currentUser.userUpdate = null;
 
         // constructor
         function setActiveUser(userData)
@@ -436,6 +439,32 @@ angular
             return deferred.promise;
         }
 
+        function reloadUserData()
+        {
+            putUserInLocalStorage(AuthService.getUserData());
+        }
+
+        function updateUser()
+        {
+            AuthService.refreshUser().then(function success() {
+                currentUser.setActiveUser(UserData.getUserData());
+            });
+        }
+
+        function beginUpdates() {
+            console.log('Start user update every ' + updateInterval.toString() + 'ms');
+            currentUser.userUpdate = $interval(currentUser.updateUser,updateInterval);
+        }
+
+        function endUpdates() {
+            console.log('End user update cycle.');
+            $interval.cancel(currentUser.userUpdate);
+        }
+
+        currentUser.putUserInLocalStorage = putUserInLocalStorage;
+        currentUser.updateUser = updateUser;
+        currentUser.beginUpdates = beginUpdates;
+        currentUser.endUpdates = endUpdates;
         currentUser.getUser = getUser;
         currentUser.setActiveUser = setActiveUser;
         currentUser.getFromToken = getFromToken;
@@ -449,8 +478,74 @@ angular
 
         return currentUser;
     }])
-    .factory('AuthService', ['$http', '$q', 'md5', 'BLUEREC_ONLINE_CONFIG', 'AuthToken', '$route','$routeParams', function($http,$q,md5,BLUEREC_ONLINE_CONFIG, AuthToken,$route,$routeParams) {
+    .factory('UserData', [ 'md5', '$rootScope', function(md5,$rootScope) {
+
+        var userData = this;
+
+        userData.dataArray = {};
+        userData.token = '';
+
+        userData.lastMDHash = '';
+
+        function setUserData(data)
+        {
+            userData.dataArray = data;
+        }
+
+        function setUserToken(token)
+        {
+            userData.token = token;
+        }
+
+        function getUserData()
+        {
+            return userData.dataArray;
+        }
+
+        function getUserHash()
+        {
+            return md5.createHash(userData.dataArray + userData.token);
+        }
+
+        function checkUpdate()
+        {
+            if(userData.lastMDHash != getUserHash())
+            {
+                userData.lastMDHash = getUserHash();
+                broadcastUpdate();
+            }
+        }
+
+        function broadcastUpdate()
+        {
+            $rootScope.$broadcast('user:updated');
+        }
+
+        function showUserData()
+        {
+            console.log('user data dump:');
+            console.log(userData.dataArray);
+            console.log(userData.token);
+            console.log(getUserHash());
+        }
+
+        userData.getUserData = getUserData;
+        userData.setUserData = setUserData;
+        userData.setUserToken = setUserToken;
+        userData.getUserHash = getUserHash;
+        userData.showUserData = showUserData;
+        userData.checkUpdate = checkUpdate;
+
+        return userData;
+    }])
+    .factory('AuthService', ['$http', '$q', 'md5', 'BLUEREC_ONLINE_CONFIG', 'AuthToken', '$route','$routeParams', 'UserData', function($http,$q,md5,BLUEREC_ONLINE_CONFIG, AuthToken,$route,$routeParams,UserData) {
+
+        var userData = '';
+
         return {
+            getUserData: function() {
+                return this.userData;
+            },
             login: function (loginemail,passwd) {
                 var pdata = {};
                 pdata.loguname = loginemail;
@@ -472,6 +567,30 @@ angular
                         return response;
                     }
                 );
+            },
+            refreshUser: function() {
+                var req = {
+                    method: 'GET',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/user/refresh',
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                };
+
+                return $http(req).then(
+                        function success(response) {
+                            console.log('refresh response:');
+                            console.log(response.data.user);
+                            if(response.data.refresh == '1') {
+                                UserData.setUserData(response.data.user);
+                                UserData.checkUpdate();
+                            }
+                            else {
+                                console.log('unable to refresh user data');
+                                console.log(response.data.message);
+                            }
+                        }
+                    );
             },
             logout: function() {
                 AuthToken.setToken();
