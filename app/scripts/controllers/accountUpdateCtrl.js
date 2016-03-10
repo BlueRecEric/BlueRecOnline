@@ -26,8 +26,8 @@ angular.module('bluereconlineApp')
               $scope.accountUpdater.saveSecurityQuestions($scope.updateQuestionForm).then(
                     function checkResponse(response)
                     {
-                        console.log('response returned');
-                        console.log($scope.accountUpdater.securityUpdateResult);
+                        //console.log('response returned');
+                        //console.log($scope.accountUpdater.securityUpdateResult);
 
                         if($scope.accountUpdater.securityUpdateResult.data.updated == '1')
                         {
@@ -49,7 +49,7 @@ angular.module('bluereconlineApp')
 
         var saveSecurityQuestions = function(qForm) {
 
-            console.log(qForm);
+            //console.log(qForm);
 
             var req = {
                 method: 'POST',

@@ -23,7 +23,16 @@ angular.module('bluereconlineApp')
         $scope.$on('user:updated', function() {
             console.log('we just received work that the user was updated!');
             ActiveUser.putUserInLocalStorage(UserData.getUserData());
+            setTimeout(updateHouseholdData,500);
         });
+
+        function updateHouseholdData()
+        {
+            if(ActiveUser.isLoggedIn())
+            {
+                $scope.household = ActiveUser.userData.household;
+            }
+        }
 
         if(angular.isDefined($routeParams.current)) {
             $scope.ActivitiesLink = $routeParams.current.params.orgurl + '/programs/';

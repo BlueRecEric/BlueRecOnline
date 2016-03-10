@@ -446,7 +446,7 @@ angular
 
         function updateUser()
         {
-            AuthService.refreshUser().then(function success() {
+            return AuthService.refreshUser().then(function success() {
                 currentUser.setActiveUser(UserData.getUserData());
             });
         }
@@ -564,6 +564,9 @@ angular
                     .then(
                     function success(response) {
                         AuthToken.setToken(response.data.token);
+                        UserData.setUserData(response.data);
+                        UserData.setUserToken(response.data.token);
+                        UserData.checkUpdate();
                         return response;
                     }
                 );

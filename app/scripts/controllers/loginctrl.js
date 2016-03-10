@@ -34,20 +34,29 @@ angular.module('bluereconlineApp')
     {
       AuthService.login(em, pass).then(
         function success(response) {
-          ActiveUser.setActiveUser(response.data).then(
-            function success() {
-                if(response.data.questions_answered == '1')
-                {
-                    $location.path('/' + log.orgurl + '/home');
+            ActiveUser.updateUser().then
+            (
+                function success() {
+                    ActiveUser.setActiveUser(response.data).then(
+                        function success() {
+
+                            console.log('activeuser set to');
+                            console.log(ActiveUser.userData);
+
+                            if(response.data.questions_answered == '1')
+                            {
+                                $location.path('/' + log.orgurl + '/home');
+                            }
+                            else
+                            {
+                                $location.path('/' + log.orgurl + '/accountupdate');
+                            }
+                        }, function () {
+                        }, function () {
+                        }
+                    );
                 }
-                else
-                {
-                    $location.path('/' + log.orgurl + '/accountupdate');
-                }
-              }, function () {
-              }, function () {
-              }
-          );
+            );
         }
       );
     }

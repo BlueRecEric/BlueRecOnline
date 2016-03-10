@@ -63,6 +63,8 @@ angular.module('bluereconlineApp')
 
                     if(pkgItem.item_id == pkgItmID)
                     {
+                        console.log('updateEveryDateAddonFees');
+
                         if(weekdayItem.selected == '1')
                         {
                             updateDateAddonSelection(proIdx, pkgItem.uuid, pkgItem.item_id);
@@ -91,6 +93,8 @@ angular.module('bluereconlineApp')
 
                         if(dayItems.uuid === pkgUUID)
                         {
+                            console.log('updateDateAddonSelection');
+
                             if(dayItems.remaining > 0)
                             {
                                 dayItems.selected = '1';
@@ -109,6 +113,8 @@ angular.module('bluereconlineApp')
         {
             if(pkgRemaining <= 0)
             {
+                console.log('clickDateAddon');
+
                 preloader.addons[proIdx].addons.packages.weeks[weekIdx].weekday[dayIdx].packages[pkgIdx].selected = '0';
             }
 
@@ -164,6 +170,8 @@ angular.module('bluereconlineApp')
 
         var updateDateCheckedFees = function(proIdx, itemID)
         {
+            console.log('updateDateCheckedFees');
+
             // first set all fees in the 'selected fees' array to $0
             for(var ui = 0; ui < preloader.addons[proIdx].addons.packages.uniqueItems.length; ui++)
             {
@@ -222,6 +230,8 @@ angular.module('bluereconlineApp')
         };
 
         var updateAddonFees = function(pkgUUID) {
+
+            console.log('updateDateCheckedFees');
 
             var proIdx = 0;
             var pkgIdx = 0;
@@ -323,13 +333,13 @@ angular.module('bluereconlineApp')
 
                     $http(req).then(
                         function success(response) {
-                            console.log(response.data);
+                            //console.log(response.data);
                             //preloader.addons[proIdx].addons.packages = response.data.data.packages;
 
                             for (var p = 0; p < preloader.addons[proIdx].addons.packages.length; p++) {
                                 for (var pf = 0; pf < response.data.data.packages.length; pf++) {
                                     if (preloader.addons[proIdx].addons.packages[p].uuid == response.data.data.packages[pf].uuid) {
-                                        console.log('update fees');
+                                        //console.log('update fees');
                                         preloader.addons[proIdx].addons.packages[p].fees = response.data.data.packages[pf].fees;
                                         preloader.addons[proIdx].addons.packages[p].original_fees = response.data.data.packages[pf].original_fees;
                                     }
@@ -353,7 +363,9 @@ angular.module('bluereconlineApp')
                         if (preloader.addons[$pro].addons.packages[$addon].item_type == 'PKG' && preloader.addons[$pro].addons.packages[$addon].selected == '1') {
                             checkedAddonItemIds.push(preloader.addons[$pro].addons.packages[$addon].item_id);
                         }
-
+                        if (preloader.addons[$pro].addons.packages[$addon].item_type == 'PKG-DG' && preloader.addons[$pro].addons.packages[$addon].selected == '1') {
+                            checkedAddonItemIds.push(preloader.addons[$pro].addons.packages[$addon].item_id);
+                        }
                         if (preloader.addons[$pro].addons.packages[$addon].item_type == 'PKG-D' && preloader.addons[$pro].addons.packages[$addon].readyToPurchase) {
                             checkedAddonItemIds.push(preloader.addons[$pro].addons.packages[$addon].item_id);
                         }
@@ -442,8 +454,8 @@ angular.module('bluereconlineApp')
                     var addons = JSON.parse(angular.toJson(response.data.data.addons));
                     preloader.addons = addons;
 
-                    console.log('addons');
-                    console.log(preloader.addons);
+                    //console.log('addons');
+                    //console.log(preloader.addons);
 
                     for(var a = 0; a < preloader.addons.length; a++)
                     {
@@ -458,6 +470,8 @@ angular.module('bluereconlineApp')
                                 preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[4] = [];
                                 preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[5] = [];
                                 preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[6] = [];
+
+                                console.log('update weekday package selection');
 
                                 preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[0].selected = '0';
                                 preloader.addons[a].addons.packages.uniqueItems[u].wkdPkgOpt[1].selected = '0';

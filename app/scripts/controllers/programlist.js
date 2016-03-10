@@ -8,9 +8,28 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', 'md5', '$routeParams', function ($scope,$aside,ProLoader,$timeout,ActiveUser,md5,$routeParams) {
+  .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', 'md5', '$routeParams', 'UserData', function ($scope,$aside,ProLoader,$timeout,ActiveUser,md5,$routeParams, UserData) {
     $scope.proloader = ProLoader;
-    $scope.proloader.nextPage($scope.query);
+
+    $scope.proloader.nextPage($scope.query).then(
+        function success() {
+
+          console.log('load next page 1');
+
+          ActiveUser.updateUser().then(
+              function () {
+                if(ActiveUser.isLoggedIn())
+                {
+                  ActiveUser.putUserInLocalStorage(UserData.getUserData()).then(
+                      function () {
+                        $scope.household = ActiveUser.userData.household;
+
+                        $scope.proloader.createRegistrantList($scope.proloader.returnData);
+                      });
+                }
+            });
+        }
+    );
 
     $scope.proloader.getProgramTypes();
     $scope.proloader.getProgramLocations();
@@ -37,13 +56,34 @@ angular.module('bluereconlineApp')
       );
     });
 
+    if(ActiveUser.isLoggedIn())
+    {
+        $scope.household = ActiveUser.userData.household;
+    }
 
+    function updateHouseholdData()
+    {
+      if(ActiveUser.isLoggedIn())
+      {
+        $scope.household = ActiveUser.userData.household;
+
+        $scope.proloader.createRegistrantList($scope.proloader.returnData);
+      }
+    }
+
+    $scope.$on('user:updated', function() {
+      console.log('looks like household data was updated.');
+      setTimeout(updateHouseholdData,500);
+    });
+
+    /*
     ActiveUser.getFromLocal().then(function() {
       $scope.household = ActiveUser.userData.household;
       //$scope.$root.currentUser = response.data;
     }, function() {
     }, function() {
     });
+    */
 
     $scope.onSearchPanelOpen = function () {
       $scope.showAdvancedSearch = ($scope.showAdvancedSearch)?false:true;
@@ -60,7 +100,14 @@ angular.module('bluereconlineApp')
 
     function doSearch()
     {
-      $scope.proloader.nextPage($scope.query);
+      $scope.proloader.nextPage($scope.query).then(function(){
+        if(ActiveUser.isLoggedIn())
+        {
+          $scope.household = ActiveUser.userData.household;
+
+          $scope.proloader.createRegistrantList($scope.proloader.returnData);
+        }
+      });
     }
 
     function getSearchHash()
@@ -173,6 +220,7 @@ angular.module('bluereconlineApp')
             .then(
             function success(response) {
               console.log(response.data);
+
               proload.returnData[programIndex].programs[sessionIndex].addingToCart = false;
 
               for(var c = 0; c < cartData.registrations.length; c++)
@@ -344,39 +392,6 @@ angular.module('bluereconlineApp')
         return false;
       }
 
-      var createRegistrantList = function(proData)
-      {
-        ActiveUser.getFromLocal().then(function() {
-          var household = ActiveUser.userData.household;
-
-          for(var s = 0; s < proData.length; s++)
-          {
-            for(var p = 0; p < proData[s].programs.length; p++)
-            {
-              proData[s].programs[p].regData = [];
-
-              for(var u = 0; u < household.length; u++)
-              {
-                proData[s].programs[p].regData[u] = {};
-                proData[s].programs[p].regData[u].userID = household[u].user_id;
-                proData[s].programs[p].regData[u].householdID = ActiveUser.userData.household_id;
-                proData[s].programs[p].regData[u].itemType = 'program';
-                proData[s].programs[p].regData[u].addedByUserID = ActiveUser.userData.user_id;
-                proData[s].programs[p].regData[u].usePaymentPlan = '0';
-                proData[s].programs[p].regData[u].selected = false;
-              }
-            }
-          }
-
-        }, function() {
-        }, function() {
-        });
-
-
-
-        return proData;
-      };
-
       var req = {
         method: 'POST',
         skipAuthorization:true,
@@ -393,7 +408,7 @@ angular.module('bluereconlineApp')
         }
       };
 
-      $http(req).then(function(response) {
+      return $http(req).then(function(response) {
 
         var programs = response.data;
 
@@ -415,7 +430,7 @@ angular.module('bluereconlineApp')
 
         proload.returnData = JSON.parse(angular.toJson(proload.responseData));
 
-        proload.returnData = createRegistrantList(proload.returnData);
+        //proload.returnData = createRegistrantList(proload.returnData);
 
         console.log(proload.returnData);
         proload.afterCount += proload.increment;
@@ -437,13 +452,45 @@ angular.module('bluereconlineApp')
         proload.busy = false;
         console.log('Proload After:');
         console.log(proload);
+      }.bind(this));
+
+    };
+
+    var createRegistrantList = function(proData)
+    {
+      console.log('create registrant list using:');
+      console.log(proData);
+      console.log(ActiveUser.userData.household);
+
+      ActiveUser.getFromLocal().then(function success() {
+        if(ActiveUser.isLoggedIn()) {
+          var household = ActiveUser.userData.household;
+
+          for (var s = 0; s < proData.length; s++) {
+            for (var p = 0; p < proData[s].programs.length; p++) {
+              proData[s].programs[p].regData = [];
+
+              for (var u = 0; u < household.length; u++) {
+                proData[s].programs[p].regData[u] = {};
+                proData[s].programs[p].regData[u].userID = household[u].user_id;
+                proData[s].programs[p].regData[u].householdID = ActiveUser.userData.household_id;
+                proData[s].programs[p].regData[u].itemType = 'program';
+                proData[s].programs[p].regData[u].addedByUserID = ActiveUser.userData.user_id;
+                proData[s].programs[p].regData[u].usePaymentPlan = '0';
+                proData[s].programs[p].regData[u].selected = false;
+              }
+            }
+          }
+        }
       });
 
+      return proData;
     };
 
     proload.getProgramTypes = getProgramTypes;
     proload.getProgramLocations = getProgramLocations;
     proload.nextPage = nextPage;
+    proload.createRegistrantList = createRegistrantList;
     proload.responseData = [];
     proload.searchParams = [];
     proload.lastSearchHash = '';

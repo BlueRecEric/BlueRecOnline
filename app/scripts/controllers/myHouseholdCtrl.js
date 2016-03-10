@@ -16,6 +16,7 @@ angular.module('bluereconlineApp')
           $scope.household = ActiveUser.userData.household;
       }
 
+
       function updateHouseholdData()
       {
           if(ActiveUser.isLoggedIn())
@@ -23,6 +24,7 @@ angular.module('bluereconlineApp')
               $scope.household = ActiveUser.userData.household;
           }
       }
+
 
       $scope.$on('user:updated', function() {
           console.log('looks like household data was updated.');
@@ -38,15 +40,15 @@ angular.module('bluereconlineApp')
       };
 
       $scope.saveNewUser = function () {
-        console.log('save new user');
-        console.log($scope.newMemberForm);
+        //console.log('save new user');
+        //console.log($scope.newMemberForm);
         var Updater = UserUpdate;
         Updater.submitNewMemberForm($scope.newMemberForm, ActiveUser.userData).then(
             function handleNewPartResult(UpdateResult) {
               $scope.resetMessages();
 
-              console.log('Update Result');
-              console.log(UpdateResult.data);
+              //console.log('Update Result');
+              //console.log(UpdateResult.data);
 
               if(UpdateResult.data.added)
               {
@@ -150,7 +152,7 @@ angular.module('bluereconlineApp')
 
       $scope.updateUser = function(person) {
         var Updater = UserUpdate;
-        console.log(person);
+        //console.log(person);
         Updater.submitPartForm(person);
       };
   }])
@@ -174,7 +176,7 @@ angular.module('bluereconlineApp')
         return $http(req)
             .then(
             function success(response) {
-              console.log(response);
+              //console.log(response);
               ActiveUser.updateUser();
             }
         );
@@ -182,8 +184,8 @@ angular.module('bluereconlineApp')
 
       function submitNewMemberForm(formData, loggedInUser)
       {
-        console.log('active user');
-        console.log(loggedInUser);
+        //console.log('active user');
+        //console.log(loggedInUser);
         formData.formatBirthday = $filter('date')(formData.birthday, 'yyyy-MM-dd');
 
         var req = {
