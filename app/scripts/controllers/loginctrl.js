@@ -30,33 +30,50 @@ angular.module('bluereconlineApp')
           MakeToast.popOn('danger','Feature Unavailable', 'Password recovery is currently unavailable.');
       }
 
+      function processPostLogin(response)
+      {
+          ActiveUser.updateUser().then
+          (
+              function success() {
+                  ActiveUser.setActiveUser(response.data).then(
+                      function success() {
+
+                          console.log('activeuser set to');
+                          console.log(ActiveUser.userData);
+
+                          if(response.data.questions_answered == '1')
+                          {
+                              $location.path('/' + log.orgurl + '/home');
+                          }
+                          else
+                          {
+                              $location.path('/' + log.orgurl + '/accountupdate');
+                          }
+                      }, function () {
+                      }, function () {
+                      }
+                  );
+              }
+          );
+      }
+
     function login(em,pass)
     {
       AuthService.login(em, pass).then(
         function success(response) {
-            ActiveUser.updateUser().then
-            (
-                function success() {
-                    ActiveUser.setActiveUser(response.data).then(
-                        function success() {
+            console.log('login response');
+            console.log(response);
 
-                            console.log('activeuser set to');
-                            console.log(ActiveUser.userData);
+            if(response.data.validLogin)
+            {
+                setTimeout(processPostLogin, 500, response);
+            }
+            else
+            {
+                log.loginError = true;
+                log.errorMessage = response.data.loginError;
+            }
 
-                            if(response.data.questions_answered == '1')
-                            {
-                                $location.path('/' + log.orgurl + '/home');
-                            }
-                            else
-                            {
-                                $location.path('/' + log.orgurl + '/accountupdate');
-                            }
-                        }, function () {
-                        }, function () {
-                        }
-                    );
-                }
-            );
         }
       );
     }

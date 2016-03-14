@@ -66,6 +66,10 @@ angular
                 controller: 'SignupCtrl',
                 controllerAs: 'sign'
             })
+            .when('/:orgurl/email/resetpassword/:token', {
+                templateUrl: 'views/userSettings/resetPassword.html',
+                controller: 'ResetPasswordCtrl'
+            })
             .when('/:orgurl/myaccount', {
                 templateUrl: 'views/userSettings/myAccount.html',
                 controller: 'MyAccountCtrl'
@@ -651,7 +655,7 @@ angular
 
         function setToken(token) {
             if(token) {
-                store.setItem(key,token);
+                return store.setItem(key,token);
             }
             else {
                 store.removeItem(key);
