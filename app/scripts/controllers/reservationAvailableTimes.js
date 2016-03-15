@@ -55,8 +55,8 @@ angular.module('bluereconlineApp')
                 }*/
             }
 
-            console.log('FACILITYDATA');
-            console.log($scope.facilityData);
+            //console.log('FACILITYDATA');
+            //console.log($scope.facilityData);
 
             $scope.durationSlider = {
                 ceil: $scope.facilityData.max_hour,
@@ -228,7 +228,7 @@ angular.module('bluereconlineApp')
 
                 //console.log('totalFacilitiesSel:  '+totalFacilitiesSel);
 
-                console.log('facilityArray:  '+$scope.facilityArray);
+                //console.log('facilityArray:  '+$scope.facilityArray);
 
                 $scope.displaySearchResults = false;
                 $scope.displayNoResults = false;
@@ -288,7 +288,7 @@ angular.module('bluereconlineApp')
                 $http(req)
                     .success(function (data) {
 
-                        console.log(data);
+                        //console.log(data);
                         if (data.success) {
                             $scope.isSearchIconBusy = false;
 
@@ -356,7 +356,7 @@ angular.module('bluereconlineApp')
                 var dd = formatDate.getDate().toString();
                 var hh = formatDate.getHours().toString();
                 var mm = formatDate.getMinutes().toString();
-                var ss = formatDate.getSeconds().toString();
+                //var ss = formatDate.getSeconds().toString();
 
                 //Returns your formatted result
                 return yyyy + '-' + (MM[1] ? MM : '0' + MM[0]) + '-' + (dd[1] ? dd : '0' + dd[0]) + ' ' + (hh[1] ? hh : '0' + hh[0]) + ':' + (mm[1] ? mm : '0' + mm[0]) + ':00';
@@ -374,23 +374,28 @@ angular.module('bluereconlineApp')
 
                 var timeDiff = ((tempDate2.getTime() / 1000.0) - (tempDate.getTime() / 1000.0))/60;
                 timeDiff = timeDiff / 60;
-                //console.log(timeDiff * $scope.facilityData.fee_amount);
+                //console.log('timeDiff: ' + timeDiff);
 
-                //$scope.searchSelectedTimeData.rental_fee_amount += timeDiff * $scope.facilityData.fee_amount;
+                console.log('facility data: ' );
+
 
                 var feeAmount = 0;
                 var selectedFacilities = [];
                 for (var i=0;i < $scope.facilityArray.length; i++) {
                     if ($scope.facilityArray[i]) {
-                        feeAmount = feeAmount + (timeDiff * $scope.facilityData.facility_fees[i].per_hour_amount);
+                        feeAmount += (timeDiff * $scope.facilityData.facility_fees[i].per_hour_amount);
 
+
+                        // console.log($scope.facilityData.facility_fees[i]);
+                        //$scope.facilityData.facility_ids[i].fee_amount = feeAmount;
                         selectedFacilities.push($scope.facilityData.facility_ids[i]);
                     }
                 }
 
-                console.log('feeAmount: ' + feeAmount);
 
-                $scope.searchSelectedTimeData.rental_fee_amount = feeAmount;
+                //console.log('feeAmount: ' + feeAmount);
+
+                $scope.searchSelectedTimeData.fee_amount = feeAmount;
 
                 $scope.searchSelectedTimeData.selectedFacilityIds = selectedFacilities;
                 reservationTimeService.set($scope.searchSelectedTimeData);
@@ -402,7 +407,7 @@ angular.module('bluereconlineApp')
                 if ($scope.facilityData.rental_code_item_id !== '' && $userID) {
                     //var $facilityString = $scope.getFacilityString();
 
-                   // console.log($scope.facilityData.rental_code_item_id);
+                   // //console.log($scope.facilityData.rental_code_item_id);
 
                     var submitData = {};
                     submitData.request_id = 1;

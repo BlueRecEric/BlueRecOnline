@@ -1,16 +1,11 @@
-
 <div class="row" data-ng-animate="'slide'">
-
     <div>
         <h3>Complete Rental</h3>
     </div>
 
-
     <div data-ng-controller="ReservationAddons" class="">
-
         <form class="form-horizontal" role="form">
             <ng-form>
-
                 <div class="panel panel-primary animate-show animate-hide" data-ng-if="displayPackages">
                     <div class="panel-heading clearfix">
                         <h3 class="panel-title">Add-Ons</h3>
@@ -26,7 +21,7 @@
                                             <td></td>
                                             <td><strong>Add-On Name</strong></td>
                                             <td><strong>Add-On Code</strong></td>
-                                            <td><strong>Fee(s)</strong></td>
+                                            <td><strong>Fee</strong></td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -35,11 +30,11 @@
                                                 <div class="form-group">
                                                     <div class="col-sm-6">
                                                         <checkbox class="btn-default checkbox-dark-border"
-                                                                  data-ng-if="pkg.required"
+                                                                  data-ng-if="pkg.required" data-ng-change="onPackageCheckedEvent()"
                                                                   data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
                                                                   name="package_{{pkg.item_id}}" required></checkbox>
                                                         <checkbox class="btn-default checkbox-dark-border"
-                                                                  data-ng-if="!pkg.required"
+                                                                  data-ng-if="!pkg.required" data-ng-change="onPackageCheckedEvent()"
                                                                   data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
                                                                   name="package_{{pkg.item_id}}"></checkbox>
                                                     </div>
@@ -52,8 +47,7 @@
                                                                                        style="font-weight: normal;">{{pkg.item_code}}</label>
                                             </td>
                                             <td style=" border:0px !important;"><p data-ng-repeat="pkgfee in pkg.fees">
-                                                {{pkgfee.fee_name}}
-                                                ${{pkgfee.fee_amount}}</p></td>
+                                                <!--{{pkgfee.fee_name}}-->${{pkgfee.fee_amount}}</p></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -68,11 +62,11 @@
                                                 <div class="form-group">
                                                     <div class="col-sm-6">
                                                         <checkbox class="btn-default checkbox-dark-border"
-                                                                  data-ng-if="pkg.required"
+                                                                  data-ng-if="pkg.required" data-ng-change="onPackageCheckedEvent()"
                                                                   data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
                                                                   name="package_{{pkg.item_id}}" required></checkbox>
                                                         <checkbox class="btn-default checkbox-dark-border"
-                                                                  data-ng-if="!pkg.required"
+                                                                  data-ng-if="!pkg.required" data-ng-change="onPackageCheckedEvent()"
                                                                   data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
                                                                   name="package_{{pkg.item_id}}"></checkbox>
                                                     </div>
@@ -93,11 +87,9 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
 
                 <div class="panel panel-primary animate-show" data-ng-if="displayCustomFields">
                     <div class="panel-heading clearfix">
@@ -110,7 +102,7 @@
                             <div data-ng-repeat="field in rentalCustomFields">
                                 <!-- TEXT FIELDS -->
                                 <div data-ng-if="field.type=='text'" class="form-group">
-                                    <label class="col-sm-3 control-label-center">{{field.label}}</label>
+                                    <label class="col-sm-3 control-label-center" style="font-weight: normal;">{{field.label}}</label>
 
                                     <div class="col-sm-6">
                                         <input type="{{field.type}}" id="{{field.id}}"
@@ -121,7 +113,7 @@
 
                                 <!-- NUMERIC FIELDS -->
                                 <div data-ng-if="field.type=='number'" class="form-group">
-                                    <label class="col-sm-3 control-label-center">{{field.label}}</label>
+                                    <label class="col-sm-3 control-label-center"style="font-weight: normal;">{{field.label}}</label>
 
                                     <div class="col-sm-6">
                                         <input type="text" id="{{field.name}}"
@@ -132,7 +124,7 @@
 
                                 <!-- SELECT FIELDS -->
                                 <div data-ng-if="field.type=='select'" class="form-group">
-                                    <label class="col-sm-3 control-label-center">{{field.label}}</label>
+                                    <label class="col-sm-3 control-label-center" style="font-weight: normal;">{{field.label}}</label>
 
                                     <div class="col-sm-6">
                                         <select data-ng-model="rentalCustomFields[$index].response_value"
@@ -145,7 +137,7 @@
 
                                 <!-- CHECKBOX FIELDS -->
                                 <div data-ng-if="field.type=='checkbox'" class="form-group">
-                                    <label class="col-sm-3 control-label-center">{{field.label}}</label>
+                                    <label class="col-sm-3 control-label-center" style="font-weight: normal;">{{field.label}}</label>
 
                                     <div class="col-sm-6">
                                         <!--<checkbox class="btn-default checkbox-dark-border" data-ng-if="rentalCustomFields[$index].required" data-ng-model="rentalCustomFields[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}" required/>
@@ -242,7 +234,7 @@
                                 <label class="col-sm-2 control-label-center">Rental Fee Amount</label>
 
                                 <div class="col-sm-10">
-                                    <label class=" control-label-center">{{feeAmount | currency}} (Includes
+                                    <label class=" control-label-center">{{(feeAmount -- packageFeeAmount) | currency}} (Includes
                                         {{depositAmount | currency}}
                                         deposit)</label>
                                     <br>
@@ -300,12 +292,12 @@
                 </div>
 
                 <div class="form-group animate-show animate-hide">
-                    <div class="col-sm-12 ">
-                        <button type="submit" class="btn btn-success" data-ng-click="onSubmitRentalRequest()"><i class="fa fa-shopping-cart"></i> Add Rental to Checkout</button>
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-success" data-ng-click="onSubmitAddRentalToCart()" data-ng-if="facilityData.auto_approve === '1'"><i class="fa fa-shopping-cart"></i> Add Rental to Cart</button>
+                        <button type="submit" class="btn btn-success" data-ng-click="onSubmitRentalRequest()" data-ng-if="facilityData.auto_approve === '0'"> Submit Rental Request for Approval</button>
                     </div>
                 </div>
             </ng-form>
         </form>
     </div>
-
 </div>
