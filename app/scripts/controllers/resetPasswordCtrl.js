@@ -11,10 +11,19 @@ angular.module('bluereconlineApp')
     .controller('ResetPasswordCtrl', ['$scope', '$routeParams', 'ResetPasswordFactory', function ($scope,$routeParams,ResetPasswordFactory) {
 
         $scope.serverData = ResetPasswordFactory;
-        $scope.serverData.getUserFromToken($routeParams.token);
+
+        if(angular.isDefined($routeParams.token)) {
+            $scope.serverData.getUserFromToken($routeParams.token);
+        }
+
+        $scope.orgurl = $routeParams.orgurl;
 
         $scope.aOne = '';
         $scope.aTwo = '';
+
+        $scope.sendPasswordRequest = function (email) {
+            $scope.serverData.sendPasswordRequestEmail(email);
+        };
 
         $scope.verifySecurityAnswers = function (aOne, aTwo)
         {
@@ -35,6 +44,37 @@ angular.module('bluereconlineApp')
     factoryData.hasQuestions = true;
     factoryData.showChangePassword = false;
     factoryData.passwordUpdated = false;
+    factoryData.emailSent = false;
+
+    factoryData.busySendingEmail = false;
+
+    var sendPasswordRequestEmail = function(email) {
+        console.log('try to send password request email');
+
+        var req = {
+            method: 'POST',
+            url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/recoverpassword',
+            headers: {
+                'Content-Type': undefined
+            },
+            data: {'email': email}
+        };
+
+        factoryData.busySendingEmail = true;
+
+        return $http(req).then(function (response) {
+            console.log('sendPasswordRequestEmail response');
+            console.log(response);
+            factoryData.recoverData = response.data;
+
+            if(factoryData.recoverData.data.emailSent)
+            {
+                factoryData.emailSent = true;
+            }
+
+            factoryData.busySendingEmail = false;
+        });
+    };
 
     var getUserFromToken = function(token) {
 
@@ -53,11 +93,15 @@ angular.module('bluereconlineApp')
             console.log(response);
             factoryData.tokenData = response.data;
 
-            if(factoryData.data.questions.length == 0)
+            if(angular.isDefined(factoryData.data))
             {
-                factoryData.hasQuestions = false;
-                factoryData.showChangePassword = true;
+                if(factoryData.data.questions.length == 0)
+                {
+                    factoryData.hasQuestions = false;
+                    factoryData.showChangePassword = true;
+                }
             }
+
         });
     };
 
@@ -104,7 +148,7 @@ angular.module('bluereconlineApp')
 
                     factoryData.passwordData = response.data;
 
-                    if(factoryData.passwordData.updated)
+                    if(factoryData.passwordData.data.passwordUpdated)
                     {
                         factoryData.passwordUpdated = true;
                     }
@@ -112,6 +156,7 @@ angular.module('bluereconlineApp')
             );
     };
 
+    factoryData.sendPasswordRequestEmail = sendPasswordRequestEmail;
     factoryData.submitPasswordChange = submitPasswordChange;
     factoryData.checkSecurityQuestions = checkSecurityQuestions;
     factoryData.getUserFromToken = getUserFromToken;

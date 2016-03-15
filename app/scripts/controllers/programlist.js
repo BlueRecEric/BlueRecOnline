@@ -440,13 +440,23 @@ angular.module('bluereconlineApp')
           proload.noresults = true;
         }
 
+        var totalPrograms = 0;
+
         for(var s = 0; s < proload.returnData.length; s++)
         {
+          totalPrograms += proload.returnData[s].programs.length;
+
           for(var p = 0; p < proload.returnData[s].programs.length; p++)
           {
             proload.returnData[s].programs[p].online_description = [];
 
           }
+        }
+
+        if(totalPrograms < 25)
+        {
+          console.log('total program count is below threashold: ' + totalPrograms);
+          proload.noresults = true;
         }
 
         proload.busy = false;

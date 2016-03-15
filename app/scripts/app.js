@@ -70,6 +70,10 @@ angular
                 templateUrl: 'views/userSettings/resetPassword.html',
                 controller: 'ResetPasswordCtrl'
             })
+            .when('/:orgurl/recoverpassword', {
+                templateUrl: 'views/recoverPassword.html',
+                controller: 'ResetPasswordCtrl'
+            })
             .when('/:orgurl/myaccount', {
                 templateUrl: 'views/userSettings/myAccount.html',
                 controller: 'MyAccountCtrl'
