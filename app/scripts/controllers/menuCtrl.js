@@ -21,7 +21,7 @@ angular.module('bluereconlineApp')
         }
 
         $scope.$on('user:updated', function() {
-            console.log('we just received work that the user was updated!');
+            //console.log('we just received word that the user was updated!');
             ActiveUser.putUserInLocalStorage(UserData.getUserData());
             setTimeout(updateHouseholdData,500);
         });

@@ -827,6 +827,97 @@ angular
   .factory('ProInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
     var proload = this;
 
+      var validateUserEligibility = function (userIndex, userID, programID)
+      {
+          var req = {
+              method: 'GET',
+              url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/program/eligibility/' + programID + '/' + userID,
+              headers: {
+                  'Content-Type': undefined
+              }
+          };
+
+          return $http(req)
+              .then(
+                  function success(response) {
+                      console.log(response.data);
+                      if(
+                          response.data.data.ageValid === false ||
+                          response.data.data.gradeValid === false
+                      )
+                      {
+                          proload.returnData.usrData[userIndex].selected = false;
+                          proload.returnData.usrData[userIndex].regError = true;
+                          proload.returnData.usrData[userIndex].errorText = response.data.data.problems;
+                      }
+                      else
+                      {
+                          proload.returnData.usrData[userIndex].regValid = true;
+                      }
+
+                  }
+              );
+      };
+
+      var addToCart = function()
+      {
+          var cartData = {};
+          cartData.itemType = 'program';
+          cartData.registrations = [];
+          var usrData = {};
+
+          proload.returnData.addingToCart = true;
+
+          //proload.returnData[programIndex].programs[sessionIndex].addCartButton.disabled = 'disabled';
+
+          for(var a = 0; a < proload.returnData.usrData.length; a++)
+          {
+              if(proload.returnData.usrData[a].selected)
+              {
+                  usrData = {};
+                  //console.log('add ' + proload.returnData[programIndex].programs[sessionIndex].regData[a].userID + ' to program ' + proload.returnData[programIndex].programs[sessionIndex].item_id);
+                  usrData = {
+                      'userID':proload.returnData.usrData[a].userID,
+                      'itemID':proload.returnData.item_id,
+                      'householdID':proload.returnData.usrData[a].householdID,
+                      'addedByUserID':proload.returnData.usrData[a].addedByUserID,
+                      'itemType':proload.returnData.usrData[a].itemType,
+                      'usePaymentPlan':proload.returnData.usrData[a].usePaymentPlan,
+                      'userIndex':a
+                  };
+                  cartData.registrations.push(usrData);
+              }
+          }
+
+          console.log(cartData);
+
+          if(cartData.registrations.length > 0) {
+              console.log(angular.toJson(cartData));
+              var req = {
+                  method: 'POST',
+                  url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/add',
+                  headers: {
+                      'Content-Type': undefined
+                  },
+                  data: cartData
+              };
+
+              return $http(req)
+                  .then(
+                      function success(response) {
+                          console.log(response.data);
+
+                          proload.returnData.addingToCart = false;
+
+                          for(var c = 0; c < cartData.registrations.length; c++)
+                          {
+                              proload.returnData.usrData[cartData.registrations[c].userIndex].added = true;
+                          }
+                      }
+                  );
+          }
+      };
+
     var loadProgram = function() {
 
       if(proload.busy) {
@@ -842,7 +933,7 @@ angular
         }
       };
 
-      $http(req).then(function(response) {
+      return $http(req).then(function(response) {
         var responseData = [];
         var mapData = [];
 
@@ -888,6 +979,8 @@ angular
       }.bind(this));
     };
 
+    proload.addToCart = addToCart;
+    proload.validateUserEligibility = validateUserEligibility;
     proload.loadProgram = loadProgram;
     proload.returnData = '';
     proload.busy = false;
