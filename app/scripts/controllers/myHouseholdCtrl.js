@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('MyHouseholdCtrl', ['$scope', 'ActiveUser', 'UserUpdate', 'md5', function ($scope,ActiveUser,UserUpdate,md5) {
+  .controller('MyHouseholdCtrl', ['$scope', 'ActiveUser', 'UserUpdate', 'md5', '$filter', function ($scope,ActiveUser,UserUpdate,md5,$filter) {
       //$scope.household = {};
 
       function setHouseholdData()
@@ -16,6 +16,16 @@ angular.module('bluereconlineApp')
           //console.log('setting user data after update');
           //console.log(ActiveUser.userData.household);
           $scope.household = ActiveUser.userData.household;
+
+          /*
+          for(var p = 0; p < $scope.household.length; p++)
+          {
+              console.log('$scope.household[p].birthday: ' + $scope.household[p].birthday);
+              var userBirthday = $filter('date')($scope.household[p].birthday, 'yyyy-MM-dd');
+              console.log('userbirthday: ' + userBirthday);
+              $scope.household[p].birthday = userBirthday;
+          }
+          */
       }
 
       function updateHouseholdData()

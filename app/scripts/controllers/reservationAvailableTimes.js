@@ -201,7 +201,7 @@ angular.module('bluereconlineApp')
             $scope.convertDateTo24Hour = function (date)
             {
                 var elem = date.split(' ');
-                var stSplit = elem[0].split(":");// alert(stSplit);
+                var stSplit = elem[0].split(':');// alert(stSplit);
                 var stHour = stSplit[0];
                 var stMin = stSplit[1];
                 var stAmPm = elem[1];
@@ -226,7 +226,7 @@ angular.module('bluereconlineApp')
                 else {
                     return stHour + ':' + stMin;
                 }
-            }
+            };
 
 
             $scope.onSearchRentalTimes = function ()
