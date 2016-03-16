@@ -285,7 +285,7 @@ angular.module('bluereconlineApp')
                 {
                     var tempFacData = reservationService.get();
 
-                    //tempFacData.search_start_date = $filter('date')($scope.selectedDate2.start, 'yyyy-MM-dd') + ' ' + $scope.selectedTime.startTime;
+                    //tempFacData.search_start_n = $filter('date')($scope.selectedDate2.start, 'yyyy-MM-dd') + ' ' + $scope.selectedTime.startTime;
                     //tempFacData.search_end_date = $filter('date')($scope.selectedDate2.end, 'yyyy-MM-dd') + ' ' + $scope.startTime;
 
                     tempFacData.search_start_date = $scope.selectedDate2.start;

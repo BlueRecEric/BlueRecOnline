@@ -115,48 +115,32 @@ angular.module('bluereconlineApp')
                 }
             }
 
-            $scope.getWeekdaysString = function ()
+            $scope.getWeekdaysString = function (weekdayIndex)
             {
                 var weekdaysString = '';
 
-                if ($scope.weekdaySearch2[0]) {
-                    weekdaysString += 'Mon';
-                }
-                if ($scope.weekdaySearch2[1]) {
-                    if (weekdaysString !== '') {
-                        weekdaysString += ',';
-                    }
-                    weekdaysString += 'Tue';
-                }
-                if ($scope.weekdaySearch2[2]) {
-                    if (weekdaysString !== '') {
-                        weekdaysString += ',';
-                    }
-                    weekdaysString += 'Wed';
-                }
-                if ($scope.weekdaySearch2[3]) {
-                    if (weekdaysString !== '') {
-                        weekdaysString += ',';
-                    }
-                    weekdaysString += 'Thur';
-                }
-                if ($scope.weekdaySearch2[4]) {
-                    if (weekdaysString !== '') {
-                        weekdaysString += ',';
-                    }
-                    weekdaysString += 'Fri';
-                }
-                if ($scope.weekdaySearch2[5]) {
-                    if (weekdaysString !== '') {
-                        weekdaysString += ',';
-                    }
-                    weekdaysString += 'Sat';
-                }
-                if ($scope.weekdaySearch2[6]) {
-                    if (weekdaysString !== '') {
-                        weekdaysString += ',';
-                    }
-                    weekdaysString += 'Sun';
+                switch(weekdayIndex) {
+                    case '0':
+                        weekdaysString = 'Mon';
+                        break;
+                    case '1':
+                        weekdaysString = 'Tue';
+                        break;
+                    case '2':
+                        weekdaysString = 'Wed';
+                        break;
+                    case '3':
+                        weekdaysString = 'Thu';
+                        break;
+                    case '4':
+                        weekdaysString = 'Fri';
+                        break;
+                    case '5':
+                        weekdaysString = 'Sat';
+                        break;
+                    case '6':
+                        weekdaysString = 'Sun';
+                        break;
                 }
 
                 return weekdaysString;
@@ -214,6 +198,36 @@ angular.module('bluereconlineApp')
                 return facilitySearchString;
             };
 
+            $scope.convertDateTo24Hour = function (date)
+            {
+                var elem = date.split(' ');
+                var stSplit = elem[0].split(":");// alert(stSplit);
+                var stHour = stSplit[0];
+                var stMin = stSplit[1];
+                var stAmPm = elem[1];
+
+                if (stAmPm=='PM')
+                {
+                    if (stHour!=12)
+                    {
+                        stHour=stHour*1+12;
+                    }
+
+                }else if(stAmPm=='AM' && stHour=='12'){
+                    stHour = stHour -12;
+                }
+                else {
+                    stHour = stHour;
+                }
+
+                if(stHour < 10) {
+                    return '0' + stHour + ':' + stMin;
+                }
+                else {
+                    return stHour + ':' + stMin;
+                }
+            }
+
 
             $scope.onSearchRentalTimes = function ()
             {
@@ -227,8 +241,7 @@ angular.module('bluereconlineApp')
                 }*/
 
                 //console.log('totalFacilitiesSel:  '+totalFacilitiesSel);
-
-                //console.log('facilityArray:  '+$scope.facilityArray);
+                console.log($scope.facilityData);
 
                 $scope.displaySearchResults = false;
                 $scope.displayNoResults = false;
@@ -249,7 +262,23 @@ angular.module('bluereconlineApp')
                 var tempStartTime = $filter('date')($scope.startTime, 'HH:mm');
                 var tempEndTime = $filter('date')($scope.endTime, 'HH:mm');
 
-                var weekdaysString = $scope.getWeekdaysString();
+                //var weekdaysString = $scope.getWeekdaysString();
+
+                var weekdayData = [];
+                for(var i=0;i < $scope.facilityData.weekday_indexes2.length; i++)
+                {
+                    if($scope.weekdaySearch2[$scope.facilityData.weekday_indexes[i]])
+                    {
+                        var day = {'day': $scope.getWeekdaysString($scope.facilityData.weekday_indexes[i]),
+                            'start_time': $scope.convertDateTo24Hour($scope.facilityData.weekday_start[i]),
+                            'end_time': $scope.convertDateTo24Hour($scope.facilityData.weekday_end[i])};
+
+                        weekdayData.push(day);
+                    }
+                }
+
+                console.log('weekdayData');
+                console.log(weekdayData);
 
                 //var timeDiff = (($scope.endTime.getTime() / 1000.0) - ($scope.startTime.getTime() / 1000.0))/60;
 
@@ -276,12 +305,12 @@ angular.module('bluereconlineApp')
                     data: {
                         rental_code: rentalCodeSearch,
                         facilities: facilitySearchString,
-                        from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd') + ' ' + tempStartTime,
-                        until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd') + ' ' + tempEndTime,
+                        from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
+                        until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
                         duration: $scope.rentalDuration.selectedTime,
                         start_time: tempStartTime,
                         end_time: tempEndTime,
-                        weekdays: weekdaysString
+                        weekdays: weekdayData
                     }
                 };
 
@@ -378,20 +407,17 @@ angular.module('bluereconlineApp')
 
                 console.log('facility data: ' );
 
-
                 var feeAmount = 0;
                 var selectedFacilities = [];
                 for (var i=0;i < $scope.facilityArray.length; i++) {
                     if ($scope.facilityArray[i]) {
                         feeAmount += (timeDiff * $scope.facilityData.facility_fees[i].per_hour_amount);
 
-
                         // console.log($scope.facilityData.facility_fees[i]);
                         //$scope.facilityData.facility_ids[i].fee_amount = feeAmount;
                         selectedFacilities.push($scope.facilityData.facility_ids[i]);
                     }
                 }
-
 
                 //console.log('feeAmount: ' + feeAmount);
 
