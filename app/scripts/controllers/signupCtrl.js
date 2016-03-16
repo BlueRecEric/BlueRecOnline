@@ -32,6 +32,44 @@ angular.module('bluereconlineApp')
 
         signRemote.formData = {};
 
+        function sendUserToHome(orgurl)
+        {
+            $location.path('/' + orgurl + '/home');
+        }
+
+        function sendUserToAccountUpdate(orgurl)
+        {
+            $location.path('/' + orgurl + '/accountupdate');
+        }
+
+
+        function processPostSignup(response)
+        {
+            ActiveUser.updateUser().then
+            (
+                function success() {
+                    ActiveUser.setActiveUser(response.data).then(
+                        function success() {
+
+                            console.log('activeuser set to');
+                            console.log(ActiveUser.userData);
+
+                            if(response.data.questions_answered == '1')
+                            {
+                                setTimeout(sendUserToHome, 500, $routeParams.orgurl);
+                            }
+                            else
+                            {
+                                setTimeout(sendUserToAccountUpdate, 500, $routeParams.orgurl);
+                            }
+                        }, function () {
+                        }, function () {
+                        }
+                    );
+                }
+            );
+        }
+
         var sendSignup = function(formData) {
 
             signRemote.formData = formData;
@@ -172,13 +210,18 @@ angular.module('bluereconlineApp')
 
                             AuthService.login(signRemote.formData.email, signRemote.formData.password).then(
                                 function success(response) {
-                                    ActiveUser.setActiveUser(response.data).then(
-                                        function success() {
-                                            $location.path('/' + $routeParams.orgurl + '/home');
-                                        }, function () {
-                                        }, function () {
-                                        }
-                                    );
+                                    console.log('login response');
+                                    console.log(response);
+
+                                    if(response.data.validLogin)
+                                    {
+                                        setTimeout(processPostSignup, 500, response);
+                                    }
+                                    else
+                                    {
+
+                                    }
+
                                 }
                             );
                         }
@@ -209,6 +252,7 @@ angular.module('bluereconlineApp')
             }
         };
 
+        signRemote.processPostSignup = processPostSignup;
         signRemote.sendSignup = sendSignup;
         signRemote.returnData = '';
         signRemote.busy = false;

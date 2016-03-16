@@ -24,6 +24,8 @@ angular.module('bluereconlineApp')
             //console.log('we just received word that the user was updated!');
             ActiveUser.putUserInLocalStorage(UserData.getUserData());
             setTimeout(updateHouseholdData,500);
+            ActiveUser.endUpdates();
+            ActiveUser.beginUpdates();
         });
 
         function updateHouseholdData()

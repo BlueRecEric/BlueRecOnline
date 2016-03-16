@@ -9,25 +9,33 @@
  */
 angular.module('bluereconlineApp')
   .controller('MyHouseholdCtrl', ['$scope', 'ActiveUser', 'UserUpdate', 'md5', function ($scope,ActiveUser,UserUpdate,md5) {
-      $scope.household = {};
+      //$scope.household = {};
 
-      if(ActiveUser.isLoggedIn())
+      function setHouseholdData()
       {
+          //console.log('setting user data after update');
+          //console.log(ActiveUser.userData.household);
           $scope.household = ActiveUser.userData.household;
       }
-
 
       function updateHouseholdData()
       {
           if(ActiveUser.isLoggedIn())
           {
-              $scope.household = ActiveUser.userData.household;
+              ActiveUser.updateUser().then(function(){
+                setTimeout(setHouseholdData, 500);
+              });
           }
       }
 
+      if(ActiveUser.isLoggedIn())
+      {
+          //console.log('The active user is logged in.');
+          setTimeout(updateHouseholdData,500);
+      }
 
       $scope.$on('user:updated', function() {
-          console.log('looks like household data was updated.');
+          //console.log('looks like household data was updated.');
           setTimeout(updateHouseholdData,500);
       });
 
@@ -52,7 +60,7 @@ angular.module('bluereconlineApp')
 
               if(UpdateResult.data.added)
               {
-                ActiveUser.updateUser();
+                updateHouseholdData();
                 $scope.showNewMember = false;
                 $scope.newMemberForm = [];
                 $scope.newMemberAdded = true;
@@ -188,6 +196,13 @@ angular.module('bluereconlineApp')
         //console.log(loggedInUser);
         formData.formatBirthday = $filter('date')(formData.birthday, 'yyyy-MM-dd');
 
+          var gradeValue = angular.isDefined(formData.grade)?formData.grade.value:'NA';
+
+          if(gradeValue === null)
+          {
+              gradeValue = 'NA';
+          }
+
         var req = {
           method: 'POST',
           url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount' + '?action=add_member',
@@ -200,7 +215,7 @@ angular.module('bluereconlineApp')
             'firstname': formData.firstname,
             'lastname': formData.lastname,
             'gender': formData.gender,
-            'grade': angular.isDefined(formData.grade.value)?formData.grade.value:'NA',
+            'grade': gradeValue,
             'birthday': formData.formatBirthday
           }
         };
