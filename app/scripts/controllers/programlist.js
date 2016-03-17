@@ -10,6 +10,8 @@
 angular.module('bluereconlineApp')
   .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', 'md5', '$routeParams', 'UserData', function ($scope,$aside,ProLoader,$timeout,ActiveUser,md5,$routeParams, UserData) {
     $scope.proloader = ProLoader;
+    //$scope.query = {};
+
 
     $scope.proloader.nextPage($scope.query).then(
         function success() {
@@ -100,6 +102,8 @@ angular.module('bluereconlineApp')
 
     function doSearch()
     {
+      $scope.proloader.noresults = false;
+
       $scope.proloader.nextPage($scope.query).then(function(){
         if(ActiveUser.isLoggedIn())
         {
@@ -324,6 +328,9 @@ angular.module('bluereconlineApp')
       console.log('Proload before:');
       console.log(proload);
 
+      proload.typeId = '';
+      proload.locationId = '';
+
       if(angular.isDefined(query) && query !== null)
       {
         proload.searchParams = query;
@@ -331,13 +338,28 @@ angular.module('bluereconlineApp')
         if(angular.isDefined(proload.searchParams) && proload.searchParams !== null)
         {
           proload.thisSearchHash = md5.createHash(angular.toJson(proload.searchParams)+$routeParams.orgurl);
+
           proload.keyword = proload.searchParams.item_name;
           proload.onlyTickets = proload.searchParams.has_tickets;
           proload.typeId = proload.searchParams.type_id;
           proload.locationId = proload.searchParams.location_id;
           if(proload.thisSearchHash !== proload.lastSearchHash)
           {
+
             proload.afterCount = 0;
+            console.log('set starting increment to ' + proload.afterCount + ' because search options are set to something different (1)');
+            console.log('last search:');
+            console.log(proload.lastSearchParams);
+            console.log(proload.lastSearchHash);
+            console.log('This search:');
+            console.log(proload.searchParams);
+            console.log(proload.thisSearchHash);
+
+            proload.lastSearchHash = proload.thisSearchHash;
+          }
+          else
+          {
+            proload.lastSearchParams = proload.searchParams;
           }
         }
         else
@@ -351,7 +373,10 @@ angular.module('bluereconlineApp')
       else
       {
         if(angular.isDefined(proload.thisSearchHash) && angular.isDefined(proload.searchParams) && angular.isDefined(proload.lastSearchHash) && (proload.thisSearchHash !== proload.lastSearchHash)) {
+
+          proload.lastSearchHash = proload.thisSearchHash;
           proload.afterCount = 0;
+          console.log('set starting increment to ' + proload.afterCount + ' because search options are set to something different (2)');
           proload.keyword = '';
           proload.onlyTickets = false;
           proload.typeId = '';
@@ -369,19 +394,15 @@ angular.module('bluereconlineApp')
       }
       proload.busy = true;
 
-      proload.thisSearchHash = '';
-
-      proload.typeId = '';
-      proload.locationId = '';
-
-
-
       if(proload.thisSearchHash !== proload.lastSearchHash)
       {
-        proload.lastSearchHash = '';
         proload.lastSearchHash = proload.thisSearchHash;
         proload.afterCount = 0;
         proload.noresults = false;
+      }
+      else
+      {
+        proload.lastSearchHash = proload.thisSearchHash;
       }
 
       if(proload.noresults)
@@ -391,6 +412,8 @@ angular.module('bluereconlineApp')
         console.log(proload);
         return false;
       }
+
+      proload.thisSearchHash = '';
 
       var req = {
         method: 'POST',
