@@ -269,9 +269,19 @@ angular.module('bluereconlineApp')
                 {
                     if($scope.weekdaySearch2[$scope.facilityData.weekday_indexes[i]])
                     {
-                        var day = {'day': $scope.getWeekdaysString($scope.facilityData.weekday_indexes[i]),
-                            'start_time': $scope.convertDateTo24Hour($scope.facilityData.weekday_start[i]),
-                            'end_time': $scope.convertDateTo24Hour($scope.facilityData.weekday_end[i])};
+                        var day = {};
+                        if(tempStartTime <= $scope.convertDateTo24Hour($scope.facilityData.weekday_end[i])) {
+                            /*var day = {'day': $scope.getWeekdaysString($scope.facilityData.weekday_indexes[i]),
+                             'start_time': $scope.convertDateTo24Hour($scope.facilityData.weekday_start[i]),
+                             'end_time': $scope.convertDateTo24Hour($scope.facilityData.weekday_end[i])};*/
+                          day = {
+                                'day': $scope.getWeekdaysString($scope.facilityData.weekday_indexes[i]),
+                                'start_time': tempStartTime,
+                                'end_time': tempEndTime,
+                              'check_start_time': $scope.convertDateTo24Hour($scope.facilityData.weekday_start[i]),
+                              'check_end_time': $scope.convertDateTo24Hour($scope.facilityData.weekday_end[i])
+                            };
+                        }
 
                         weekdayData.push(day);
                     }
