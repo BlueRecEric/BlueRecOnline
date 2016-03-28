@@ -34,13 +34,18 @@ angular
     'smart-table',
     'angularMoment',
     'toaster',
+    'uuid4',
+    'LocalStorageModule',
     'angularUtils.directives.dirPagination',
     'djds4rce.angular-socialshare'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
   }])
-
+    .config(function (localStorageServiceProvider) {
+        localStorageServiceProvider
+            .setPrefix('blueRec');
+    })
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
         $routeProvider
             .when('/:orgurl', {
@@ -101,6 +106,10 @@ angular
             .when('/:orgurl/programs', {
                 templateUrl: 'views/programs.html',
                 controller: 'ProgramList'
+            })
+            .when('/:orgurl/programinfo/:itemid/addons', {
+                templateUrl: 'views/additionalOptions.html',
+                controller: 'AddOpts'
             })
             .when('/:orgurl/leagues', {
                 templateUrl: 'views/leagues.html',

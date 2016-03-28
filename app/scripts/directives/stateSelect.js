@@ -7,7 +7,7 @@ angular.module('bluereconlineApp')
 .directive('stateSelect', function() {
     return {
         restrict: 'E',
-        templateUrl: 'template/stateselect/stateSelect.tpl.html',
+        template: '<select ng-options="state.abbreviation as state.name for state in states"></select>',
         replace: true,
         scope: true,
 

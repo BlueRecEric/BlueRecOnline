@@ -26,6 +26,7 @@ angular.module('bluereconlineApp')
                 {
                     //console.log('preLoad waivers');
                     //console.log(preLoad.waivers);
+                    console.log(preLoad);
                     $scope.preLoad = preLoad;
                 }
             );

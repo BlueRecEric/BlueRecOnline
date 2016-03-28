@@ -197,7 +197,7 @@
                         <li class="list-group-item" data-ng-repeat="person in household">
                           <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-{{(program.regData[$index].regError)?'danger':(program.regData[$index].regValid)?(program.regData[$index].added)?'success':'primary':'default'}}" data-ng-model="program.regData[$index].selected" data-ng-change="verifyProgramParticipant($parent.$parent.$index, $parent.$index, $index, person.user_id, program.item_id)"></checkbox>
                           <label class="clickable" for="register_{{person.user_id}}">
-                            {{person.firstname}} {{person.lastname}}<span class="text-success" data-ng-show="program.regData[$index].added"> (In Cart)</span>
+                             {{program.regData[$index].fullName}} <span class="text-success" data-ng-show="program.regData[$index].added"> (In Cart)</span>
                           </label>
                           <div data-ng-show="program.regData[$index].regError"><span class="text-danger">{{program.regData[$index].errorText}}</span></div>
                         </li>
@@ -209,13 +209,17 @@
                   <div class="row clearfix">
                     <div class="hidden-xs col-sm-9">
                       <div class="spacing"></div>
-                      <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-default"><i class="glyphicon glyphicon-question-sign"></i> More Information</a>
-                      <a href="#/{{proloader.orgurl}}/volunteer/{{program.item_id}}" class="btn btn-default" data-ng-show="program.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
+                      <a href="#/{{proloader.orgurl}}/programinfo/{{program.item_id}}" class="btn btn-info"><i class="glyphicon glyphicon-question-sign"></i> More Information</a>
+                      <a href="#/{{proloader.orgurl}}/volunteer/{{program.item_id}}" class="btn btn-info" data-ng-show="program.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
                     </div>
 
                     <div class="col-xs-12 col-sm-3">
                       <div class="spacing"></div>
-                      <button class="btn btn-success btn-block" data-ng-model="program.addCartButton" data-ng-click="addUsersToCart($parent.$index, $index)"><i class="glyphicon glyphicon-shopping-cart"></i> Add to cart</button>
+                      <button class="btn btn-success btn-block" data-ng-model="program.addCartButton" data-ng-click="addUsersToCart(program)" data-ng-if="(program.in_online_nonresident_registration || program.in_online_resident_registration) && !addingRegistration"><!--
+                      --><span data-ng-if="program.package_count == 0"><i class="fa fa-shopping-cart"></i> Add to cart</span><!--
+                      --><span data-ng-if="program.package_count > 0"><i class="fa fa-cart-plus"></i> Enrollment Options</span><!--
+                      --></button>
+                      <button class="btn btn-disabled btn-block" data-ng-if="addingRegistration">Please Wait...</button>
                       <a href="#" class="btn btn-info" data-ng-show="{{program.allow_waitlist && program.remaining_spots === 0 && (program.in_online_resident_registration === '1' || program.in_online_nonresident_registration === '1')}}"><i class="fa fa-th-list"></i> Waitlist</a>
                     </div>
 

@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ShoppingCartCtrl', ['$scope', '$routeParams', '$location', 'BLUEREC_ONLINE_CONFIG', '$http', 'ActiveUser', function ($scope,$routeParams,$location,BLUEREC_ONLINE_CONFIG,$http,ActiveUser) {
+  .controller('ShoppingCartCtrl', ['$scope', '$routeParams', '$location', 'BLUEREC_ONLINE_CONFIG', '$http', 'ActiveUser', 'MakeToast', function ($scope,$routeParams,$location,BLUEREC_ONLINE_CONFIG,$http,ActiveUser,MakeToast) {
     var cart = this;
 
       $scope.cart = {};
@@ -89,7 +89,7 @@ angular.module('bluereconlineApp')
         );
       }
 
-      function payCart()
+      function processCartItems()
       {
         var req = {
           method: 'POST',
@@ -102,11 +102,64 @@ angular.module('bluereconlineApp')
 
         return $http(req)
             .then(
-            function success(response) {
-              $scope.removed = response.data;
-              loadCart();
-            }
-        );
+                function success(response) {
+                  $scope.removed = response.data;
+                  loadCart();
+                }
+            );
+      }
+
+      function payCart()
+      {
+
+        console.log('shopping cart:');
+        console.log($scope.cart);
+
+        var customerData = {};
+
+        customerData.uid = ActiveUser.userData.user_id;
+        customerData.hid = ActiveUser.userData.household_id;
+        customerData.customerID = ActiveUser.userData.household_id + '_' + ActiveUser.userData.user_id;
+
+        customerData.cardData = $scope.cardForm;
+        customerData.cardData.expDate = $scope.cardForm.expYear + '-' + $scope.cardForm.expMonth;
+        customerData.chargeAmount = $scope.cart.totalFee.toFixed(2);
+
+        if($scope.cart.data.length > 0) {
+            customerData.cartItems = $scope.cart.data;
+
+            console.log('shopping cart post:');
+            console.log(customerData);
+
+            MakeToast.popOn('info', 'Purchasing', 'We are authorizing your credit card...');
+
+            var req = {
+            method: 'POST',
+            url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/pay',
+            headers: {
+                'Content-Type': undefined
+            },
+            data: customerData
+            };
+
+            return $http(req)
+            .then(function success(response) {
+                console.log('pay response:');
+                console.log(response);
+
+                if(response.data.data.authorized)
+                {
+                    MakeToast.popOn('success', 'Purchasing', 'Your credit card has been authorized!');
+                    $scope.removed = response.data;
+                    loadCart();
+                }
+                else
+                {
+                    MakeToast.popOn('warning', 'Purchasing', 'There was a problem authorizing your purchase.');
+                }
+
+            });
+        }
       }
 
       function goToCheckout()

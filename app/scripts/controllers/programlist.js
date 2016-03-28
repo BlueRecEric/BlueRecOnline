@@ -8,16 +8,15 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', 'md5', '$routeParams', 'UserData', function ($scope,$aside,ProLoader,$timeout,ActiveUser,md5,$routeParams, UserData) {
+  .controller('ProgramList', ['$scope', '$aside', 'ProLoader', '$timeout', 'ActiveUser', 'md5', '$routeParams', '$location', 'UserData', 'RegistrationFactory', function ($scope,$aside,ProLoader,$timeout,ActiveUser,md5,$routeParams, $location, UserData, RegistrationFactory) {
     $scope.proloader = ProLoader;
+    $scope.addingRegistration = false;
     //$scope.query = {};
 
-
+    var regList = RegistrationFactory;
+    
     $scope.proloader.nextPage($scope.query).then(
         function success() {
-
-          console.log('load next page 1');
-
           ActiveUser.updateUser().then(
               function () {
                 if(ActiveUser.isLoggedIn())
@@ -46,13 +45,11 @@ angular.module('bluereconlineApp')
     $scope.household = {};
 
     $scope.$on('$routeChangeSuccess', function() {
-      console.log('route change success');
       $scope.$watch(
           function getOrgUrlChange() {
             return $routeParams.orgurl;
           },
           function handleOrgUrlChange() {
-            console.log('orgurl has changed');
             $scope.proloader.nextPage(null);
           }
       );
@@ -74,7 +71,6 @@ angular.module('bluereconlineApp')
     }
 
     $scope.$on('user:updated', function() {
-      console.log('looks like household data was updated.');
       setTimeout(updateHouseholdData,500);
     });
 
@@ -131,8 +127,6 @@ angular.module('bluereconlineApp')
         $timeout.cancel(filterTextTimeout);
       }
 
-      console.log('run search');
-
       filterTextTimeout = $timeout(function() {
         $scope.proloader.nextPage($scope.query);
       }, 250); // delay 250 ms
@@ -141,8 +135,6 @@ angular.module('bluereconlineApp')
     $scope.verifyProgramParticipant = function(programIndex, sessionIndex, userIndex, userID, programID)
     {
       if($scope.proloader.returnData[programIndex].programs[sessionIndex].regData[userIndex].selected === true) {
-        console.log(programIndex + ' :: ' + sessionIndex + ' :: ' + userIndex + ' :: ' + 'user: ' + userID + ' program: ' + programID);
-        console.log($scope.proloader.returnData);
         $scope.proloader.validateUserEligibility(programIndex, sessionIndex, userIndex, userID, programID);
       }
     };
@@ -158,13 +150,43 @@ angular.module('bluereconlineApp')
 
     };
 
-    $scope.addUsersToCart = function(programIndex, sessionIndex)
+    $scope.addUsersToCart = function(program)
     {
+
+      console.log('program:');
+      console.log(program);
+
+      console.log('try adding to the reg list: ' + program.regData.length);
+
+      var userSelected = false;
+
+      $scope.addingRegistration = true;
+
+      regList.addRegistrationArray(program).then(function(userAdded){
+
+        $scope.addingRegistration = false;
+
+        userSelected = userAdded;
+        if(userSelected)
+        {
+          if(program.package_count > 0)
+          {
+              regList.saveLocalRegistration().then(function(){
+              $location.path('/' + $routeParams.orgurl + '/programinfo/' + program.item_id + '/addons');
+            });
+          }
+        }
+      });
+
+
+
+      /*
       $scope.proloader.addToCart(programIndex, sessionIndex).then(
           function success() {
             $scope.openAside();
           }
       );
+      */
     };
 
     $scope.doSearch = doSearch;
@@ -191,7 +213,6 @@ angular.module('bluereconlineApp')
         if(proload.returnData[programIndex].programs[sessionIndex].regData[a].selected)
         {
           regData = {};
-          //console.log('add ' + proload.returnData[programIndex].programs[sessionIndex].regData[a].userID + ' to program ' + proload.returnData[programIndex].programs[sessionIndex].item_id);
           regData = {
             'userID':proload.returnData[programIndex].programs[sessionIndex].regData[a].userID,
             'itemID':proload.returnData[programIndex].programs[sessionIndex].item_id,
@@ -207,10 +228,7 @@ angular.module('bluereconlineApp')
         }
       }
 
-      console.log(cartData);
-
       if(cartData.registrations.length > 0) {
-        console.log(angular.toJson(cartData));
         var req = {
           method: 'POST',
           url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/add',
@@ -223,7 +241,6 @@ angular.module('bluereconlineApp')
         return $http(req)
             .then(
             function success(response) {
-              console.log(response.data);
 
               proload.returnData[programIndex].programs[sessionIndex].addingToCart = false;
 
@@ -249,7 +266,6 @@ angular.module('bluereconlineApp')
       return $http(req)
           .then(
           function success(response) {
-            console.log(response.data);
             if(
                 response.data.data.ageValid === false ||
                 response.data.data.gradeValid === false
@@ -287,8 +303,6 @@ angular.module('bluereconlineApp')
       $http(req).then(function(response) {
         var types = response.data;
         proload.types = types;
-        console.log('program types:');
-        console.log(proload.types);
         proload.typeBusy = false;
       }.bind(this));
 
@@ -313,21 +327,12 @@ angular.module('bluereconlineApp')
       $http(req).then(function(response) {
         var locations = response.data;
         proload.locations = locations;
-        console.log('program types:');
-        console.log(proload.types);
         proload.locationBusy = false;
       }.bind(this));
 
     };
 
     var nextPage = function(query) {
-      //console.log('Try to load the next page.');
-      //console.log('search query:');
-      //console.log(query);
-
-      console.log('Proload before:');
-      console.log(proload);
-
       proload.typeId = '';
       proload.locationId = '';
 
@@ -345,16 +350,7 @@ angular.module('bluereconlineApp')
           proload.locationId = proload.searchParams.location_id;
           if(proload.thisSearchHash !== proload.lastSearchHash)
           {
-
             proload.afterCount = 0;
-            console.log('set starting increment to ' + proload.afterCount + ' because search options are set to something different (1)');
-            console.log('last search:');
-            console.log(proload.lastSearchParams);
-            console.log(proload.lastSearchHash);
-            console.log('This search:');
-            console.log(proload.searchParams);
-            console.log(proload.thisSearchHash);
-
             proload.lastSearchHash = proload.thisSearchHash;
           }
           else
@@ -376,7 +372,6 @@ angular.module('bluereconlineApp')
 
           proload.lastSearchHash = proload.thisSearchHash;
           proload.afterCount = 0;
-          console.log('set starting increment to ' + proload.afterCount + ' because search options are set to something different (2)');
           proload.keyword = '';
           proload.onlyTickets = false;
           proload.typeId = '';
@@ -388,8 +383,6 @@ angular.module('bluereconlineApp')
       proload.orgurl = $routeParams.orgurl;
 
       if(proload.busy) {
-        console.log('Proload After (busy):');
-        console.log(proload);
         return false;
       }
       proload.busy = true;
@@ -408,8 +401,6 @@ angular.module('bluereconlineApp')
       if(proload.noresults)
       {
         proload.busy = false;
-        console.log('Proload After (no results):');
-        console.log(proload);
         return false;
       }
 
@@ -435,14 +426,9 @@ angular.module('bluereconlineApp')
 
         var programs = response.data;
 
-        console.log('returned programs');
-        console.log(programs);
-
         if(proload.afterCount > 0)
         {
-          //console.log(programs);
           for (var i = 0; i < programs.length; i++) {
-            //console.log(programs[i]);
             proload.responseData.push(programs[i]);
           }
         }
@@ -452,10 +438,6 @@ angular.module('bluereconlineApp')
         }
 
         proload.returnData = JSON.parse(angular.toJson(proload.responseData));
-
-        //proload.returnData = createRegistrantList(proload.returnData);
-
-        console.log(proload.returnData);
         proload.afterCount += proload.increment;
 
         if(programs.length === 0)
@@ -478,23 +460,16 @@ angular.module('bluereconlineApp')
 
         if(totalPrograms < 25)
         {
-          console.log('total program count is below threashold: ' + totalPrograms);
           proload.noresults = true;
         }
 
         proload.busy = false;
-        console.log('Proload After:');
-        console.log(proload);
       }.bind(this));
 
     };
 
     var createRegistrantList = function(proData)
     {
-      console.log('create registrant list using:');
-      console.log(proData);
-      console.log(ActiveUser.userData.household);
-
       ActiveUser.getFromLocal().then(function success() {
         if(ActiveUser.isLoggedIn()) {
           var household = ActiveUser.userData.household;
@@ -510,6 +485,7 @@ angular.module('bluereconlineApp')
                 proData[s].programs[p].regData[u].itemType = 'program';
                 proData[s].programs[p].regData[u].addedByUserID = ActiveUser.userData.user_id;
                 proData[s].programs[p].regData[u].usePaymentPlan = '0';
+                proData[s].programs[p].regData[u].fullName = household[u].firstname + ' ' + household[u].lastname;
                 proData[s].programs[p].regData[u].selected = false;
               }
             }

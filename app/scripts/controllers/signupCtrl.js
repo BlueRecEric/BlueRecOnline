@@ -8,8 +8,56 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('SignupCtrl',['$routeParams','SignupFactory', function ($routeParams,SignupFactory) {
+    .controller('SignupCtrl',['$scope', '$routeParams','SignupFactory', function ($scope,$routeParams,SignupFactory) {
         var sign = this;
+
+        $scope.addrResult = '';
+        $scope.addrOptions = null;
+
+        $scope.$watch('addrDetails', function () {
+            console.log('details changed');
+            if(angular.isDefined($scope.addrDetails))
+            {
+                console.log($scope.addrDetails.formatted_address);
+            }
+            $scope.splitAddress();
+        }, true);
+
+        $scope.splitAddress = function()
+        {
+            var address = '';
+
+            if(angular.isDefined($scope.addrDetails))
+            {
+                address = $scope.addrDetails.formatted_address;
+            }
+
+            var splitAddr = address.split(',');
+
+            var stateZip = '';
+
+            if(splitAddr.length > 2)
+            {
+                console.log('split result');
+                console.log(splitAddr);
+
+                console.log('city:' + splitAddr[1].trim());
+                $scope.sign.newAccount.city = splitAddr[1].trim();
+
+                console.log('state:' + splitAddr[2].trim());
+                stateZip = splitAddr[2].trim().split(' ');
+
+                if(stateZip.length > 1)
+                {
+                    $scope.sign.newAccount.state = stateZip[0].trim();
+                    console.log('zip:' + stateZip[1].trim());
+                    $scope.sign.newAccount.zip = stateZip[1].trim();
+                }
+
+                console.log('addr:' + splitAddr[0].trim());
+                $scope.sign.newAccount.addr = splitAddr[0].trim();
+            }
+        };
 
         sign.newAccount = {};
         sign.remote = SignupFactory;
@@ -109,6 +157,10 @@ angular.module('bluereconlineApp')
             signRemote.formData.remoteError.error = false;
             signRemote.formData.remoteError.message = '';
 
+            signRemote.formData.addressError = [];
+            signRemote.formData.addressError.error = false;
+            signRemote.formData.addressError.message = '';
+
             if(!angular.isDefined(signRemote.formData.firstname) || signRemote.formData.firstname.length === 0)
             {
                 signRemote.formError = true;
@@ -142,6 +194,34 @@ angular.module('bluereconlineApp')
                 signRemote.formError = true;
                 signRemote.formData.passwordError.error = true;
                 signRemote.formData.passwordError.message = 'Please enter a password.';
+            }
+
+            if(!angular.isDefined(signRemote.formData.zip) || signRemote.formData.state.zip === 0)
+            {
+                signRemote.formError = true;
+                signRemote.formData.addressError.error = true;
+                signRemote.formData.addressError.message = 'Please enter your zipcode.';
+            }
+
+            if(!angular.isDefined(signRemote.formData.state) || signRemote.formData.state.length === 0)
+            {
+                signRemote.formError = true;
+                signRemote.formData.addressError.error = true;
+                signRemote.formData.addressError.message = 'Please enter your state.';
+            }
+
+            if(!angular.isDefined(signRemote.formData.city) || signRemote.formData.city.length === 0)
+            {
+                signRemote.formError = true;
+                signRemote.formData.addressError.error = true;
+                signRemote.formData.addressError.message = 'Please enter your city.';
+            }
+
+            if(!angular.isDefined(signRemote.formData.addr) || signRemote.formData.addr.length === 0)
+            {
+                signRemote.formError = true;
+                signRemote.formData.addressError.error = true;
+                signRemote.formData.addressError.message = 'Please enter your street address.';
             }
 
             if(!angular.isDefined(signRemote.formData.cpassword) || signRemote.formData.cpassword.length === 0)

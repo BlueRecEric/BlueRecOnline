@@ -147,9 +147,52 @@
                     </div>
                   </div>
 
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.addressError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.addressError.message}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Address</label>
+                    <div class="col-sm-6">
+                      <span class="input-group"><span class="input-group-addon"><i class="fa fa-home"></i></span><input type="text" id="currentAddr" data-ng-model="sign.newAccount.addr" value="" class="form-control" ng-autocomplete details="addrDetails" options="addrOptions" required/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Apt/Ste/Unit #</label>
+                    <div class="col-sm-6">
+                      <span class="input-group"><span class="input-group-addon"><i class="fa fa-home"></i></span><input type="text" id="currentAddr2" data-ng-model="sign.newAccount.addr2" value="" class="form-control"/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">City</label>
+                    <div class="col-sm-6">
+                      <span class="input-group"><span class="input-group-addon"><i class="fa fa-building"></i></span><input type="text" id="currentCity" data-ng-model="sign.newAccount.city" value="" class="form-control" required/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">State</label>
+                    <div class="col-sm-6">
+                      <state-select id="currentState" ng-model="sign.newAccount.state" name="currentState" class="form-control" required></state-select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Zipcode</label>
+                    <div class="col-sm-6">
+                      <span class="input-group"><span class="input-group-addon"><i class="fa fa-envelope"></i></span><input type="text" id="currentZip" data-ng-model="sign.newAccount.zip" value="" class="form-control" required/></span>
+                    </div>
+                  </div>
+
+
                   <div class="form-group">
                       <div class="col-sm-6 col-sm-offset-3">
-                          <button type="submit" id="newAccountSubmit" value="submit" class="btn btn-info pull-right"><i class="fa fa-sign-in"></i> Create Account</button>
+                          <button type="button" data-ng-click="sign.sendSignupRequest()" id="newAccountSubmit" value="submit" class="btn btn-info pull-right"><i class="fa fa-sign-in"></i> Create Account</button>
                       </div>
                   </div>
 
