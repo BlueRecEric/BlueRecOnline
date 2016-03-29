@@ -8,13 +8,20 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('PurchasesCtrl', ['$scope', 'ActiveUser', 'PurchasesLoader', '$routeParams', function ($scope,ActiveUser,PurchasesLoader, $routParams) {
+    .controller('PurchasesCtrl', ['$scope', 'ActiveUser', 'PurchasesLoader', '$routeParams', '$location', function ($scope,ActiveUser,PurchasesLoader, $routeParams, $location) {
         if(ActiveUser.isLoggedIn())
         {
             $scope.purchases = PurchasesLoader;
             $scope.purchases.loadPurchases();
-            $scope.orgurl = $routParams.orgurl;
+            $scope.orgurl = $routeParams.orgurl;
         }
+
+        $scope.receiptData = {};
+
+        $scope.onClickPrintReceiptFromPurchases = function(receiptID)
+        {
+            $location.path('/' + $routeParams.orgurl + '/purchases/receipt/' + receiptID);
+        };
     }])
     .factory('PurchasesLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser) {
         var purchaseLoad = this;

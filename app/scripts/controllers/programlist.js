@@ -15,7 +15,7 @@ angular.module('bluereconlineApp')
 
     var regList = RegistrationFactory;
     
-    $scope.proloader.nextPage($scope.query).then(
+    $scope.proloader.nexonClickPrintReceiptFromPurchasesPage($scope.query).then(
         function success() {
           ActiveUser.updateUser().then(
               function () {

@@ -35,7 +35,7 @@
                     <td class="col-md-1">{{trans.details.amount_charged_total | currency}}</td>
                     <td class="col-md-1">{{trans.details.amount_paid_total | currency}}</td>
                     <td class="col-md-1 hidden-xs text-center">{{trans.details.payment_methods}}</td>
-                    <td class="col-md-1 hidden-xs"><button class="btn btn-primary btn-sm pull-right hidden-print" ng-print print-element-id="leagueSchedule"><i class="glyphicon glyphicon-print"></i></button></td>
+                    <td class="col-md-1 hidden-xs"><button data-ng-click="onClickPrintReceiptFromPurchases(trans.details.transaction_id)" class="btn btn-primary btn-sm pull-right hidden-print"><i class="glyphicon glyphicon-print"></i></button></td>
                 </tr>
 
                 <tr data-ng-repeat="lineItem in trans.items">
