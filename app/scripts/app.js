@@ -154,6 +154,11 @@ angular
             .when('/:orgurl/reservationaddons', {
                 templateUrl: 'views/reservationAddons.html'
             })
+            .when('/:orgurl/rentalrequestsubmitted', {
+                templateUrl: 'views/rentalRequestSubmitted.html',
+                controller: 'RequestSubmittedCtrl',
+                controllerAs: 'request'
+            })
             .when('/:orgurl/addedtocart', {
                 templateUrl: 'views/addedToCart.html',
                 controller: 'HomeCtrl',
@@ -999,7 +1004,7 @@ angular
 
     return proload;
   }])
-.controller('appController',['$scope','$http','$routeParams', '$q', function ($scope,$http,$routeParams,$q) {
+.controller('appController',['$scope','$http','$routeParams', '$q','AuthService', function ($scope,$http,$routeParams,$q, AuthService) {
 
     function isImage(src) {
 
@@ -1046,7 +1051,6 @@ angular
             }
         });
 
-
-
+        AuthService.refreshUser();
     });
 }]);

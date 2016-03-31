@@ -248,8 +248,8 @@ angular.module('bluereconlineApp')
                                 .success(function (data) {
                                     //console.log(data);
 
-                                    //$location.path('/' + $routeParams.orgurl + '/addedtocart');
-                                    // $location.path('/' +  $routeParams.orgurl + '/reservations');
+                                    $location.path('/' + $routeParams.orgurl + '/rentalrequestsubmitted');
+                                    //$location.path('/' +  $routeParams.orgurl + '/reservations');
                                 });
                         }
                     }
