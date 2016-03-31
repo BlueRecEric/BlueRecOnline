@@ -15,30 +15,23 @@ angular.module('bluereconlineApp')
 
     var regList = RegistrationFactory;
 
-    function delayLoading() {
-      setTimeout(loadThePage,1000);
-    }
 
-    function loadThePage() {
-      $scope.proloader.nextPage($scope.query).then(
-          function success() {
-            ActiveUser.updateUser().then(
-                function () {
-                  if(ActiveUser.isLoggedIn())
-                  {
-                    ActiveUser.putUserInLocalStorage(UserData.getUserData()).then(
-                        function () {
-                          $scope.household = ActiveUser.userData.household;
+    $scope.proloader.nextPage($scope.query).then(
+        function success() {
+          ActiveUser.updateUser().then(
+              function () {
+                if(ActiveUser.isLoggedIn())
+                {
+                  ActiveUser.putUserInLocalStorage(UserData.getUserData()).then(
+                      function () {
+                        $scope.household = ActiveUser.userData.household;
 
-                          $scope.proloader.createRegistrantList($scope.proloader.returnData);
-                        });
-                  }
-                });
-          }
-      );
-    }
-
-    delayLoading();
+                        $scope.proloader.createRegistrantList($scope.proloader.returnData);
+                      });
+                }
+              });
+        }
+    );
 
     $scope.proloader.getProgramTypes();
     $scope.proloader.getProgramLocations();

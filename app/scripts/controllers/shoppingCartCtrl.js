@@ -9,7 +9,7 @@
  */
 angular.module('bluereconlineApp')
   .controller('ShoppingCartCtrl', ['$scope', '$routeParams', '$location', 'BLUEREC_ONLINE_CONFIG', '$http', 'ActiveUser', 'MakeToast', function ($scope,$routeParams,$location,BLUEREC_ONLINE_CONFIG,$http,ActiveUser,MakeToast) {
-    var cart = this;
+      $scope.orgurl = $routeParams.orgurl;
 
       $scope.cart = {};
       $scope.removed = {};
@@ -17,7 +17,7 @@ angular.module('bluereconlineApp')
       $scope.promoCode = '';
 
       ActiveUser.getFromLocal().then(function() {
-        cart.household = ActiveUser.userData.household;
+          $scope.cart.household = ActiveUser.userData.household;
       }, function() {
         sendToLogin();
       }, function() {
@@ -48,7 +48,7 @@ angular.module('bluereconlineApp')
         $location.path('/' + $routeParams.orgurl + '/login');
       }
 
-      function loadCart()
+      function loadCart(payComplete)
       {
         var req = {
           method: 'POST',
@@ -62,9 +62,11 @@ angular.module('bluereconlineApp')
         return $http(req)
             .then(
             function success(response) {
-              console.log('cart:');
-              console.log(response.data);
-              $scope.cart = response.data;
+
+                $scope.cart = response.data;
+
+                console.log('cart:');
+                console.log($scope.cart);
             }
         );
       }
@@ -151,7 +153,14 @@ angular.module('bluereconlineApp')
                 {
                     MakeToast.popOn('success', 'Purchasing', 'Your credit card has been authorized!');
                     $scope.removed = response.data;
-                    loadCart();
+                    if(angular.isDefined(response.data.data.receiptID))
+                    {
+                        goToReceipt(response.data.data.receiptID);
+                    }
+
+                    $scope.cart.paymentComplete = true;
+
+                    loadCart(true);
                 }
                 else
                 {
@@ -160,6 +169,11 @@ angular.module('bluereconlineApp')
 
             });
         }
+      }
+
+      function goToReceipt(receiptID)
+      {
+          $location.path('/' + $routeParams.orgurl + '/purchases/receipt/' + receiptID);
       }
 
       function goToCheckout()
@@ -173,5 +187,8 @@ angular.module('bluereconlineApp')
       $scope.removeItem = removeItem;
       $scope.payCart = payCart;
       $scope.checkPromo = checkPromo;
+      $scope.pageData = {paymentComplete:false};
 
+      console.log('page data');
+      console.log($scope.pageData);
   }]);

@@ -183,7 +183,11 @@
 
                         <div class="col-sm-6">
                           <div class="row" data-ng-show="{{(program.restrict_age === '1' || program.restrict_grade === '1' || program.restrict_birthday === '1' || program.restrict_gender === '1')?true:false}}"><div class="col-sm-12"><h4>Eligibility</h4></div></div>
-                          <div class="row striped-row" data-ng-show="{{(program.restrict_age === '1')?true:false}}"><div class="col-xs-12">{{program.minimum_age}} - {{program.maximum_age}} years old</div></div>
+                          <div class="row striped-row" data-ng-show="{{(program.restrict_age === '1')?true:false}}"><div class="col-xs-12">
+                            <span data-ng-if="program.minimum_age > 0 && program.maximum_age > 0">{{program.minimum_age}} - {{program.maximum_age}} years old</span>
+                            <span data-ng-if="program.minimum_age > 0 && program.maximum_age <= 0">{{program.minimum_age}} and up</span>
+                            <span data-ng-if="program.minimum_age <= 0 && program.maximum_age > 0">Up to {{program.maximum_age}} years old</span>
+                          </div></div>
                           <div class="row striped-row" data-ng-show="{{(program.restrict_grade === '1')?true:false}}"><div class="col-xs-12">Grade(s) {{program.minimum_grade}} - {{program.maximum_grade}}</div></div>
                           <div class="row striped-row" data-ng-show="{{(program.restrict_gender === '1')?true:false}}"><div class="col-xs-12">Gender: {{program.gender}}</div></div>
                         </div>

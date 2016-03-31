@@ -1,5 +1,28 @@
+<div class="row" data-ng-show='paymentComplete'>
+  <h3>Purchase Complete!</h3>
 
-<div class="row">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <label>Your payment has been completed</label>
+    </div>
+    <div class="panel-body">
+      Thank you for your purchase, you can now view your purchase history to print your receipt. If any additional information or documents
+      are needed for your purchase, they will be emailed to you shortly.
+
+      <br><br>
+
+      You will be automatically re-directed to your purchase history in 10 seconds...
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-12 text-right"><a class="btn btn-primary" data-ng-href="#/{{orgurl}}/purchases"><i class="fa fa-usd fa-fw"></i> Go to my purchase history</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row" data-ng-show='!pageData.paymentComplete'>
 
 <h3>Checkout</h3>
 

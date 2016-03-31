@@ -493,7 +493,6 @@ angular.module('bluereconlineApp')
             if(ActiveUser.isLoggedIn())
             {
                 return $q.all([
-                    getCartAddons(),
                     getCartCustomFields(),
                     getCartPayments(),
                     getCartWaivers(),
