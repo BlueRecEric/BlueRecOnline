@@ -8,15 +8,12 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('ReceiptCtrl', ['$scope', 'ActiveUser', 'PurchasesLoader', '$routeParams', '$location', function ($scope,ActiveUser,PurchasesLoader, $routeParams, $location) {
-        $scope.receiptData = {};
+    .controller('ReceiptCtrl', ['$scope', 'ReceiptLoader', '$routeParams', '$location', function ($scope,ReceiptLoader, $routeParams, $location) {
+        $scope.receiptData = ReceiptLoader;
+        $scope.receiptData.loadReceipt();
 
-        $scope.onClickPrintReceiptFromPurchases = function(receiptID)
-        {
-            $location.path('/' + $routeParams.orgurl + '/purchases/receipt/' + receiptID);
-        };
     }])
-    .factory('ReceiptLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser) {
+    .factory('ReceiptLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
         var receiptLoad = this;
 
         var loadReceipt = function() {
@@ -27,7 +24,7 @@ angular.module('bluereconlineApp')
 
             var req = {
                 method: 'GET',
-                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/purchases/' + ActiveUser.userData.user_id + '?action=purchases',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/purchases/receipt/' + $routeParams.receiptID,
                 headers: {
                     'Content-Type': undefined
                 }
@@ -38,12 +35,14 @@ angular.module('bluereconlineApp')
                 console.log('current receipt');
                 console.log(response.data);
                 receiptLoad.returnData = response.data.data;
+
+                console.log('receiptLoad.returnData:');
+                console.log(receiptLoad.returnData);
                 receiptLoad.busy = false;
             }.bind(this));
         };
 
         receiptLoad.loadReceipt = loadReceipt;
-        receiptLoad.returnData = '';
         receiptLoad.busy = false;
 
         return receiptLoad;

@@ -780,7 +780,6 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     #printSection {
         display: none;
     }
-
     .report-image {
         width: 220px;
     }
@@ -796,11 +795,11 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     }
 
     html, body {
-        width: 190mm;
+        width: 980px;
     }
 
     .report-image {
-        width: 62mm;
+        width: 220px;
     }
 
     .noprint {
@@ -814,6 +813,21 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
         width:20%;
     }
 
+    #printContainer, #printContainer * {
+        visibility:visible;
+        margin-left:auto;
+        margin-right:auto;
+        font-size: 12px;
+        line-height: 1.2;
+        width: 100%;
+    }
+
+    #printContainer {
+        position:absolute;
+        left:5px;
+        top:10mm;
+    }
+
     #printSection, #printSection * {
         visibility:visible;
         margin-left:auto;
@@ -822,6 +836,10 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
         line-height: 1.2;
         width: 100%;
     }
+
+    table.report-table { font-size: 75%; table-layout: fixed; width: 100%; }
+    table.report-table-scale { font-size: 75%; table-layout: fixed; }
+    th, td { padding: 0.01em; position: relative;}
 
     table {
         page-break-inside:avoid;

@@ -58,14 +58,14 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<header data-ng-controller="appController">
+<header class="noprint" data-ng-controller="appController">
 	<div class="wide">
 		<div class="container logo"><img class="img-responsive" data-ng-if="headerLogo" data-ng-src="{{headerLogo}}"></div>
 	</div>
 </header>
-<div data-ng-controller="UserAuthCtrl"></div>
+<div class="noprint" data-ng-controller="UserAuthCtrl"></div>
 
-<div id="nav" class="bluerecnav header navbar navbar-default" style="padding-bottom:0px; margin-bottom:0px;" role="navigation" bs-affix>
+<div id="nav" class="bluerecnav header navbar navbar-default noprint" style="padding-bottom:0px; margin-bottom:0px;" role="navigation" bs-affix>
 	<div class="container" data-ng-controller="MenuCtrl">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -123,13 +123,13 @@
 
 <div class="container">
 	<div ng-view="" ></div>
-	<div class="spacing">&nbsp;</div>
-	<div class="spacing">&nbsp;</div>
-	<div class="spacing">&nbsp;</div>
-	<div class="spacing">&nbsp;</div>
+	<div class="spacing noprint">&nbsp;</div>
+	<div class="spacing noprint">&nbsp;</div>
+	<div class="spacing noprint">&nbsp;</div>
+	<div class="spacing noprint">&nbsp;</div>
 </div>
 <toaster-container></toaster-container>
-<footer class="header noborder ">
+<footer class="header noborders noprint">
 	<div class="navbar navbar-inverse navbar-fixed-bottom">
 		<div class="container socialnav ">
 			<a href="https://twitter.com"><i class="fa fa-twitter fa-2x"></i></a>
@@ -228,6 +228,7 @@
 <script src="scripts/controllers/leaguepage.js"></script>
 <script src="scripts/controllers/precheckout.js"></script>
 <script src="scripts/controllers/taxReceipt.js"></script>
+<script src="scripts/controllers/receipts.js"></script>
 <script src="scripts/controllers/invoices.js"></script>
 <script src="scripts/controllers/accountUpdateCtrl.js"></script>
 <script src="scripts/controllers/resetPasswordCtrl.js"></script>

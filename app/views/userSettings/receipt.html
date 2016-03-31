@@ -1,37 +1,111 @@
 <div>
 
     <div class="row">
-        <div class="col-md-12"><h3>Receipt</h3></div>
+        <div class="col-xs-12"><h3>Receipt</h3></div>
     </div>
 
-    <div class="row">
-
-        <div class="col-sm-12">
-
-            <div class="row">
-                <div class="col-sm-4">
-
-                    <div class="col-sm-12">
-                        Logo
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="col-sm-4">Address:</div>
-                        <div class="col-sm-8"></div>
-                    </div>
-
-                </div>
-
-            </div>
-
+    <div class="row" data-ng-if="receiptData.busy">
+        <div class="col-xs-12 text-center">
+            <p><i class="fa fa-refresh fa-spin fa-2x text-primary pull-left"></i>
+                Loading Receipt...
+            </p>
         </div>
+    </div>
 
-        <div class="col-sm-4">Barcode</div>
-        <div class="col-sm-4">Organization Info/Receipt Balance</div>
+    <div class="container" id="printContainer" data-ng-if="!receiptData.busy" style="width:98%">
 
-        <div class="col-sm-4">Transaction Items</div>
-        <div class="col-sm-8">Purchase location/Date printed</div>
+        <table class="table-fixed report-table" width="98%">
 
+            <tr>
+
+                <td><img data-ng-if="receiptData.returnData.header.receipt_logo" width="220" data-ng-src="{{receiptData.returnData.header.receipt_logo}}"></td>
+
+                <td valign="center" class="text-center">Barcode</td>
+
+                <td class="text-right">
+                    <strong>
+                        {{receiptData.returnData.header.receiptName}}<br>
+                        Purchased {{receiptData.returnData.header.transaction_date}}<br>
+                        Receipt #{{receiptData.returnData.header.transaction_id}}
+                    </strong>
+                </td>
+
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    <table class="table-fixed report-table-scale">
+                        <tr>
+                            <td valign="top"><strong>Name:</strong></td>
+                            <td>{{receiptData.returnData.header.personName}}</td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><strong>Phone:</strong></td>
+                            <td>{{receiptData.returnData.header.personPhone}}</td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><strong>Address:</strong></td>
+                            <td data-ng-bind-html="receiptData.returnData.header.personAddress | sanitize"></td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td></td>
+
+                <td class="text-right">
+                    <table class="table-fixed pull-right report-table-scale">
+                        <tr>
+                            <td class="text-left"><strong>Total:</strong></td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>{{receiptData.returnData.header.totalAmount}}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-left"><strong>Discount:</strong></td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>{{receiptData.returnData.header.discountAmount}}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-left"><strong>Tax:</strong></td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>{{receiptData.returnData.header.taxAmount}}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-left"><strong>Amount Due:</strong></td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>{{receiptData.returnData.header.dueAmount}}</td>
+                        </tr>
+
+                        <tr style="border-bottom:1px solid #000000;">
+                            <td class="text-left"><strong>Amount Paid:</strong></td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>{{receiptData.returnData.header.paidAmount}}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-left"><strong>Balance:</strong></td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>{{receiptData.returnData.header.balanceAmount}}</td>
+                        </tr>
+                    </table>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td colspan="3" class="text-right"><strong>Payment Method(s):{{receiptData.returnData.header.paymentMethod}}</strong></td>
+            </tr>
+
+            <tr style="border-bottom:1px solid #000000;">
+                <td><strong>Transaction Items</strong></td>
+                <td colspan="2" class="text-right"><strong>{{receiptData.returnData.header.staff_name}}  / Printed: {{receiptData.returnData.header.printed}}</strong></td>
+            </tr>
+
+        </table>
 
     </div>
 

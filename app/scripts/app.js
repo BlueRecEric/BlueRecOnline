@@ -88,12 +88,12 @@ angular
                 controller: 'MyHouseholdCtrl'
             })
             .when('/:orgurl/purchases', {
-                templateUrl: 'views/userSettings/receipt.html',
-                controller: 'ReceiptCtrl'
+                templateUrl: 'views/userSettings/purchases.html',
+                controller: 'PurchasesCtrl'
             })
             .when('/:orgurl/purchases/receipt/:receiptID', {
                 templateUrl: 'views/userSettings/receipt.html',
-                controller: 'PurchasesCtrl'
+                controller: 'ReceiptCtrl'
             })
             .when('/:orgurl/invoices', {
                 templateUrl: 'views/userSettings/invoices.html',
