@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 <div class="row" style="padding-left: 0px;">
                                     <div class="col-sm-12">
-                                        <label for="searchRentalType">Selected Rental Code <font style="font-weight: normal!important;">- </font></label>
+                                        <label>Selected Rental Code <font style="font-weight: normal!important;">- </font></label>
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <label for="searchFacilities">Facility</label>
+                                        <label>Facility</label>
                                     </div>
                                     <div class="col-sm-12" style="padding-left: 24px;">
                                         {{facilityData.facility_name_string}}
@@ -147,7 +147,7 @@
                                 <div class="form-group col-sm-12" style="padding-top: 6px;">
                                     <div class="row" style="padding-left: 0px;">
                                         <div class="col-sm-12">
-                                            <label for="earliestStartTimer">Start Time</label>
+                                            <label>Earliest Start Time</label>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="input-group" style="margin-bottom: 5px;">
@@ -166,7 +166,7 @@
                                 <div class="form-group col-sm-12" style="padding-top: 6px;">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label for="latestEndTime">End After</label>
+                                            <label >Latest End Time</label>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="input-group" style="margin-bottom: 5px;">
@@ -217,7 +217,7 @@
                                     <label data-ng-class="{'has-error': searchForm.$submitted && weekdaysError}">Weekdays</label>
                                 </div>
                             </div>
-                            <div class="col-sm-12 form-group" data-ng-repeat="week in facilityData.weekday_indexes2">
+                            <div class="col-sm-12 form-group" data-ng-repeat="week in facilityData.weekday_indexes2  | orderBy:'week'">
                                 <div class="col-sm-12">
                             <span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-default checkbox-dark-border"
@@ -229,66 +229,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        <div class="" style="padding-left: 0px;" data-ng-hide="true">
-                            <div class="col-sm-12">
-                                <div class="form-group col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <label data-ng-class="{'has-error': searchForm.$submitted && weekdaysError}">Weekdays</label>
-                                        </div>
-                                        <div class="col-sm-12">
-							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.sunday">
-                                <checkbox
-                                        class="btn-default checkbox-dark-border"
-                                        data-ng-model="weekdaySearch.sunday"
-                                        id="checkSun"></checkbox>
-                                <label for="checkSun" class="label-weekday-spacing"> Sun</label>
-                            </span>
-							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.monday"><checkbox
-                                    class="btn-default checkbox-dark-border"
-                                    data-ng-model="weekdaySearch.monday"
-                                    id="checkMon"></checkbox><label for="checkMon"
-                                                                    class="label-weekday-spacing">
-                                Mon</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.tuesday"><checkbox
-                                    class="btn-default checkbox-dark-border"
-                                    data-ng-model="weekdaySearch.tuesday"
-                                    id="checkTues"></checkbox><label for="checkTues"
-                                                                     class="label-weekday-spacing">
-                                Tues</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.wednesday"><checkbox
-                                    class="btn-default checkbox-dark-border"
-                                    data-ng-model="weekdaySearch.wednesday"
-                                    id="checkWed"></checkbox><label for="checkWed"
-                                                                    class="label-weekday-spacing">
-                                Wed</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.thursday"><checkbox
-                                    class="btn-default checkbox-dark-border"
-                                    data-ng-model="weekdaySearch.thursday"
-                                    id="checkThur"></checkbox><label for="checkThur"
-                                                                     class="label-weekday-spacing">
-                                Thur</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.friday"><checkbox
-                                    class="btn-default checkbox-dark-border"
-                                    data-ng-model="weekdaySearch.friday"
-                                    id="checkFri"></checkbox><label for="checkFri"
-                                                                    class="label-weekday-spacing">
-                                Fri</label></span>
-							<span class="no-word-wrap checkbox-weekday-spacing" data-ng-show="weekdaySearch.saturday"><checkbox
-                                    class="btn-default checkbox-dark-border"
-                                    data-ng-model="weekdaySearch.saturday"
-                                    id="checkSat"></checkbox><label for="checkSat"
-                                                                    class="label-weekday-spacing">
-                                Sat</label></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
                     </div>
 
                     <div class="panel-body text-center nopad">
@@ -308,15 +248,21 @@
                         <table st-table="searchResultsData" st-safe-src="searchRowCollection"
                                class="table table-hover info vtable"
                                data-ng-show="displaySearchResults">
+
                             <thead>
-                                <th style="border: 0px;"></th>
+                                <tr>
+                                    <td colspan="5" class="text-center" style="padding-bottom: 0px; padding-top: 0px;">
+                                        <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"
+                                             st-template="pagination.custom.html"></div>
+                                    </td>
+                                </tr>
                             </thead>
 
                             <tbody>
                                 <tr data-ng-repeat="searchRow in searchResultsData">
                                     <td st-ratio="5" class="text-center clicky no-select "
                                         data-ng-click="onSelectRentalTime(searchRow)">
-                                        <i id="arrow-icon" class="fa fa-chevron-right fa-3x"></i>
+                                        <i  class="fa fa-chevron-right fa-3x arrow-icon"></i>
                                     </td>
                                     <td st-ratio="25" class="text-left clicky no-select"
                                         data-ng-click="onSelectRentalTime(searchRow)">
@@ -332,7 +278,7 @@
                                     </td>
                                     <td st-ratio="5" class="text-center clicky no-select"
                                         data-ng-click="onSelectRentalTime(searchRow)">
-                                        <i id="arrow-icon" class="fa fa-chevron-left fa-3x"></i>
+                                        <i class="fa fa-chevron-left fa-3x arrow-icon"></i>
                                     </td>
                                 </tr>
                             </tbody>

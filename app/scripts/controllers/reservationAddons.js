@@ -127,14 +127,16 @@ angular.module('bluereconlineApp')
             };
             
             $scope.onSubmitAddRentalToCart = function() {
-                $scope.addRentalRequest(($scope.facilityData.auto_approve==='1'));
+                $scope.addRentalRequest();
             };
 
             $scope.onSubmitRentalRequest = function() {
-                $scope.addRentalRequest(($scope.facilityData.auto_approve==='1'));
+                $scope.addRentalRequest();
             };
 
-            $scope.addRentalRequest = function($autoApproved) {
+            $scope.addRentalRequest = function() {
+                var $autoApproved = ($scope.facilityData.auto_approve==='1');
+
                 if ($scope.agreementSigned.checked) {
                     var $userID = ActiveUser.userData.user_id;
 
@@ -226,15 +228,8 @@ angular.module('bluereconlineApp')
                                 },
                                 data: submitData
                             };
-
                             $http(req)
                                 .success(function () {
-                                    //$scope.rentalCodeSearch = '';
-
-                                    //$scope.resetForm();
-
-                                    //$scope.showConformationModal();
-
                                     $location.path('/' + $routeParams.orgurl + '/addedtocart');
                                     // $location.path('/' +  $routeParams.orgurl + '/reservations');
                                 });
@@ -249,16 +244,9 @@ angular.module('bluereconlineApp')
                                 },
                                 data: submitData
                             };
-
                             $http(req)
                                 .success(function (data) {
                                     //console.log(data);
-
-                                    //$scope.rentalCodeSearch = '';
-
-                                    //$scope.resetForm();
-
-                                    //$scope.showConformationModal();
 
                                     //$location.path('/' + $routeParams.orgurl + '/addedtocart');
                                     // $location.path('/' +  $routeParams.orgurl + '/reservations');
