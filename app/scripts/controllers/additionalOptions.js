@@ -14,6 +14,30 @@ angular.module('bluereconlineApp')
         $scope.regularPackages = {};
         $scope.regularPackages.weekday = '';
 
+        $scope.standardPackageFilter = function(element)
+        {
+            if(element.item_type === 'PKG' || element.item_type === 'PKG-DG')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        };
+
+        $scope.weekdayPackageFilter = function(element)
+        {
+            if(element.item_type === 'PKG-D')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        };
+
         $scope.wkdPkgOpt = [];
 
         $scope.$on('registration:loaded', function() {

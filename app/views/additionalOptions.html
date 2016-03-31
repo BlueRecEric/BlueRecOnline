@@ -15,7 +15,7 @@
 
                     <div data-ng-repeat="addonData in preLoad.data">
 
-                        <h4>{{addon.itemName}} add-ons for {{addon.userName}}</h4>
+                        <h4>{{addonData.itemName}} add-ons for {{addonData.userName}}</h4>
 
                         <div data-ng-repeat="addon in addonData.addons">
 
@@ -92,7 +92,17 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr data-ng-repeat="pkg in addon.addons.packages | filter:{item_type:'!PKG-D',item_type:'PKG-DG',item_type:'PKG'}" >
+                                    <tr data-ng-repeat="pkg in addon.addons.packages | filter:standardPackageFilter" >
+                                        <td>
+                                            <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.updateAddonFees(pkg.uuid)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
+                                            <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
+                                        </td>
+                                        <td><span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}</td>
+                                        <td>{{pkg.item_code}}</td>
+                                        <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
+                                    </tr>
+
+                                    <tr data-ng-repeat="pkg in addon.addons.packages | filter:{item_type:'INV'}" >
                                         <td>
                                             <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.updateAddonFees(pkg.uuid)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
                                             <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
@@ -105,7 +115,7 @@
                                 </table>
                             </div>
 
-                            <div class="table-responsive" data-ng-repeat="pkg in addon.addons.packages | filter:{item_type:'PKG-D',item_type:'!PKG-DG'}">
+                            <div class="table-responsive" data-ng-repeat="pkg in addon.addons.packages | filter:weekdayPackageFilter">
 
                                 <h5 data-ng-show="{{$first}}">The following packages allow weekday selection. You must select <span data-ng-show="{{pkg.min_days == pkg.max_days}}">{{pkg.min_days}} days to purchase the package.</span></h5>
                                 <table class="table table-bordered" data-ng-show="{{$first}}">
@@ -118,7 +128,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr data-ng-repeat="pkg in addon.addons.packages | filter:{item_type:'PKG-D'}">
+                                    <tr data-ng-repeat="pkg in addon.addons.packages | filter:weekdayPackageFilter">
                                         <td>
                                             <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.updateAddonFees(pkg.uuid)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
                                         </td>

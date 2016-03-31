@@ -26,6 +26,7 @@ angular.module('bluereconlineApp')
 
         function addRegistrationArray(regProgram)
         {
+            reg.data = [];
             var defer = $q.defer();
 
             var userSelected = false;
