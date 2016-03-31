@@ -692,11 +692,11 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     color: #fff;
 }
 
-.table-hover tbody > tr > td #arrow-icon{
+.table-hover tbody > tr > td .arrow-icon{
     visibility: hidden;
 
 }
-.table-hover  tbody > tr:hover td #arrow-icon {
+.table-hover  tbody > tr:hover td .arrow-icon {
     visibility: visible;
     color: #fff;
     cursor: pointer;
