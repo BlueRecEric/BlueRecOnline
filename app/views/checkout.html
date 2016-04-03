@@ -62,11 +62,11 @@
     </div>
   </div>
 
-  <div class="row clearfix spacing">
+  <div class="row clearfix spacing" data-ng-if="promoCodeEnabled">
     <p class="col-sm-12" data-ng-repeat="promo in cart.promoText"><em>* {{promo}}</em></p>
   </div>
 
-  <div class="row clearfix spacing">
+  <div class="row clearfix spacing" data-ng-if="promoCodeEnabled">
     <div class="col-sm-3">
       <input type="text" class="form-control" data-ng-model="promoCode" name="promo-code" id="promo-code" placeholder="">
     </div>

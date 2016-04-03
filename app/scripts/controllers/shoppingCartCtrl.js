@@ -14,6 +14,7 @@ angular.module('bluereconlineApp')
       $scope.cart = {};
       $scope.removed = {};
 
+      $scope.promoCodeEnabled = false;
       $scope.promoCode = '';
 
       ActiveUser.getFromLocal().then(function() {
