@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('MyHouseholdCtrl', ['$scope', 'ActiveUser', 'UserUpdate', 'md5', '$filter', function ($scope,ActiveUser,UserUpdate,md5,$filter) {
+  .controller('MyHouseholdCtrl', ['$scope', '$rootScope', 'ActiveUser', 'UserUpdate', 'md5', '$filter', '$location', '$anchorScroll', function ($scope,$rootScope,ActiveUser,UserUpdate,md5,$filter,$location,$anchorScroll) {
       //$scope.household = {};
 
       function setHouseholdData()
@@ -17,15 +17,17 @@ angular.module('bluereconlineApp')
           //console.log(ActiveUser.userData.household);
           $scope.household = ActiveUser.userData.household;
 
-          /*
           for(var p = 0; p < $scope.household.length; p++)
           {
-              console.log('$scope.household[p].birthday: ' + $scope.household[p].birthday);
+              $scope.household[p].user_updated = false;
+
+              /*console.log('$scope.household[p].birthday: ' + $scope.household[p].birthday);
               var userBirthday = $filter('date')($scope.household[p].birthday, 'yyyy-MM-dd');
               console.log('userbirthday: ' + userBirthday);
-              $scope.household[p].birthday = userBirthday;
+              $scope.household[p].birthday = userBirthday;*/
           }
-          */
+
+          //console.log($scope.household);
       }
 
       function updateHouseholdData()
@@ -157,10 +159,16 @@ angular.module('bluereconlineApp')
           'name':'11'
         },
         {
-          'value':'12',
-          'name':'12'
+            'value':'12',
+            'name':'12'
         },
       ];
+
+       $scope.gotoAnchor = function (anchorID, offset) {
+            $anchorScroll.yOffset = offset;
+
+           $anchorScroll(anchorID);
+        };
 
       $scope.resetMessages = function() {
         $scope.newMemberError = false;
@@ -168,10 +176,30 @@ angular.module('bluereconlineApp')
         $scope.newMemberAdded = false;
       };
 
-      $scope.updateUser = function(person) {
+      $scope.updateUser = function(person, updateIndex) {
+
+          $rootScope.$emit('updateCartCount', {});
+
         var Updater = UserUpdate;
+
         //console.log(person);
-        Updater.submitPartForm(person);
+        Updater.submitPartForm(person).then(
+            function success(response) {
+                //console.log(response);
+                if(response.data.update === '1') {
+                    //console.log(updateIndex);
+
+                    $scope.household[updateIndex].user_updated = true;
+
+
+                    ActiveUser.updateUser();
+                }
+                else
+                {
+                    $scope.household[updateIndex].user_updated = false;
+                }
+            }
+        );
       };
   }])
   .factory('UserUpdate', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', '$filter', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams,$filter,ActiveUser) {
@@ -191,13 +219,8 @@ angular.module('bluereconlineApp')
           data: person
         };
 
-        return $http(req)
-            .then(
-            function success(response) {
-              //console.log(response);
-              ActiveUser.updateUser();
-            }
-        );
+        return $http(req);
+
       }
 
       function submitNewMemberForm(formData, loggedInUser)

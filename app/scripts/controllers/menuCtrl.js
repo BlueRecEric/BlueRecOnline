@@ -8,7 +8,17 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('MenuCtrl', ['$scope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', '$aside', 'NavFactory', 'UserData', function ($scope,$routeParams,$route,AuthService,$location,ActiveUser, $aside, NavFactory, UserData) {
+    .controller('MenuCtrl', ['$scope', '$rootScope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', '$aside', 'NavFactory', 'UserData', function ($scope,$rootScope,$routeParams,$route,AuthService,$location,ActiveUser, $aside, NavFactory, UserData) {
+
+        $scope.CartCount = 0;
+
+        $rootScope.$on('updateCartCount', function () {
+            $scope.getCartCount();
+        });
+
+        $scope.getCartCount = function() {
+            $scope.CartCount = 5;
+        };
 
         $scope.$watch(function() { return ActiveUser.getUser(); }, function() {
             $scope.currentUser = ActiveUser.getUser();

@@ -46,8 +46,8 @@
                     <div class="form-group">
                         <label for="newBirthday" class="col-sm-2 control-label">* Birthday</label>
                         <div class="col-sm-6">
-                             <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span><!--
-                            --><input class="form-control" data-ng-model="newMemberForm.birthday" data-date-format="M/d/yyyy" data-autoclose="true" data-start-view="2" id="newBirthday" name="date" bs-datepicker type="text" required></span>
+                             <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            <input class="form-control" data-ng-model="newMemberForm.birthday" data-date-format="M/d/yyyy" data-autoclose="true" id="newBirthday" name="date" bs-datepicker type="text" required></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -74,9 +74,16 @@
             <h4 class="panel-title">{{person.firstname}} {{person.lastname}}{{(person.primary_contact === '1')?' (Primary Contact)':''}}</h4>
         </div>
 
-        <form name="householdMemberForm" class="form-horizontal" role="form" data-ng-submit="updateUser(person)">
+        <form name="householdMemberForm" class="form-horizontal" role="form" data-ng-submit="updateUser(person, $index)">
             <ng-form name="householdMemberForm">
                 <div class="panel-body">
+
+                    <a id="user_{{$index}}"></a>
+                    <div class="alert alert-success" role="alert" data-ng-show="person.user_updated">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        Household Member Updated
+                    </div>
+
                     <div class="form-group">
                         <label for="firstName" class="col-sm-2 control-label">First Name</label>
                         <div class="col-sm-6">
@@ -98,8 +105,8 @@
                     <div class="form-group">
                         <label for="birthday" class="col-sm-2 control-label">Birthday</label>
                         <div class="col-sm-6">
-                             <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span><!--
-                            --><input class="form-control" data-ng-model="person.birthday" data-date-format="M/d/yyyy" data-autoclose="true" data-timezone="UTC" data-start-view="2" id="birthday" name="date" bs-datepicker type="text"></span>
+                             <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            <input class="form-control" data-ng-model="person.birthday" data-date-format="M/d/yyyy" data-autoclose="true" data-timezone="UTC" id="birthday" name="date" bs-datepicker type="text"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -120,5 +127,4 @@
             </ng-form>
         </form>
     </div>
-
 </div>
