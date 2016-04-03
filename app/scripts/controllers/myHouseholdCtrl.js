@@ -191,6 +191,7 @@ angular.module('bluereconlineApp')
 
                     $scope.household[updateIndex].user_updated = true;
 
+                    //$scope.gotoAnchor('user_'+updateIndex, 60);
 
                     ActiveUser.updateUser();
                 }
