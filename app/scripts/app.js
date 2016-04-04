@@ -109,7 +109,7 @@ angular
             })
             .when('/:orgurl/programs', {
                 templateUrl: 'views/programs.html',
-                controller: 'ProgramList'
+                controller: 'ProgramsCtrl'
             })
             .when('/:orgurl/programinfo/:itemid/addons', {
                 templateUrl: 'views/additionalOptions.html',

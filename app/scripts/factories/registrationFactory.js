@@ -31,15 +31,18 @@ angular.module('bluereconlineApp')
 
             var userSelected = false;
 
-            for(var a = 0; a < regProgram.regData.length; a++) {
-                if(regProgram.regData[a].selected) {
-                    console.log('found a selected participant: ' + regProgram.regData[a].userID);
+            console.log('registering for:');
+            console.log(regProgram);
+
+            for(var a = 0; a < regProgram.users.length; a++) {
+                if(regProgram.users[a].selected) {
+                    console.log('found a selected participant: ' + regProgram.users[a].user_id);
                     addRegistration(
-                        regProgram.regData[a].userID,
+                        regProgram.users[a].user_id,
                         regProgram.item_id,
-                        regProgram.regData[a].itemType,
+                        regProgram.item_type,
                         regProgram.item_name,
-                        regProgram.regData[a].fullName
+                        regProgram.users[a].full_name
                     );
                     console.log('regProgram:');
                     console.log(regProgram);
@@ -47,7 +50,7 @@ angular.module('bluereconlineApp')
                 }
                 else
                 {
-                    console.log('user ' + regProgram.regData[a].userID + ' is not selected.');
+                    console.log('user ' + regProgram.users[a].user_id + ' is not selected.');
                 }
             }
 
