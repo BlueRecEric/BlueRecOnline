@@ -8,6 +8,13 @@
         </div>
     </div>
 
+    <div class="spacing"></div>
+
+    <div class="alert alert-warning" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        Members added to your household cannot be removed from online.  To have members removed from your household you will need to contact Chico Area Recreation And Parks District.
+    </div>
+
     <div class="spacing" data-ng-show="newMemberAdded"></div>
     <div class="alert alert-success" role="success" data-ng-show="newMemberAdded">Household member added!</div>
 
@@ -23,7 +30,6 @@
                 <div class="panel-body">
 
                     <div class="alert alert-danger" role="alert" data-ng-show="newMemberError">{{newMemberErrorText}}</div>
-
 
                     <div class="form-group">
                         <label for="newFirstName" class="col-sm-2 control-label">* First Name</label>
