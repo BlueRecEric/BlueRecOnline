@@ -83,6 +83,7 @@ angular.module('bluereconlineApp')
                     ));
 
                     regProgram.users[a].eligible = false;
+                    regProgram.users[a].selected = false;
 
                     console.log('regProgram:');
                     console.log(regProgram);

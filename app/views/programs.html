@@ -237,6 +237,7 @@
 
                   <div class="col-xs-12 col-sm-3">
                     <div class="spacing"></div>
+                    <div class="alert alert-danger" data-ng-if="program.listData.noSelection">Select at least one person.</div>
                     <button class="btn btn-success btn-block" data-ng-model="program.listData.addCartButton" data-ng-click="onAddToCartClick(program.listData)" data-ng-if="(program.listData.in_online_nonresident_registration || program.listData.in_online_resident_registration) && !addingRegistration"><!--
                       --><span data-ng-if="program.listData.package_count == 0"><i class="fa fa-shopping-cart"></i> Add to cart</span><!--
                       --><span data-ng-if="program.listData.package_count > 0"><i class="fa fa-cart-plus"></i> Enrollment Options</span><!--

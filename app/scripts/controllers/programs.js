@@ -84,33 +84,45 @@ angular.module('bluereconlineApp')
         $scope.onAddToCartClick = function(program) {
             $scope.addingRegistration = true;
 
-            $scope.registration.addRegistrationArrayToCart(program).then(function(userAdded){
-                $scope.addingRegistration = false;
-                if(userAdded)
-                {
-                    console.log('user added');
+            var selectedCount = program.users.filter(function (user) {return user.selected;}).length;
 
-                    if(program.package_count > 0)
+            program.noSelection = false;
+
+            if(selectedCount == 0)
+            {
+                program.noSelection = true;
+                $scope.addingRegistration = false;
+            }
+            else
+            {
+                $scope.registration.addRegistrationArrayToCart(program).then(function(userAdded){
+                    $scope.addingRegistration = false;
+                    if(userAdded)
                     {
-                        console.log('has packages');
-                        $location.path('/' + $routeParams.orgurl + '/programinfo/' + program.item_id + '/addons');
+                        console.log('user added');
+
+                        if(program.package_count > 0)
+                        {
+                            console.log('has packages');
+                            $location.path('/' + $routeParams.orgurl + '/programinfo/' + program.item_id + '/addons');
+                        }
+                        else
+                        {
+                            console.log('no packages');
+                            MakeToast.popOn('success','Shopping Cart','Items have been added to your cart!');
+                            $rootScope.$emit('updateCartCount', {});
+                            setTimeout(function() {
+                                $scope.onProgramClick(program);
+                            }, 500);
+
+                        }
                     }
                     else
                     {
-                        console.log('no packages');
-                        MakeToast.popOn('success','Shopping Cart','Items have been added to your cart!');
-                        $rootScope.$emit('updateCartCount', {});
-                        setTimeout(function() {
-                            $scope.onProgramClick(program);
-                        }, 500);
-
+                        console.log('no user added');
                     }
-                }
-                else
-                {
-                    console.log('no user added');
-                }
-            });
+                });
+            }
         };
 
         $scope.onProgramClick = function (program) {
@@ -214,6 +226,14 @@ angular.module('bluereconlineApp')
         };
 
         programs.loadPrograms = function (searchOptions) {
+
+            if(searchOptions == null)
+            {
+                searchOptions.keyword = '';
+                searchOptions.type = '';
+                searchOptions.location = '';
+            }
+
             var req = {
                 method: 'POST',
                 skipAuthorization:true,
