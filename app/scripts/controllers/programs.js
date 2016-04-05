@@ -96,7 +96,7 @@ angular.module('bluereconlineApp')
             else
             {
                 $scope.registration.addRegistrationArrayToCart(program).then(function(userAdded){
-                    $scope.addingRegistration = false;
+
                     if(userAdded)
                     {
                         console.log('user added');
@@ -105,6 +105,7 @@ angular.module('bluereconlineApp')
                         {
                             console.log('has packages');
                             $location.path('/' + $routeParams.orgurl + '/programinfo/' + program.item_id + '/addons');
+                            $scope.addingRegistration = false;
                         }
                         else
                         {
@@ -113,12 +114,14 @@ angular.module('bluereconlineApp')
                             $rootScope.$emit('updateCartCount', {});
                             setTimeout(function() {
                                 $scope.onProgramClick(program);
+                                $scope.addingRegistration = false;
                             }, 500);
 
                         }
                     }
                     else
                     {
+                        $scope.addingRegistration = false;
                         console.log('no user added');
                     }
                 });

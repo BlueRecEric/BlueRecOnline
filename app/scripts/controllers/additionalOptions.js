@@ -11,11 +11,28 @@ angular.module('bluereconlineApp')
     .controller('AddOpts', ['$scope', '$rootScope', 'ActiveUser', 'RegistrationFactory', '$location', '$routeParams', 'MakeToast', function ($scope,$rootScope,ActiveUser,RegistrationFactory,$location,$routeParams, MakeToast) {
         $scope.preLoad = [];
 
+        $scope.addingToCart = false;
+
         $scope.regularPackages = {};
         $scope.regularPackages.weekday = '';
 
         $scope.updateEveryDateAddonFees = function(dropins, weeks, pkg) {
             console.log(pkg);
+        };
+
+        $scope.updateDayGroupFees = function(dayGroups, clickedPkg) {
+            console.log('update day group selection for ' + dayGroups.length + ' items');
+
+            for(var dg = 0; dg < dayGroups.length; dg++)
+            {
+                console.log('clicked package item: ' + clickedPkg.item_id + ' and loop package item: ' + dayGroups[dg].item_id);
+
+                if(dayGroups[dg].item_id == clickedPkg.item_id && dayGroups[dg].day_group_id != clickedPkg.day_group_id)
+                {
+                    dayGroups[dg].selected = '0';
+                }
+            }
+
         };
 
         $scope.clickDateAddon = function (dropins, weeks, pkg) {
@@ -115,6 +132,8 @@ angular.module('bluereconlineApp')
 
         $scope.submitAdditionalOptions = function()
         {
+            $scope.addingToCart = true;
+
             console.log('here is the data we will submit:');
             console.log($scope.preLoad);
 
@@ -134,10 +153,28 @@ angular.module('bluereconlineApp')
 
                 //$scope.preLoad.data[r].addons.selectedpackages = [];
 
-                var selectedAddons = {};
+                var selectedAddons = [];
                 var selectedPackages = [];
                 var selectedDropins = [];
+                var selectedGroups = [];
+                var selectedInventory = [];
                 var registration = $scope.preLoad.data[r];
+
+                if(registration.addons.inventory.length > 0)
+                {
+                    selectedInventory = registration.addons.inventory.filter(isSelected);
+
+                    console.log('here are the selected inventory:');
+                    console.log(selectedInventory);
+
+                    if(selectedInventory.length > 0)
+                    {
+                        for(var sinv = 0; sinv < selectedInventory.length; sinv++)
+                        {
+                            selectedAddons.push(selectedInventory[sinv]);
+                        }
+                    }
+                }
 
                 if(registration.addons.packages.length > 0)
                 {
@@ -146,33 +183,67 @@ angular.module('bluereconlineApp')
                     console.log('here are the selected packages:');
                     console.log(selectedPackages);
 
-                    selectedAddons.push(selectedPackages);
+                    if(selectedPackages.length > 0)
+                    {
+                        for(var spack = 0; spack < selectedPackages.length; spack++)
+                        {
+                            selectedAddons.push(selectedPackages[spack]);
+                        }
+                    }
                 }
 
-                if(angular.isDefined(registration.addons.dropins))
+                if(registration.addons.dayGroups.length > 0)
                 {
-                    if(registration.addons.dropins.uniqueItems.length > 0)
+                    selectedGroups = registration.addons.dayGroups.filter(isSelected);
+
+                    console.log('here are the selected groups:');
+                    console.log(selectedGroups);
+
+                    if(selectedGroups.length > 0)
                     {
-                        selectedDropins = registration.addons.dropins.uniqueItems.filter(dropinSelected);
+                        for(var sgrp = 0; sgrp < selectedGroups.length; sgrp++)
+                        {
+                            selectedAddons.push(selectedGroups[sgrp]);
+                        }
+                    }
+                }
+
+                if(angular.isDefined($scope.preLoad.data[r].addons.dropins))
+                {
+                    console.log('there are dropins:');
+
+                    if($scope.preLoad.data[r].addons.dropins.uniqueItems.length > 0)
+                    {
+                        selectedDropins = $scope.preLoad.data[r].addons.dropins.uniqueItems.filter(dropinSelected);
 
                         console.log('here are the selected dropins:');
                         console.log(selectedDropins);
 
-                        selectedAddons.push(selectedDropins);
+
+                        if(selectedDropins.length > 0)
+                        {
+                            for(var sdrop = 0; sdrop < selectedDropins.length; sdrop++)
+                            {
+                                selectedAddons.push(selectedDropins[sdrop]);
+                            }
+                        }
                     }
                 }
 
                 console.log('here are the all selections:');
-                console.log(selectedPackages);
+                console.log(selectedAddons);
 
                 $scope.preLoad.data[r].addons.selectedpackages = selectedAddons;
+
+                console.log('updated registration array:');
+                console.log($scope.preLoad);
 
             }
 
             console.log('here is the data we will submit, with only selected packages:');
             console.log($scope.preLoad);
 
-            RegistrationFactory.addToCart().then(function(response) {
+            $scope.preLoad.addToCart().then(function(response) {
                 console.log('add to cart response(2):');
                 console.log(response);
 
@@ -180,6 +251,7 @@ angular.module('bluereconlineApp')
                 $rootScope.$emit('updateCartCount', {});
 
                 $location.path('/' + $routeParams.orgurl + '/programs');
+                $scope.addingToCart = false;
             });
         };
     }]);

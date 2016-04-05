@@ -303,19 +303,17 @@ angular.module('bluereconlineApp')
                     'usePaymentPlan':'0'
                 };
 
-                if(reg.data[a].addons.length > 0)
+                if(reg.data[a].addons.selectedpackages.length > 0)
                 {
-                    if(reg.data[a].addons[0].addons.packages.length > 0)
+                    for(var pkg = 0; pkg < reg.data[a].addons.selectedpackages.length; pkg++)
                     {
-                        for(var pkg = 0; pkg < reg.data[a].addons.length; pkg++)
-                        {
-                            reg.data[a].addons[pkg].user_id = reg.data[a].userID;
-                            reg.data[a].addons[pkg].household_id = ActiveUser.userData.household_id;
-                        }
-
-                        console.log('adding an addon to the array');
-                        regData.addons = reg.data[a].addons;
+                        reg.data[a].addons.selectedpackages[pkg].user_id = reg.data[a].userID;
+                        reg.data[a].addons.selectedpackages[pkg].household_id = ActiveUser.userData.household_id;
+                        reg.data[a].addons.selectedpackages[pkg].addedByUserID = ActiveUser.userData.user_id;
                     }
+
+                    console.log('adding an addon to the array');
+                    regData.addons = reg.data[a].addons;
 
 
                     /*
@@ -348,7 +346,6 @@ angular.module('bluereconlineApp')
             console.log('here is the cart data:');
             console.log(cartData);
 
-
             if(cartData.registrations.length > 0) {
                 var req = {
                     method: 'POST',
@@ -367,7 +364,6 @@ angular.module('bluereconlineApp')
                         }
                     );
             }
-
         };
 
         return reg;
