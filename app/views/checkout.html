@@ -35,7 +35,8 @@
       <div data-ng-repeat="item in cart.data">
         <div class="row clearfix spacing">
           <div class="col-md-4">
-            <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{item.shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button> {{item.item_name}}
+            <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{item.shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button>
+              <a href ng-click="gotoItemInfoPage(item.main_item_id)">{{item.item_name}}</a>
           </div>
 
           <div class="col-md-3">{{item.person_name}}</div>
@@ -45,7 +46,8 @@
 
         <div class="row clearfix spacing" data-ng-repeat="link in item.linked_items.data">
           <div class="col-md-4">
-            <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{link.linked_shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button> <i class="glyphicon glyphicon-option-vertical icon-black"></i> {{link.linked_item_name}}
+            <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{link.linked_shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button> <i class="glyphicon glyphicon-option-vertical icon-black"></i>
+              <a href ng-click="gotoItemInfoPage(link.main_item_id)">{{link.linked_item_name}}</a>
           </div>
           <div class="col-md-3">{{link.linked_person_name}}</div>
           <div class="col-md-3"><span data-ng-show="link.linked_total_fee > 0">{{link.linked_total_fee}}</span> <span data-ng-show="cart.hasPromo && link.linked_total_original_fee > 0">*</span></div>

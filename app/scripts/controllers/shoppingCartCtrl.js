@@ -184,6 +184,11 @@ angular.module('bluereconlineApp')
         $location.path('/' + $routeParams.orgurl + '/precheckout');
       }
 
+      $scope.gotoItemInfoPage = function(itemID)
+      {
+          $location.path('/' + $routeParams.orgurl + '/programinfo/' + itemID);
+      }
+
       loadCart();
 
       $scope.goToCheckout = goToCheckout;
