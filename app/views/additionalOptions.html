@@ -98,8 +98,18 @@
 
                         <div data-ng-show="addonData.addons.dropins.uniqueItems.length > 0">
 
+                            <h5>This program has drop-in dates available. To see the available dates, click the button below.</h5>
 
-                            <div class="row" data-ng-repeat="item in addonData.addons.dropins.uniqueItems">
+                            <div class="row" data-ng-init="addonData.addons.dropins.showDropins = false">
+                                <div class="col-xs-12">
+                                    <button type="button" class="btn btn-primary" data-ng-click="addonData.addons.dropins.showDropins = !addonData.addons.dropins.showDropins"><i class="fa fa-arrow-circle-o-down"></i>
+                                        <span data-ng-show="!addonData.addons.dropins.showDropins">Show</span><span data-ng-show="addonData.addons.dropins.showDropins">Hide</span> Drop-in Options</button>
+                                </div>
+                            </div>
+
+                            <div class="spacing"></div>
+
+                            <div class="row" data-ng-repeat="item in addonData.addons.dropins.uniqueItems" data-ng-show="addonData.addons.dropins.showDropins">
                                 <div class="col-sm-2">
                                     <h5>{{::item.item_name}}:</h5>
                                 </div>
@@ -110,9 +120,7 @@
                                 </div>
                             </div>
 
-                            <div>
-                                Select Dates
-
+                            <div data-ng-show="addonData.addons.dropins.showDropins">
                                 <div class="row seven-cols" style="table-layout: fixed;width: 100%;">
                                     <div data-ng-show="addonData.addons.dropins.weekdays[0].enabled" class="col-md-1"><div class="well text-center"><h5>Sun</h5></div></div>
                                     <div data-ng-show="addonData.addons.dropins.weekdays[1].enabled" class="col-md-1"><div class="well text-center"><h5>Mon</h5></div></div>
