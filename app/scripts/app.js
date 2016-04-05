@@ -1004,7 +1004,7 @@ angular
 
     return proload;
   }])
-.controller('appController',['$scope','$http','$routeParams', '$q','AuthService', function ($scope,$http,$routeParams,$q, AuthService) {
+.controller('appController',['$scope', '$rootScope', '$http','$routeParams', '$q','AuthService', function ($scope,$rootScope, $http,$routeParams,$q, AuthService) {
 
     function isImage(src) {
 
@@ -1052,5 +1052,7 @@ angular
         });
 
         AuthService.refreshUser();
+
+        $rootScope.$emit('updateCartCount', {});
     });
 }]);

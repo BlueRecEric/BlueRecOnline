@@ -8,7 +8,8 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ShoppingCartCtrl', ['$scope', '$routeParams', '$location', 'BLUEREC_ONLINE_CONFIG', '$http', 'ActiveUser', 'MakeToast', function ($scope,$routeParams,$location,BLUEREC_ONLINE_CONFIG,$http,ActiveUser,MakeToast) {
+  .controller('ShoppingCartCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 'BLUEREC_ONLINE_CONFIG', '$http', 'ActiveUser', 'MakeToast',
+        function ($scope,$rootScope,$routeParams,$location,BLUEREC_ONLINE_CONFIG,$http,ActiveUser,MakeToast) {
       $scope.orgurl = $routeParams.orgurl;
 
       $scope.cart = {};
@@ -63,6 +64,7 @@ angular.module('bluereconlineApp')
         return $http(req)
             .then(
             function success(response) {
+                $rootScope.$emit('updateCartCount', {});
 
                 $scope.cart = response.data;
 
@@ -86,8 +88,8 @@ angular.module('bluereconlineApp')
         return $http(req)
             .then(
             function success(response) {
-              $scope.removed = response.data;
-              loadCart();
+                $scope.removed = response.data;
+                loadCart();
             }
         );
       }
