@@ -12,38 +12,78 @@ angular.module('bluereconlineApp')
         reg.loadingWaivers = false;
         reg.loadingFields = false;
 
-        function saveLocalRegistration()
+        reg.saveLocalRegistration = function()
         {
-            console.log('now saving the registration to local storage...');
             var defer = $q.defer();
-            $timeout(function(){
-                localStorageService.set('Registration', reg);
-                defer.resolve(true);
-            },250);
+
+            console.log('save reg to local storage:');
+            console.log(reg.data);
+
+            defer.resolve(localStorageService.set('temp-reg', reg.data));
 
             return defer.promise;
-        }
+        };
 
-        function addRegistrationArray(regProgram)
+        reg.clearLocalRegistration = function() {
+            var defer = $q.defer();
+            defer.resolve(localStorageService.remove('temp-reg'));
+            return defer.promise;
+        };
+
+        reg.getLocalRegistration = function() {
+            var defer = $q.defer();
+            reg.data = localStorageService.get('temp-reg');
+            defer.resolve(true);
+            return defer.promise;
+        };
+
+        reg.addRegistrationArrayToCart = function(regProgram)
+        {
+            var defer = $q.defer();
+
+            reg.addRegistrationArray(regProgram).then(function() {
+                if(regProgram.package_count == 0) {
+                    reg.addToCart().then(function() {
+                        defer.resolve(true);
+                    });
+                }
+                else
+                {
+                    defer.resolve(true);
+                }
+            });
+
+            return defer.promise;
+        };
+
+        reg.addRegistrationArray = function(regProgram)
         {
             reg.data = [];
             var defer = $q.defer();
+            var promises = [];
 
             var userSelected = false;
 
             console.log('registering for:');
             console.log(regProgram);
 
+            promises.push(reg.clearLocalRegistration());
+
             for(var a = 0; a < regProgram.users.length; a++) {
+
                 if(regProgram.users[a].selected) {
                     console.log('found a selected participant: ' + regProgram.users[a].user_id);
-                    addRegistration(
+
+                    promises.push(reg.addRegistration(
                         regProgram.users[a].user_id,
                         regProgram.item_id,
                         regProgram.item_type,
                         regProgram.item_name,
                         regProgram.users[a].full_name
-                    );
+                    ));
+
+                    regProgram.users[a].eligible = false;
+
                     console.log('regProgram:');
                     console.log(regProgram);
                     userSelected = true;
@@ -54,11 +94,12 @@ angular.module('bluereconlineApp')
                 }
             }
 
-            defer.resolve(userSelected);
-            return defer.promise;
-        }
+            return $q.all(promises).then(function () {
+                reg.saveLocalRegistration().then(defer.resolve(userSelected));
+            });
+        };
 
-        function addRegistration(userID, itemID, itemType, itemName, userName)
+        reg.addRegistration = function(userID, itemID, itemType, itemName, userName)
         {
             console.log('add the registration data...');
             var defer = $q.defer();
@@ -83,7 +124,7 @@ angular.module('bluereconlineApp')
 
                     regData.loadingAddons = true;
 
-                    getCartAddons(regData).then(function(response) {
+                    reg.getCartAddons(regData).then(function(response) {
                         console.log('here is the response: ');
                         console.log(response);
 
@@ -106,9 +147,9 @@ angular.module('bluereconlineApp')
             }
 
             return defer.promise;
-        }
+        };
 
-        var getCartWaivers = function (waiverList) {
+        reg.getCartWaivers = function (waiverList) {
             var req = {
                 method: 'POST',
                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/waivers',
@@ -124,7 +165,7 @@ angular.module('bluereconlineApp')
                 });
         };
 
-        var getCartPayments = function (paymentList) {
+        reg.getCartPayments = function (paymentList) {
             var req = {
                 method: 'POST',
                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/payments',
@@ -140,7 +181,7 @@ angular.module('bluereconlineApp')
                 });
         };
 
-        var getCartCustomFields = function (fieldList) {
+        reg.getCartCustomFields = function (fieldList) {
             var req = {
                 method: 'POST',
                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/customfields',
@@ -156,7 +197,7 @@ angular.module('bluereconlineApp')
                 });
         };
 
-        var getCartAddons = function (regData) {
+        reg.getCartAddons = function (regData) {
 
             var defer = $q.defer();
 
@@ -212,15 +253,15 @@ angular.module('bluereconlineApp')
             return defer.promise;
         };
 
-        var getCartRequirements = function (regData) {
+        reg.getCartRequirements = function (regData) {
             //console.log('get requirements');
 
             if(ActiveUser.isLoggedIn())
             {
                 return $q.all([
-                    getCartCustomFields(regData.fields),
-                    getCartPayments(regData.payments),
-                    getCartWaivers(regData.waivers),
+                    reg.getCartCustomFields(regData.fields),
+                    reg.getCartPayments(regData.payments),
+                    reg.getCartWaivers(regData.waivers),
                 ]).then(function(data) {
                     console.log('get requirements result');
                     console.log(data);
@@ -232,13 +273,16 @@ angular.module('bluereconlineApp')
             }
         };
 
-        var addToCart = function () {
+        reg.addToCart = function () {
 
             reg.addingToCart = true;
 
             var cartData = {};
             cartData.itemType = 'program';
             cartData.registrations = [];
+
+            console.log('reg data to add:');
+            console.log(reg.data);
 
             for(var a = 0; a < reg.data.length; a++)
             {
@@ -325,11 +369,6 @@ angular.module('bluereconlineApp')
 
         };
 
-        reg.saveLocalRegistration = saveLocalRegistration;
-        reg.addToCart = addToCart;
-        reg.getCartRequirements = getCartRequirements;
-        reg.addRegistration = addRegistration;
-        reg.addRegistrationArray = addRegistrationArray;
         return reg;
 
     }]);

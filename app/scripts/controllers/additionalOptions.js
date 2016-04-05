@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('AddOpts', ['$scope', 'ActiveUser', 'RegistrationFactory', '$location', '$routeParams', function ($scope,ActiveUser,RegistrationFactory,$location,$routeParams) {
+    .controller('AddOpts', ['$scope', '$rootScope', 'ActiveUser', 'RegistrationFactory', '$location', '$routeParams', 'MakeToast', function ($scope,$rootScope,ActiveUser,RegistrationFactory,$location,$routeParams, MakeToast) {
         $scope.preLoad = [];
 
         $scope.regularPackages = {};
@@ -51,9 +51,13 @@ angular.module('bluereconlineApp')
         {
             $scope.preLoad = RegistrationFactory;
 
-            console.log('working data:');
-            console.log($scope.preLoad);
+            $scope.preLoad.getLocalRegistration().then(function () {
+                console.log('working data:');
+                console.log($scope.preLoad);
+            }); 
         }
+
+
 
         $scope.submitAdditionalOptions = function()
         {
@@ -91,6 +95,9 @@ angular.module('bluereconlineApp')
             RegistrationFactory.addToCart().then(function(response) {
                 console.log('add to cart response(2):');
                 console.log(response);
+
+                MakeToast.popOn('success','Shopping Cart','Items have been added to your cart!');
+                $rootScope.$emit('updateCartCount', {});
 
                 $location.path('/' + $routeParams.orgurl + '/programs');
             });

@@ -8,14 +8,23 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('ProgramsCtrl', ['$scope', '$aside', 'ProgramsLoader', '$timeout', 'ActiveUser', 'md5', '$routeParams', '$location', 'UserData', 'RegistrationFactory', '$anchorScroll', function ($scope,$aside,ProgramsLoader,$timeout,ActiveUser,md5,$routeParams, $location, UserData, RegistrationFactory,$anchorScroll) {
+    .controller('ProgramsCtrl', ['$scope', '$rootScope', '$aside', 'ProgramsLoader', '$timeout', 'ActiveUser', 'md5', '$routeParams', '$location', 'UserData', 'RegistrationFactory', 'SearchFactory', '$anchorScroll', 'MakeToast', function ($scope,$rootScope,$aside,ProgramsLoader,$timeout,ActiveUser,md5,$routeParams, $location, UserData, RegistrationFactory,SearchFactory,$anchorScroll,MakeToast) {
 
         $scope.programs = ProgramsLoader;
         $scope.registration = RegistrationFactory;
         $scope.programs.busy = false;
         $scope.route = $routeParams;
         $scope.loadingProgram = false;
-        $scope.showIneligible = false;
+
+        $scope.search = SearchFactory;
+
+        $scope.doSearch = function () {
+            console.log('search keyword:' + $scope.search.programSearch.keyword);
+
+            SearchFactory.setProgramSearch().then(function () {
+                $scope.getPrograms();
+            });
+        };
 
         $scope.onGoToLogin = function () {
             $location.path('/' + $routeParams.orgurl + '/login');
@@ -62,74 +71,119 @@ angular.module('bluereconlineApp')
 
             $scope.programs.busy = true;
 
-            $scope.programs.loadPrograms().then(function(response) {
-                $scope.activePrograms = response.data;
-                console.log('programs:');
-                console.log($scope.activePrograms);
-                $scope.programs.busy = false;
+            $scope.search.getProgramSearch().then(function () {
+                $scope.programs.loadPrograms($scope.search.programSearch).then(function(response) {
+                    $scope.activePrograms = response.data;
+                    console.log('programs:');
+                    console.log($scope.activePrograms);
+                    $scope.programs.busy = false;
+                });
             });
         };
 
         $scope.onAddToCartClick = function(program) {
-            var userSelected = false;
-
             $scope.addingRegistration = true;
 
-            $scope.registration.addRegistrationArray(program).then(function(userAdded){
-
+            $scope.registration.addRegistrationArrayToCart(program).then(function(userAdded){
                 $scope.addingRegistration = false;
-
-                userSelected = userAdded;
-                if(userSelected)
+                if(userAdded)
                 {
+                    console.log('user added');
+
                     if(program.package_count > 0)
                     {
+                        console.log('has packages');
                         $location.path('/' + $routeParams.orgurl + '/programinfo/' + program.item_id + '/addons');
                     }
+                    else
+                    {
+                        console.log('no packages');
+                        MakeToast.popOn('success','Shopping Cart','Items have been added to your cart!');
+                        $rootScope.$emit('updateCartCount', {});
+                        setTimeout(function() {
+                            $scope.onProgramClick(program);
+                        }, 500);
+
+                    }
+                }
+                else
+                {
+                    console.log('no user added');
                 }
             });
         };
 
-        $scope.onProgramClick = function (itemID) {
-            $scope.currentProgram = {};
-            $scope.loadingProgram = true;
+        $scope.onProgramClick = function (program) {
 
-            console.log('Clicked item:');
-            console.log(itemID);
+            program.expanded = !program.expanded;
 
-            var uid = '';
-            var hid = '';
+            if(program.expanded) {
+                program.loadingProgram = true;
+                var alreadyLoaded = false;
 
-            if(ActiveUser.isLoggedIn())
-            {
-                uid = ActiveUser.userData.user_id;
-                hid = ActiveUser.userData.household_id;
-            }
+                var itemID = program.item_id;
 
-            $scope.programs.loadSingleProgram(itemID,uid,hid).then(function(response){
-                $scope.currentProgram = response.data.data;
-
-                $scope.currentProgram.showEligibleButton = false;
-
-                console.log('current listing:');
-                console.log($scope.currentProgram);
-
-                if(angular.isDefined($scope.currentProgram.users) && $scope.currentProgram.users.length > 0)
-                {
-                    console.log('There are ' + $scope.currentProgram.users.length + ' users');
-
-                    console.log($scope.currentProgram.users.filter(function(user){return user.eligible;}).length + ' users are eligible for this class');
-                    console.log($scope.currentProgram.users.filter(function(user){return !user.eligible;}).length + ' users are ineligible for this class');
-
-                    if($scope.currentProgram.users.filter(function(user){return !user.eligible;}).length > 0)
-                    {
-                        $scope.currentProgram.showEligibleButton = true;
-                    }
+                if (angular.isDefined(program.listData)) {
+                    console.log('list data already set');
+                    alreadyLoaded = true;
+                }
+                else {
+                    console.log('no list data found');
                 }
 
-                $scope.loadingProgram = false;
-            });
+                console.log('Clicked item:');
+                console.log(itemID);
 
+                if(!alreadyLoaded)
+                {
+                    var uid = '';
+                    var hid = '';
+
+                    if (ActiveUser.isLoggedIn()) {
+                        uid = ActiveUser.userData.user_id;
+                        hid = ActiveUser.userData.household_id;
+                    }
+
+                    $scope.programs.loadSingleProgram(itemID, uid, hid).then(function (response) {
+
+                        program.listData = response.data.data;
+
+
+                        program.listData.showEligibleButton = false;
+
+                        console.log('current listing:');
+                        console.log(program.listData);
+
+                        if (angular.isDefined(program.listData.users) && program.listData.users.length > 0) {
+                            console.log('There are ' + program.listData.users.length + ' users');
+
+                            console.log(program.listData.users.filter(function (user) {
+                                    return user.eligible;
+                                }).length + ' users are eligible for this class');
+                            console.log(program.listData.users.filter(function (user) {
+                                    return !user.eligible;
+                                }).length + ' users are ineligible for this class');
+
+                            if (program.listData.users.filter(function (user) {
+                                    return !user.eligible;
+                                }).length > 0) {
+                                program.listData.showEligibleButton = true;
+                            }
+                        }
+                        program.loadingProgram = false;
+                        program.showIneligible = false;
+                    });
+                }
+                else
+                {
+                    console.log('load existing data');
+                    program.loadingProgram = false;
+                }
+            }
+            else
+            {
+
+            }
         };
 
         $scope.checkActiveUser();
@@ -159,12 +213,15 @@ angular.module('bluereconlineApp')
             return $http(req);
         };
 
-        programs.loadPrograms = function () {
+        programs.loadPrograms = function (searchOptions) {
             var req = {
                 method: 'POST',
                 skipAuthorization:true,
                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/onlineprograms',
                 data: {
+                    'keyword':searchOptions.keyword,
+                    'typeId':searchOptions.type,
+                    'locationId':searchOptions.location
                 },
                 headers: {
                     'Content-Type': undefined

@@ -34,7 +34,8 @@
     "angularUtils-pagination": "angular-utils-pagination#~0.9.4",
     "AngularJS-Toaster": "angularjs-toaster#~0.4.181",
     "angular-local-storage": "^0.2.7",
-    "angular-uuid4": "^0.3.1"
+    "angular-uuid4": "^0.3.1",
+    "quick-ng-repeat": "quick-ngrepeat#*"
   },
   "devDependencies": {
     "angular-mocks": "#1.4.0"

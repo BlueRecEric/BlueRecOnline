@@ -17,60 +17,89 @@
 
                         <h4>{{addonData.itemName}} add-ons for {{addonData.userName}}</h4>
 
-                        <div data-ng-repeat="addon in addonData.addons">
+                        <div class="table-responsive" data-ng-show="addonData.addons.packages.length > 0">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <td class="col-med-2">Purchase</td>
+                                    <td class="col-med-4">Add-On Name</td>
+                                    <td class="col-med-4">Add-On Code</td>
+                                    <td class="col-med-2">Fee(s)</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="pkg in addonData.addons.packages" >
+                                    <td>
+                                        <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.updateAddonFees(pkg.uuid)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
+                                        <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
+                                    </td>
+                                    <td><span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}</td>
+                                    <td>{{pkg.item_code}}</td>
+                                    <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                            <div data-ng-show="addon.package_dates">
-                                <div class="row" data-ng-repeat="item in addon.addons.packages.uniqueItems">
-                                    <div class="col-sm-2">
-                                        <h5>{{item.item_name}}:</h5>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div data-ng-repeat="fee in item.original_fees.data">
-                                            <h5>{{fee.fee_name}}: ${{fee.fee_amount}}/day</h5>
-                                        </div>
+
+
+                        <div data-ng-show="addonData.addons.dropins.uniqueItems.length > 0">
+
+
+                            <div class="row" data-ng-repeat="item in addonData.addons.dropins.uniqueItems">
+                                <div class="col-sm-2">
+                                    <h5>{{::item.item_name}}:</h5>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div data-ng-repeat="fee in item.original_fees.data">
+                                        <h5>{{::fee.fee_name}}: ${{::fee.fee_amount}}/day</h5>
                                     </div>
                                 </div>
                             </div>
 
-                            <div data-ng-show="addon.package_dates">
+                            <div>
                                 Select Dates
 
-                                <div class="row seven-cols" style="table-layout: fixed;height: 35px;width: 100%;margin:0px;padding:0px;">
-                                    <div data-ng-show="addon.addons.packages.weekdays[0].enabled" class="col-md-1" style="text-align:center; outline: 2px solid #ccc;height: 35px;margin-top: 0;margin-bottom: 0;">Sun</div>
-                                    <div data-ng-show="addon.addons.packages.weekdays[1].enabled" class="col-md-1" style="text-align:center; outline: 2px solid #ccc;height: 35px;margin-top: 0;margin-bottom: 0;">Mon</div>
-                                    <div data-ng-show="addon.addons.packages.weekdays[2].enabled" class="col-md-1" style="text-align:center; outline: 2px solid #ccc;height: 35px;margin-top: 0;margin-bottom: 0;">Tue</div>
-                                    <div data-ng-show="addon.addons.packages.weekdays[3].enabled" class="col-md-1" style="text-align:center; outline: 2px solid #ccc;height: 35px;margin-top: 0;margin-bottom: 0;">Wed</div>
-                                    <div data-ng-show="addon.addons.packages.weekdays[4].enabled" class="col-md-1" style="text-align:center; outline: 2px solid #ccc;height: 35px;margin-top: 0;margin-bottom: 0;">Thu</div>
-                                    <div data-ng-show="addon.addons.packages.weekdays[5].enabled" class="col-md-1" style="text-align:center; outline: 2px solid #ccc;height: 35px;margin-top: 0;margin-bottom: 0;">Fri</div>
-                                    <div data-ng-show="addon.addons.packages.weekdays[6].enabled" class="col-md-1" style="text-align:center; outline: 2px solid #ccc;height: 35px;margin-top: 0;margin-bottom: 0;">Sat</div>
+                                <div class="row seven-cols" style="table-layout: fixed;width: 100%;">
+                                    <div data-ng-show="addonData.addons.dropins.weekdays[0].enabled" class="col-md-1"><div class="well text-center"><h5>Sun</h5></div></div>
+                                    <div data-ng-show="addonData.addons.dropins.weekdays[1].enabled" class="col-md-1"><div class="well text-center"><h5>Mon</h5></div></div>
+                                    <div data-ng-show="addonData.addons.dropins.weekdays[2].enabled" class="col-md-1"><div class="well text-center"><h5>Tue</h5></div></div>
+                                    <div data-ng-show="addonData.addons.dropins.weekdays[3].enabled" class="col-md-1"><div class="well text-center"><h5>Wed</h5></div></div>
+                                    <div data-ng-show="addonData.addons.dropins.weekdays[4].enabled" class="col-md-1"><div class="well text-center"><h5>Thu</h5></div></div>
+                                    <div data-ng-show="addonData.addons.dropins.weekdays[5].enabled" class="col-md-1"><div class="well text-center"><h5>Fri</h5></div></div>
+                                    <div data-ng-show="addonData.addons.dropins.weekdays[6].enabled" class="col-md-1"><div class="well text-center"><h5>Sat</h5></div></div>
                                 </div>
 
-                                <div class="row seven-cols" style="table-layout: fixed;width: 100%;margin:0px;padding:0px;">
-                                    <div data-ng-show="wkday.enabled" data-ng-repeat="wkday in addon.addons.packages.weekdays" class="col-md-1" style="outline: 2px solid #ccc;margin-top: 0;margin-bottom: 0;">
-                                        Every {{wkday.label}}:
-                                        <div data-ng-repeat="wkdPkg in addon.addons.packages.uniqueItems">
-                                            <checkbox class="btn-primary" ng-true-value="1" ng-false-value="0" data-ng-model="wkday.items[$index].selected" name="wkdPkg.item_name" data-ng-change="preLoad.updateEveryDateAddonFees($parent.$parent.$index, $index, wkdPkg.item_id, $parent.$index)"></checkbox>
-                                            {{wkdPkg.item_name}}
-                                            <div class="spacing"></div>
+                                <div class="row seven-cols" style="table-layout: fixed;width: 100%;">
+                                    <div data-ng-show="wkday.enabled" data-ng-repeat="wkday in addonData.addons.dropins.weekdays" class="col-md-1">
+                                        <div class="well">
+                                            <div class="text-center"><strong>Every {{::wkday.label}}:</strong></div>
+                                            <div data-ng-repeat="wkdPkg in addonData.addons.dropins.uniqueItems">
+                                                <checkbox class="btn-primary" ng-true-value="1" ng-false-value="0" data-ng-model="wkday.items[$index].selected" name="wkdPkg.item_name" data-ng-change="preLoad.updateEveryDateAddonFees($parent.$parent.$index, $index, wkdPkg.item_id, $parent.$index)"></checkbox>
+                                                {{::wkdPkg.item_name}}
+                                                <div class="spacing"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row seven-cols" style="table-layout: fixed;height: 95px;width: 100%;margin:0px;padding:0px;" data-ng-repeat="week in addon.addons.packages.weeks">
-                                    <div data-ng-show="addon.addons.packages.weekdays[$index].enabled" class="col-md-1" style="outline: 2px solid #ccc;height: 95px;margin-top: 0;margin-bottom: 0;" data-ng-repeat="weekday in week.weekday">
-                                        {{weekday.label}}
-                                        <div data-ng-repeat="pkg in weekday.packages">
-                                            <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.clickDateAddon($parent.$parent.$parent.$index, $parent.$parent.$index, $parent.$index, $index, pkg.uuid, pkg.item_id, pkg.remaining)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
-                                            <span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}
-                                            <div class="spacing"></div>
+                                <div class="row seven-cols" style="table-layout: fixed;width: 100%;" data-ng-repeat="week in addonData.addons.dropins.weeks">
+                                    <div data-ng-show="addonData.addons.dropins.weekdays[$index].enabled" class="col-md-1" data-ng-repeat="weekday in week.weekday">
+                                        <div class="well" data-ng-show="weekday.packages.length > 0">
+                                            <div class="text-center"><strong>{{weekday.label}}</strong></div>
+                                            <div data-ng-repeat="pkg in weekday.packages">
+                                                <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.clickDateAddon($parent.$parent.$parent.$index, $parent.$parent.$index, $parent.$index, $index, pkg.uuid, pkg.item_id, pkg.remaining)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
+                                                <span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{::pkg.item_name}}
+                                                <div class="spacing"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div data-ng-show="addon.package_dates">
-                                    <div class="row" data-ng-repeat="item in addon.addons.packages.uniqueItems">
+                                <div>
+                                    <div class="row" data-ng-repeat="item in addonData.addons.dropins.uniqueItems">
                                         <div class="col-sm-2">
-                                            <h5>{{item.item_name}}:</h5>
+                                            <h5>{{::item.item_name}}:</h5>
                                         </div>
                                         <div class="col-sm-2">
                                             <div data-ng-repeat="selfee in item.fees.data">
@@ -81,66 +110,7 @@
                                 </div>
 
                             </div>
-                            <div class="table-responsive" data-ng-show="!addon.package_dates">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <td>Purchase</td>
-                                        <td>Add-On Name</td>
-                                        <td>Add-On Code</td>
-                                        <td>Fee(s)</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr data-ng-repeat="pkg in addon.addons.packages | filter:standardPackageFilter" >
-                                        <td>
-                                            <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.updateAddonFees(pkg.uuid)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
-                                            <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
-                                        </td>
-                                        <td><span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}</td>
-                                        <td>{{pkg.item_code}}</td>
-                                        <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
-                                    </tr>
 
-                                    <tr data-ng-repeat="pkg in addon.addons.packages | filter:{item_type:'INV'}" >
-                                        <td>
-                                            <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.updateAddonFees(pkg.uuid)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
-                                            <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
-                                        </td>
-                                        <td><span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}</td>
-                                        <td>{{pkg.item_code}}</td>
-                                        <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="table-responsive" data-ng-repeat="pkg in addon.addons.packages | filter:weekdayPackageFilter">
-
-                                <h5 data-ng-show="{{$first}}">The following packages allow weekday selection. You must select <span data-ng-show="{{pkg.min_days == pkg.max_days}}">{{pkg.min_days}} days to purchase the package.</span></h5>
-                                <table class="table table-bordered" data-ng-show="{{$first}}">
-                                    <thead>
-                                    <tr>
-                                        <td>Purchase</td>
-                                        <td>Add-On Name/Days</td>
-                                        <td>Add-On Code</td>
-                                        <td>Fee(s)</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr data-ng-repeat="pkg in addon.addons.packages | filter:weekdayPackageFilter">
-                                        <td>
-                                            <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="preLoad.updateAddonFees(pkg.uuid)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
-                                        </td>
-                                        <td><span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}</td>
-                                        <td>{{pkg.item_code}}</td>
-                                        <td><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-
-                            </div>
                         </div>
 
                     </div>

@@ -20,6 +20,7 @@ angular
     'angular-jwt',
     'angular-loading-bar',
     'ui.utils',
+    'QuickList',
     'infinite-scroll',
     'uiGmapgoogle-maps',
     'mgcrea.ngStrap',
@@ -45,6 +46,13 @@ angular
     .config(function (localStorageServiceProvider) {
         localStorageServiceProvider
             .setPrefix('blueRec');
+    })
+    .config(function(uiGmapGoogleMapApiProvider) {
+        uiGmapGoogleMapApiProvider.configure({
+            //    key: 'your api key',
+            v: '3.20', //defaults to latest 3.X anyhow
+            libraries: 'weather,geometry,visualization'
+        });
     })
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
         $routeProvider
@@ -841,7 +849,7 @@ angular
         };
     })
 
-  .factory('ProInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
+  .factory('ProInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'uiGmapGoogleMapApi', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,uiGmapGoogleMapApi) {
     var proload = this;
 
       var validateUserEligibility = function (userIndex, userID, programID)
@@ -960,35 +968,44 @@ angular
         responseData = JSON.parse(angular.toJson(response.data));
         responseData.datesNotEmpty = (responseData.prodates && responseData.prodates.length)?true:false;
 
-        angular.forEach(responseData.locations, function(value, key) {
-          //console.log('Key: ' + responseData.locations[key].geo_address);
+        uiGmapGoogleMapApi.then(function(maps) {
+            angular.forEach(responseData.locations, function (value, key) {
+                //console.log('Key: ' + responseData.locations[key].geo_address);
 
-          var codeReq = {
-            method: 'GET',
-            skipAuthorization: true,
-            url: 'https://maps.google.com/maps/api/geocode/json?address=' + responseData.locations[key].geo_address + '&sensor=false',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          };
+                var codeReq = {
+                    method: 'GET',
+                    skipAuthorization: true,
+                    url: 'https://maps.google.com/maps/api/geocode/json?address=' + responseData.locations[key].geo_address + '&sensor=false',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
 
-          $http(codeReq).success(function(geoData) {
-            //console.log(geoData);
-            var tempData = [];
-            tempData.center = '';
-            tempData.marker = [];
-            var centerMap = { latitude: geoData.results[0].geometry.location.lat, longitude: geoData.results[0].geometry.location.lng };
-            var marker = [];
-            marker.id = responseData.locations[key].location_name;
-            marker.location = { latitude: geoData.results[0].geometry.location.lat, longitude: geoData.results[0].geometry.location.lng };
-            tempData.center = centerMap;
-            tempData.marker = marker;
-            mapData.push(tempData);
-            mapData.mapOptions = {scrollwheel: false,draggable:false};
-          });
+                $http(codeReq).success(function (geoData) {
+                    //console.log(geoData);
+                    var tempData = [];
+                    tempData.center = '';
+                    tempData.marker = [];
+                    var centerMap = {
+                        latitude: geoData.results[0].geometry.location.lat,
+                        longitude: geoData.results[0].geometry.location.lng
+                    };
+                    var marker = [];
+                    marker.id = responseData.locations[key].location_name;
+                    marker.location = {
+                        latitude: geoData.results[0].geometry.location.lat,
+                        longitude: geoData.results[0].geometry.location.lng
+                    };
+                    tempData.center = centerMap;
+                    tempData.marker = marker;
+                    mapData.push(tempData);
+                    mapData.mapOptions = {scrollwheel: false, draggable: false};
+                });
+            });
+            responseData.mapData = mapData;
         });
 
-        responseData.mapData = mapData;
+
 
         proload.returnData = responseData;
 

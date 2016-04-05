@@ -56,6 +56,7 @@ module.exports = function(config) {
       'bower_components/AngularJS-Toaster/toaster.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
       'bower_components/angular-uuid4/angular-uuid4.js',
+      'bower_components/quick-ng-repeat/quick-ng-repeat.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",
