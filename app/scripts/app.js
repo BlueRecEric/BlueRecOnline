@@ -1021,7 +1021,7 @@ angular
 
     return proload;
   }])
-.controller('appController',['$scope', '$rootScope', '$http','$routeParams', '$q','AuthService', function ($scope,$rootScope, $http,$routeParams,$q, AuthService) {
+.controller('appController',['$scope', '$rootScope', '$http','$routeParams', '$q','AuthService', 'ActiveUser', function ($scope,$rootScope, $http,$routeParams,$q, AuthService,ActiveUser) {
 
     function isImage(src) {
 
@@ -1068,8 +1068,12 @@ angular
             }
         });
 
-        AuthService.refreshUser();
+        if(ActiveUser.isLoggedIn())
+        {
+            AuthService.refreshUser();
 
-        $rootScope.$emit('updateCartCount', {});
+            $rootScope.$emit('updateCartCount', {});
+        }
+
     });
 }]);

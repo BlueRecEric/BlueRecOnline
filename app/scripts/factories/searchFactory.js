@@ -23,11 +23,21 @@ angular.module('bluereconlineApp')
 
         search.getProgramSearch = function () {
             var defer = $q.defer();
+
+
             search.programSearch = search.getProgramSearchFromStorage();
+
+            if(!angular.isDefined(search.programSearch) || search.programSearch == null)
+            {
+                search.programSearch = {};
+                search.programSearch.keyword = '';
+                search.programSearch.type = '';
+                search.programSearch.location = '';
+            }
 
             console.log('after getting program search:');
             console.log(search.programSearch);
-            defer.resolve(true);
+            setTimeout(function() {defer.resolve(true);}, 250);
             return defer.promise;
         };
 
