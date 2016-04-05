@@ -17,8 +17,6 @@
           <div data-ng-repeat="regField in preLoad.fields">
 
             <h4>{{regField.item_name}} information for {{regField.user_name}}</h4>
-
-
               <div ng-repeat="field in regField.fields.customForm">
                 <!-- TEXT FIELDS -->
                 <div ng-if="field.type=='text'" class="form-group">

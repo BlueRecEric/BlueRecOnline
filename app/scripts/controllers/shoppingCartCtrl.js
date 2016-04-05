@@ -8,8 +8,8 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ShoppingCartCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 'BLUEREC_ONLINE_CONFIG', '$http', 'ActiveUser', 'MakeToast',
-        function ($scope,$rootScope,$routeParams,$location,BLUEREC_ONLINE_CONFIG,$http,ActiveUser,MakeToast) {
+  .controller('ShoppingCartCtrl', ['$scope', '$rootScope', '$route', '$routeParams', '$location', 'BLUEREC_ONLINE_CONFIG', '$http', 'ActiveUser', 'MakeToast',
+        function ($scope,$rootScope, $route, $routeParams,$location,BLUEREC_ONLINE_CONFIG,$http,ActiveUser,MakeToast) {
       $scope.orgurl = $routeParams.orgurl;
 
       $scope.cart = {};
@@ -17,6 +17,8 @@ angular.module('bluereconlineApp')
 
       $scope.promoCodeEnabled = false;
       $scope.promoCode = '';
+
+        $scope.$route = $route;
 
       ActiveUser.getFromLocal().then(function() {
           $scope.cart.household = ActiveUser.userData.household;
@@ -181,13 +183,13 @@ angular.module('bluereconlineApp')
 
       function goToCheckout()
       {
-        $location.path('/' + $routeParams.orgurl + '/precheckout');
+          $location.path('/' + $routeParams.orgurl + '/precheckout');
       }
 
       $scope.gotoItemInfoPage = function(itemID)
       {
           $location.path('/' + $routeParams.orgurl + '/programinfo/' + itemID);
-      }
+      };
 
       loadCart();
 

@@ -6,7 +6,6 @@
             <h4 class="aside-title" ng-bind-html="title"></h4>
         </div>
         <div class="aside-body" >
-
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span style="float: right;">
@@ -21,7 +20,8 @@
 
                             <div class="well" data-ng-repeat="item in cart.data">
                                 <div>
-                                     <span style="float: left;"> <span data-placement="right"><span class="fa-stack fa-lg clicky" data-ng-click="removeItem({{item.shopping_item_id}})">
+                                     <span style="float: left;"> <span data-placement="right"><span class="fa-stack fa-lg clicky" data-ng-click="removeItem({{item.shopping_item_id}})"
+                                                                                                    data-ng-hide="{{$route.current.templateUrl == 'views/precheckout.html'}}">
                                           <i class="fa fa-square fa-stack-2x text-danger"></i>
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span></span>
@@ -47,7 +47,8 @@
                                     <div class="row">
                                         <div class="col-sm-2">&nbsp;</div>
                                         <div class="col-sm-1">
-                                        <span data-placement="right"><span class="fa-stack fa-1x clicky" data-ng-click="removeItem({{link.linked_shopping_item_id}})">
+                                        <span data-placement="right"><span class="fa-stack fa-1x clicky" data-ng-click="removeItem({{link.linked_shopping_item_id}})"
+                                                                          data-ng-hide="{{$route.current.templateUrl == 'views/precheckout.html'}}">
                                           <i class="fa fa-square fa-stack-2x text-danger"></i>
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span>
