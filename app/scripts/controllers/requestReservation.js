@@ -443,13 +443,13 @@ angular.module('bluereconlineApp')
                };
 
                $http(req)
-                   .success(function (data) {
-                       for ( var i = 0; i < data.length; i++)
+                   .then(function (response) {
+                       for ( var i = 0; i < response.data.length; i++)
                        {
-                           data[i].rental_code_desc_short = data[i].rental_code_description.substr(0, 125)+'...';
+                           response.data[i].rental_code_desc_short = response.data[i].rental_code_description.substr(0, 125)+'...';
                        }
 
-                       $scope.rentalDropDown = data;
+                       $scope.rentalDropDown = response.data;
                        console.log($scope.rentalDropDown);
                    });
            };

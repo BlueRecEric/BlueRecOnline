@@ -18,15 +18,15 @@
 
             <tr>
 
-                <td><img data-ng-if="receiptData.returnData.header.receipt_logo" width="220" data-ng-src="{{receiptData.returnData.header.receipt_logo}}"></td>
+                <td><img data-ng-if="::receiptData.returnData.header.receipt_logo" width="220" data-ng-src="{{::receiptData.returnData.header.receipt_logo}}"></td>
 
-                <td valign="center" class="text-center">Barcode</td>
+                <td valign="center" class="text-center"><img src="{{::receiptData.returnData.header.barcode_url}}"></td>
 
                 <td class="text-right">
                     <strong>
-                        {{receiptData.returnData.header.receiptName}}<br>
-                        Purchased {{receiptData.returnData.header.transaction_date}}<br>
-                        Receipt #{{receiptData.returnData.header.transaction_id}}
+                        {{::receiptData.returnData.header.receiptName}}<br>
+                        Purchased {{::receiptData.returnData.header.transaction_date}}<br>
+                        Receipt #{{::receiptData.returnData.header.transaction_id}}
                     </strong>
                 </td>
 
@@ -39,15 +39,15 @@
                     <table class="table-fixed report-table-scale">
                         <tr>
                             <td valign="top"><strong>Name:</strong></td>
-                            <td>{{receiptData.returnData.header.personName}}</td>
+                            <td>{{::receiptData.returnData.header.personName}}</td>
                         </tr>
                         <tr>
                             <td valign="top"><strong>Phone:</strong></td>
-                            <td>{{receiptData.returnData.header.personPhone}}</td>
+                            <td>{{::receiptData.returnData.header.personPhone}}</td>
                         </tr>
                         <tr>
                             <td valign="top"><strong>Address:</strong></td>
-                            <td data-ng-bind-html="receiptData.returnData.header.personAddress | sanitize"></td>
+                            <td data-ng-bind-html="::receiptData.returnData.header.personAddress | sanitize"></td>
                         </tr>
                     </table>
                 </td>
@@ -59,37 +59,37 @@
                         <tr>
                             <td class="text-left"><strong>Total:</strong></td>
                             <td>&nbsp;&nbsp;</td>
-                            <td>{{receiptData.returnData.header.totalAmount}}</td>
+                            <td>{{::receiptData.returnData.header.totalAmount}}</td>
                         </tr>
 
                         <tr>
                             <td class="text-left"><strong>Discount:</strong></td>
                             <td>&nbsp;&nbsp;</td>
-                            <td>{{receiptData.returnData.header.discountAmount}}</td>
+                            <td>{{::receiptData.returnData.header.discountAmount}}</td>
                         </tr>
 
                         <tr>
                             <td class="text-left"><strong>Tax:</strong></td>
                             <td>&nbsp;&nbsp;</td>
-                            <td>{{receiptData.returnData.header.taxAmount}}</td>
+                            <td>{{::receiptData.returnData.header.taxAmount}}</td>
                         </tr>
 
                         <tr>
                             <td class="text-left"><strong>Amount Due:</strong></td>
                             <td>&nbsp;&nbsp;</td>
-                            <td>{{receiptData.returnData.header.dueAmount}}</td>
+                            <td>{{::receiptData.returnData.header.dueAmount}}</td>
                         </tr>
 
                         <tr style="border-bottom:1px solid #000000;">
                             <td class="text-left"><strong>Amount Paid:</strong></td>
                             <td>&nbsp;&nbsp;</td>
-                            <td>{{receiptData.returnData.header.paidAmount}}</td>
+                            <td>{{::receiptData.returnData.header.paidAmount}}</td>
                         </tr>
 
                         <tr>
                             <td class="text-left"><strong>Balance:</strong></td>
                             <td>&nbsp;&nbsp;</td>
-                            <td>{{receiptData.returnData.header.balanceAmount}}</td>
+                            <td>{{::receiptData.returnData.header.balanceAmount}}</td>
                         </tr>
                     </table>
                 </td>
@@ -97,13 +97,89 @@
             </tr>
 
             <tr>
-                <td colspan="3" class="text-right"><strong>Payment Method(s):{{receiptData.returnData.header.paymentMethod}}</strong></td>
+                <td colspan="3" class="text-right"><strong>Payment Method(s):{{::receiptData.returnData.header.paymentMethod}}</strong></td>
             </tr>
 
             <tr style="border-bottom:1px solid #000000;">
                 <td><strong>Transaction Items</strong></td>
-                <td colspan="2" class="text-right"><strong>{{receiptData.returnData.header.staff_name}}  / Printed: {{receiptData.returnData.header.printed}}</strong></td>
+                <td colspan="2" class="text-right"><strong>{{::receiptData.returnData.header.staff_name}}  / Printed: {{::receiptData.returnData.header.printed}}</strong></td>
             </tr>
+
+            <tr>
+                <td colspan="3">
+                    <table  class="table-fixed borderless report-table-scale">
+
+                        <tbody data-ng-repeat="item in receiptData.returnData.lineItems">
+
+                            <tr>
+                                <td width="20%"></td>
+                                <td colspan="2" width="100%"></td>
+                                <td width="100"></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4"><strong class="text-underline">{{::item.item_type}}</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td class="receipt-padding-left"><strong>Item Name:</strong></td>
+                                <td>{{::item.item_name}}</td>
+
+                                <td class="text-right"><strong>Fee:</strong></td>
+                                <td class="receipt-padding-left text-right">{{::item.feeAmount | currency:"$"}}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="receipt-padding-left"><div data-ng-if="showItemData(item.item_type, 'personName')"><strong>Person Name:</strong></div></td>
+                                <td><div data-ng-if="showItemData(item.item_type, 'personName')">{{::item.personName}}</div></td>
+
+                                <td class="text-right"><strong>Paid:</strong></td>
+                                <td class="receipt-padding-left text-right">{{::item.paidAmount | currency:"$"}}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="receipt-padding-left"><div data-ng-if="showItemData(item.item_type, 'itemDates')">
+                                <strong><div ng-bind-html="::item.dateLabel | sanitize"></div></strong></div></td>
+                                <td><div data-ng-if="showItemData(item.item_type, 'itemDates')">{{::item.itemDates}}</div></td>
+
+                                <td class="text-right"><strong>Bal:</strong></td>
+                                <td class="receipt-padding-left text-right">{{::item.balanceAmount | currency:"$"}}</td>
+                            </tr>
+
+
+                            <tr data-ng-if="showItemData(item.item_type, 'itemFacilities')">
+                                <td colspan="4">
+                                   <table width="100%" class="table-fixed borderless report-table-scale">
+                                       <tr>
+                                           <td class="receipt-padding-left"><strong>{{::item.itemFacilityLabel}}</strong></td>
+                                           <td><strong>{{::item.itemFacilitiesDateOne}}</strong></td>
+                                           <td><strong>{{::item.itemFacilitiesDateTwo}}</strong></td>
+                                       </tr>
+                                       <tr data-ng-if="showItemData(item.item_type, 'itemFacilities')">
+                                           <td class="receipt-padding-left"><div ng-bind-html="::item.item_facilities_label | sanitize"></div></td>
+                                           <td><div ng-bind-html="::item.item_facilities_date_one | sanitize"></div></td>
+                                           <td colspan="2"><div ng-bind-html="::item.item_facilities_date_two | sanitize"></div></td>
+                                       </tr>
+                                   </table>
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td colspan="4">&nbsp;</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </td>
+
+            </tr>
+
+
 
         </table>
 

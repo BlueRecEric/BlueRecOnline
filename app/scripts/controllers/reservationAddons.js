@@ -8,9 +8,10 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('ReservationAddons', ['$scope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout',
+    .controller('ReservationAddons', ['$scope', '$rootScope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout',
         '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'reservationService', 'reservationTimeService',
-        function ($scope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment, ActiveUser, reservationService, reservationTimeService) {
+        function ($scope, $rootScope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment,
+                  ActiveUser, reservationService, reservationTimeService) {
 
             $scope.contactCheckAlert = false;
 
@@ -230,6 +231,8 @@ angular.module('bluereconlineApp')
                             };
                             $http(req)
                                 .success(function () {
+                                    $rootScope.$emit('updateCartCount', {});
+
                                     $location.path('/' + $routeParams.orgurl + '/addedtocart');
                                     // $location.path('/' +  $routeParams.orgurl + '/reservations');
                                 });

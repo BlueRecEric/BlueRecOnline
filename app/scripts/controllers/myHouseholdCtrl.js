@@ -176,10 +176,8 @@ angular.module('bluereconlineApp')
         $scope.newMemberAdded = false;
       };
 
-      $scope.updateUser = function(person, updateIndex) {
-
-          $rootScope.$emit('updateCartCount', {});
-
+      $scope.updateUser = function(person, updateIndex)
+      {
         var Updater = UserUpdate;
 
         //console.log(person);

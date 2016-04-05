@@ -8,7 +8,8 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('MenuCtrl', ['$scope', '$rootScope', '$routeParams', '$route', 'AuthService', '$location', 'ActiveUser', '$aside', 'NavFactory', 'UserData', function ($scope,$rootScope,$routeParams,$route,AuthService,$location,ActiveUser, $aside, NavFactory, UserData) {
+    .controller('MenuCtrl', ['$scope', '$rootScope', '$routeParams', '$route', 'AuthService', '$http', '$location', 'ActiveUser', '$aside', 'NavFactory', 'BLUEREC_ONLINE_CONFIG', 'UserData',
+        function ($scope,$rootScope,$routeParams,$route,AuthService, $http, $location,ActiveUser, $aside, NavFactory, BLUEREC_ONLINE_CONFIG, UserData) {
 
         $scope.CartCount = 0;
 
@@ -17,7 +18,22 @@ angular.module('bluereconlineApp')
         });
 
         $scope.getCartCount = function() {
-            $scope.CartCount = 5;
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/carttotalitems',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {
+                    'userID': ActiveUser.userData.user_id,
+                    'householdID':ActiveUser.userData.household_id
+                }
+            };
+
+            $http(req)
+                .success(function (data) {
+                    $scope.CartCount = data.cart_total_items;
+                });
         };
 
         $scope.$watch(function() { return ActiveUser.getUser(); }, function() {
