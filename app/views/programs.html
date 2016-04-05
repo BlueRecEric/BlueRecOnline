@@ -2,9 +2,9 @@
 
   <h3>Search Activities</h3>
   <form>
-  <div class="well row">
-    <div class="col-xs-12">
-      <div class="row">
+    <div class="well row">
+      <div class="col-xs-12">
+        <div class="row">
           <div class="form-group col-xs-12 col-md-4">
             <label for="searchKeyword">Keyword:</label>
             <input id="searchKeyword" ng-model="search.programSearch.keyword" class="form-control" data-ng-change="doSearch()" ng-model-options="{debounce: 500}">
@@ -26,236 +26,236 @@
             </select>
           </div>
 
-      <!--
-      <div class="row spacing" data-ng-if="showAdvancedSearch"></div>
-      <div class="row" data-ng-if="showAdvancedSearch">
+          <!--
+          <div class="row spacing" data-ng-if="showAdvancedSearch"></div>
+          <div class="row" data-ng-if="showAdvancedSearch">
 
 
-        <div class="form-group col-xs-4">
-          <label>Starts After:</label>
-          <input class="form-control">
+            <div class="form-group col-xs-4">
+              <label>Starts After:</label>
+              <input class="form-control">
+            </div>
+
+            <div class="form-group col-xs-4">
+              <label>Ends Before:</label>
+              <input class="form-control">
+            </div>
+
+            <div class="form-group col-xs-4">
+              <label>Participant:</label>
+              <select class="form-control">
+                <option data-ng-repeat="person in household">{{person.firstname}} {{person.lastname}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" data-ng-if="showAdvancedSearch">
+            <div class="form-group col-xs-12" style="padding-bottom:2px;margin-bottom:2px;padding-top:2px;">
+              <label>Weekdays:</label>
+            </div>
+          </div>
+
+          <div class="row" data-ng-if="showAdvancedSearch">
+            <div class="form-group col-xs-12" style="padding-top:2px;">
+              <checkbox name="searchSunday" id="searchSunday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_sunday"></checkbox>
+              <label class="label-weekday" for="searchSunday">Sun</label>
+              <checkbox name="searchMonday" id="searchMonday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_monday"></checkbox>
+              <label class="label-weekday" for="searchMonday">Mon</label>
+              <checkbox name="searchTuesday" id="searchTuesday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_tuesday"></checkbox>
+              <label class="label-weekday" for="searchTuesday">Tue</label>
+              <checkbox name="searchWednesday" id="searchWednesday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_wednesday"></checkbox>
+              <label class="label-weekday" for="searchWednesday">Wed</label>
+              <checkbox name="searchThursday" id="searchThursday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_thursday"></checkbox>
+              <label class="label-weekday" for="searchThursday">Thu</label>
+              <checkbox name="searchFriday" id="searchFriday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_friday"></checkbox>
+              <label class="label-weekday" for="searchFriday">Fri</label>
+              <checkbox name="searchSaturday" id="searchSaturday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_saturday"></checkbox>
+              <label class="label-weekday" for="searchSaturday">Sat</label>
+            </div>
+          </div>
+
+          <div class="row" data-ng-if="showAdvancedSearch">
+            <div class="form-group col-xs-4">
+              <label>Minimum Age:</label>
+              <input class="form-control">
+            </div>
+
+            <div class="form-group col-xs-4">
+              <label>Maximum Age:</label>
+              <input class="form-control">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-xs-12" style="padding-bottom:2px;margin-bottom:2px;padding-top:2px;">
+              <label>Additional Filters:</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-xs-2" style="padding-bottom:2px;margin-bottom:2px;">
+              <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
+              <label for="searchTicket">Only Tickets</label>
+            </div>
+            <div class="form-group col-xs-2" style="padding-bottom:2px;margin-bottom:2px;">
+              <checkbox name="searchLeagues" id="searchLeagues" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
+              <label for="searchLeagues">Only Leagues</label>
+            </div>
+            <div class="form-group col-xs-2" style="padding-bottom:2px;margin-bottom:2px;">
+              <checkbox name="searchSingle" id="searchSingle" class="btn-primary" data-ng-false-value='' data-ng-model="query.single_day"></checkbox>
+              <label for="searchSingle">Single Day</label>
+            </div>
+            <div class="form-group col-xs-3" style="padding-bottom:2px;margin-bottom:2px;">
+              <checkbox name="searchCertificate" id="searchCertificate" class="btn-primary" data-ng-false-value='' data-ng-model="query.requires_certificate"></checkbox>
+              <label for="searchCertificate">Requires Certification</label>
+            </div>
+          </div>
+
+
+        <div style="margin-top:5px;" class="clicky no-select" ng-click="onSearchPanelOpen()">
+          <i data-ng-class="{'text-primary fa fa-lg fa-chevron-circle-up': showAdvancedSearch===true, 'text-primary fa fa-lg fa-chevron-circle-right': showAdvancedSearch===false}"></i>&nbsp;
+          <span class="text-underline">{{advancedSearchLabel}}</span>
         </div>
 
-        <div class="form-group col-xs-4">
-          <label>Ends Before:</label>
-          <input class="form-control">
-        </div>
+        -->
 
-        <div class="form-group col-xs-4">
-          <label>Participant:</label>
-          <select class="form-control">
-            <option data-ng-repeat="person in household">{{person.firstname}} {{person.lastname}}</option>
-          </select>
         </div>
       </div>
-
-      <div class="row" data-ng-if="showAdvancedSearch">
-        <div class="form-group col-xs-12" style="padding-bottom:2px;margin-bottom:2px;padding-top:2px;">
-          <label>Weekdays:</label>
-        </div>
-      </div>
-
-      <div class="row" data-ng-if="showAdvancedSearch">
-        <div class="form-group col-xs-12" style="padding-top:2px;">
-          <checkbox name="searchSunday" id="searchSunday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_sunday"></checkbox>
-          <label class="label-weekday" for="searchSunday">Sun</label>
-          <checkbox name="searchMonday" id="searchMonday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_monday"></checkbox>
-          <label class="label-weekday" for="searchMonday">Mon</label>
-          <checkbox name="searchTuesday" id="searchTuesday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_tuesday"></checkbox>
-          <label class="label-weekday" for="searchTuesday">Tue</label>
-          <checkbox name="searchWednesday" id="searchWednesday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_wednesday"></checkbox>
-          <label class="label-weekday" for="searchWednesday">Wed</label>
-          <checkbox name="searchThursday" id="searchThursday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_thursday"></checkbox>
-          <label class="label-weekday" for="searchThursday">Thu</label>
-          <checkbox name="searchFriday" id="searchFriday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_friday"></checkbox>
-          <label class="label-weekday" for="searchFriday">Fri</label>
-          <checkbox name="searchSaturday" id="searchSaturday" class="btn-primary" data-ng-false-value='' data-ng-model="query.meets_saturday"></checkbox>
-          <label class="label-weekday" for="searchSaturday">Sat</label>
-        </div>
-      </div>
-
-      <div class="row" data-ng-if="showAdvancedSearch">
-        <div class="form-group col-xs-4">
-          <label>Minimum Age:</label>
-          <input class="form-control">
-        </div>
-
-        <div class="form-group col-xs-4">
-          <label>Maximum Age:</label>
-          <input class="form-control">
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="form-group col-xs-12" style="padding-bottom:2px;margin-bottom:2px;padding-top:2px;">
-          <label>Additional Filters:</label>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="form-group col-xs-2" style="padding-bottom:2px;margin-bottom:2px;">
-          <checkbox name="searchTicket" id="searchTicket" class="btn-primary" data-ng-false-value='' data-ng-model="query.has_tickets"></checkbox>
-          <label for="searchTicket">Only Tickets</label>
-        </div>
-        <div class="form-group col-xs-2" style="padding-bottom:2px;margin-bottom:2px;">
-          <checkbox name="searchLeagues" id="searchLeagues" class="btn-primary" data-ng-false-value='' data-ng-model="query.league_program"></checkbox>
-          <label for="searchLeagues">Only Leagues</label>
-        </div>
-        <div class="form-group col-xs-2" style="padding-bottom:2px;margin-bottom:2px;">
-          <checkbox name="searchSingle" id="searchSingle" class="btn-primary" data-ng-false-value='' data-ng-model="query.single_day"></checkbox>
-          <label for="searchSingle">Single Day</label>
-        </div>
-        <div class="form-group col-xs-3" style="padding-bottom:2px;margin-bottom:2px;">
-          <checkbox name="searchCertificate" id="searchCertificate" class="btn-primary" data-ng-false-value='' data-ng-model="query.requires_certificate"></checkbox>
-          <label for="searchCertificate">Requires Certification</label>
-        </div>
-      </div>
-
-
-    <div style="margin-top:5px;" class="clicky no-select" ng-click="onSearchPanelOpen()">
-      <i data-ng-class="{'text-primary fa fa-lg fa-chevron-circle-up': showAdvancedSearch===true, 'text-primary fa fa-lg fa-chevron-circle-right': showAdvancedSearch===false}"></i>&nbsp;
-      <span class="text-underline">{{advancedSearchLabel}}</span>
     </div>
-
-    -->
-
-      </div>
-    </div>
-  </div>
   </form>
 
-<div class="row">
+  <div class="row">
 
     <dir-pagination-controls pagination-id="session.session_id" data-ng-if="!programs.busy"></dir-pagination-controls>
 
-    <div class="panel panel-primary" dir-paginate="session in activePrograms.data.sessions | itemsPerPage:10 track by session.session_id" current-page="activePrograms.data.pageNumber" pagination-id="session.session_id" auto-hide="false">
+    <div class="panel panel-primary" dir-paginate="session in activePrograms.data.sessions | itemsPerPage:10 track by session.session_id" current-page="activePrograms.data.pageNumber" pagination-id="session.session_id">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">({{::session.item_code}}) {{::session.item_name}}</h3>
       </div>
       <div class="panel-body">
         <p>
-          <div class="media">
-            <div class="media-left listing" data-ng-if="session.has_photo">
-              <img class="media-object thumbnail" data-ng-src="{{session.photo_uri}}" alt="{{session.item_name}}">
-            </div>
-            <div class="media-body" data-ng-bind-html="session.description | sanitize">
-            </div>
+        <div class="media">
+          <div class="media-left listing" data-ng-if="session.has_photo">
+            <img class="media-object thumbnail" data-ng-src="{{session.photo_uri}}" alt="{{session.item_name}}">
           </div>
+          <div class="media-body" data-ng-bind-html="session.description | sanitize">
+          </div>
+        </div>
 
-          <div id="sessionList_{{session.session_id}}" class="panel-group">
-            <div class="panel panel-default" quick-ng-repeat="program in session.programs track by program.item_id">
-              <div class="panel-heading clearfix clickable" data-ng-click="onProgramClick(program)" data-parent="#sessionList_{{session.session_id}}" data-toggle="collapse" data-target="#programdetail_{{::program.item_id}}">
-                <h3 class="panel-title">
-                  <div class="row">
-                    <div class="col-md-2 col-xs-4">{{::program.item_code}}</div>
-                    <div class="col-md-2 hidden-xs">{{::program.locations}}</div>
-                    <div class="col-md-2 col-xs-8">{{::program.dates}}</div>
-                    <div class="col-md-3 hidden-xs">{{::program.weekdays}}</div>
+        <div id="sessionList_{{session.session_id}}" class="panel-group">
+          <div class="panel panel-default" quick-ng-repeat="program in session.programs track by program.item_id">
+            <div class="panel-heading clearfix clickable" data-ng-click="onProgramClick(program)" data-parent="#sessionList_{{session.session_id}}" data-toggle="collapse" data-target="#programdetail_{{::program.item_id}}">
+              <h3 class="panel-title">
+                <div class="row">
+                  <div class="col-md-2 col-xs-4">{{::program.item_code}}</div>
+                  <div class="col-md-2 hidden-xs">{{::program.locations}}</div>
+                  <div class="col-md-2 col-xs-8">{{::program.dates}}</div>
+                  <div class="col-md-3 hidden-xs">{{::program.weekdays}}</div>
+                </div>
+              </h3>
+              <span class="pull-right clickable"><i class="glyphicon glyphicon-plus"></i></span>
+            </div>
+
+            <div class="panel-collapse collapse" id="programdetail_{{::program.item_id}}">
+              <div class="panel-body" data-ng-show="program.loadingProgram">
+                <div class="row">
+                  <div class="col-xs-12 text-center">
+                    <p><i class="fa fa-refresh fa-spin text-primary"></i>
+                      Loading Program Information...
+                    </p>
                   </div>
-                </h3>
-                <span class="pull-right clickable"><i class="glyphicon glyphicon-plus"></i></span>
+                </div>
               </div>
 
-              <div class="panel-collapse collapse" id="programdetail_{{::program.item_id}}">
-                <div class="panel-body" data-ng-show="program.loadingProgram">
-                  <div class="row">
-                    <div class="col-xs-12 text-center">
-                      <p><i class="fa fa-refresh fa-spin text-primary"></i>
-                        Loading Program Information...
-                      </p>
+              <div class="panel-body" data-ng-show="!program.loadingProgram">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-9">
+                    <div class="row clearfix">
+                      <div class="col-sm-6">
+                        <div class="row"><div class="col-sm-12"><h4>Registration</h4></div></div>
+                        <div class="row striped-row" quick-ng-repeat="date in program.listData.dates"><div class="col-xs-6">{{::date.label}}</div><div class="col-xs-6">{{::date.date}}</div></div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="row"><div class="col-sm-12"><h4>Fees</h4></div></div>
+                        <div class="row striped-row" quick-ng-repeat="fee in program.listData.fees track by fee.item_fee_id"><div class="col-xs-6">{{::fee.fee_name}}:</div><div class="col-xs-6">${{::fee.fee_amount}}</div></div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="row"><div class="col-sm-12"><h4>Location(s)</h4></div></div>
+                        <div class="row striped-row" quick-ng-repeat="location in program.listData.locations track by location.location_id">{{::location.location_name}}</div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="row"><div class="col-sm-12"><h4>Times</h4></div></div>
+                        <div class="row striped-row" quick-ng-repeat="weekday in program.listData.weekdays"><div class="col-xs-6">{{::weekday.program_weekdays}}:</div><div class="col-xs-6">{{::weekday.program_times}}</div></div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="row" data-ng-if="(program.listData.restrict_age === '1' || program.listData.restrict_grade === '1' || program.listData.restrict_birthday === '1' || program.listData.restrict_gender === '1')?true:false"><div class="col-sm-12"><h4>Eligibility</h4></div></div>
+                        <div class="row striped-row" data-ng-if="(program.listData.restrict_age === '1')?true:false"><div class="col-xs-12">
+                          <span data-ng-if="program.listData.minimum_age > 0 && program.listData.maximum_age > 0">{{::program.listData.minimum_age}} - {{::program.listData.maximum_age}} years old</span>
+                          <span data-ng-if="program.listData.minimum_age > 0 && program.listData.maximum_age <= 0">{{::program.listData.minimum_age}} and up</span>
+                          <span data-ng-if="program.listData.minimum_age <= 0 && program.listData.maximum_age > 0">Up to {{::program.listData.maximum_age}} years old</span>
+                        </div></div>
+                        <div class="row striped-row" data-ng-if="(program.listData.restrict_grade === '1')?true:false"><div class="col-xs-12">Grade(s) {{::program.listData.minimum_grade}} - {{::program.listData.maximum_grade}}</div></div>
+                        <div class="row striped-row" data-ng-if="(program.listData.restrict_gender === '1')?true:false"><div class="col-xs-12">Gender: {{::program.listData.gender}}</div></div>
+                      </div>
                     </div>
+
+                  </div>
+
+                  <div class="col-sm-3 col-md-3">
+                    <div class="row"><div class="col-sm-12"><h4><a id="register_{{program.listData.item_id}}">Register</a></h4></div></div>
+                    <ul class="list-group" data-ng-if="showRegisteredUser">
+                      <li class="list-group-item" data-ng-repeat="person in program.listData.users track by person.user_id" data-ng-if="person.eligible || program.showIneligible">
+                        <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-{{(person.eligible)?'default':'danger'}}" data-ng-model="person.selected" data-ng-change="checkEligibleRegistrant(person)"></checkbox>
+                        <label class="clickable" for="register_{{person.user_id}}">
+                          {{person.full_name}} <span class="text-success" data-ng-if="person.in_cart == '1'"> (In Cart)</span>
+                        </label>
+                        <div data-ng-if="!person.eligible"><span class="text-danger" quick-ng-repeat="reason in person.reasons">{{reason}}</span></div>
+                      </li>
+                      <li class="list-group-item" data-ng-if="program.listData.showEligibleButton">
+                        <button class="btn btn-block btn-default" data-ng-click="program.showIneligible = !program.showIneligible"><span data-ng-if="!program.showIneligible">Show</span><span data-ng-if="program.showIneligible">Hide</span> Ineligible</button>
+                      </li>
+                    </ul>
+                    <ul class="list-group" data-ng-if="!showRegisteredUser">
+                      <li class="list-group-item">
+                        <button class="btn btn-block btn-primary" data-ng-click="onGoToLogin()"><i class="fa fa-sign-in fa-fw"></i> Log in to register</button>
+                      </li>
+                    </ul>
+
                   </div>
                 </div>
 
-                <div class="panel-body" data-ng-show="!program.loadingProgram">
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-9">
-                      <div class="row clearfix">
-                        <div class="col-sm-6">
-                          <div class="row"><div class="col-sm-12"><h4>Registration</h4></div></div>
-                          <div class="row striped-row" quick-ng-repeat="date in program.listData.dates"><div class="col-xs-6">{{::date.label}}</div><div class="col-xs-6">{{::date.date}}</div></div>
-                        </div>
-
-                        <div class="col-sm-6">
-                          <div class="row"><div class="col-sm-12"><h4>Fees</h4></div></div>
-                          <div class="row striped-row" quick-ng-repeat="fee in program.listData.fees track by fee.item_fee_id"><div class="col-xs-6">{{::fee.fee_name}}:</div><div class="col-xs-6">${{::fee.fee_amount}}</div></div>
-                        </div>
-
-                        <div class="col-sm-6">
-                          <div class="row"><div class="col-sm-12"><h4>Location(s)</h4></div></div>
-                          <div class="row striped-row" quick-ng-repeat="location in program.listData.locations track by location.location_id">{{::location.location_name}}</div>
-                        </div>
-
-                        <div class="col-sm-6">
-                          <div class="row"><div class="col-sm-12"><h4>Times</h4></div></div>
-                          <div class="row striped-row" quick-ng-repeat="weekday in program.listData.weekdays"><div class="col-xs-6">{{::weekday.program_weekdays}}:</div><div class="col-xs-6">{{::weekday.program_times}}</div></div>
-                        </div>
-
-                        <div class="col-sm-6">
-                          <div class="row" data-ng-if="(program.listData.restrict_age === '1' || program.listData.restrict_grade === '1' || program.listData.restrict_birthday === '1' || program.listData.restrict_gender === '1')?true:false"><div class="col-sm-12"><h4>Eligibility</h4></div></div>
-                          <div class="row striped-row" data-ng-if="(program.listData.restrict_age === '1')?true:false"><div class="col-xs-12">
-                            <span data-ng-if="program.listData.minimum_age > 0 && program.listData.maximum_age > 0">{{::program.listData.minimum_age}} - {{::program.listData.maximum_age}} years old</span>
-                            <span data-ng-if="program.listData.minimum_age > 0 && program.listData.maximum_age <= 0">{{::program.listData.minimum_age}} and up</span>
-                            <span data-ng-if="program.listData.minimum_age <= 0 && program.listData.maximum_age > 0">Up to {{::program.listData.maximum_age}} years old</span>
-                          </div></div>
-                          <div class="row striped-row" data-ng-if="(program.listData.restrict_grade === '1')?true:false"><div class="col-xs-12">Grade(s) {{::program.listData.minimum_grade}} - {{::program.listData.maximum_grade}}</div></div>
-                          <div class="row striped-row" data-ng-if="(program.listData.restrict_gender === '1')?true:false"><div class="col-xs-12">Gender: {{::program.listData.gender}}</div></div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <div class="col-sm-3 col-md-3">
-                      <div class="row"><div class="col-sm-12"><h4><a id="register_{{program.listData.item_id}}">Register</a></h4></div></div>
-                      <ul class="list-group" data-ng-if="showRegisteredUser">
-                        <li class="list-group-item" data-ng-repeat="person in program.listData.users track by person.user_id" data-ng-if="person.eligible || program.showIneligible">
-                          <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-{{(person.eligible)?'default':'danger'}}" data-ng-model="person.selected" data-ng-change="checkEligibleRegistrant(person)"></checkbox>
-                          <label class="clickable" for="register_{{person.user_id}}">
-                             {{person.full_name}} <span class="text-success" data-ng-if="person.in_cart == '1'"> (In Cart)</span>
-                          </label>
-                          <div data-ng-if="!person.eligible"><span class="text-danger" quick-ng-repeat="reason in person.reasons">{{reason}}</span></div>
-                        </li>
-                        <li class="list-group-item" data-ng-if="program.listData.showEligibleButton">
-                          <button class="btn btn-block btn-default" data-ng-click="program.showIneligible = !program.showIneligible"><span data-ng-if="!program.showIneligible">Show</span><span data-ng-if="program.showIneligible">Hide</span> Ineligible</button>
-                        </li>
-                      </ul>
-                      <ul class="list-group" data-ng-if="!showRegisteredUser">
-                        <li class="list-group-item">
-                          <button class="btn btn-block btn-primary" data-ng-click="onGoToLogin()"><i class="fa fa-sign-in fa-fw"></i> Log in to register</button>
-                        </li>
-                      </ul>
-
-                    </div>
+                <div class="row clearfix">
+                  <div class="hidden-xs col-sm-9">
+                    <div class="spacing"></div>
+                    <a href="#/{{::route.orgurl}}/programinfo/{{::program.listData.item_id}}" class="btn btn-info"><i class="glyphicon glyphicon-question-sign"></i> More Information</a>
+                    <a href="#/{{::route.orgurl}}/volunteer/{{::program.listData.item_id}}" class="btn btn-info" data-ng-if="program.listData.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
                   </div>
 
-                  <div class="row clearfix">
-                    <div class="hidden-xs col-sm-9">
-                      <div class="spacing"></div>
-                      <a href="#/{{::route.orgurl}}/programinfo/{{::program.listData.item_id}}" class="btn btn-info"><i class="glyphicon glyphicon-question-sign"></i> More Information</a>
-                      <a href="#/{{::route.orgurl}}/volunteer/{{::program.listData.item_id}}" class="btn btn-info" data-ng-if="program.listData.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-3">
-                      <div class="spacing"></div>
-                      <button class="btn btn-success btn-block" data-ng-model="program.listData.addCartButton" data-ng-click="onAddToCartClick(program.listData)" data-ng-if="(program.listData.in_online_nonresident_registration || program.listData.in_online_resident_registration) && !addingRegistration"><!--
+                  <div class="col-xs-12 col-sm-3">
+                    <div class="spacing"></div>
+                    <button class="btn btn-success btn-block" data-ng-model="program.listData.addCartButton" data-ng-click="onAddToCartClick(program.listData)" data-ng-if="(program.listData.in_online_nonresident_registration || program.listData.in_online_resident_registration) && !addingRegistration"><!--
                       --><span data-ng-if="program.listData.package_count == 0"><i class="fa fa-shopping-cart"></i> Add to cart</span><!--
                       --><span data-ng-if="program.listData.package_count > 0"><i class="fa fa-cart-plus"></i> Enrollment Options</span><!--
                       --></button>
-                      <button class="btn btn-disabled btn-block" data-ng-if="addingRegistration">Please Wait...</button>
-                      <a href="#" class="btn btn-info" data-ng-if="program.listData.allow_waitlist && program.listData.remaining_spots === 0 && (program.listData.in_online_resident_registration === '1' || program.listData.in_online_nonresident_registration === '1')"><i class="fa fa-th-list"></i> Waitlist</a>
-                    </div>
-
-                    <div class="visible-xs col-xs-12">
-                      <div class="spacing"></div>
-                      <a href="#/{{::route.orgurl}}/programinfo/{{::program.listData.item_id}}" class="btn btn-default btn-block"><i class="glyphicon glyphicon-question-sign"></i> More Info</a>
-                      <a href="#/{{::route.orgurl}}/volunteer/{{::program.listData.item_id}}" class="btn btn-default btn-block" data-ng-if="program.listData.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
-                    </div>
+                    <button class="btn btn-disabled btn-block" data-ng-if="addingRegistration">Please Wait...</button>
+                    <a href="#" class="btn btn-info" data-ng-if="program.listData.allow_waitlist && program.listData.remaining_spots === 0 && (program.listData.in_online_resident_registration === '1' || program.listData.in_online_nonresident_registration === '1')"><i class="fa fa-th-list"></i> Waitlist</a>
                   </div>
 
+                  <div class="visible-xs col-xs-12">
+                    <div class="spacing"></div>
+                    <a href="#/{{::route.orgurl}}/programinfo/{{::program.listData.item_id}}" class="btn btn-default btn-block"><i class="glyphicon glyphicon-question-sign"></i> More Info</a>
+                    <a href="#/{{::route.orgurl}}/volunteer/{{::program.listData.item_id}}" class="btn btn-default btn-block" data-ng-if="program.listData.has_volunteers"><i class="fa fa-user-plus"></i> Volunteer</a>
+                  </div>
                 </div>
+
               </div>
             </div>
           </div>
+        </div>
         </p>
       </div>
     </div>
