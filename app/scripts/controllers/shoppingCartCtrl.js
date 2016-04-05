@@ -163,7 +163,7 @@ angular.module('bluereconlineApp')
 
                     $scope.cart.paymentComplete = true;
 
-                    loadCart(true);
+                    loadCart();
                 }
                 else
                 {

@@ -878,3 +878,24 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 .label-as-badge {
     border-radius: 1em;
 }
+
+
+.borderless td, .borderless th {
+    border: none;
+}
+
+.receipt-padding-left {
+    padding-left: 14px;
+}
+
+.table-hover > tbody > tr > td.active:hover,
+.table-hover > tbody > tr > th.active:hover,
+.table-hover > tbody > tr.active:hover > td,
+.table-hover > tbody > tr:hover > .active,
+.table-hover > tbody > tr.active:hover > th {
+    color: #000000;
+}
+
+.panel-success > .panel-heading {
+    color: #ffffff!important;
+}

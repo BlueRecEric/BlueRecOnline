@@ -12,6 +12,28 @@ angular.module('bluereconlineApp')
         $scope.receiptData = ReceiptLoader;
         $scope.receiptData.loadReceipt();
 
+
+        $scope.showItemData = function(itemType, columnType)
+        {
+            var bShow = false;
+
+            switch(itemType) {
+                case 'PROGRAM':
+                    bShow = true;
+                    break;
+                case 'RENTAL CODE':
+                    if(columnType === 'item_name' || columnType === 'itemDates')
+                    {bShow = true;}
+                    break;
+                case 'PACKAGE':
+                    if(columnType === 'item_name')
+                    {bShow = true;}
+                    break;
+            }
+
+            return bShow;
+        }
+
     }])
     .factory('ReceiptLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
         var receiptLoad = this;
@@ -32,12 +54,11 @@ angular.module('bluereconlineApp')
 
             $http(req).then(function(response) {
                 receiptLoad.returnData = {};
-                console.log('current receipt');
-                console.log(response.data);
                 receiptLoad.returnData = response.data.data;
 
                 console.log('receiptLoad.returnData:');
                 console.log(receiptLoad.returnData);
+
                 receiptLoad.busy = false;
             }.bind(this));
         };
