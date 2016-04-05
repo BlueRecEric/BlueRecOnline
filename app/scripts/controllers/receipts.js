@@ -32,7 +32,7 @@ angular.module('bluereconlineApp')
             }
 
             return bShow;
-        }
+        };
 
     }])
     .factory('ReceiptLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {

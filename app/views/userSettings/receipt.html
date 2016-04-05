@@ -14,13 +14,12 @@
 
     <div class="container" id="printContainer" data-ng-if="!receiptData.busy" style="width:98%">
 
-        <table class="table-fixed report-table" width="98%">
-
+        <table class="table-fixed report-table report-table-scale" width="98%">
             <tr>
 
                 <td><img data-ng-if="::receiptData.returnData.header.receipt_logo" width="220" data-ng-src="{{::receiptData.returnData.header.receipt_logo}}"></td>
 
-                <td valign="center" class="text-center"><img src="{{::receiptData.returnData.header.barcode_url}}"></td>
+                <td valign="center" class="text-center"><div><img style="width:200px;" data-ng-src="{{::receiptData.returnData.header.barcode_url}}"></div></td>
 
                 <td class="text-right">
                     <strong>
@@ -129,7 +128,6 @@
                                 <td class="receipt-padding-left text-right">{{::item.feeAmount | currency:"$"}}</td>
                             </tr>
 
-
                             <tr>
                                 <td class="receipt-padding-left"><div data-ng-if="showItemData(item.item_type, 'personName')"><strong>Person Name:</strong></div></td>
                                 <td><div data-ng-if="showItemData(item.item_type, 'personName')">{{::item.personName}}</div></td>
@@ -165,8 +163,6 @@
                                 </td>
                             </tr>
 
-
-
                             <tr>
                                 <td colspan="4">&nbsp;</td>
                             </tr>
@@ -178,12 +174,7 @@
                 </td>
 
             </tr>
-
-
-
         </table>
 
     </div>
-
-
 </div>
