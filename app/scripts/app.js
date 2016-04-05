@@ -849,7 +849,7 @@ angular
         };
     })
 
-  .factory('ProInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'uiGmapGoogleMapApi', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,uiGmapGoogleMapApi) {
+  .factory('ProInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'uiGmapGoogleMapApi', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,uiGmapGoogleMapApi,ActiveUser) {
     var proload = this;
 
       var validateUserEligibility = function (userIndex, userID, programID)
@@ -950,12 +950,27 @@ angular
       }
       proload.busy = true;
 
+        var uid = '';
+        var hid = '';
+
+        if(ActiveUser.isLoggedIn())
+        {
+            uid = ActiveUser.userData.user_id;
+            hid = ActiveUser.userData.household_id;
+        }
+
       var req = {
-        method: 'GET',
+        method: 'POST',
+        skipAuthorization:true,
         url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/programinfo/' + $routeParams.itemid,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': undefined
+        },
+          data: {
+              'itemID':$routeParams.itemid,
+              'uid':uid,
+              'hid':hid
+          }
       };
 
       return $http(req).then(function(response) {

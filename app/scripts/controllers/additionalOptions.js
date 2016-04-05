@@ -160,7 +160,7 @@ angular.module('bluereconlineApp')
                 var selectedInventory = [];
                 var registration = $scope.preLoad.data[r];
 
-                if(registration.addons.inventory.length > 0)
+                if(angular.isDefined(registration.addons.inventory) && registration.addons.inventory.length > 0)
                 {
                     selectedInventory = registration.addons.inventory.filter(isSelected);
 
@@ -176,7 +176,7 @@ angular.module('bluereconlineApp')
                     }
                 }
 
-                if(registration.addons.packages.length > 0)
+                if(angular.isDefined(registration.addons.packages) && registration.addons.packages.length > 0)
                 {
                     selectedPackages = registration.addons.packages.filter(isSelected);
 
@@ -192,7 +192,7 @@ angular.module('bluereconlineApp')
                     }
                 }
 
-                if(registration.addons.dayGroups.length > 0)
+                if(angular.isDefined(registration.addons.dayGroups) && registration.addons.dayGroups.length > 0)
                 {
                     selectedGroups = registration.addons.dayGroups.filter(isSelected);
 
@@ -208,7 +208,7 @@ angular.module('bluereconlineApp')
                     }
                 }
 
-                if(angular.isDefined($scope.preLoad.data[r].addons.dropins))
+                if(angular.isDefined(registration.addons.dropins) && angular.isDefined($scope.preLoad.data[r].addons.dropins))
                 {
                     console.log('there are dropins:');
 

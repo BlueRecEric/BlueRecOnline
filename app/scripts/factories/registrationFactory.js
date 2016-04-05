@@ -303,7 +303,7 @@ angular.module('bluereconlineApp')
                     'usePaymentPlan':'0'
                 };
 
-                if(reg.data[a].addons.selectedpackages.length > 0)
+                if(angular.isDefined(reg.data[a].addons) && angular.isDefined(reg.data[a].addons.selectedpackages) && reg.data[a].addons.selectedpackages.length > 0)
                 {
                     for(var pkg = 0; pkg < reg.data[a].addons.selectedpackages.length; pkg++)
                     {

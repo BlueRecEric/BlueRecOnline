@@ -18,22 +18,35 @@
 
       <div class="col-sm-3 col-xs-12" data-ng-show="proinfo.returnData.in_online_nonresident_registration || proinfo.returnData.in_online_resident_registration">
 
-        <div class="col-xs-12" data-ng-if="!loggedIn">
-          <a class="btn btn-primary" data-ng-href="#/{{orgurl}}/login"><i class="fa fa-sign-in fa-fw"></i> Login to Register</a>
-        </div>
-        <div class="col-xs-12" data-ng-if="loggedIn">
-          <div class="row"><div class="col-sm-12"><h4>Register</h4></div></div>
-          <ul class="list-group">
-            <li class="list-group-item" data-ng-repeat="person in ActiveUser.userData.household">
-              <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-{{(proinfo.returnData.usrData[$index].regError)?'danger':(proinfo.returnData.usrData[$index].regValid)?(proinfo.returnData.usrData[$index].added)?'success':'primary':'default'}}" data-ng-model="proinfo.returnData.usrData[$index].selected" data-ng-change="verifyProgramParticipant($index, person.user_id, proinfo.returnData.item_id)"></checkbox>
-              <label class="clickable" for="register_{{person.user_id}}">
-                {{person.firstname}} {{person.lastname}}<span class="text-success" data-ng-show="proinfo.returnData.usrData[$index].added"> (In Cart)</span>
-              </label>
-              <div data-ng-show="proinfo.returnData.usrData[$index].regError"><span class="text-danger">{{proinfo.returnData.usrData[$index].errorText}}</span></div>
-            </li>
-          </ul>
-          <div class="row"><div class="col-sm-12"><button class="btn btn-success btn-block" data-ng-model="proinfo.returnData.addCartButton" data-ng-click="addUsersToCart($parent.$index, $index)"><i class="glyphicon glyphicon-shopping-cart"></i> Add to cart</button></div></div>
-        </div>
+        <div class="row"><div class="col-sm-12"><h4><a id="register_{{proinfo.returnData.listData.item_id}}">Register</a></h4></div></div>
+        <ul class="list-group" data-ng-if="loggedIn">
+          <li class="list-group-item" data-ng-repeat="person in proinfo.returnData.listData.users track by person.user_id" data-ng-if="person.eligible || proinfo.returnData.listData.showIneligible">
+            <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-{{(person.eligible)?'default':'danger'}}" data-ng-model="person.selected" data-ng-change="checkEligibleRegistrant(person)"></checkbox>
+            <label class="clickable" for="register_{{person.user_id}}">
+              {{person.full_name}} <span class="text-success" data-ng-if="person.in_cart == '1'"> (In Cart)</span>
+            </label>
+            <div data-ng-if="!person.eligible"><span class="text-danger" quick-ng-repeat="reason in person.reasons">{{reason}}</span></div>
+          </li>
+          <li class="list-group-item" data-ng-if="proinfo.returnData.listData.showEligibleButton">
+            <button class="btn btn-block btn-default" data-ng-click="proinfo.returnData.listData.showIneligible = !proinfo.returnData.listData.showIneligible"><span data-ng-if="!proinfo.returnData.listData.showIneligible">Show</span><span data-ng-if="proinfo.returnData.listData.showIneligible">Hide</span> Ineligible</button>
+          </li>
+        </ul>
+        <ul class="list-group" data-ng-if="!loggedIn">
+          <li class="list-group-item">
+            <button class="btn btn-block btn-primary" data-ng-click="onGoToLogin()"><i class="fa fa-sign-in fa-fw"></i> Log in to register</button>
+          </li>
+        </ul>
+
+        <div data-ng-if="loggedIn">
+        <div class="alert alert-danger" data-ng-if="proinfo.returnData.listData.noSelection">Select at least one person.</div>
+        <button class="btn btn-success btn-block" data-ng-model="proinfo.returnData.listData.addCartButton" data-ng-click="onAddToCartClick(proinfo.returnData.listData)" data-ng-if="(proinfo.returnData.listData.in_online_nonresident_registration || proinfo.returnData.listData.in_online_resident_registration) && !addingRegistration"><!--
+                      --><span data-ng-if="proinfo.returnData.listData.package_count == 0"><i class="fa fa-shopping-cart"></i> Add to cart</span><!--
+                      --><span data-ng-if="proinfo.returnData.listData.package_count > 0"><i class="fa fa-cart-plus"></i> Enrollment Options</span><!--
+                      --></button>
+        <button class="btn btn-disabled btn-block" data-ng-if="addingRegistration">Please Wait...</button>
+          </div>
+
+      </div>
 
       </div>
     </div>
@@ -58,16 +71,19 @@
     </div>
 
     <div class="row">
-      <div data-ng-repeat="fee in proinfo.returnData.fees track by fee.item_fee_id">
-        <div class="col-xs-2 text-left">
-          {{fee.fee_name}}
+      <div class="col-xs-12 col-sm-3">
+        <div class="row striped-row" data-ng-repeat="fee in proinfo.returnData.fees track by fee.item_fee_id">
+          <div class="col-xs-7 col-sm-7 text-left">
+            {{fee.fee_name}}
+          </div>
+          <div class="col-xs-5 col-sm-5 text-right">
+            ${{fee.fee_amount}}
+          </div>
         </div>
-        <div class="col-xs-1 text-right">
-          ${{fee.fee_amount}}
-        </div>
-        <div class="col-xs-9">&nbsp;</div>
       </div>
+      <div class="col-xs-0 col-sm-9"></div>
     </div>
+
 
     <div class="row">
       <div class="col-xs-12 text-left" data-ng-show="proinfo.returnData.fileCount > 0">

@@ -12,7 +12,7 @@
 
           <div class="form-group col-xs-12 col-md-4">
             <label for="searchCategory">Category:</label>
-            <select id="searchCategory" class="form-control" ng-model="searchOptions.type" data-ng-change="doSearch()">
+            <select id="searchCategory" class="form-control" ng-model="search.programSearch.type" data-ng-change="doSearch()">
               <option value=""></option>
               <option data-ng-repeat="type in programTypes.data track by type.type_id" value="{{type.type_id}}">{{type.tree_name}}</option>
             </select>
@@ -20,7 +20,7 @@
 
           <div class="form-group col-xs-12 col-md-4">
             <label for="searchLocation">Location:</label>
-            <select id="searchLocation" class="form-control" ng-model="searchOptions.location" data-ng-change="doSearch()">
+            <select id="searchLocation" class="form-control" ng-model="search.programSearch.location" data-ng-change="doSearch()">
               <option value=""></option>
               <option data-ng-repeat="loc in programLocations.data track by loc.location_id" value="{{loc.location_id}}">{{loc.location_name}}</option>
             </select>
