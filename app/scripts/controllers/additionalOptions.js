@@ -133,6 +133,9 @@ angular.module('bluereconlineApp')
         $scope.submitAdditionalOptions = function()
         {
             $scope.addingToCart = true;
+            $scope.showRequiredPackageError = false;
+
+            $scope.optionErrors = [];
 
             console.log('here is the data we will submit:');
             console.log($scope.preLoad);
@@ -153,6 +156,8 @@ angular.module('bluereconlineApp')
 
                 //$scope.preLoad.data[r].addons.selectedpackages = [];
 
+                var hasPackage = false;
+                var hasInventory = false;
                 var selectedAddons = [];
                 var selectedPackages = [];
                 var selectedDropins = [];
@@ -169,6 +174,7 @@ angular.module('bluereconlineApp')
 
                     if(selectedInventory.length > 0)
                     {
+                        hasInventory = true;
                         for(var sinv = 0; sinv < selectedInventory.length; sinv++)
                         {
                             selectedAddons.push(selectedInventory[sinv]);
@@ -185,6 +191,7 @@ angular.module('bluereconlineApp')
 
                     if(selectedPackages.length > 0)
                     {
+                        hasPackage = true;
                         for(var spack = 0; spack < selectedPackages.length; spack++)
                         {
                             selectedAddons.push(selectedPackages[spack]);
@@ -201,6 +208,7 @@ angular.module('bluereconlineApp')
 
                     if(selectedGroups.length > 0)
                     {
+                        hasPackage = true;
                         for(var sgrp = 0; sgrp < selectedGroups.length; sgrp++)
                         {
                             selectedAddons.push(selectedGroups[sgrp]);
@@ -210,21 +218,25 @@ angular.module('bluereconlineApp')
 
                 if(angular.isDefined(registration.addons.dropins) && angular.isDefined($scope.preLoad.data[r].addons.dropins))
                 {
-                    console.log('there are dropins:');
-
-                    if($scope.preLoad.data[r].addons.dropins.uniqueItems.length > 0)
+                    if(angular.isDefined(registration.addons.dropins.uniqueItems))
                     {
-                        selectedDropins = $scope.preLoad.data[r].addons.dropins.uniqueItems.filter(dropinSelected);
+                        console.log('there are dropins:');
 
-                        console.log('here are the selected dropins:');
-                        console.log(selectedDropins);
-
-
-                        if(selectedDropins.length > 0)
+                        if($scope.preLoad.data[r].addons.dropins.uniqueItems.length > 0)
                         {
-                            for(var sdrop = 0; sdrop < selectedDropins.length; sdrop++)
+                            selectedDropins = $scope.preLoad.data[r].addons.dropins.uniqueItems.filter(dropinSelected);
+
+                            console.log('here are the selected dropins:');
+                            console.log(selectedDropins);
+
+
+                            if(selectedDropins.length > 0)
                             {
-                                selectedAddons.push(selectedDropins[sdrop]);
+                                hasPackage = true;
+                                for(var sdrop = 0; sdrop < selectedDropins.length; sdrop++)
+                                {
+                                    selectedAddons.push(selectedDropins[sdrop]);
+                                }
                             }
                         }
                     }
@@ -238,20 +250,44 @@ angular.module('bluereconlineApp')
                 console.log('updated registration array:');
                 console.log($scope.preLoad);
 
+                if(!hasPackage && $scope.preLoad.data[r].requiresPackage == '1')
+                {
+                    var optError = {};
+                    optError.message = 'You must select at least one package for ' + $scope.preLoad.data[r].userName;
+                    optError.itemID = $scope.preLoad.data[r].itemID;
+
+                    $scope.optionErrors.push(optError);
+                }
+
+                if(!hasInventory && $scope.preLoad.data[r].requiresItem == '1')
+                {
+                    var invError = {};
+                    invError.message = 'You must select at least one item for ' + $scope.preLoad.data[r].userName;
+                    invError.itemID = $scope.preLoad.data[r].itemID;
+
+                    $scope.optionErrors.push(invError);
+                }
             }
 
             console.log('here is the data we will submit, with only selected packages:');
             console.log($scope.preLoad);
 
-            $scope.preLoad.addToCart().then(function(response) {
-                console.log('add to cart response(2):');
-                console.log(response);
-
-                MakeToast.popOn('success','Shopping Cart','Items have been added to your cart!');
-                $rootScope.$emit('updateCartCount', {});
-
-                $location.path('/' + $routeParams.orgurl + '/programs');
+            if($scope.optionErrors.length > 0)
+            {
+                $scope.showRequiredPackageError = true;
                 $scope.addingToCart = false;
-            });
+            }
+            else {
+                $scope.preLoad.addToCart().then(function (response) {
+                    console.log('add to cart response(2):');
+                    console.log(response);
+
+                    MakeToast.popOn('success', 'Shopping Cart', 'Items have been added to your cart!');
+                    $rootScope.$emit('updateCartCount', {});
+
+                    $location.path('/' + $routeParams.orgurl + '/programs');
+                    $scope.addingToCart = false;
+                });
+            }
         };
     }]);

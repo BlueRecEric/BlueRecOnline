@@ -181,6 +181,12 @@
 
             <div class="spacing"> </div>
 
+            <div class="alert alert-danger" data-ng-if="showRequiredPackageError">
+                Please correct the following issues:
+                <ul>
+                    <li quick-ng-repeat="error in optionErrors">{{error.message}}</li>
+                </ul>
+            </div>
             <button class="btn btn-disabled btn-block" data-ng-if="addingToCart">Please Wait...</button>
             <button type="submit" data-ng-if="!addingToCart" data-ng-enable="customForm.$valid" id="submitFinal" value="Add to Cart" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
         </ng-form>

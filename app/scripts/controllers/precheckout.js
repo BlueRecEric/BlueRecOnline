@@ -15,7 +15,7 @@ angular.module('bluereconlineApp')
 
         $scope.regularPackages = {};
         $scope.regularPackages.weekday = '';
-
+        $scope.readyToCheckout = true;
         $scope.wkdPkgOpt = [];
 
         if(ActiveUser.isLoggedIn())
@@ -32,7 +32,43 @@ angular.module('bluereconlineApp')
             );
 
             var submitPreCheckRequest = function() {
-                preLoad.submitPreCheckRequest($scope.preLoad);
+
+                $scope.showWaiverError = false;
+                $scope.readyToCheckout = false;
+                $scope.waiverErrors = [];
+
+                var allWaiversSigned = true;
+
+                for(var w = 0; w < preLoad.waivers.length; w++)
+                {
+                    for(var s = 0; s < preLoad.waivers[w].signoff.length; s++)
+                    {
+                        if(!preLoad.waivers[w].signoff[s].agreed)
+                        {
+                            allWaiversSigned = false;
+
+                            var wError = {};
+                            wError.message = 'The ' + preLoad.waivers[w].waiver_name + ' must be agreed to by ' + preLoad.waivers[w].signoff[s].user_name;
+                            wError.waiverID = preLoad.waivers[w].waiver_id;
+
+                            $scope.waiverErrors.push(wError);
+                        }
+                    }
+                }
+
+                if($scope.waiverErrors.length > 0)
+                {
+                    $scope.showWaiverError = true;
+                    $scope.readyToCheckout = true;
+                }
+                else
+                {
+                    preLoad.submitPreCheckRequest($scope.preLoad).then(function() {
+                        $scope.readyToCheckout = true;
+                    });
+                }
+
+
             };
 
             $scope.submitPreCheckRequest = submitPreCheckRequest;
@@ -515,11 +551,10 @@ angular.module('bluereconlineApp')
                 data: preForm
             };
 
-            $http(req).then(
+            return $http(req).then(
                 function success(response) {
                     //console.log(response.data);
-                    if(ActiveUser.isLoggedIn())
-                    {
+                    if (ActiveUser.isLoggedIn()) {
                         $location.path('/' + $routeParams.orgurl + '/checkout');
                     }
                 }

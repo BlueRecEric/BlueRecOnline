@@ -79,7 +79,9 @@ angular.module('bluereconlineApp')
                         regProgram.item_id,
                         regProgram.item_type,
                         regProgram.item_name,
-                        regProgram.users[a].full_name
+                        regProgram.users[a].full_name,
+                        regProgram.requires_package_purchase,
+                        regProgram.requires_item_purchase
                     ));
 
                     regProgram.users[a].eligible = false;
@@ -100,7 +102,7 @@ angular.module('bluereconlineApp')
             });
         };
 
-        reg.addRegistration = function(userID, itemID, itemType, itemName, userName)
+        reg.addRegistration = function(userID, itemID, itemType, itemName, userName, requiresPackage, requiresItem)
         {
             console.log('add the registration data...');
             var defer = $q.defer();
@@ -115,6 +117,8 @@ angular.module('bluereconlineApp')
                     regData.itemType = itemType;
                     regData.itemName = itemName;
                     regData.userName = userName;
+                    regData.requiresPackage = requiresPackage;
+                    regData.requiresItem = requiresItem;
 
                     regData.waivers = [];
                     regData.payments = [];

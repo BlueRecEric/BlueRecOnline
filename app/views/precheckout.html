@@ -272,7 +272,14 @@
 
       <div class="spacing"> </div>
 
-      <button type="submit" data-ng-enable="customForm.$valid" id="submitFinal" value="Proceed to Checkout" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Proceed to Checkout</button>
+      <div class="alert alert-danger" data-ng-if="showWaiverError">
+        Please correct the following issues:
+        <ul>
+          <li quick-ng-repeat="error in waiverErrors">{{error.message}}</li>
+        </ul>
+      </div>
+      <button class="btn btn-disabled" data-ng-if="!readyToCheckout">Please Wait...</button>
+      <button type="submit" data-ng-if="readyToCheckout" data-ng-enable="customForm.$valid" id="submitFinal" value="Proceed to Checkout" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Proceed to Checkout</button>
     </ng-form>
   </form>
 
