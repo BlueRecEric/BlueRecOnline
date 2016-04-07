@@ -14,7 +14,7 @@
             <label for="searchCategory">Category:</label>
             <select id="searchCategory" class="form-control" ng-model="search.programSearch.type" data-ng-change="doSearch()">
               <option value=""></option>
-              <option data-ng-repeat="type in programTypes.data track by type.type_id" value="{{type.type_id}}">{{type.tree_name}}</option>
+              <option data-ng-repeat="type in programTypes.data track by type.type_id" value="{{type.type_id}}" data-ng-selected="type.type_id == search.programSearch.type">{{type.tree_name}}</option>
             </select>
           </div>
 
@@ -22,7 +22,7 @@
             <label for="searchLocation">Location:</label>
             <select id="searchLocation" class="form-control" ng-model="search.programSearch.location" data-ng-change="doSearch()">
               <option value=""></option>
-              <option data-ng-repeat="loc in programLocations.data track by loc.location_id" value="{{loc.location_id}}">{{loc.location_name}}</option>
+              <option data-ng-repeat="loc in programLocations.data track by loc.location_id" value="{{loc.location_id}}" data-ng-selected="loc.location_id == search.programSearch.location">{{loc.location_name}}</option>
             </select>
           </div>
 
