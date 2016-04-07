@@ -1063,21 +1063,21 @@ angular
             if(test)
             {
                 $scope.headerLogo = 'images/'+$routeParams.orgurl+'.png';
-                console.log('images/'+$routeParams.orgurl+'.png is an image!');
+                //console.log('images/'+$routeParams.orgurl+'.png is an image!');
             }
             else
             {
-                console.log('images/'+$routeParams.orgurl+'.png is NOT an image!');
+                //console.log('images/'+$routeParams.orgurl+'.png is NOT an image!');
 
                 var splitParts = $routeParams.orgurl.split('-');
 
                 isImage('images/'+splitParts[0]+'.png').then(function(test) {
                     if(test) {
                         $scope.headerLogo = 'images/'+splitParts[0]+'.png';
-                        console.log('images/' + splitParts[0] + '.png is an image!');
+                        //console.log('images/' + splitParts[0] + '.png is an image!');
                     }
                     else {
-                        console.log('images/' + splitParts[0] + '.png is NOT an image!');
+                        //console.log('images/' + splitParts[0] + '.png is NOT an image!');
                     }
                 });
             }

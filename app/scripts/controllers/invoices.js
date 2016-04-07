@@ -8,15 +8,23 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('InvoicesCtrl', ['$scope', 'ActiveUser', 'InvoicesLoader', '$routeParams', function ($scope,ActiveUser,InvoicesLoader, $routParams) {
+    .controller('InvoicesCtrl', ['$scope', '$rootScope', '$route', 'ActiveUser', 'InvoicesLoader', '$routeParams', function ($scope,$rootScope,$route,ActiveUser,InvoicesLoader,$routParams) {
         if(ActiveUser.isLoggedIn())
         {
+            $scope.route = $route;
+
             $scope.invoices = InvoicesLoader;
             $scope.invoices.loadInvoices();
             $scope.orgurl = $routParams.orgurl;
+
+            $rootScope.$on('cartItemRemoved', function () {
+                if($route.current.templateUrl == 'views/userSettings/invoices.html') {
+                    $scope.invoices.loadInvoices();
+                }
+            });
         }
     }])
-    .factory('InvoicesLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', 'MakeToast', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser,MakeToast) {
+    .factory('InvoicesLoader', ['$rootScope','$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', 'MakeToast', function($rootScope, $http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser,MakeToast) {
         var invoiceLoad = this;
 
         var loadInvoices = function() {
@@ -77,6 +85,8 @@ angular.module('bluereconlineApp')
                 .then(
                     function success(response) {
                         console.log(response.data);
+                        $rootScope.$emit('updateCartCount', {});
+
                         invoiceLoad.returnData[$itemIdx].payments[$payIdx].inCart = true;
                         MakeToast.popOn('success', 'Shopping Cart', 'Invoice Added To Cart');
                     });

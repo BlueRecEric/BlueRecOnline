@@ -19,7 +19,7 @@ angular.module('bluereconlineApp')
       $scope.promoCodeEnabled = false;
       $scope.promoCode = '';
 
-        $scope.$route = $route;
+      $scope.$route = $route;
 
       ActiveUser.getFromLocal().then(function() {
           $scope.cart.household = ActiveUser.userData.household;
@@ -91,6 +91,7 @@ angular.module('bluereconlineApp')
         return $http(req)
             .then(
             function success(response) {
+                $rootScope.$emit('cartItemRemoved', {});
                 $scope.removed = response.data;
                 loadCart();
             }
