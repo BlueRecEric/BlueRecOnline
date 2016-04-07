@@ -152,6 +152,16 @@
               <label class="control-label" id="charge">${{(cart.totalFee).toFixed(2)}}</label>
             </div>
           </div>
+          <div class="form-group" data-ng-if="paymentResponse.errors.length > 0">
+            <div class="col-sm-offset-3 col-sm-9">
+              <div class="alert alert-danger">
+                The following issues occured when trying to authorize payment:
+                <ul>
+                  <li quick-ng-repeat="error in paymentResponse.errors">{{error.error.text}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
               <button type="button" class="btn btn-success" data-ng-click="payCart()"><i class="fa fa-usd"></i> Pay Now</button>

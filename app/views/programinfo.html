@@ -18,7 +18,7 @@
 
       <div class="col-sm-3 col-xs-12" data-ng-show="proinfo.returnData.in_online_nonresident_registration || proinfo.returnData.in_online_resident_registration">
 
-        <div class="row"><div class="col-sm-12"><h4><a id="register_{{proinfo.returnData.listData.item_id}}">Register</a></h4></div></div>
+        <div class="row" data-ng-if="(proinfo.returnData.listData.in_online_nonresident_registration == '1' || proinfo.returnData.listData.in_online_resident_registration == '1')"><div class="col-sm-12"><h4><a id="register_{{proinfo.returnData.listData.item_id}}">Register</a></h4></div></div>
         <ul class="list-group" data-ng-if="loggedIn">
           <li class="list-group-item" data-ng-repeat="person in proinfo.returnData.listData.users track by person.user_id" data-ng-if="person.eligible || proinfo.returnData.listData.showIneligible">
             <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-{{(person.eligible)?'default':'danger'}}" data-ng-model="person.selected" data-ng-change="checkEligibleRegistrant(person)"></checkbox>

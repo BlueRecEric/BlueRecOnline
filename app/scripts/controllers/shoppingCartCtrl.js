@@ -14,6 +14,7 @@ angular.module('bluereconlineApp')
 
       $scope.cart = {};
       $scope.removed = {};
+      $scope.paymentResponse;
 
       $scope.promoCodeEnabled = false;
       $scope.promoCode = '';
@@ -110,7 +111,8 @@ angular.module('bluereconlineApp')
         return $http(req)
             .then(
                 function success(response) {
-                  $scope.removed = response.data;
+                    $scope.paymentResponse = response.data;
+                    console.log($scope.paymentResponse);
                   loadCart();
                 }
             );
@@ -152,7 +154,8 @@ angular.module('bluereconlineApp')
             return $http(req)
             .then(function success(response) {
                 console.log('pay response:');
-                console.log(response);
+                $scope.paymentResponse = response.data;
+                console.log($scope.paymentResponse);
 
                 if(response.data.data.authorized)
                 {

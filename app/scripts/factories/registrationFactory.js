@@ -206,11 +206,21 @@ angular.module('bluereconlineApp')
 
             var defer = $q.defer();
 
+            var uid = '';
+
+            if(ActiveUser.isLoggedIn())
+            {
+                uid = ActiveUser.userData.user_id;
+            }
+
             var req = {
-                method: 'GET',
+                method: 'POST',
                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/item/' + regData.itemID + '/addons',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': undefined
+                },
+                data: {
+                    'uid':uid
                 }
             };
 
