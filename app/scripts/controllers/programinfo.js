@@ -20,11 +20,12 @@ angular.module('bluereconlineApp')
       $scope.registration = RegistrationFactory;
     }
 
+
     $scope.orgcode = $routeParams.orgurl;
     $scope.itemid = $routeParams.itemid;
     $scope.proinfo = ProInfoLoader;
-    $scope.proinfo.loadProgram().then(function (){
 
+    $scope.afterLoad = function() {
         $scope.proinfo.returnData.listData.showEligibleButton = false;
 
         console.log('current listing:');
@@ -57,7 +58,10 @@ angular.module('bluereconlineApp')
             console.log('program info');
             console.log($scope.proinfo);
         }
+    };
 
+    $scope.proinfo.loadProgram().then(function (){
+        $scope.afterLoad();
     });
 
 
@@ -77,58 +81,113 @@ angular.module('bluereconlineApp')
         }
     };
 
-    $scope.onAddToCartClick = function(program)
+    $scope.onAddToWaitListClick = function(program)
     {
-        /*
-      $scope.proinfo.addToCart().then(
-          function success() {
-              $scope.openAside();
-          }
-      );
-      */
-
         $scope.addingRegistration = true;
+
+        program.waitlistError = false;
+        program.waitlistSuccess = false;
+        program.waitlistErrors = [];
+
+        var selectedCount = program.users.filter(function (user) {return user.selected;}).length;
+
+        if (selectedCount == 0) {
+            program.noSelection = true;
+            $scope.addingRegistration = false;
+        }
+        else {
+            $scope.registration.addRegistrationArrayToWaitList(program).then(function (response) {
+                console.log('full response:');
+                console.log(response);
+
+                for(var r = 0; r < response.data.responses.length; r++)
+                {
+                    if(!response.data.responses[r].response.data.success)
+                    {
+                        program.waitlistError = true;
+
+                        for(var e = 0; e < response.data.responses[r].response.errors.length; e++)
+                        {
+                            program.waitlistErrors.push(response.data.responses[r].response.errors[e].error.text);
+                        }
+                    }
+                }
+
+                if(!program.waitlistError)
+                {
+                    $scope.proinfo.loadProgram().then(function (){
+                        $scope.afterLoad();
+
+                        program.waitlistSuccess = true;
+                        MakeToast.popOn('success', 'Wait List', 'The selected household members have been added to the wait list!');
+                        setTimeout(function () {
+                            $scope.addingRegistration = false;
+                        }, 500);
+                    });
+                }
+
+                $scope.addingRegistration = false;
+            });
+        }
+    };
+
+    $scope.checkEligibleRegistrant = function (person) {
+      if(!person.eligible) {
+          person.selected = false;
+      }
+    };
+
+    $scope.onAddToCartClick = function(program, spots)
+    {
+        $scope.addingRegistration = true;
+
+        program.overLimit = false;
+        program.overLimitMessage = '';
 
         var selectedCount = program.users.filter(function (user) {return user.selected;}).length;
 
         program.noSelection = false;
 
-        if(selectedCount == 0)
+        if(selectedCount > spots)
         {
-            program.noSelection = true;
+            program.overLimit = true;
+            program.overLimitMessage = 'There are only ' + spots + ' available spots open for this activity.';
             $scope.addingRegistration = false;
         }
-        else
-        {
-            $scope.registration.addRegistrationArrayToCart(program).then(function(userAdded){
+        else {
+            if (selectedCount == 0) {
+                program.noSelection = true;
+                $scope.addingRegistration = false;
+            }
+            else {
+                $scope.registration.addRegistrationArrayToCart(program).then(function (userAdded) {
+                    if (userAdded) {
+                        console.log('user added');
 
-                if(userAdded)
-                {
-                    console.log('user added');
-
-                    if(program.package_count > 0)
-                    {
-                        console.log('has packages');
-                        $location.path('/' + $routeParams.orgurl + '/programinfo/' + program.item_id + '/addons');
-                        $scope.addingRegistration = false;
-                    }
-                    else
-                    {
-                        console.log('no packages');
-                        MakeToast.popOn('success','Shopping Cart','Items have been added to your cart!');
-                        $rootScope.$emit('updateCartCount', {});
-                        setTimeout(function() {
+                        if (program.package_count > 0) {
+                            console.log('has packages');
+                            $location.path('/' + $routeParams.orgurl + '/programinfo/' + program.item_id + '/addons');
                             $scope.addingRegistration = false;
-                        }, 500);
+                        }
+                        else {
+                            $scope.proinfo.loadProgram().then(function (){
+                                $scope.afterLoad();
 
+                                console.log('no packages');
+                                MakeToast.popOn('success', 'Shopping Cart', 'Items have been added to your cart!');
+                                $rootScope.$emit('updateCartCount', {});
+                                setTimeout(function () {
+                                    $scope.addingRegistration = false;
+                                }, 500);
+                            });
+                        }
                     }
-                }
-                else
-                {
-                    $scope.addingRegistration = false;
-                    console.log('no user added');
-                }
-            });
+                    else {
+                        $scope.addingRegistration = false;
+                        console.log('no user added');
+                    }
+                });
+            }
         }
     };
 

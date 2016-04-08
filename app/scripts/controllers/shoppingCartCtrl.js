@@ -15,6 +15,7 @@ angular.module('bluereconlineApp')
       $scope.cart = {};
       $scope.removed = {};
       $scope.paymentResponse;
+      $scope.payingCart = false;
 
       $scope.promoCodeEnabled = false;
       $scope.promoCode = '';
@@ -122,6 +123,8 @@ angular.module('bluereconlineApp')
       function payCart()
       {
 
+        $scope.payingCart = true;
+
         console.log('shopping cart:');
         console.log($scope.cart);
 
@@ -168,11 +171,12 @@ angular.module('bluereconlineApp')
                     }
 
                     $scope.cart.paymentComplete = true;
-
+                    $scope.payingCart = false;
                     loadCart();
                 }
                 else
                 {
+                    $scope.payingCart = false;
                     MakeToast.popOn('warning', 'Purchasing', 'There was a problem authorizing your purchase.');
                 }
 

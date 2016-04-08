@@ -193,14 +193,18 @@ angular
         $httpProvider.defaults.headers.common.Accept = 'application/json';
     })
 
-    .run(['$rootScope','$location', '$routeParams', '$anchorScroll', 'ActiveUser', function($rootScope, $location, $routeParams, $anchorScroll, ActiveUser) {
+    .run(['$rootScope','$location', '$routeParams', '$anchorScroll', 'ActiveUser', '$templateCache', function($rootScope, $location, $routeParams, $anchorScroll, ActiveUser,$templateCache) {
         $rootScope.$on('$routeChangeSuccess', function () {
             $anchorScroll('pageTop');
         });
 
-        ActiveUser.getFromLocal();
+        ActiveUser.getFromLocal(); 
 
-        $rootScope.$on('$routeChangeStart', function (event, next) {
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
+            if (typeof(current) !== 'undefined'){
+                $templateCache.remove(current.templateUrl);
+            }
+
             if(next.params.orgurl !== undefined) {
                 if (next.requireLogin) {
                     $location.path('/' + next.params.orgurl + '/login');

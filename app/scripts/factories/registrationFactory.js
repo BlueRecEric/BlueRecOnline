@@ -6,6 +6,7 @@ angular.module('bluereconlineApp')
         var reg = this;
         reg = {};
         reg.data = [];
+        reg.waitlist = [];
 
         reg.loadingAddons = false;
         reg.loadingPayments = false;
@@ -34,6 +35,82 @@ angular.module('bluereconlineApp')
             var defer = $q.defer();
             reg.data = localStorageService.get('temp-reg');
             defer.resolve(true);
+            return defer.promise;
+        };
+
+        reg.addRegistrationArrayToWaitList = function(waitProgram) {
+            var defer = $q.defer();
+
+            reg.addWaitListArray(waitProgram).then(function() {
+                reg.addToWaitlist().then(function(response) {
+                    defer.resolve(response);
+                });
+            });
+
+            return defer.promise;
+        };
+
+        reg.addWaitListArray = function(waitProgram) {
+            reg.waitlist = [];
+            var defer = $q.defer();
+            var promises = [];
+
+            var userSelected = false;
+
+            for(var a = 0; a < waitProgram.users.length; a++) {
+
+                if(waitProgram.users[a].selected) {
+                    promises.push(reg.addWaitList(
+                        waitProgram.users[a].user_id,
+                        waitProgram.item_id,
+                        waitProgram.item_type,
+                        waitProgram.item_name,
+                        waitProgram.users[a].full_name,
+                        waitProgram.requires_package_purchase,
+                        waitProgram.requires_item_purchase
+                    ));
+
+                    waitProgram.users[a].eligible = false;
+                    waitProgram.users[a].selected = false;
+
+                    userSelected = true;
+                }
+            }
+
+            return $q.all(promises).then(function () {
+                reg.saveLocalRegistration().then(defer.resolve(userSelected));
+            });
+        };
+
+        reg.addWaitList = function(userID, itemID, itemType, itemName, userName, requiresPackage, requiresItem)
+        {
+            var defer = $q.defer();
+
+            if(isFinite(userID) && userID !== null)
+            {
+                if(isFinite(itemID) && itemID !== null)
+                {
+                    var waitData = {};
+                    waitData.userID = userID;
+                    waitData.itemID = itemID;
+                    waitData.itemType = itemType;
+                    waitData.itemName = itemName;
+                    waitData.userName = userName;
+                    waitData.requiresPackage = requiresPackage;
+                    waitData.requiresItem = requiresItem;
+
+                    reg.waitlist.push(waitData);
+
+                    defer.resolve(true);
+                }
+                else {
+                    defer.resolve(false);
+                }
+            }
+            else {
+                defer.resolve(false);
+            }
+
             return defer.promise;
         };
 
@@ -288,6 +365,56 @@ angular.module('bluereconlineApp')
             }
         };
 
+        reg.addToWaitlist = function() {
+            reg.addingToCart = true;
+
+            var waitlistData = {};
+            waitlistData.itemType = 'program';
+            waitlistData.waitlists = [];
+
+            console.log('waitlist data to add:');
+            console.log(reg.waitlist);
+
+            for(var a = 0; a < reg.waitlist.length; a++)
+            {
+                console.log('data for this registration:');
+                console.log(reg.data[a]);
+
+                var regID = uuid4.generate();
+
+                var waitData = {};
+                waitData = {
+                    'uuid': regID,
+                    'userID':reg.waitlist[a].userID,
+                    'itemID':reg.waitlist[a].itemID,
+                    'householdID':ActiveUser.userData.household_id,
+                    'addedByUserID':ActiveUser.userData.user_id,
+                    'itemType':reg.waitlist[a].itemType,
+                    'usePaymentPlan':'0'
+                };
+
+                waitlistData.waitlists.push(waitData);
+            }
+
+            console.log('here is the waitlist data:');
+            console.log(waitlistData);
+
+            if(waitlistData.waitlists.length > 0) {
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/waitlist',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: waitlistData
+                };
+
+                return $http(req).then(function(response) {
+                    return response;
+                });
+            }
+        };
+
         reg.addToCart = function () {
 
             reg.addingToCart = true;
@@ -328,29 +455,6 @@ angular.module('bluereconlineApp')
 
                     console.log('adding an addon to the array');
                     regData.addons = reg.data[a].addons;
-
-
-                    /*
-                    for(var p = 0; p < reg.data[a].addons.selectedpackages.length; p++)
-                    {
-                        var addonID = uuid4.generate();
-
-                        var addon = {};
-                        addon = {
-                            'uuid': addonID,
-                            'main-uuid':regID,
-                            'userID':reg.data[a].userID,
-                            'itemID':reg.data[a].addons.selectedpackages[p].item_id,
-                            'householdID':ActiveUser.userData.household_id,
-                            'addedByUserID':ActiveUser.userData.user_id,
-                            'itemType':reg.data[a].addons.selectedpackages[p].item_type,
-                            'usePaymentPlan':'0',
-                            'fees':reg.data[a].addons.selectedpackages[p].fees
-                        };
-
-                        regData.addons.push(addon);
-                    }
-                    */
                 }
 
                 cartData.registrations.push(regData);

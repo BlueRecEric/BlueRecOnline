@@ -5,7 +5,7 @@
           <h4>{{proinfo.returnData.item_name}}({{proinfo.returnData.item_code}})</h4>
         </div>
         <div class="col-sm-4 col-xs-12 text-right hidden-xs">
-          <h4>{{proinfo.returnData.remaining_spots}} Open Spots</h4>
+          <h4><span data-ng-if="(proinfo.returnData.remaining_spots <= 0)">No</span><span data-ng-if="(proinfo.returnData.remaining_spots > 0)">{{proinfo.returnData.remaining_spots}}</span> Open Spots</h4>
         </div>
     </div>
 
@@ -16,7 +16,7 @@
         </p>
       </div>
 
-      <div class="col-sm-3 col-xs-12" data-ng-show="proinfo.returnData.in_online_nonresident_registration || proinfo.returnData.in_online_resident_registration">
+      <div class="col-sm-3 col-xs-12" data-ng-if="((proinfo.returnData.remaining_spots > 0 || proinfo.returnData.allow_waitinglist == '1') && (proinfo.returnData.listData.in_online_nonresident_registration == '1' || proinfo.returnData.listData.in_online_resident_registration == '1'))">
 
         <div class="row" data-ng-if="(proinfo.returnData.listData.in_online_nonresident_registration == '1' || proinfo.returnData.listData.in_online_resident_registration == '1')"><div class="col-sm-12"><h4><a id="register_{{proinfo.returnData.listData.item_id}}">Register</a></h4></div></div>
         <ul class="list-group" data-ng-if="loggedIn">
@@ -39,15 +39,20 @@
 
         <div data-ng-if="loggedIn">
         <div class="alert alert-danger" data-ng-if="proinfo.returnData.listData.noSelection">Select at least one person.</div>
-        <button class="btn btn-success btn-block" data-ng-model="proinfo.returnData.listData.addCartButton" data-ng-click="onAddToCartClick(proinfo.returnData.listData)" data-ng-if="(proinfo.returnData.listData.in_online_nonresident_registration || proinfo.returnData.listData.in_online_resident_registration) && !addingRegistration"><!--
+        <div class="alert alert-danger" data-ng-if="proinfo.returnData.listData.overLimit">{{proinfo.returnData.listData.overLimitMessage}}</div>
+        <div class="alert alert-danger" data-ng-if="proinfo.returnData.listData.waitlistError"><span quick-ng-repeat="error in proinfo.returnData.listData.waitlistErrors">{{error}}</span></div>
+        <button class="btn btn-success btn-block" data-ng-model="proinfo.returnData.listData.addCartButton" data-ng-click="onAddToCartClick(proinfo.returnData.listData, proinfo.returnData.remaining_spots)" data-ng-if="(proinfo.returnData.remaining_spots > 0 && (proinfo.returnData.listData.in_online_nonresident_registration == '1' || proinfo.returnData.listData.in_online_resident_registration == '1')) && !addingRegistration"><!--
                       --><span data-ng-if="proinfo.returnData.listData.package_count == 0"><i class="fa fa-shopping-cart"></i> Add to cart</span><!--
                       --><span data-ng-if="proinfo.returnData.listData.package_count > 0"><i class="fa fa-cart-plus"></i> Enrollment Options</span><!--
                       --></button>
+        <button class="btn btn-primary btn-block" data-ng-click="onAddToWaitListClick(proinfo.returnData.listData)" data-ng-if="((proinfo.returnData.remaining_spots <= 0 && proinfo.returnData.allow_waitinglist == '1') && (proinfo.returnData.listData.in_online_nonresident_registration == '1' || proinfo.returnData.listData.in_online_resident_registration == '1')) && !addingRegistration"><i class="fa fa-th-list"></i> Add to Wait List</button>
         <button class="btn btn-disabled btn-block" data-ng-if="addingRegistration">Please Wait...</button>
-          </div>
+        </div>
 
       </div>
 
+      <div class="col-sm-3 col-xs-12" data-ng-if="(proinfo.returnData.remaining_spots <= 0 && proinfo.returnData.allow_waitinglist != '1')">
+        <button class="btn btn-disabled btn-block">Registration is full</button>
       </div>
     </div>
 
@@ -83,6 +88,18 @@
       </div>
       <div class="col-xs-0 col-sm-9"></div>
     </div>
+
+    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_age === '1' || proinfo.returnData.listData.restrict_grade === '1' || proinfo.returnData.listData.restrict_birthday === '1' || proinfo.returnData.listData.restrict_gender === '1')?true:false">
+      <div class="col-sm-12"><h4>Eligibility</h4></div>
+    </div>
+    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_age === '1')?true:false"><div class="col-xs-12 col-sm-3">
+      <span data-ng-if="proinfo.returnData.listData.minimum_age > 0 && proinfo.returnData.listData.maximum_age > 0">{{::proinfo.returnData.listData.minimum_age}} - {{::proinfo.returnData.listData.maximum_age}} years old</span>
+      <span data-ng-if="proinfo.returnData.listData.minimum_age > 0 && proinfo.returnData.listData.maximum_age <= 0">{{::proinfo.returnData.listData.minimum_age}} and up</span>
+      <span data-ng-if="proinfo.returnData.listData.minimum_age <= 0 && proinfo.returnData.listData.maximum_age > 0">Up to {{::proinfo.returnData.listData.maximum_age}} years old</span>
+    </div><div class="col-xs-0 col-sm-9"></div></div>
+    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_grade === '1')?true:false"><div class="col-xs-12 col-sm-3">Grade(s) {{::proinfo.returnData.listData.minimum_grade}} - {{::proinfo.returnData.listData.maximum_grade}}</div><div class="col-xs-0 col-sm-9"></div></div>
+    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_gender === '1')?true:false"><div class="col-xs-12 col-sm-3">Gender: {{::proinfo.returnData.listData.gender}}</div><div class="col-xs-0 col-sm-9"></div></div>
+
 
 
     <div class="row">

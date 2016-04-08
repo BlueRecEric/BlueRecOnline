@@ -164,7 +164,8 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
-              <button type="button" class="btn btn-success" data-ng-click="payCart()"><i class="fa fa-usd"></i> Pay Now</button>
+              <button type="button" class="btn btn-success" data-ng-click="payCart()" data-ng-if="!payingCart"><i class="fa fa-usd"></i> Pay Now</button>
+              <button type="button" class="btn btn-disabled" data-ng-if="payingCart">Processing Payment...</button>
             </div>
           </div>
         </fieldset>

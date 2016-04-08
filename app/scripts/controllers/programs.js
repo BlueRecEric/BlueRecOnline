@@ -71,7 +71,7 @@ angular.module('bluereconlineApp')
 
             $scope.programs.busy = true;
 
-            $scope.search.getProgramSearch().then(function () {
+            return $scope.search.getProgramSearch().then(function () {
                 $scope.programs.loadPrograms($scope.search.programSearch).then(function(response) {
                     $scope.activePrograms = response.data;
                     console.log('programs:');
@@ -81,56 +81,126 @@ angular.module('bluereconlineApp')
             });
         };
 
-        $scope.onAddToCartClick = function(program) {
+        $scope.onAddToWaitListClick = function(program)
+        {
+            $scope.addingRegistration = true;
+
+            program.waitlistError = false;
+            program.waitlistSuccess = false;
+            program.waitlistErrors = [];
+
+            var selectedCount = program.users.filter(function (user) {return user.selected;}).length;
+
+            if (selectedCount == 0) {
+                program.noSelection = true;
+                $scope.addingRegistration = false;
+            }
+            else {
+                $scope.registration.addRegistrationArrayToWaitList(program).then(function (response) {
+                    console.log('full response:');
+                    console.log(response);
+
+                    for(var r = 0; r < response.data.responses.length; r++)
+                    {
+                        if(!response.data.responses[r].response.data.success)
+                        {
+                            program.waitlistError = true;
+
+                            for(var e = 0; e < response.data.responses[r].response.errors.length; e++)
+                            {
+                                program.waitlistErrors.push(response.data.responses[r].response.errors[e].error.text);
+                            }
+                        }
+                    }
+
+                    if(!program.waitlistError)
+                    {
+                        program.waitlistSuccess = true;
+                        MakeToast.popOn('success', 'Wait List', 'The selected household members have been added to the wait list!');
+                        for(var sess = 0; sess < $scope.activePrograms.data.sessions.length; sess++)
+                        {
+                            for(var pro = 0; pro < $scope.activePrograms.data.sessions[sess].programs.length; pro++)
+                            {
+                                if($scope.activePrograms.data.sessions[sess].programs[pro].item_id == program.item_id)
+                                {
+                                    $scope.onProgramClick($scope.activePrograms.data.sessions[sess].programs[pro], true);
+                                }
+                            }
+                        }
+                    }
+
+                    $scope.addingRegistration = false;
+                });
+            }
+        };
+
+        $scope.onAddToCartClick = function(program, spots) {
             $scope.addingRegistration = true;
 
             var selectedCount = program.users.filter(function (user) {return user.selected;}).length;
 
             program.noSelection = false;
 
-            if(selectedCount == 0)
+            if(selectedCount > spots)
             {
-                program.noSelection = true;
+                program.overLimit = true;
+                program.overLimitMessage = 'There are only ' + spots + ' available spots open for this activity.';
                 $scope.addingRegistration = false;
             }
-            else
-            {
-                $scope.registration.addRegistrationArrayToCart(program).then(function(userAdded){
+            else {
+                if (selectedCount == 0) {
+                    program.noSelection = true;
+                    $scope.addingRegistration = false;
+                }
+                else {
+                    $scope.registration.addRegistrationArrayToCart(program).then(function (userAdded) {
 
-                    if(userAdded)
-                    {
-                        console.log('user added');
+                        if (userAdded) {
+                            console.log('user added');
 
-                        if(program.package_count > 0)
-                        {
-                            console.log('has packages');
-                            $location.path('/' + $routeParams.orgurl + '/programinfo/' + program.item_id + '/addons');
-                            $scope.addingRegistration = false;
-                        }
-                        else
-                        {
-                            console.log('no packages');
-                            MakeToast.popOn('success','Shopping Cart','Items have been added to your cart!');
-                            $rootScope.$emit('updateCartCount', {});
-                            setTimeout(function() {
-                                $scope.onProgramClick(program);
+                            if (program.package_count > 0) {
+                                console.log('has packages');
+                                $location.path('/' + $routeParams.orgurl + '/programinfo/' + program.item_id + '/addons');
                                 $scope.addingRegistration = false;
-                            }, 500);
+                            }
+                            else {
+                                console.log('no packages');
+                                MakeToast.popOn('success', 'Shopping Cart', 'Items have been added to your cart!');
+                                $rootScope.$emit('updateCartCount', {});
+                                for(var sess = 0; sess < $scope.activePrograms.data.sessions.length; sess++)
+                                {
+                                    for(var pro = 0; pro < $scope.activePrograms.data.sessions[sess].programs.length; pro++)
+                                    {
+                                        if($scope.activePrograms.data.sessions[sess].programs[pro].item_id == program.item_id)
+                                        {
+                                            $scope.onProgramClick($scope.activePrograms.data.sessions[sess].programs[pro], true);
+                                        }
+                                    }
+                                }
+                                $scope.addingRegistration = false;
 
+                            }
                         }
-                    }
-                    else
-                    {
-                        $scope.addingRegistration = false;
-                        console.log('no user added');
-                    }
-                });
+                        else {
+                            $scope.addingRegistration = false;
+                            console.log('no user added');
+                        }
+                    });
+                }
             }
         };
 
-        $scope.onProgramClick = function (program) {
+        $scope.onProgramClick = function (program, forceReload) {
 
             program.expanded = !program.expanded;
+
+            if(angular.isDefined(forceReload))
+            {
+                if(forceReload)
+                {
+                    program.expanded = true;
+                }
+            }
 
             if(program.expanded) {
                 program.loadingProgram = true;
@@ -138,12 +208,14 @@ angular.module('bluereconlineApp')
 
                 var itemID = program.item_id;
 
-                if (angular.isDefined(program.listData)) {
-                    console.log('list data already set');
-                    alreadyLoaded = true;
-                }
-                else {
-                    console.log('no list data found');
+                if(!(angular.isDefined(forceReload) && forceReload)) {
+                    if (angular.isDefined(program.listData)) {
+                        console.log('list data already set');
+                        alreadyLoaded = true;
+                    }
+                    else {
+                        console.log('no list data found');
+                    }
                 }
 
                 console.log('Clicked item:');
@@ -160,7 +232,7 @@ angular.module('bluereconlineApp')
                     }
 
                     $scope.programs.loadSingleProgram(itemID, uid, hid).then(function (response) {
-
+                        program.listData = undefined;
                         program.listData = response.data.data;
 
 
@@ -197,7 +269,7 @@ angular.module('bluereconlineApp')
             }
             else
             {
-
+                console.log('program is not expanded'); 
             }
         };
 
