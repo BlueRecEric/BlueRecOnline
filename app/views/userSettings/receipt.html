@@ -145,21 +145,45 @@
                                 <td class="receipt-padding-left text-right">{{::item.balanceAmount | currency:"$"}}</td>
                             </tr>
 
-
                             <tr data-ng-if="showItemData(item.item_type, 'itemFacilities')">
                                 <td colspan="4">
                                    <table width="100%" class="table-fixed borderless report-table-scale">
                                        <tr>
                                            <td class="receipt-padding-left"><strong>{{::item.itemFacilityLabel}}</strong></td>
                                            <td><strong>{{::item.itemFacilitiesDateOne}}</strong></td>
-                                           <td><strong>{{::item.itemFacilitiesDateTwo}}</strong></td>
+                                           <td ><strong>{{::item.itemFacilitiesDateTwo}}</strong></td>
                                        </tr>
                                        <tr data-ng-if="showItemData(item.item_type, 'itemFacilities')">
-                                           <td class="receipt-padding-left"><div ng-bind-html="::item.item_facilities_label | sanitize"></div></td>
-                                           <td><div ng-bind-html="::item.item_facilities_date_one | sanitize"></div></td>
-                                           <td colspan="2"><div ng-bind-html="::item.item_facilities_date_two | sanitize"></div></td>
+                                           <td valign="top" class="receipt-padding-left"><div ng-bind-html="::item.item_facilities_label | sanitize"></div></td>
+                                           <td valign="top"><div ng-bind-html="::item.item_facilities_date_one | sanitize"></div></td>
+                                           <td valign="top" colspan="2"><div ng-bind-html="::item.item_facilities_date_two | sanitize"></div></td>
                                        </tr>
                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr data-ng-if="item.has_payment_plan == '1'">
+                                <td colspan="4">
+                                    <table width="100%" >
+                                        <thead>
+                                            <tr>
+                                                <td class="receipt-padding-left"><strong>Payments</strong></td>
+                                                <td><strong>Desc.</strong></td>
+                                                <td><strong>Due</strong></td>
+                                                <td><strong>Late</strong></td>
+                                                <td><strong>Fee</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-fixed borderless report-table-scale" data-ng-repeat="plan in item.payment_plan">
+                                        <tr>
+                                            <td class="receipt-padding-left">#{{::plan.display_order}}</td>
+                                            <td>{{::plan.item_name}}</td>
+                                            <td>{{::plan.invoice_due_date}}</td>
+                                            <td>{{::plan.invoice_late_date}}</td>
+                                            <td>{{::plan.total_fee}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </td>
                             </tr>
 
