@@ -180,7 +180,7 @@
                                             <td>{{::plan.item_name}}</td>
                                             <td>{{::plan.invoice_due_date}}</td>
                                             <td>{{::plan.invoice_late_date}}</td>
-                                            <td>{{::plan.total_fee}}</td>
+                                            <td>{{::plan.total_fee | currency:"$"}}</td>
                                         </tr>
                                         </tbody>
                                     </table>
