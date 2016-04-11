@@ -102,6 +102,19 @@ angular.module('bluereconlineApp')
                             console.log('activeuser set to');
                             console.log(ActiveUser.userData);
 
+                            console.log('submit email ' + ActiveUser.userData.user_id);
+
+                            var reqTwo = {
+                                method: 'POST',
+                                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/email/resendverification',
+                                headers: {
+                                    'Content-Type': undefined
+                                },
+                                data: {'uid': ActiveUser.userData.user_id}
+                            };
+
+                            return $http(reqTwo);
+
                             if(response.data.questions_answered == '1')
                             {
                                 setTimeout(sendUserToHome, 500, $routeParams.orgurl);
