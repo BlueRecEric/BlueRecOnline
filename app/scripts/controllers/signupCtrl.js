@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('SignupCtrl',['$scope', '$routeParams','SignupFactory', function ($scope,$routeParams,SignupFactory) {
+    .controller('SignupCtrl',['$scope', '$routeParams','SignupFactory', 'uiGmapGoogleMapApi', function ($scope,$routeParams,SignupFactory,uiGmapGoogleMapApi) {
         var sign = this;
 
         $scope.addrResult = '';
@@ -69,6 +69,8 @@ angular.module('bluereconlineApp')
             sign.remote.sendSignup(sign.newAccount);
         }
 
+        uiGmapGoogleMapApi.then(function(maps) {});
+
         sign.sendSignupRequest = sendSignupRequest;
         sign.signError = false;
         sign.orgurl = $routeParams.orgurl;
@@ -113,7 +115,7 @@ angular.module('bluereconlineApp')
                                 data: {'uid': ActiveUser.userData.user_id}
                             };
 
-                            return $http(reqTwo);
+                            $http(reqTwo);
 
                             if(response.data.questions_answered == '1')
                             {
