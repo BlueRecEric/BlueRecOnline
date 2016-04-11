@@ -104,7 +104,7 @@
             <div class="col-sm-6">
               <button type="submit" id="emailSubmit" value="Submit" class="btn btn-info"><i class="fa fa-save"></i> Save Email</button>
 
-              <button type="submit" id="emailSubmit" value="Submit" class="btn btn-warning" data-ng-show="{{myAccount.emailForm.email_status != 'verified'}}"><i class="fa fa-reply"></i> Resend Verification Email</button>
+              <button type="button" data-ng-click="resendEmailVerification()" id="emailSubmit" value="Submit" class="btn btn-warning" data-ng-show="{{myAccount.emailForm.email_status != 'verified'}}"><i class="fa fa-reply"></i> Resend Verification Email</button>
             </div>
           </div>
 

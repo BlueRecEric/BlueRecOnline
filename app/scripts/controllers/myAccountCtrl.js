@@ -8,93 +8,146 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('MyAccountCtrl', ['$scope', 'ActiveUser', 'MyAccountLoader', function ($scope,ActiveUser,MyAccountLoader) {
+  .controller('MyAccountCtrl', ['$scope', '$routeParams', '$location', 'ActiveUser', 'MyAccountLoader', function ($scope,$routeParams,$location,ActiveUser,MyAccountLoader) {
+
+      $scope.loggedIn = false;
+      $scope.verifying = true;
+      $scope.myAccount = MyAccountLoader;
+
+      $scope.onGoToLogin = function () {
+          $location.path('/' + $routeParams.orgurl + '/login');
+      };
+      $scope.onGoToHome = function () {
+          $location.path('/' + $routeParams.orgurl + '/home');
+      };
+
       if(ActiveUser.isLoggedIn())
       {
-        $scope.addrResult = '';
-        $scope.addrOptions = null;
+            $scope.loggedIn = true;
 
-        $scope.myAccount = [];
-        $scope.myAccount.addressForm = [];
-        $scope.myAccount.residencyForm = [];
-        $scope.myAccount.emailForm = [];
+            $scope.addrResult = '';
+            $scope.addrOptions = null;
 
-        $scope.$watch('addrDetails', function () {
-          console.log('details changed');
-          if(angular.isDefined($scope.addrDetails))
-          {
-              console.log($scope.addrDetails.formatted_address);
-          }
-          $scope.splitAddress();
-        }, true);
+            $scope.myAccount.addressForm = [];
+            $scope.myAccount.residencyForm = [];
+            $scope.myAccount.emailForm = [];
 
-        $scope.splitAddress = function()
-        {
-            var address = '';
+            $scope.$watch('addrDetails', function () {
+              console.log('details changed');
+              if(angular.isDefined($scope.addrDetails))
+              {
+                  console.log($scope.addrDetails.formatted_address);
+              }
+              $scope.splitAddress();
+            }, true);
 
-            if(angular.isDefined($scope.addrDetails))
+            $scope.resendEmailVerification = function() {
+                $scope.sendingVerification = true;
+                $scope.verificationSent = false;
+
+                $scope.myAccount.submitEmailReverification().then(function(response) {
+                    console.log('resend verification response');
+                    console.log(response);
+
+                    $scope.resendResponse = response.data;
+
+                    $scope.sendingVerification = false;
+
+                    if($scope.resendResponse.errors.length > 0)
+                    {
+                        $scope.verification.errors = [];
+                        $scope.verification.errors = $scope.resendResponse.errors;
+                    }
+                    else {
+                        $scope.verificationSent = true;
+                    }
+                });
+            };
+
+            $scope.splitAddress = function()
             {
-                address = $scope.addrDetails.formatted_address;
-            }
+                var address = '';
 
-            var splitAddr = address.split(',');
-
-            var stateZip = '';
-
-            if(splitAddr.length > 2)
-            {
-                console.log('split result');
-                console.log(splitAddr);
-
-                console.log('city:' + splitAddr[1].trim());
-                $scope.myAccount.addressForm.city = splitAddr[1].trim();
-
-                console.log('state:' + splitAddr[2].trim());
-                stateZip = splitAddr[2].trim().split(' ');
-
-                if(stateZip.length > 1)
+                if(angular.isDefined($scope.addrDetails))
                 {
-                    $scope.myAccount.addressForm.state = stateZip[0].trim();
-                    console.log('zip:' + stateZip[1].trim());
-                    $scope.myAccount.addressForm.zip = stateZip[1].trim();
+                    address = $scope.addrDetails.formatted_address;
                 }
 
-                console.log('addr:' + splitAddr[0].trim());
-                $scope.myAccount.addressForm.addr = splitAddr[0].trim();
-            }
-        };
+                var splitAddr = address.split(',');
 
-        $scope.submitAddrForm = function()
-        {
-            $scope.myAccount.submitAddressForm();
-        };
+                var stateZip = '';
 
-        $scope.submitEmailForm = function()
-        {
-          $scope.myAccount.submitEmailForm();
-        };
+                if(splitAddr.length > 2)
+                {
+                    console.log('split result');
+                    console.log(splitAddr);
 
-        $scope.submitResidencyForm = function()
-        {
-          $scope.myAccount.submitResidencyForm();
-        };
+                    console.log('city:' + splitAddr[1].trim());
+                    $scope.myAccount.addressForm.city = splitAddr[1].trim();
 
-        $scope.submitPasswordForm = function()
-        {
-          $scope.myAccount.submitPasswordForm();
-        };
+                    console.log('state:' + splitAddr[2].trim());
+                    stateZip = splitAddr[2].trim().split(' ');
 
-        $scope.myAccount = MyAccountLoader;
-        $scope.myAccount.loadAccount();
+                    if(stateZip.length > 1)
+                    {
+                        $scope.myAccount.addressForm.state = stateZip[0].trim();
+                        console.log('zip:' + stateZip[1].trim());
+                        $scope.myAccount.addressForm.zip = stateZip[1].trim();
+                    }
 
-        console.log('my account');
-        console.log($scope.myAccount);
+                    console.log('addr:' + splitAddr[0].trim());
+                    $scope.myAccount.addressForm.addr = splitAddr[0].trim();
+                }
+            };
+
+            $scope.submitAddrForm = function()
+            {
+                $scope.myAccount.submitAddressForm();
+            };
+
+            $scope.submitEmailForm = function()
+            {
+              $scope.myAccount.submitEmailForm();
+            };
+
+            $scope.submitResidencyForm = function()
+            {
+              $scope.myAccount.submitResidencyForm();
+            };
+
+            $scope.submitPasswordForm = function()
+            {
+              $scope.myAccount.submitPasswordForm();
+            };
+
+            $scope.myAccount.loadAccount();
+
+            console.log('my account');
+            console.log($scope.myAccount);
       }
+
+
+      if(angular.isDefined($routeParams.verifyToken) && $routeParams.verifyToken.length > 0)
+      {
+          $scope.verifying = true;
+          $scope.verifyEmail = function() {
+            return $scope.myAccount.verifyEmail($routeParams.verifyToken);
+          };
+
+          $scope.verifyEmail().then(function(response) {
+              console.log('verification response');
+              console.log(response);
+              $scope.verification = response.data;
+              $scope.verifying = false;
+          });
+      }
+
+
   }])
     .factory('MyAccountLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser) {
         var acctload = this;
 
-        var loadAccount = function() {
+        acctload.loadAccount = function() {
 
             if(acctload.busy) {
                 return false;
@@ -155,7 +208,7 @@ angular.module('bluereconlineApp')
             }
         };
 
-        var submitAddressForm = function() {
+        acctload.submitAddressForm = function() {
             var req = {
                 method: 'POST',
                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount' + '?action=update_address',
@@ -180,7 +233,37 @@ angular.module('bluereconlineApp')
             );
         };
 
-        var submitEmailForm = function() {
+        acctload.verifyEmail = function(token) {
+            console.log('submit email');
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/email/verify',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'token':token}
+            };
+
+            return $http(req);
+        };
+
+        acctload.submitEmailReverification = function() {
+            console.log('submit email ' + ActiveUser.userData.user_id);
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/email/resendverification',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'uid': ActiveUser.userData.user_id}
+            };
+
+            return $http(req);
+        };
+
+        acctload.submitEmailForm = function() {
             console.log('submit email');
 
             var req = {
@@ -205,7 +288,7 @@ angular.module('bluereconlineApp')
             );
         };
 
-        var submitResidencyForm = function() {
+        acctload.submitResidencyForm = function() {
 
             var isResident = false;
 
@@ -236,7 +319,7 @@ angular.module('bluereconlineApp')
             );
         };
 
-        var submitPasswordForm = function() {
+        acctload.submitPasswordForm = function() {
             var req = {
                 method: 'POST',
                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount' + '?action=update_password',
@@ -262,11 +345,6 @@ angular.module('bluereconlineApp')
             );
         };
 
-        acctload.loadAccount = loadAccount;
-        acctload.submitAddressForm = submitAddressForm;
-        acctload.submitEmailForm = submitEmailForm;
-        acctload.submitResidencyForm = submitResidencyForm;
-        acctload.submitPasswordForm = submitPasswordForm;
         acctload.returnData = '';
         acctload.busy = false;
 

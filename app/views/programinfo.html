@@ -25,7 +25,7 @@
             <label class="clickable" for="register_{{person.user_id}}">
               {{person.full_name}} <span class="text-success" data-ng-if="person.in_cart == '1'"> (In Cart)</span>
             </label>
-            <div data-ng-if="!person.eligible"><span class="text-danger" quick-ng-repeat="reason in person.reasons">{{reason}}</span></div>
+            <div data-ng-if="!person.eligible"><span class="text-danger" data-ng-repeat="reason in person.reasons">{{reason}}</span></div>
           </li>
           <li class="list-group-item" data-ng-if="proinfo.returnData.listData.showEligibleButton">
             <button class="btn btn-block btn-default" data-ng-click="proinfo.returnData.listData.showIneligible = !proinfo.returnData.listData.showIneligible"><span data-ng-if="!proinfo.returnData.listData.showIneligible">Show</span><span data-ng-if="proinfo.returnData.listData.showIneligible">Hide</span> Ineligible</button>
@@ -40,7 +40,7 @@
         <div data-ng-if="loggedIn">
         <div class="alert alert-danger" data-ng-if="proinfo.returnData.listData.noSelection">Select at least one person.</div>
         <div class="alert alert-danger" data-ng-if="proinfo.returnData.listData.overLimit">{{proinfo.returnData.listData.overLimitMessage}}</div>
-        <div class="alert alert-danger" data-ng-if="proinfo.returnData.listData.waitlistError"><span quick-ng-repeat="error in proinfo.returnData.listData.waitlistErrors">{{error}}</span></div>
+        <div class="alert alert-danger" data-ng-if="proinfo.returnData.listData.waitlistError"><span data-ng-repeat="error in proinfo.returnData.listData.waitlistErrors">{{error}}</span></div>
         <button class="btn btn-success btn-block" data-ng-model="proinfo.returnData.listData.addCartButton" data-ng-click="onAddToCartClick(proinfo.returnData.listData, proinfo.returnData.remaining_spots)" data-ng-if="(proinfo.returnData.remaining_spots > 0 && (proinfo.returnData.listData.in_online_nonresident_registration == '1' || proinfo.returnData.listData.in_online_resident_registration == '1')) && !addingRegistration"><!--
                       --><span data-ng-if="proinfo.returnData.listData.package_count == 0"><i class="fa fa-shopping-cart"></i> Add to cart</span><!--
                       --><span data-ng-if="proinfo.returnData.listData.package_count > 0"><i class="fa fa-cart-plus"></i> Enrollment Options</span><!--
@@ -77,7 +77,7 @@
 
     <div class="row">
       <div class="col-xs-12 col-sm-3">
-        <div class="row striped-row" data-ng-repeat="fee in proinfo.returnData.fees track by fee.item_fee_id">
+        <div class="row striped-row" data-ng-repeat="fee in proinfo.returnData.listData.fees track by fee.item_fee_id">
           <div class="col-xs-7 col-sm-7 text-left">
             {{fee.fee_name}}
           </div>

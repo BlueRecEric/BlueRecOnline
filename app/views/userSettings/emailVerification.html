@@ -1,0 +1,87 @@
+<div>
+
+    <h3>Email Verification</h3>
+
+    <div class="spacing"></div>
+
+    <div class="panel panel-primary" data-ng-if="!verifying && verification.errors.length > 0">
+        <div class="panel-heading clearfix">
+            <h4 class="panel-title">Invalid Request</h4>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        The following errors occurred:
+                    <ul>
+                        <li quick-ng-repeat="error in verification.errors">{{error.error.text}}</li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+            <div class="col-sm-12 text-right">
+                <span data-ng-if="!loggedIn">
+                    <button type="button" class="btn btn-sm btn-primary" data-ng-click="onGoToLogin()"><i class="fa fa-sign-in fa-fw"></i> Log in to re-issue request</button>
+                </span>
+                <span data-ng-if="loggedIn">
+                    <button type="button" data-ng-if="!sendingVerification && !verificationSent" data-ng-click="resendEmailVerification()" id="emailSubmit" value="Submit" class="btn btn-sm btn-warning"><i class="fa fa-reply"></i> Resend Verification Email</button>
+                    <button type="button" data-ng-if="sendingVerification && !verificationSent" class="btn btn-sm btn-disabled"><i class="fa fa-reply"></i> Sending verification...</button>
+                    <button type="button" data-ng-if="verificationSent" class="btn btn-sm btn-success" data-ng-enable="false"><i class="fa fa-reply"></i> Verification sent!</button>
+                </span>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-primary" data-ng-if="verifying">
+        <div class="panel-heading clearfix">
+            <h4 class="panel-title">Verifying Email</h4>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-xs-12">
+                    One moment while we verify your email address...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-primary" data-ng-if="!serverData.verifying && serverData.emailVerified && verification.errors.length == 0">
+        <div class="panel-heading clearfix">
+            <h4 class="panel-title">Email Address Verified!</h4>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-xs-12">
+                    Thank you for verifying your email address!
+
+                    <br><br>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-12 text-left">
+                    <span data-ng-if="!loggedIn">
+                        <button class="btn btn-sm btn-primary" data-ng-click="onGoToLogin()"><i class="fa fa-sign-in fa-fw"></i> Log in to register</button>
+                    </span>
+                    <span data-ng-if="loggedIn">
+                        <button class="btn btn-sm btn-primary" data-ng-click="onGoToHome()"><i class="fa fa-home fa-fw"></i> Return to Home</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

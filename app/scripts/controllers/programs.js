@@ -117,6 +117,9 @@ angular.module('bluereconlineApp')
                     {
                         program.waitlistSuccess = true;
                         MakeToast.popOn('success', 'Wait List', 'The selected household members have been added to the wait list!');
+
+                        $scope.registration.sendWaitlistAddEmail();
+
                         for(var sess = 0; sess < $scope.activePrograms.data.sessions.length; sess++)
                         {
                             for(var pro = 0; pro < $scope.activePrograms.data.sessions[sess].programs.length; pro++)

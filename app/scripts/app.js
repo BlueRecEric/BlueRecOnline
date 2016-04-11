@@ -83,6 +83,10 @@ angular
                 templateUrl: 'views/userSettings/resetPassword.html',
                 controller: 'ResetPasswordCtrl'
             })
+            .when('/:orgurl/email/verify/:verifyToken', {
+                templateUrl: 'views/userSettings/emailVerification.html',
+                controller: 'MyAccountCtrl'
+            })
             .when('/:orgurl/recoverpassword', {
                 templateUrl: 'views/recoverPassword.html',
                 controller: 'ResetPasswordCtrl'

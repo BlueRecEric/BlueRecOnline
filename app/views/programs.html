@@ -14,7 +14,7 @@
             <label for="searchCategory">Category:</label>
             <select id="searchCategory" class="form-control" ng-model="search.programSearch.type" data-ng-change="doSearch()">
               <option value=""></option>
-              <option data-ng-repeat="type in programTypes.data track by type.type_id" value="{{type.type_id}}" data-ng-selected="type.type_id == search.programSearch.type">{{type.tree_name}}</option>
+              <option quick-ng-repeat="type in programTypes.data track by type.type_id" value="{{type.type_id}}" data-ng-selected="type.type_id == search.programSearch.type">{{type.tree_name}}</option>
             </select>
           </div>
 
@@ -22,7 +22,7 @@
             <label for="searchLocation">Location:</label>
             <select id="searchLocation" class="form-control" ng-model="search.programSearch.location" data-ng-change="doSearch()">
               <option value=""></option>
-              <option data-ng-repeat="loc in programLocations.data track by loc.location_id" value="{{loc.location_id}}" data-ng-selected="loc.location_id == search.programSearch.location">{{loc.location_name}}</option>
+              <option quick-ng-repeat="loc in programLocations.data track by loc.location_id" value="{{loc.location_id}}" data-ng-selected="loc.location_id == search.programSearch.location">{{loc.location_name}}</option>
             </select>
           </div>
 
@@ -44,7 +44,7 @@
             <div class="form-group col-xs-4">
               <label>Participant:</label>
               <select class="form-control">
-                <option data-ng-repeat="person in household">{{person.firstname}} {{person.lastname}}</option>
+                <option quick-ng-repeat="person in household">{{person.firstname}} {{person.lastname}}</option>
               </select>
             </div>
           </div>
@@ -143,7 +143,7 @@
         </div>
 
         <div id="sessionList_{{session.session_id}}" class="panel-group">
-          <div class="panel panel-default" data-ng-repeat="program in session.programs track by program.item_id">
+          <div class="panel panel-default" quick-ng-repeat="program in session.programs track by program.item_id">
             <div class="panel-heading clearfix clickable" data-ng-click="onProgramClick(program)" data-parent="#sessionList_{{session.session_id}}" data-toggle="collapse" data-target="#programdetail_{{::program.item_id}}">
               <h3 class="panel-title">
                 <div class="row">
@@ -173,22 +173,22 @@
                     <div class="row clearfix">
                       <div class="col-sm-6">
                         <div class="row"><div class="col-sm-12"><h4>Registration</h4></div></div>
-                        <div class="row striped-row" data-ng-repeat="date in program.listData.dates"><div class="col-xs-6">{{::date.label}}</div><div class="col-xs-6">{{::date.date}}</div></div>
+                        <div class="row striped-row" quick-ng-repeat="date in program.listData.dates"><div class="col-xs-6">{{::date.label}}</div><div class="col-xs-6">{{::date.date}}</div></div>
                       </div>
 
                       <div class="col-sm-6">
                         <div class="row"><div class="col-sm-12"><h4>Fees</h4></div></div>
-                        <div class="row striped-row" data-ng-repeat="fee in program.listData.fees track by fee.item_fee_id"><div class="col-xs-6">{{::fee.fee_name}}:</div><div class="col-xs-6">${{::fee.fee_amount}}</div></div>
+                        <div class="row striped-row" quick-ng-repeat="fee in program.listData.fees track by fee.item_fee_id"><div class="col-xs-6">{{::fee.fee_name}}:</div><div class="col-xs-6">${{::fee.fee_amount}}</div></div>
                       </div>
 
                       <div class="col-sm-6">
                         <div class="row"><div class="col-sm-12"><h4>Location(s)</h4></div></div>
-                        <div class="row striped-row" data-ng-repeat="location in program.listData.locations track by location.location_id">{{::location.location_name}}</div>
+                        <div class="row striped-row" quick-ng-repeat="location in program.listData.locations track by location.location_id">{{::location.location_name}}</div>
                       </div>
 
                       <div class="col-sm-6">
                         <div class="row"><div class="col-sm-12"><h4>Times</h4></div></div>
-                        <div class="row striped-row" data-ng-repeat="weekday in program.listData.weekdays"><div class="col-xs-6">{{::weekday.program_weekdays}}:</div><div class="col-xs-6">{{::weekday.program_times}}</div></div>
+                        <div class="row striped-row" quick-ng-repeat="weekday in program.listData.weekdays"><div class="col-xs-6">{{::weekday.program_weekdays}}:</div><div class="col-xs-6">{{::weekday.program_times}}</div></div>
                       </div>
 
                       <div class="col-sm-6">
@@ -208,12 +208,12 @@
                   <div class="col-sm-3 col-md-3" data-ng-if="((program.listData.remaining_spots > 0 || program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1'))">
                     <div class="row"><div class="col-sm-12"><h4><a id="register_{{program.listData.item_id}}">Register</a></h4></div></div>
                     <ul class="list-group" data-ng-if="showRegisteredUser">
-                      <li class="list-group-item" data-ng-repeat="person in program.listData.users track by person.user_id" data-ng-if="person.eligible || program.showIneligible">
+                      <li class="list-group-item" quick-ng-repeat="person in program.listData.users track by person.user_id" data-ng-if="person.eligible || program.showIneligible">
                         <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-{{(person.eligible)?'default':'danger'}}" data-ng-model="person.selected" data-ng-change="checkEligibleRegistrant(person)"></checkbox>
                         <label class="clickable" for="register_{{person.user_id}}">
                           {{person.full_name}} <span class="text-success" data-ng-if="person.in_cart == '1'"> (In Cart)</span>
                         </label>
-                        <div data-ng-if="!person.eligible"><span class="text-danger" data-ng-repeat="reason in person.reasons">{{reason}}</span></div>
+                        <div data-ng-if="!person.eligible"><span class="text-danger" quick-ng-repeat="reason in person.reasons">{{reason}}</span></div>
                       </li>
                       <li class="list-group-item" data-ng-if="program.listData.showEligibleButton">
                         <button class="btn btn-block btn-default" data-ng-click="program.showIneligible = !program.showIneligible"><span data-ng-if="!program.showIneligible">Show</span><span data-ng-if="program.showIneligible">Hide</span> Ineligible</button>
@@ -247,12 +247,12 @@
                     <div class="spacing"></div>
                     <div class="alert alert-danger" data-ng-if="program.listData.noSelection">Select at least one person.</div>
                     <div class="alert alert-danger" data-ng-if="program.listData.overLimit">{{program.listData.overLimitMessage}}</div>
-                    <button class="btn btn-success btn-block" data-ng-model="program.listData.addCartButton" data-ng-click="onAddToCartClick(program.listData,program.listData.remaining_spots)" data-ng-if="(program.listData.remaining_spots > 0 && (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1') && !addingRegistration)"><!--
+                    <button class="btn btn-success btn-block" data-ng-model="program.listData.addCartButton" data-ng-click="onAddToCartClick(program.listData,program.listData.remaining_spots)" data-ng-if="(showRegisteredUser && program.listData.remaining_spots > 0 && (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1') && !addingRegistration)"><!--
                       --><span data-ng-if="program.listData.package_count == 0"><i class="fa fa-shopping-cart"></i> Add to cart</span><!--
                       --><span data-ng-if="program.listData.package_count > 0"><i class="fa fa-cart-plus"></i> Enrollment Options</span><!--
                       --></button>
                     <button class="btn btn-disabled btn-block" data-ng-if="addingRegistration">Please Wait...</button>
-                    <button class="btn btn-primary btn-block" data-ng-click="onAddToWaitListClick(program.listData)" data-ng-if="((program.listData.remaining_spots <= 0 && program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1')) && !addingRegistration"><i class="fa fa-th-list"></i> Add to Wait List</button>
+                    <button class="btn btn-primary btn-block" data-ng-click="onAddToWaitListClick(program.listData)" data-ng-if="(showRegisteredUser && (program.listData.remaining_spots <= 0 && program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1')) && !addingRegistration"><i class="fa fa-th-list"></i> Add to Wait List</button>
                   </div>
 
                   <div class="visible-xs col-xs-12">

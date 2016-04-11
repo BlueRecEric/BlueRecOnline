@@ -50,6 +50,19 @@ angular.module('bluereconlineApp')
             return defer.promise;
         };
 
+        reg.sendWaitlistAddEmail = function() {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/email/waitlistAdd',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'uid': ActiveUser.userData.user_id}
+            };
+
+            return $http(req);
+        };
+
         reg.addWaitListArray = function(waitProgram) {
             reg.waitlist = [];
             var defer = $q.defer();
