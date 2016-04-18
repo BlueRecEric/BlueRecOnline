@@ -93,9 +93,9 @@ angular.module('bluereconlineApp')
             console.log(response);
             factoryData.tokenData = response.data;
 
-            if(angular.isDefined(factoryData.data))
+            if(angular.isDefined(factoryData.tokenData))
             {
-                if(factoryData.data.questions.length == 0)
+                if(factoryData.tokenData.data.questions.length == 0)
                 {
                     factoryData.hasQuestions = false;
                     factoryData.showChangePassword = true;

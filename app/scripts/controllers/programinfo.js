@@ -13,6 +13,10 @@ angular.module('bluereconlineApp')
 
     $scope.loggedIn = false;
 
+      $scope.onGoToLogin = function () {
+          $location.path('/' + $routeParams.orgurl + '/login');
+      };
+
     if(ActiveUser.isLoggedIn())
     {
       $scope.loggedIn = true;

@@ -200,10 +200,29 @@ angular.module('bluereconlineApp')
             }
         );
       };
+
+      UserUpdate.getSettings().then(function (result) {
+          $scope.config = result.data;
+          console.log('config');
+          console.log($scope.config);
+      });
   }])
   .factory('UserUpdate', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', '$filter', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams,$filter,ActiveUser) {
 
       var usrUpdate = this;
+
+      usrUpdate.getSettings = function()
+      {
+          var req = {
+              method: 'GET',
+              url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/config',
+              headers: {
+                  'Content-Type': undefined
+              }
+          };
+
+          return $http(req);
+      };
 
       function submitPartForm(person)
       {

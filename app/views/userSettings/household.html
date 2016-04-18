@@ -2,7 +2,7 @@
 
     <h3>Household Members</h3>
 
-    <div class="row">
+    <div class="row" data-ng-hide="config.data.disableHouseholdAddition == '1'">
         <div class="col-xs-12">
             <button type="button" id="btnNewHouseholdMember" value="Add" class="btn btn-success btn-sm" data-ng-click="newMemberClicked()"><i class="fa fa-plus"></i> New Household Member</button>
         </div>
@@ -12,7 +12,7 @@
 
     <div class="alert alert-warning" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        Members added to your household cannot be removed from online.  To have members removed from your household you will need to contact Chico Area Recreation And Parks District.
+        Members added to your household cannot be removed from online.  To have members removed from your household you will need to contact the {{config.data.organizationName}}.
     </div>
 
     <div class="spacing" data-ng-show="newMemberAdded"></div>

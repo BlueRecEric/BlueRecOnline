@@ -142,10 +142,28 @@ angular.module('bluereconlineApp')
           });
       }
 
+      MyAccountLoader.getSettings().then(function (result) {
+          $scope.config = result.data;
+          console.log('config');
+          console.log($scope.config);
+      });
 
   }])
     .factory('MyAccountLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,ActiveUser) {
         var acctload = this;
+
+        acctload.getSettings = function()
+        {
+            var req = {
+                method: 'GET',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/config',
+                headers: {
+                    'Content-Type': undefined
+                }
+            };
+
+            return $http(req);
+        };
 
         acctload.loadAccount = function() {
 

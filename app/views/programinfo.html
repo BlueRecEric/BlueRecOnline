@@ -99,6 +99,7 @@
     </div><div class="col-xs-0 col-sm-9"></div></div>
     <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_grade === '1')?true:false"><div class="col-xs-12 col-sm-3">Grade(s) {{::proinfo.returnData.listData.minimum_grade}} - {{::proinfo.returnData.listData.maximum_grade}}</div><div class="col-xs-0 col-sm-9"></div></div>
     <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_gender === '1')?true:false"><div class="col-xs-12 col-sm-3">Gender: {{::proinfo.returnData.listData.gender}}</div><div class="col-xs-0 col-sm-9"></div></div>
+    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_birthday === '1')?true:false"><div class="col-xs-12">Born After: {{::proinfo.returnData.listData.format_born_after}}<br>Born Before: {{::proinfo.returnData.listData.format_born_before}}</div></div>
 
 
 
