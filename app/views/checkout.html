@@ -85,6 +85,19 @@
     <div class="panel-body">
       <form class="form-horizontal" role="form">
         <fieldset>
+
+          <div class="row" data-ng-show="paymentErrors.length > 0">
+            <div class="col-xs-12">
+              <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                Please address the following issues:
+                <ul>
+                <span data-ng-repeat="error in paymentErrors"><li>{{error}}</li></span>
+                </ul>
+              </div>
+            </div>
+          </div>
+
           <legend>Payment Information</legend>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="card-holder-name">Name on Card</label>

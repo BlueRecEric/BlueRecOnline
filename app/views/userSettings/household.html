@@ -110,9 +110,9 @@
                     </div>
                     <div class="form-group">
                         <label for="birthday" class="col-sm-2 control-label">Birthday</label>
-                        <div class="col-sm-6">
-                             <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                            <input class="form-control" data-ng-model="person.birthday" data-date-format="M/d/yyyy" data-autoclose="true" data-timezone="UTC" id="birthday" name="date" bs-datepicker type="text"></span>
+                        <div class="col-sm-6">{{displayBirthday(person.birthday)}}
+                             <!--<span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            <input class="form-control" data-ng-model="person.birthday" data-date-format="M/d/yyyy" data-autoclose="true" data-timezone="UTC" id="birthday" name="date" bs-datepicker type="text"></span>-->
                         </div>
                     </div>
                     <div class="form-group">

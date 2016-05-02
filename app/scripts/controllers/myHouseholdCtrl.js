@@ -51,6 +51,10 @@ angular.module('bluereconlineApp')
           setTimeout(updateHouseholdData,500);
       });
 
+      $scope.displayBirthday = function (birthday) {
+          return $filter('date')(birthday, 'MM/dd/yyyy');
+      };
+
       $scope.showNewMember = false;
       $scope.newMemberForm = [];
 

@@ -8,14 +8,21 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('ShoppingCartCtrl', ['$scope', '$rootScope', '$route', '$routeParams', '$location', 'BLUEREC_ONLINE_CONFIG', '$http', 'ActiveUser', 'MakeToast',
-        function ($scope,$rootScope, $route, $routeParams,$location,BLUEREC_ONLINE_CONFIG,$http,ActiveUser,MakeToast) {
+  .controller('ShoppingCartCtrl', ['$scope', '$rootScope', '$route', '$routeParams', '$location', 'BLUEREC_ONLINE_CONFIG', '$http', 'ActiveUser', 'MakeToast', '$modal',
+        function ($scope,$rootScope, $route, $routeParams,$location,BLUEREC_ONLINE_CONFIG,$http,ActiveUser,MakeToast,$modal) {
       $scope.orgurl = $routeParams.orgurl;
 
       $scope.cart = {};
       $scope.removed = {};
       $scope.paymentResponse;
       $scope.payingCart = false;
+
+        var paymentModal =   $modal({
+            title: 'Processing Payment',
+            content: 'We are currently attempting to process your payment.<br>This message will disappear once we receive payment confirmation.',
+            html: true,
+            show: false
+        });
 
       $scope.promoCodeEnabled = false;
       $scope.promoCode = '';
@@ -72,8 +79,8 @@ angular.module('bluereconlineApp')
 
                 $scope.cart = response.data;
 
-                console.log('cart:');
-                console.log($scope.cart);
+                //console.log('cart:');
+                //console.log($scope.cart);
             }
         );
       }
@@ -114,7 +121,7 @@ angular.module('bluereconlineApp')
             .then(
                 function success(response) {
                     $scope.paymentResponse = response.data;
-                    console.log($scope.paymentResponse);
+                    //console.log($scope.paymentResponse);
                   loadCart();
                 }
             );
@@ -124,75 +131,122 @@ angular.module('bluereconlineApp')
       {
 
         $scope.payingCart = true;
+        $scope.paymentErrors = [];
 
-        console.log('shopping cart:');
-        console.log($scope.cart);
+        //console.log('shopping cart:');
+        //console.log($scope.cart);
 
-        var customerData = {};
+        var formFilled = false;
+        var formErrors = [];
 
-        customerData.uid = ActiveUser.userData.user_id;
-        customerData.hid = ActiveUser.userData.household_id;
-        customerData.customerID = ActiveUser.userData.household_id + '_' + ActiveUser.userData.user_id;
+        if(angular.isDefined($scope.cardForm))
+        {
+            if(!(angular.isDefined($scope.cardForm.customerName) && $scope.cardForm.customerName.length > 0))
+            {
+                formErrors.push('Please enter the name on the card.');
+            }
 
-        customerData.cardData = $scope.cardForm;
-        customerData.cardData.expDate = $scope.cardForm.expYear + '-' + $scope.cardForm.expMonth;
-        customerData.chargeAmount = $scope.cart.totalFee.toFixed(2);
+            if(!(angular.isDefined($scope.cardForm.cardNumber) && $scope.cardForm.cardNumber.length > 0))
+            {
+                formErrors.push('Please enter your credit card number.');
+            }
 
-        if($scope.cart.data.length > 0) {
-            customerData.cartItems = $scope.cart.data;
+            if(!(angular.isDefined($scope.cardForm.expMonth) && $scope.cardForm.expMonth.length > 0))
+            {
+                formErrors.push('Please enter a valid expiration month.');
+            }
 
-            console.log('shopping cart post:');
-            console.log(customerData);
+            if(!(angular.isDefined($scope.cardForm.expYear) && $scope.cardForm.expYear.length > 0))
+            {
+                formErrors.push('Please enter a valid expiration year.');
+            }
 
-            MakeToast.popOn('info', 'Purchasing', 'We are authorizing your credit card...');
+            if(!(angular.isDefined($scope.cardForm.cardCvv) && $scope.cardForm.cardCvv.length > 0))
+            {
+                formErrors.push('Please enter the verification code on the back of your card.');
+            }
+        }
+        else
+        {
+            formErrors.push('Credit card form is blank.');
+        }
 
-            var req = {
-            method: 'POST',
-            url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/pay',
-            headers: {
-                'Content-Type': undefined
-            },
-            data: customerData
-            };
+        if(formErrors.length > 0)
+        {
+            $scope.payingCart = false;
+            $scope.paymentErrors = formErrors;
+        }
+        else {
 
-            return $http(req)
-            .then(function success(response) {
-                console.log('pay response:');
-                $scope.paymentResponse = response.data;
-                console.log($scope.paymentResponse);
+            paymentModal.show;
 
-                if(response.data.data.authorized)
-                {
-                    MakeToast.popOn('success', 'Purchasing', 'Your credit card has been authorized!');
-                    $scope.removed = response.data;
-                    if(angular.isDefined(response.data.data.receiptID))
-                    {
+            var customerData = {};
 
-                        var reqTwo = {
-                            method: 'POST',
-                            url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/email/receipt',
-                            headers: {
-                                'Content-Type': undefined
-                            },
-                            data: {'uid':ActiveUser.userData.user_id,'tid':response.data.data.receiptID}
-                        };
+            customerData.uid = ActiveUser.userData.user_id;
+            customerData.hid = ActiveUser.userData.household_id;
+            customerData.customerID = ActiveUser.userData.household_id + '_' + ActiveUser.userData.user_id;
 
-                        $http(reqTwo);
+            customerData.cardData = $scope.cardForm;
+            customerData.cardData.expDate = $scope.cardForm.expYear + '-' + $scope.cardForm.expMonth;
+            customerData.chargeAmount = $scope.cart.totalFee.toFixed(2);
 
-                        goToReceipt(response.data.data.receiptID);
-                    }
+            if ($scope.cart.data.length > 0) {
+                customerData.cartItems = $scope.cart.data;
 
-                    $scope.cart.paymentComplete = true;
-                    $scope.payingCart = false;
-                    loadCart();
-                }
-                else
-                {
-                    $scope.payingCart = false;
-                    MakeToast.popOn('warning', 'Purchasing', 'There was a problem authorizing your purchase.');
-                }
 
-            });
+
+                //console.log('shopping cart post:');
+                //console.log(customerData);
+
+                MakeToast.popOn('info', 'Purchasing', 'We are authorizing your credit card...');
+
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/pay',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: customerData
+                };
+
+                return $http(req)
+                    .then(function success(response) {
+                        //console.log('pay response:');
+                        $scope.paymentResponse = response.data;
+                        //console.log($scope.paymentResponse);
+
+                        paymentModal.show = false;
+
+                        if (response.data.data.authorized) {
+                            MakeToast.popOn('success', 'Purchasing', 'Your credit card has been authorized!');
+                            $scope.removed = response.data;
+                            if (angular.isDefined(response.data.data.receiptID)) {
+
+                                var reqTwo = {
+                                    method: 'POST',
+                                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/email/receipt',
+                                    headers: {
+                                        'Content-Type': undefined
+                                    },
+                                    data: {'uid': ActiveUser.userData.user_id, 'tid': response.data.data.receiptID}
+                                };
+
+                                $http(reqTwo);
+
+                                goToReceipt(response.data.data.receiptID);
+                            }
+
+                            $scope.cart.paymentComplete = true;
+                            $scope.payingCart = false;
+                            loadCart();
+                        }
+                        else {
+                            $scope.payingCart = false;
+                            MakeToast.popOn('warning', 'Purchasing', 'There was a problem authorizing your purchase.');
+                        }
+
+                    });
+            }
         }
       }
 
@@ -219,6 +273,6 @@ angular.module('bluereconlineApp')
       $scope.checkPromo = checkPromo;
       $scope.pageData = {paymentComplete:false};
 
-      console.log('page data');
-      console.log($scope.pageData);
+      //console.log('page data');
+      //console.log($scope.pageData);
   }]);
