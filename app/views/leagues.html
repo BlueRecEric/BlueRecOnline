@@ -2,40 +2,98 @@
 
   <h3>Active Leagues</h3>
 
-  <div>
-    <div class="panel panel-primary">
-      <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">Adult Basketball - Demo League</h3>
-      </div>
-      <div class="panel-body">
+  <div data-ng-show="league.userLeagues.length > 0">
+    <div data-ng-repeat="league in league.userLeagues">
+      <div class="panel panel-primary">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">{{league.type_name}} - {{league.item_name}} {{league.item_code}}</h3>
+        </div>
+        <div class="panel-body">
 
-        <div class="bs-callout bs-callout-danger" id="callout-type-b-i-elems">
+          <!--<div class="bs-callout bs-callout-danger" id="callout-type-b-i-elems">
+            <div class="row">
+              <i class="fa fa-exclamation-triangle fa-3x pull-left fa-border text-danger"></i>
+              <h4>Notice:</h4>
+              All week 1 games have been rescheduled!<br>Please check the league page for make-up games
+              and practice schedules!
+            </div>
+          </div>-->
+
+          <h4>League Information</h4>
+
+          {{league.description}}
+          <br><br>
+          Registration Begins {{league.reg_start}} and ends on {{league.reg_end}}.<br>
+          This league runs from {{league.start_date}} to {{league.end_date}}.
+
+          <h4 data-ng-show="league.userTeams.length > 0">My Team(s)</h4>
+
+          <div data-ng-repeat="team in league.userTeams">
+            <h5>{{team.team_name}}</h5>
+
+            <div data-ng-show="" class="alert alert-danger">
+              <ul>
+              <div data-ng-repeat="error as newTeamMemberErrors">
+                <li>{{error.text}}</li>
+              </div>
+              </ul>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">Roster</div>
+              <div class="col-sm-8"><button type="button" id="btnNewTeamMember" value="Add Player" class="btn btn-success btn-sm pull-right" data-ng-click="addingTeamMember = !addingTeamMember"><i class="fa fa-plus"></i> Add Player</button></div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <td>First</td>
+                  <td>Last</td>
+                  <td>Email</td>
+                  <td>Phone</td>
+                  <td data-ng-if="addingTeamMember"></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-if="addingTeamMember" class="warning">
+                  <td><input placeholder="Required" type="text" id="newFirstName" data-ng-model="newTeamMemberForm.firstname" class="form-control" required/></td>
+                  <td><input placeholder="Required" type="text" id="newLastName" data-ng-model="newTeamMemberForm.lastname" class="form-control" required/></td>
+                  <td><input placeholder="Optional" type="text" id="newEmail" data-ng-model="newTeamMemberForm.email" class="form-control"/></td>
+                  <td><input placeholder="Optional" type="text" id="newPhone" data-ng-model="newTeamMemberForm.phone" class="form-control"/></td>
+                  <td data-ng-if="addingTeamMember">
+                    <button type="button" id="btnSaveTeamMember" value="Save" class="btn btn-info btn-sm" data-ng-click="onSaveNewTeamMember(team.team_id)"><i class="fa fa-save"></i> Save</button>
+                  </td>
+                </tr>
+                <tr data-ng-repeat="player in team.roster">
+                  <td>{{player.firstname}}</td>
+                  <td>{{player.lastname}}</td>
+                  <td>{{player.email_address}}</td>
+                  <td>{{player.phone_number}}</td>
+                  <td data-ng-if="addingTeamMember"></td>
+                </tr>
+                </tbody>
+              </table>
+          </div>
+
+          <!--
           <div class="row">
-            <i class="fa fa-exclamation-triangle fa-3x pull-left fa-border text-danger"></i>
-            <h4>Notice:</h4>
-            All week 1 games have been rescheduled!<br>Please check the league page for make-up games
-            and practice schedules!
+            <div class="col-xs-12">
+              <a href="#/{{orgurl}}/leagues/2015DemoLeague" class="btn btn-info pull-right"><i class="fa fa-sign-in"></i> League Page</a>
+            </div>
           </div>
+          -->
         </div>
+      </div>
+    </div>
+  </div>
 
-        <h4>League Information</h4>
 
-        La Mirada Adult Basketball will once again create a recreational basketball league in our area.
-        The league is designed to provide men and women an outlet to compete, but more importantly help them to develop
-        their skills and give all participants an equal opportunity to play. To accomplish this, we have instituted rules that
-        require equal play.  The program is designed to be competitive and each game will have a score as well as an end of
-        season March Maddness Tournament.
-
-        <h4>Fees and Registration</h4>
-
-        Team Registration Fee: $325<br>
-        Registration Begins October 1st and ends on Jan 10th.
-
-        <div class="row">
-          <div class="col-xs-12">
-            <a href="#/{{orgurl}}/leagues/2015DemoLeague" class="btn btn-info pull-right"><i class="fa fa-sign-in"></i> League Page</a>
-          </div>
-        </div>
+  <div data-ng-show="league.userLeagues.length == 0">
+    <div class="bs-callout bs-callout-danger" id="callout-type-b-i-elems">
+      <div class="row">
+        <i class="fa fa-exclamation-triangle fa-3x pull-left fa-border text-danger"></i>
+        <h4>No leagues found:</h4>
+        You do not appear to be registered in any active leagues at this time.
       </div>
     </div>
   </div>
