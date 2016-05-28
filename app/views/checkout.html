@@ -27,29 +27,44 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <label>Your Shopping Cart</label>
-      <span class="pull-right hidden-xs" data-ng-show='memInfo.showLoadingRegistration'>Checking Requirements... <i class="fa fa-cog fa-spin"></i></span>
+        <div class="row">
+        <div class="col-md-4">
+          <label style="line-height: 1 !important;margin-bottom: 0px!important;">Item Name</label>
+        </div>
+        <div class="col-md-3">
+            <label style="line-height: 1 !important;margin-bottom: 0px!important;">Person</label>
+        </div>
+            <div class="col-md-3">
+                <label style="line-height: 1 !important;margin-bottom: 0px!important;">Fee</label>
+            </div>
+        <div class="col-md-2">
+            <label style="line-height: 1 !important;margin-bottom: 0px!important;">Qty</label>
+        </div>
     </div>
+    </div>
+
     <div class="panel-body">
+
       <div data-ng-repeat="item in cart.data">
         <div class="row clearfix spacing">
           <div class="col-md-4">
             <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{item.shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button>
-              <a href ng-click="gotoItemInfoPage(item.main_item_id)">{{item.item_name}}</a>
+              <a href ng-click="gotoItemInfoPage(item.main_item_id, link.type_name)">{{item.item_name}}</a>
           </div>
 
           <div class="col-md-3">{{item.person_name}}</div>
-          <div class="col-md-3"><span data-ng-show="item.total_fee > 0">{{item.total_fee}}</span> <span data-ng-show="cart.hasPromo && item.total_original_fee > 0">*</span></div>
-
+          <div class="col-md-3"><span data-ng-show="item.total_fee > 0">${{item.total_fee}}</span> <span data-ng-show="cart.hasPromo && item.total_original_fee > 0">*</span></div>
+            <div class="col-md-2">{{item.quantity}}</div>
         </div>
 
         <div class="row clearfix spacing" data-ng-repeat="link in item.linked_items.data">
           <div class="col-md-4">
             <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{link.linked_shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button> <i class="glyphicon glyphicon-option-vertical icon-black"></i>
-              <a href ng-click="gotoItemInfoPage(link.main_item_id)">{{link.linked_item_name}}</a>
+              <a href ng-click="gotoItemInfoPage(link.main_item_id, link.type_name)">{{link.linked_item_name}}</a>
           </div>
           <div class="col-md-3">{{link.linked_person_name}}</div>
-          <div class="col-md-3"><span data-ng-show="link.linked_total_fee > 0">{{link.linked_total_fee}}</span> <span data-ng-show="cart.hasPromo && link.linked_total_original_fee > 0">*</span></div>
+          <div class="col-md-3"><span data-ng-show="link.linked_total_fee > 0">${{link.linked_total_fee}}</span> <span data-ng-show="cart.hasPromo && link.linked_total_original_fee > 0">*</span></div>
+            <div class="col-md-2">{{link.linked_quantity}}</div>
         </div>
       </div>
     </div>
@@ -98,7 +113,10 @@
             </div>
           </div>
 
-          <legend>Payment Information</legend>
+            <input style="display:none">
+            <input type="password" style="display:none">
+
+            <legend>Payment Information</legend>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="card-holder-name">Name on Card</label>
             <div class="col-sm-6">

@@ -21,6 +21,7 @@
                                             <td></td>
                                             <td><strong>Add-On Name</strong></td>
                                             <td><strong>Add-On Code</strong></td>
+                                            <td><strong>Qty</strong></td>
                                             <td><strong>Fee</strong></td>
                                         </tr>
                                     </thead>
@@ -34,7 +35,7 @@
                                                                   data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
                                                                   name="package_{{pkg.item_id}}" required></checkbox>
                                                         <checkbox class="btn-default checkbox-dark-border"
-                                                                  data-ng-if="!pkg.required" data-ng-change="onPackageCheckedEvent()"
+                                                                  data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
                                                                   data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
                                                                   name="package_{{pkg.item_id}}"></checkbox>
                                                     </div>
@@ -45,6 +46,10 @@
                                             </td>
                                             <td style=" border:0px !important;"><label for="package_{{pkg.item_id}}"
                                                                                        style="font-weight: normal;">{{pkg.item_code}}</label>
+                                            </td>
+                                            <td style=" border:0px !important;"><input type="text" style="width: 50px;" ng-model="pkg.quantity"
+                                                                                       maxlength="3" numbers-only="numbers-only"
+                                                                                       data-ng-change="onPackageChangeEvent()">
                                             </td>
                                             <td style=" border:0px !important;"><p data-ng-repeat="pkgfee in pkg.fees">
                                                 <!--{{pkgfee.fee_name}}-->${{pkgfee.fee_amount}}</p></td>
@@ -234,9 +239,8 @@
                                 <label class="col-sm-2 control-label-center">Rental Fee Amount</label>
 
                                 <div class="col-sm-10">
-                                    <label class=" control-label-center">{{(feeAmount -- packageFeeAmount) | currency}} (Includes
-                                        {{depositAmount | currency}}
-                                        deposit)</label>
+                                    <label class=" control-label-center">{{(feeAmount -- packageFeeAmount) | currency}}<!-- (Includes
+                                        {{depositAmount | currency}} deposit)--></label>
                                     <br>
 
                                     <p>The estimated rental cost is based on information supplied at the time of the
@@ -293,8 +297,8 @@
 
                 <div class="form-group animate-show animate-hide">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-success" data-ng-click="onSubmitAddRentalToCart()" data-ng-if="facilityData.auto_approve === '1'"><i class="fa fa-shopping-cart"></i> Add Rental to Cart</button>
-                        <button type="submit" class="btn btn-success" data-ng-click="onSubmitRentalRequest()" data-ng-if="facilityData.auto_approve === '0'"> Submit Rental Request for Approval</button>
+                        <button type="submit" class="btn btn-success" data-ng-click="onSubmitAddRentalToCart()" data-ng-if="facilityData.auto_approve === '1'" data-ng-disabled="submittingData"><i class="fa fa-shopping-cart"></i> Add Rental to Cart</button>
+                        <button type="submit" class="btn btn-success" data-ng-click="onSubmitRentalRequest()" data-ng-if="facilityData.auto_approve === '0'" data-ng-disabled="submittingData"> Submit Rental Request for Approval</button>
                     </div>
                 </div>
             </ng-form>

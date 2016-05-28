@@ -79,8 +79,8 @@ angular.module('bluereconlineApp')
 
                 $scope.cart = response.data;
 
-                //console.log('cart:');
-                //console.log($scope.cart);
+                console.log('cart:');
+                console.log($scope.cart);
             }
         );
       }
@@ -260,9 +260,19 @@ angular.module('bluereconlineApp')
           $location.path('/' + $routeParams.orgurl + '/precheckout');
       }
 
-      $scope.gotoItemInfoPage = function(itemID)
+      $scope.gotoItemInfoPage = function(itemID, typeName)
       {
-          $location.path('/' + $routeParams.orgurl + '/programinfo/' + itemID);
+          if(typeName === 'PROGRAM' || typeName === 'SESSION' || typeName === 'SESSION GROUP') {
+              $location.path('/' + $routeParams.orgurl + '/programinfo/' + itemID);
+          }
+          else if(typeName === 'RENTAL CODE'){
+              $location.path('/' + $routeParams.orgurl + '/reservations');
+          }
+          else{
+              $location.path('/' + $routeParams.orgurl + '/home');
+          }
+
+
       };
 
       loadCart();

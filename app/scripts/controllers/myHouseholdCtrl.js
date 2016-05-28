@@ -63,6 +63,11 @@ angular.module('bluereconlineApp')
         $scope.newMemberForm = [];
       };
 
+        $scope.newMemberCancelClicked = function() {
+            $scope.showNewMember = false;
+            $scope.newMemberForm = [];
+        };
+
       $scope.saveNewUser = function () {
         //console.log('save new user');
         //console.log($scope.newMemberForm);

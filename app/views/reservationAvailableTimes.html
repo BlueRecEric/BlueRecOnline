@@ -36,7 +36,7 @@
         <div class="panel panel-primary" style="margin-bottom: 10px !important;">
 
             <div class="panel-heading clearfix">
-                <h3 class="panel-title">({{facilityData.rental_code}}) {{facilityData.rental_name}}</h3>
+                <h3 class="panel-title">({{rentalData.rental_code}}) {{rentalData.rental_name}}</h3>
             </div>
 
             <div id="searchPanel" class="panel-body" style="padding: 4px 0px;">
@@ -50,20 +50,19 @@
                 </div>
 
                 <form name="searchForm" novalidate>
-
-                    <div class="" style="padding-left: 0px;" ng-hide="facilityData.force_facility_order">
+                    <div class="" style="padding-left: 0px;" ng-hide="rentalData.force_facility_order">
                         <div class="col-sm-12">
                             <div class="col-sm-12">
-                                <label data-ng-class="{'has-error': searchForm.$submitted && weekdaysError}">Select One or More Facility to Rental</label>
+                                <label data-ng-class="{'has-error': searchForm.$submitted && facilityError}">Select One or More Facility to Rental</label>
                             </div>
                         </div>
-                        <div class="col-sm-12 form-group" data-ng-repeat="fac in facilityData.facility_names">
+                        <div class="col-sm-12 form-group" data-ng-repeat="fac in rentalData.facility_names">
                             <div class="col-sm-12">
                             <span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-default checkbox-dark-border"
                                     data-ng-model="facilityArray[$index]"
-                                    data-ng-disabled="facilityData.force_facility_order"></checkbox>
-                                <label class="label-weekday-spacing" style="width:135px">{{fac}} - <b>${{facilityData.facility_fees[$index].per_hour_amount}}/{{facilityData.booking_type}}</b></label>
+                                    data-ng-disabled="rentalData.force_facility_order"></checkbox>
+                                <label class="label-weekday-spacing" style="width:135px">{{fac}} - <b>${{rentalData.facility_fees[$index].per_hour_amount}}/{{rentalData.booking_type}}</b></label>
                             </span>
                             </div>
                         </div>
@@ -86,7 +85,7 @@
                                         <label>Facility</label>
                                     </div>
                                     <div class="col-sm-12" style="padding-left: 24px;">
-                                        {{facilityData.facility_name_string}}
+                                        {{rentalData.facility_name_string}}
                                     </div>
                                 </div>
                             </div>
@@ -108,6 +107,7 @@
                                             </span>
                                                 <input id="earliestStartDate" name="earliestStartDate" style="width: 170px;"
                                                 type="text" class="form-control" data-ng-model="fromDate"
+                                                data-ng-change="onSearchDateChange()"
                                                 data-max-date="{{untilDate}}" datepicker-popup="yyyy-MM-dd"
                                                 placeholder="From Date" data-autoclose="1" required bs-datepicker>
                                             </div>
@@ -129,9 +129,10 @@
                                              <span class="input-group-addon " style="width: 25px;">
                                                 <i class="glyphicon glyphicon-calendar "></i>
                                             </span>
-                                                <input id="latestStartDate" class="form-control" name="latestStartDate"
-                                                       style="width: 170px;" datepicker-popup="yyyy-MM-dd"
-                                                type="text" data-ng-model="untilDate" data-min-date="{{fromDate}}"
+                                                <input id="latestStartDate"  name="latestStartDate"  style="width: 170px;"
+                                                type="text" class="form-control"   data-ng-model="untilDate"
+                                                data-ng-change="onSearchDateChange()"
+                                                data-min-date="{{fromDate}}" datepicker-popup="yyyy-MM-dd"
                                                 placeholder="Until Date" data-autoclose="1" required bs-datepicker>
                                             </div>
                                         </div>
@@ -142,21 +143,24 @@
                     </div>
 
                     <div class="panel-body" style="padding-left: 0px;">
-                        <div style="padding-left: 0px;" ng-hide="facilityData.force_facility_order">
+                        <div style="padding-left: 0px;" ng-hide="rentalData.force_facility_order">
                             <div class="col-sm-3">
                                 <div class="form-group col-sm-12" style="padding-top: 6px;">
                                     <div class="row" style="padding-left: 0px;">
                                         <div class="col-sm-12">
-                                            <label>Earliest Start Time</label>
+                                            <label ng-class="{'has-error': (startTime >= endTime)}">Earliest Start Time</label>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="input-group" style="margin-bottom: 5px;">
                                                 <div class="input-group-addon" style="width: 25px;"><i
                                                         class="glyphicon glyphicon-time"></i></div>
-                                                <input class="form-control" size="8" data-ng-model="startTime" name="startTime"
-                                                       bs-timepicker data-length="1"
-                                                       data-minute-step="15" data-arrow-behavior="picker" type="text"
-                                                       style="width: 150px;">
+                                                <input class="form-control" size="8" data-ng-model="startTime"
+                                                       bs-timepicker data-length="1" data-minute-step="15"
+                                                       style="width: 150px;" data-time-format="shortTime"
+
+
+                                                       data-max-time="{{endTime | date: 'shortTime'}}"
+                                                       data-arrow-behavior="picker" type="text">
                                             </div> </div>
                                     </div>
                                 </div>
@@ -166,16 +170,17 @@
                                 <div class="form-group col-sm-12" style="padding-top: 6px;">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label >Latest End Time</label>
+                                            <label ng-class="{'has-error': (startTime >= endTime)}">Latest End Time</label>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="input-group" style="margin-bottom: 5px;">
                                                 <div class="input-group-addon" style="width: 25px;"><i
                                                         class="glyphicon glyphicon-time"></i></div>
-                                                <input class="form-control" size="8" data-ng-model="endTime" name="endTime"
-                                                       bs-timepicker data-length="1"
-                                                       data-minute-step="15" data-arrow-behavior="picker" type="text"
-                                                       style="width: 150px;">
+                                                <input class="form-control" size="8" data-ng-model="endTime"
+                                                       bs-timepicker data-length="1"  data-minute-step="15"
+                                                       style="width: 150px;" data-time-format="shortTime"
+                                                       data-min-time="10:00"
+                                                       data-arrow-behavior="picker" type="text">
                                             </div> </div>
                                     </div>
                                 </div>
@@ -187,12 +192,12 @@
                                         <div class="col-sm-12">
                                             <label>Rental Duration(Minutes)</label>
                                         </div>
-                                        <div class="col-sm-12" data-ng-if="facilityData.min_hour === facilityData.max_hour">
-                                            <input class="form-control" size="8" data-ng-model="rentalDuration.selectedTime" name="endTime"
+                                        <div class="col-sm-12" data-ng-if="rentalData.min_hour === rentalData.max_hour">
+                                            <input class="form-control" size="8" data-ng-model="rentalDuration.selectedTime"
                                                    type="text" style="width: 75px;" disabled>
                                         </div>
 
-                                        <div class="col-sm-12" data-ng-if="facilityData.max_hour !== facilityData.min_hour">
+                                        <div class="col-sm-12" data-ng-if="rentalData.max_hour !== rentalData.min_hour">
 
                                             <rzslider ng-if="renderSlider"
                                                       rz-slider-draggable-range="true"
@@ -210,23 +215,27 @@
                             </div>
                         </div>
 
-
                         <div class="" style="padding-left: 0px;">
                             <div class="col-sm-12">
                                 <div class="col-sm-12">
-                                    <label data-ng-class="{'has-error': searchForm.$submitted && weekdaysError}">Weekdays</label>
+                                    <label data-ng-class="{'has-error': searchForm.$submitted && weekdayError}">Weekdays</label>
                                 </div>
                             </div>
-                            <div class="col-sm-12 form-group" data-ng-repeat="week in facilityData.weekday_indexes2  | orderBy:'week'">
+                            <div class="col-sm-12 form-group" data-ng-repeat="week in weekdayData" ng-show="!loadingWeekdays">
                                 <div class="col-sm-12">
-                            <span class="no-word-wrap checkbox-weekday-spacing"><checkbox
-                                    class="btn-default checkbox-dark-border"
-                                    data-ng-model="weekdaySearch2[facilityData.weekday_indexes[$index]]"></checkbox>
-                                <label class="label-weekday-spacing" style="width:125px">{{week}}</label>
+                                    <span  class="no-word-wrap checkbox-weekday-spacing"><checkbox
+                                            class="btn-default checkbox-dark-border"
+                                            data-ng-model="week.selected"
+                                            ng-change="onWeekdayChange()"></checkbox>
+                                        <label class="label-weekday-spacing" style="width:125px">{{week.weekday_label}}</label>
 
-                                <label style="font-weight: normal!important;padding-left: 25px;"> {{facilityData.weekday_start[$index]}} - {{facilityData.weekday_end[$index]}}</label>
-                            </span>
+                                        <label style="font-weight: normal!important;padding-left: 25px;"> {{week.start_time_label}} - {{week.end_time_label}}</label>
+                                    </span>
+
                                 </div>
+                            </div>
+                            <div class="col-sm-12" ng-show="loadingWeekdays">
+                                <div class="loading-indicator" style="text-align: left !important;"></div>
                             </div>
                         </div>
                     </div>
@@ -235,7 +244,7 @@
                         <div class="">
                             <button style="min-width:220px;" class="btn btn-info" type="submit"
                             v-busy="isSearchIconBusy" v-busy-label="Searching..." v-pressable
-                            data-ng-click="onSearchRentalTimes((!searchForm.$error.required ))">
+                            data-ng-click="onSearchRentalTimes()">
                             Search Available Rental Times</button>
                         </div>
                     </div>

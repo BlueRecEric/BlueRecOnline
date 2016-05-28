@@ -149,7 +149,7 @@
                                                     style="width: 100%;max-width:225px;"
                                                     data-ng-change="setNewRental(true)" id="searchRentalType"
                                                     name="searchRentalType"
-                                                    data-ng-options="rentalRow.item_id as rentalRow.item_name for rentalRow in rentalDropDown"
+                                                    data-ng-options="rentalGroupRow.item_id as rentalGroupRow.item_name for rentalGroupRow in rentalDropDown"
                                                     required>
                                                 <option value="">--Select Rental Type--</option>
                                             </select>
@@ -161,8 +161,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label for="searchFacilities"
-                                                   data-ng-class="{'has-error': searchForm.$submitted && searchForm.searchFacilities.$invalid}">*Facility</label>
+                                            <label data-ng-class="{'has-error': searchForm.$submitted && searchForm.searchFacilities.$invalid}">*Facility</label>
                                         </div>
                                         <div class="col-sm-12" style="padding-left: 14px;">
                                             <ui-select multiple array-required
@@ -289,44 +288,37 @@
         					<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-primary" name="checkSun" id="checkSun"
                                     data-ng-model="weekdaySearch.sunday"
-                                    id="checkSun"></checkbox><label for="checkSun"
-                                                                    class="label-weekday-spacing">
+                                    id="checkSun"></checkbox><label class="label-weekday-spacing">
                                 Sun</label></span>
 							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-default btn-primary"
                                     data-ng-model="weekdaySearch.monday"
-                                    id="checkMon"></checkbox><label for="checkMon"
-                                                                    class="label-weekday-spacing">
+                                    id="checkMon"></checkbox><label class="label-weekday-spacing">
                                 Mon</label></span>
 							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-default btn-primary"
                                     data-ng-model="weekdaySearch.tuesday"
-                                    id="checkTues"></checkbox><label for="checkTues"
-                                                                     class="label-weekday-spacing">
+                                    id="checkTues"></checkbox><label class="label-weekday-spacing">
                                 Tues</label></span>
 							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-default btn-primary"
                                     data-ng-model="weekdaySearch.wednesday"
-                                    id="checkWed"></checkbox><label for="checkWed"
-                                                                    class="label-weekday-spacing">
+                                    id="checkWed"></checkbox><label class="label-weekday-spacing">
                                 Wed</label></span>
 							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-default btn-primary"
                                     data-ng-model="weekdaySearch.thursday"
-                                    id="checkThur"></checkbox><label for="checkThur"
-                                                                     class="label-weekday-spacing">
+                                    id="checkThur"></checkbox><label class="label-weekday-spacing">
                                 Thur</label></span>
 							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-default btn-primary"
                                     data-ng-model="weekdaySearch.friday"
-                                    id="checkFri"></checkbox><label for="checkFri"
-                                                                    class="label-weekday-spacing">
+                                    id="checkFri"></checkbox><label class="label-weekday-spacing">
                                 Fri</label></span>
 							<span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-default btn-primary"
                                     data-ng-model="weekdaySearch.saturday"
-                                    id="checkSat"></checkbox><label for="checkSat"
-                                                                    class="label-weekday-spacing">
+                                    id="checkSat"></checkbox><label class="label-weekday-spacing">
                                 Sat</label></span>
                                         </div>
                                     </div>
@@ -428,45 +420,43 @@
                     <h3 class="panel-title pull-left">Locations</h3>
                 </div>
                 <div class="panel-body ">
-                    <select data-ng-model="selectedLocation" class="form-control"
-                            style="width: 100%;max-width:225px;"
-                            data-ng-change="getRentalData()"
-                            data-ng-options="locationRow.location_id as locationRow.location_name for locationRow in locationData">
+                    <select data-ng-model="selectedLocation" class="form-control" style="width: 100%;max-width:225px;"
+                            data-ng-change="getRentalData()" data-ng-options="locationRow.location_id as locationRow.location_name for locationRow in locationData">
                         <option value="">--Select Location--</option>
                     </select>
                 </div>
             </div>
 
-            <div class="panel panel-primary" data-ng-repeat="rentalRow in rentalDropDown | orderBy:'item_name'">
+            <div class="panel panel-primary" data-ng-repeat="rentalGroupRow in rentalDropDown | orderBy:'item_name'">
                 <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">{{rentalRow.item_name}}</h3>
+                    <h3 class="panel-title pull-left">{{rentalGroupRow.item_name}}</h3>
                 </div>
                 <div class="panel-body ">
                     <div class="media">
-                        <div class="media-left listing" data-ng-show="rentalRow.item_name === 'Farm Tours'">
+                        <!--<div class="media-left listing" data-ng-show="rentalGroupRow.item_name === 'Farm Tours'">
                             <img class="media-object thumbnail"
                                  data-ng-src="http://www.prairiefruits.com/images/gallery/w500/1435870739_fe1cbeacd2f3.jpg">
                         </div>
                         <div class="media-left listing"
-                             data-ng-show="rentalRow.item_name === 'Northwest Arts Center Room Rental w/Kitchen'">
+                             data-ng-show="rentalGroupRow.item_name === 'Northwest Arts Center Room Rental w/Kitchen'">
                             <img class="media-object thumbnail"
                                  data-ng-src="http://ballardseniorcenter.org/Portals/29/Images/Rentals/Kitchen_web2.jpg">
                         </div>
 
                         <div class="media-left listing"
-                             data-ng-show="rentalRow.item_name === 'Northwest Arts Center Room Rental'">
+                             data-ng-show="rentalGroupRow.item_name === 'Northwest Arts Center Room Rental'">
                             <img class="media-object thumbnail"
                                  data-ng-src="http://www.descmiworks.com/wp-content/uploads/2014/07/NWAC-outside-2-web1.jpg">
                         </div>
 
-                        <div class="media-left listing" data-ng-show="rentalRow.item_name === 'Birthday Parties'">
+                        <div class="media-left listing" data-ng-show="rentalGroupRow.item_name === 'Birthday Parties'">
                             <img class="media-object thumbnail"
                                  data-ng-src="http://www.afromum.com/wp-content/uploads/2015/05/o-CHILD-BIRTHDAY-PARTY-facebook.jpg">
-                        </div>
+                        </div>-->
 
                         <div class="media-body">
-                            <div class="hidden-xs hidden-sm">{{rentalRow.rental_code_description}}</div>
-                            <div class="visible-xs visible-sm">{{rentalRow.rental_code_desc_short}}</div>
+                            <div class="hidden-xs hidden-sm">{{rentalGroupRow.rental_code_description}}</div>
+                            <div class="visible-xs visible-sm">{{rentalGroupRow.rental_code_desc_short}}</div>
                         </div>
                     </div>
 
@@ -491,40 +481,40 @@
                     <div class="panel-body" style="padding-bottom: 0px!important;">
 
                         <ul class="list-group">
-                            <li class="list-group-item" data-ng-repeat="facilityRow in rentalRow.facility_data">
+                            <li class="list-group-item" data-ng-repeat="rentalRow in rentalGroupRow.rental_data">
                                 <div class="row">
-                                    <div class="col-xs-12 visible-xs visible-sm"><a href="" data-ng-click="onFacilityClick(rentalRow, facilityRow.item_id, 0, facilityRow)">
-                                        <b>{{rentalRow.is_group===1?'('+facilityRow.rental_code+')':'('+rentalRow.item_code+')'}}
-                                            {{rentalRow.is_group===1?facilityRow.rental_name:rentalRow.item_name}}</b></a>
+                                    <div class="col-xs-12 visible-xs visible-sm"><a href="" data-ng-click="onRentalClick(rentalGroupRow, rentalRow.item_id, 0, rentalRow)">
+                                        <b>{{rentalGroupRow.is_group===1?'('+rentalRow.rental_code+')':'('+rentalGroupRow.item_code+')'}}
+                                            {{rentalGroupRow.is_group===1?rentalRow.rental_name:rentalGroupRow.item_name}}</b></a>
                                     </div>
 
-                                    <div class="col-xs-5 hidden-xs hidden-sm"><a href="" data-ng-click="onFacilityClick(rentalRow, facilityRow.item_id, 0, facilityRow)" class="text-underline">
-                                        <b>{{rentalRow.is_group===1?'('+facilityRow.rental_code+')':'('+rentalRow.item_code+')'}}
-                                            {{rentalRow.is_group===1?facilityRow.rental_name:rentalRow.item_name}}</b></a>
+                                    <div class="col-xs-5 hidden-xs hidden-sm"><a href="" data-ng-click="onRentalClick(rentalGroupRow, rentalRow.item_id, 0, rentalRow)" class="text-underline">
+                                        <b>{{rentalGroupRow.is_group===1?'('+rentalRow.rental_code+')':'('+rentalGroupRow.item_code+')'}}
+                                            {{rentalGroupRow.is_group===1?rentalRow.rental_name:rentalGroupRow.item_name}}</b></a>
                                     </div>
 
 
-                                    <div class="col-xs-5 hidden-xs hidden-sm">{{facilityRow.weekday_display}}</div>
+                                    <div class="col-xs-7 hidden-xs hidden-sm">{{rentalRow.weekday_display}}</div>
 
                                 </div>
 
-                                <div class="row" data-ng-if="!facilityRow.force_facility_order" data-ng-repeat="facName in facilityRow.facility_names"  style="padding-left:20px;">
+                                <div class="row" data-ng-if="!rentalRow.force_facility_order" data-ng-repeat="facName in rentalRow.facility_names"  style="padding-left:20px;">
 
                                     <div class="col-xs-10 word-wrap: break-word">
                                         {{facName}}<br>
                                     </div>
 
-                                    <div class="col-xs-2 hidden-xs hidden-sm">${{facilityRow.facility_fees[$index].per_hour_amount}}/{{facilityRow.booking_type}}</div>
+                                    <div class="col-xs-2 hidden-xs hidden-sm">${{rentalRow.facility_fees[$index].per_hour_amount}}/{{rentalRow.booking_type}}</div>
                                 </div>
 
-                                <div class="row" data-ng-if="facilityRow.force_facility_order" style="padding-left:20px;">
+                                <div class="row" data-ng-if="rentalRow.force_facility_order" style="padding-left:20px;">
                                     <div class="col-xs-10 word-wrap: break-word" >
                                         <i class="text-danger fa fa-lg fa-cubes"
-                                           data-ng-show="facilityRow.force_facility_order"></i>
-                                        {{facilityRow.force_facility_order?'('+facilityRow.facility_name_string+')':facilityRow.facility_name_string}}
+                                           data-ng-show="rentalRow.force_facility_order"></i>
+                                        {{rentalRow.force_facility_order?'('+rentalRow.facility_name_string+')':rentalRow.facility_name_string}}
                                     </div>
 
-                                    <div class="col-xs-2 hidden-xs hidden-sm">${{facilityRow.per_hour_amount}}/{{facilityRow.booking_type}}</div>
+                                    <div class="col-xs-2 hidden-xs hidden-sm">${{rentalRow.per_hour_amount}}/{{rentalRow.booking_type}}</div>
                                 </div>
                             </li>
 
@@ -737,14 +727,11 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td style=" border:0px !important;"><label for="package_{{pkg.item_id}}"
-                                                                                                   style="font-weight: normal;">{{pkg.item_name}}</label>
+                                                        <td style=" border:0px !important;"><label style="font-weight: normal;">{{pkg.item_name}}</label>
                                                         </td>
-                                                        <td style=" border:0px !important;"><label for="package_{{pkg.item_id}}"
-                                                                                                   style="font-weight: normal;">{{pkg.item_code}}</label>
+                                                        <td style=" border:0px !important;"><label style="font-weight: normal;">{{pkg.item_code}}</label>
                                                         </td>
-                                                        <td style=" border:0px !important;"><p
-                                                                data-ng-repeat="pkgfee in pkg.fees">
+                                                        <td style=" border:0px !important;"><p data-ng-repeat="pkgfee in pkg.fees">
                                                             <!--{{pkgfee.fee_name}}-->${{pkgfee.fee_amount}}</p></td>
                                                     </tr>
                                                 </tbody>
@@ -774,17 +761,13 @@
                                                             </div>
                                                         </td>
                                                         <td style=" border:0px !important;">
-                                                            <p><label for="package_{{pkg.item_id}}"
-                                                                      style="font-weight: normal;">{{pkg.item_name}}</label>
+                                                            <p><label style="font-weight: normal;">{{pkg.item_name}}</label>
                                                             </p>
 
-                                                            <p><label for="package_{{pkg.item_id}}"
-                                                                      style="font-weight: normal;">{{pkg.item_code}}</label>
+                                                            <p><label style="font-weight: normal;">{{pkg.item_code}}</label>
                                                             </p>
 
-                                                            <p data-ng-repeat="pkgfee in pkg.fees"><label
-                                                                    for="package_{{pkg.item_id}}"
-                                                                    style="font-weight: normal;">{{pkgfee.fee_name}}
+                                                            <p data-ng-repeat="pkgfee in pkg.fees"><label style="font-weight: normal;">{{pkgfee.fee_name}}
                                                                 ${{pkgfee.fee_amount}}</label></p>
                                                         </td>
                                                     </tr>
@@ -836,8 +819,7 @@
                                             <div class="col-sm-12 ">
                                                 <label data-placement="bottom-left" data-type="info"
                                                        bs-enabled="agreementSigned.checked"
-                                                       style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none; font-weight: normal;"
-                                                       for="agreement_1">
+                                                       style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none; font-weight: normal;">
                                                     <checkbox class="btn-default checkbox-dark-border"
                                                               data-ng-model="agreementSigned.checked"
                                                               id="agreement_1" name="agreement_1"></checkbox>

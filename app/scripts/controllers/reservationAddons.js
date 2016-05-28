@@ -12,6 +12,7 @@ angular.module('bluereconlineApp')
         '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'reservationService', 'reservationTimeService',
         function ($scope, $rootScope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment,
                   ActiveUser, reservationService, reservationTimeService) {
+            $scope.submittingData = false;
 
             $scope.contactCheckAlert = false;
 
@@ -61,7 +62,7 @@ angular.module('bluereconlineApp')
 
                 $http(req)
                     .success(function (data) {
-                        //console.log(data);
+                        console.log(data);
 
                         $scope.rentalPackages = data.packageForm;
 
@@ -111,15 +112,17 @@ angular.module('bluereconlineApp')
                 return yyyy + '-' + (MM[1] ? MM : '0' + MM[0]) + '-' + (dd[1] ? dd : '0' + dd[0]) + ' ' + (hh[1] ? hh : '0' + hh[0]) + ':' + (mm[1] ? mm : '0' + mm[0]) + ':00';
             };
 
-            $scope.onPackageCheckedEvent = function() {
+            $scope.onPackageChangeEvent = function() {
                 var newPackageFee = 0.0;
-
+                console.log($scope.rentalPackages);
                 for (var i = 0; i < $scope.rentalPackages.length; i++) {
                     if($scope.rentalPackages[i].selected)
                     {
-                        for(var a = 0; a < $scope.rentalPackages[i].fees.length; a++){
-                            if(angular.isNumber(parseFloat($scope.rentalPackages[i].fees[a].fee_amount))) {
-                                newPackageFee += parseFloat($scope.rentalPackages[i].fees[a].fee_amount);
+                        if(angular.isNumber(parseInt($scope.rentalPackages[i].quantity)) && parseInt($scope.rentalPackages[i].quantity) > 0) {
+                            for (var a = 0; a < $scope.rentalPackages[i].fees.length; a++) {
+                                if (angular.isNumber(parseFloat($scope.rentalPackages[i].fees[a].fee_amount))) {
+                                    newPackageFee += parseFloat($scope.rentalPackages[i].fees[a].fee_amount) * parseInt($scope.rentalPackages[i].quantity);
+                                }
                             }
                         }
                     }
@@ -142,6 +145,8 @@ angular.module('bluereconlineApp')
                     var $userID = ActiveUser.userData.user_id;
 
                     if ($scope.facilityData.rental_code_item_id !== '' && $userID) {
+                        $scope.submittingData = true;
+
                          //var $facilityString = $scope.getFacilityString();
 
                         // //console.log($scope.facilityData.rental_code_item_id);
@@ -215,7 +220,7 @@ angular.module('bluereconlineApp')
 
                         submitData.custom_fields = $scope.rentalCustomFields;
 
-                        //console.log(submitData);
+                        console.log(submitData);
 
                         var req;
 
@@ -235,6 +240,8 @@ angular.module('bluereconlineApp')
 
                                     $location.path('/' + $routeParams.orgurl + '/addedtocart');
                                     // $location.path('/' +  $routeParams.orgurl + '/reservations');
+
+                                    //$scope.submittingData = false;
                                 });
                         }
                         else
@@ -253,6 +260,8 @@ angular.module('bluereconlineApp')
 
                                     $location.path('/' + $routeParams.orgurl + '/rentalrequestsubmitted');
                                     //$location.path('/' +  $routeParams.orgurl + '/reservations');
+
+                                    //$scope.submittingData = false;
                                 });
                         }
                     }
@@ -266,4 +275,27 @@ angular.module('bluereconlineApp')
             $scope.setPackages();
             $scope.setCustomFields();
 
-        }]);
+        }])
+
+    .directive('numbersOnly', function(){
+        return {
+            require: 'ngModel',
+            link: function(scope, element, attrs, modelCtrl) {
+                modelCtrl.$parsers.push(function (inputValue) {
+                    // this next if is necessary for when using ng-required on your input.
+                    // In such cases, when a letter is typed first, this parser will be called
+                    // again, and the 2nd time, the value will be undefined
+                    if (inputValue == undefined) return '';
+
+                    var transformedInput = inputValue.replace(/[^0-9]/g, '');
+
+                    if (transformedInput!=inputValue) {
+                        modelCtrl.$setViewValue(transformedInput);
+                        modelCtrl.$render();
+                    }
+
+                    return transformedInput;
+                });
+            }
+        };
+    });
