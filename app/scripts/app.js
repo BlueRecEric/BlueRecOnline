@@ -25,6 +25,7 @@ angular
     'uiGmapgoogle-maps',
     'mgcrea.ngStrap',
     'ui.rCalendar',
+    'ui.mask',
     'bluereconlineApp.apiconfig',
     'dynform',
     'ui.checkbox',

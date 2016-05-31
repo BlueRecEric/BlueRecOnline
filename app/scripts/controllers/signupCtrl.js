@@ -252,6 +252,22 @@ angular.module('bluereconlineApp')
                 signRemote.formData.passwordError.message = 'Your passwords do not match.';
             }
 
+            if(!angular.isDefined(signRemote.formData.phoneType) || signRemote.formData.phoneType.length === 0)
+            {
+                signRemote.formError = true;
+                signRemote.formData.addressError.error = true;
+                signRemote.formData.addressError.message = 'Please select your primary phone type.';
+            }
+
+            if(!angular.isDefined(signRemote.formData.phone) || signRemote.formData.phone.length === 0)
+            {
+                signRemote.formError = true;
+                signRemote.formData.addressError.error = true;
+                signRemote.formData.addressError.message = 'Please enter your primary phone number.';
+            }
+
+
+
             console.log('busy:');
             console.log(signRemote.busy);
 

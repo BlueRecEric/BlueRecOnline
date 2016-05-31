@@ -196,6 +196,9 @@ angular.module('bluereconlineApp')
                     acctload.addressForm.state = acctload.returnData.address.mailing_state;
                     acctload.addressForm.zip = acctload.returnData.address.mailing_zip;
 
+                    acctload.addressForm.phone = acctload.returnData.address.phone;
+                    acctload.addressForm.phoneType = acctload.returnData.address.phoneType;
+
                     acctload.emailForm = [];
 
                     acctload.emailForm.email_address = acctload.returnData.address.email_address;
@@ -238,7 +241,9 @@ angular.module('bluereconlineApp')
                     'addr2': acctload.addressForm.addr2,
                     'city': acctload.addressForm.city,
                     'state': acctload.addressForm.state,
-                    'zip':acctload.addressForm.zip}
+                    'zip':acctload.addressForm.zip,
+                    'phone':acctload.addressForm.phone,
+                    'phoneType':acctload.addressForm.phoneType}
             };
 
             return $http(req)

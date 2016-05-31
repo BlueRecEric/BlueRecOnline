@@ -31,14 +31,6 @@
           <div data-ng-repeat="team in league.userTeams">
             <h5>{{team.team_name}}</h5>
 
-            <div data-ng-show="" class="alert alert-danger">
-              <ul>
-              <div data-ng-repeat="error as newTeamMemberErrors">
-                <li>{{error.text}}</li>
-              </div>
-              </ul>
-            </div>
-
             <div class="row">
               <div class="col-sm-4">Roster</div>
               <div class="col-sm-8"><button type="button" id="btnNewTeamMember" value="Add Player" class="btn btn-success btn-sm pull-right" data-ng-click="addingTeamMember = !addingTeamMember"><i class="fa fa-plus"></i> Add Player</button></div>
@@ -82,6 +74,7 @@
             </div>
           </div>
           -->
+          </div>
         </div>
       </div>
     </div>
