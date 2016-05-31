@@ -45,8 +45,6 @@ angular.module('bluereconlineApp')
     .factory('AccountUpdateLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
         var updateLoader = this;
 
-
-
         var saveSecurityQuestions = function(qForm) {
 
             //console.log(qForm);

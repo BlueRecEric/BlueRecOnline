@@ -13,7 +13,7 @@ angular.module('bluereconlineApp')
 
             if(angular.isDefined($routeParams.orgurl)) {
                 orgUrl = $routeParams.orgurl;
-                console.log('Request nav config from ' + API + '/ORG/' + orgUrl + '/navconfig');
+                //console.log('Request nav config from ' + API + '/ORG/' + orgUrl + '/navconfig');
 
                 if (busyLoading) {
                     return false;
@@ -32,8 +32,8 @@ angular.module('bluereconlineApp')
                 $http(req).then(function (response) {
 
                     nav.options = response.data;
-                    console.log('nav results');
-                    console.log(nav.options);
+                    //console.log('nav results');
+                    //console.log(nav.options);
                     busyLoading = false;
                 });
             }

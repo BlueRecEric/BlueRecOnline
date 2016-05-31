@@ -11,7 +11,7 @@ angular.module('bluereconlineApp')
   .controller('LoginCtrl',['$scope','$http','AuthService','$routeParams','$location','ActiveUser', '$q', 'Page', 'MakeToast', function ($scope,$http,AuthService,$routeParams,$location,ActiveUser,$q,Page,MakeToast) {
     var log = this;
 
-    console.log(Page);
+    //console.log(Page);
 
     log.orgurl = $routeParams.orgurl;
 
@@ -38,8 +38,8 @@ angular.module('bluereconlineApp')
                   ActiveUser.setActiveUser(response.data).then(
                       function success() {
 
-                          console.log('activeuser set to');
-                          console.log(ActiveUser.userData);
+                          //console.log('activeuser set to');
+                          //console.log(ActiveUser.userData);
 
                           if(response.data.questions_answered == '1')
                           {
@@ -61,8 +61,8 @@ angular.module('bluereconlineApp')
     {
       AuthService.login(em, pass).then(
         function success(response) {
-            console.log('login response');
-            console.log(response);
+            //console.log('login response');
+            //console.log(response);
 
             if(response.data.validLogin)
             {
@@ -101,7 +101,7 @@ angular.module('bluereconlineApp')
             deferred.reject(reason);
             return false;
           }, function(update) {
-            //console.log(update);
+            ////console.log(update);
           });
         }
         else

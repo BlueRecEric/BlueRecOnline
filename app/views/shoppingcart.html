@@ -26,7 +26,7 @@
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span></span>
 
-                                        <h4 style="padding-top: 10px;"><a href ng-click="gotoItemInfoPage(item.main_item_id)">{{item.item_name}}</a></h4>
+                                        <h4 style="padding-top: 10px;"><a href ng-click="gotoItemInfoPage(item.main_item_id, item.type_name);$hide();">{{item.item_name}}</a></h4>
                                 </div>
 
                                 <div class="row">
@@ -54,7 +54,7 @@
                                         </span></span>
                                         </div>
                                         <div class="col-sm-7" data-ng-show="link.linked_item_name != item.item_name">
-                                            <h5 style="margin-top: 5px;"><a href ng-click="gotoItemInfoPage(link.main_item_id)">{{link.linked_item_name}}</a></h5>
+                                            <h5 style="margin-top: 5px;"><a href ng-click="gotoItemInfoPage(link.main_item_id, link.type_name);$hide();">{{link.linked_item_name}} <element data-ng-show="link.linked_quantity>0">x{{link.linked_quantity}}</element></a></h5>
                                         </div>
                                         <div class="col-sm-7" data-ng-show="link.linked_person_name != item.person_name">
                                             <h5 style="margin-top: 5px;">{{link.linked_person_name}}</h5>
@@ -76,7 +76,9 @@
 
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <button type="submit" id="submitCart" value="Submit" class="btn btn-success"  data-placement="center" ng-click="$hide()"><i class="fa fa-check-square"></i>
+                                    <button type="submit" id="submitCart" value="Submit" class="btn btn-success" data-placement="center" ng-click="$hide()"
+                                            data-ng-disabled="!cart.data">
+                                        <i class="fa fa-check-square"></i>
                                         <i class="fa fa-shopping-cart"></i> Checkout</button>
                                 </div>
 

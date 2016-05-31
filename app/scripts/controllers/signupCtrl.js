@@ -135,6 +135,8 @@ angular.module('bluereconlineApp')
 
         var sendSignup = function(formData) {
 
+            signRemote.busy = false;
+
             signRemote.formData = formData;
 
             if(angular.isDefined(signRemote.formData.birthday))
@@ -176,6 +178,10 @@ angular.module('bluereconlineApp')
             signRemote.formData.addressError.error = false;
             signRemote.formData.addressError.message = '';
 
+            signRemote.formData.phoneError = [];
+            signRemote.formData.phoneError.error = false;
+            signRemote.formData.phoneError.message = '';
+
             if(!angular.isDefined(signRemote.formData.firstname) || signRemote.formData.firstname.length === 0)
             {
                 signRemote.formError = true;
@@ -209,6 +215,13 @@ angular.module('bluereconlineApp')
                 signRemote.formError = true;
                 signRemote.formData.passwordError.error = true;
                 signRemote.formData.passwordError.message = 'Please enter a password.';
+            }
+
+            if(!angular.isDefined(signRemote.formData.phone) || signRemote.formData.phone.length === 0)
+            {
+                signRemote.formError = true;
+                signRemote.formData.phoneError.error = true;
+                signRemote.formData.phoneError.message = 'Please enter your phone number.';
             }
 
             if(!angular.isDefined(signRemote.formData.zip) || signRemote.formData.state.zip === 0)

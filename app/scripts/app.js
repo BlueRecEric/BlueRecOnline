@@ -232,13 +232,13 @@ angular
                         .success(function (unique) {
                             //Ensure value that being checked hasn't changed
                             //since the Ajax call was made
-                            //console.log('unique result');
-                            //console.log(unique.isUnique);
+                            ////console.log('unique result');
+                            ////console.log(unique.isUnique);
                             if (currentValue === element.val()) {
                                 ngModel.$setValidity('unique', unique.isUnique);
                             }
                         }, function () {
-                            //console.log('looks like an error');
+                            ////console.log('looks like an error');
                             //Probably want a more robust way to handle an error
                             //For this demo we'll set unique to true though
                             ngModel.$setValidity('unique', true);
@@ -255,17 +255,17 @@ angular
                 function validate(value) {
                     var isValid = scope.$eval(attrs.sameAs) === value;
 
-                    //console.log(isValid);
+                    ////console.log(isValid);
 
                     ngModel.$setValidity('match', isValid);
 
                     if(isValid)
                     {
-                        //console.log('values match');
+                        ////console.log('values match');
                     }
                     else
                     {
-                        //console.log('values do not match');
+                        ////console.log('values do not match');
                     }
 
 
@@ -273,13 +273,13 @@ angular
                     //return isValid;
                 }
 
-                //console.log('sameAs directive loaded');
+                ////console.log('sameAs directive loaded');
 
                 ngModel.$parsers.unshift(validate);
 
                 // Force-trigger the parsing pipeline.
                 scope.$watch(attrs.sameAs, function() {
-                        //console.log('Trying to validate');
+                        ////console.log('Trying to validate');
                         ngModel.$setViewValue(ngModel.$viewValue);
                 });
             }
@@ -360,7 +360,7 @@ angular
 
             if(angular.isDefined(userData.data) && angular.isDefined(userData.data.ping))
             {
-                //console.log('ping data');
+                ////console.log('ping data');
             }
             else {
 
@@ -386,7 +386,7 @@ angular
 
         if (pullUserFromLocalStorage()) {
           currentUser.userData = pullUserFromLocalStorage();
-          //console.log(currentUser.userData);
+          ////console.log(currentUser.userData);
           deferred.resolve(currentUser.userData);
         } else {
           deferred.reject('No user data found in local storage');
@@ -447,20 +447,20 @@ angular
             var deferred = $q.defer();
             currentUser.gettingUser = true;
             AuthService.getUser().then(function success(response) {
-                //console.log('AuthService.getUser().then response');
-                //console.log(response.data);
+                ////console.log('AuthService.getUser().then response');
+                ////console.log(response.data);
                 currentUser.setActiveUser(response.data);
                 if(angular.isDefined(response.data.data))
                 {
                     if(angular.isDefined(response.data.data.ping))
                     {
                         // successful ping, do not mess with stored data.
-                        //console.log('ping data');
+                        ////console.log('ping data');
                         deferred.resolve(true);
                     }
                     else
                     {
-                        console.log('remember user data');
+                        //console.log('remember user data');
                         putUserInLocalStorage(response.data.data).then(function success() {
                             currentUser.gettingUser = false;
                             deferred.resolve(true);
@@ -469,7 +469,7 @@ angular
                 }
                 else
                 {
-                    //console.log('user data');
+                    ////console.log('user data');
                     putUserInLocalStorage(response.data).then(function success() {
                             currentUser.gettingUser = false;
                             deferred.resolve(true);
@@ -494,12 +494,12 @@ angular
         }
 
         function beginUpdates() {
-            console.log('Start user update every ' + updateInterval.toString() + 'ms');
+            //console.log('Start user update every ' + updateInterval.toString() + 'ms');
             currentUser.userUpdate = $interval(currentUser.updateUser,updateInterval);
         }
 
         function endUpdates() {
-            console.log('End user update cycle.');
+            //console.log('End user update cycle.');
             $interval.cancel(currentUser.userUpdate);
         }
 
@@ -565,10 +565,10 @@ angular
 
         function showUserData()
         {
-            console.log('user data dump:');
-            console.log(userData.dataArray);
-            console.log(userData.token);
-            console.log(getUserHash());
+            //console.log('user data dump:');
+            //console.log(userData.dataArray);
+            //console.log(userData.token);
+            //console.log(getUserHash());
         }
 
         userData.getUserData = getUserData;
@@ -624,15 +624,15 @@ angular
 
                 return $http(req).then(
                         function success(response) {
-                            console.log('refresh response:');
-                            console.log(response.data.user);
+                            //console.log('refresh response:');
+                            //console.log(response.data.user);
                             if(response.data.refresh == '1') {
                                 UserData.setUserData(response.data.user);
                                 UserData.checkUpdate();
                             }
                             else {
-                                console.log('unable to refresh user data');
-                                console.log(response.data.message);
+                                //console.log('unable to refresh user data');
+                                //console.log(response.data.message);
                             }
                         }
                     );
@@ -711,8 +711,8 @@ angular
         function addToken(config) {
             var token = AuthToken.getToken();
 
-            //console.log('config:');
-            //console.log(config);
+            ////console.log('config:');
+            ////console.log(config);
 
             if(token && config.skipAuthorization !== true) {
                 config.headers = config.headers || {};
@@ -796,7 +796,7 @@ angular
             }
             cfLoad.busy = true;
 
-            console.log('received ' + userID + ' as user id');
+            //console.log('received ' + userID + ' as user id');
 
             var req = {
                 method: 'POST',
@@ -874,7 +874,7 @@ angular
           return $http(req)
               .then(
                   function success(response) {
-                      console.log(response.data);
+                      //console.log(response.data);
                       if(
                           response.data.data.ageValid === false ||
                           response.data.data.gradeValid === false
@@ -909,7 +909,7 @@ angular
               if(proload.returnData.usrData[a].selected)
               {
                   usrData = {};
-                  //console.log('add ' + proload.returnData[programIndex].programs[sessionIndex].regData[a].userID + ' to program ' + proload.returnData[programIndex].programs[sessionIndex].item_id);
+                  ////console.log('add ' + proload.returnData[programIndex].programs[sessionIndex].regData[a].userID + ' to program ' + proload.returnData[programIndex].programs[sessionIndex].item_id);
                   usrData = {
                       'userID':proload.returnData.usrData[a].userID,
                       'itemID':proload.returnData.item_id,
@@ -923,10 +923,10 @@ angular
               }
           }
 
-          console.log(cartData);
+          //console.log(cartData);
 
           if(cartData.registrations.length > 0) {
-              console.log(angular.toJson(cartData));
+              //console.log(angular.toJson(cartData));
               var req = {
                   method: 'POST',
                   url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/add',
@@ -939,7 +939,7 @@ angular
               return $http(req)
                   .then(
                       function success(response) {
-                          console.log(response.data);
+                          //console.log(response.data);
 
                           proload.returnData.addingToCart = false;
 
@@ -994,7 +994,7 @@ angular
 
         uiGmapGoogleMapApi.then(function(maps) {
             angular.forEach(responseData.locations, function (value, key) {
-                //console.log('Key: ' + responseData.locations[key].geo_address);
+                ////console.log('Key: ' + responseData.locations[key].geo_address);
 
                 var codeReq = {
                     method: 'GET',
@@ -1006,7 +1006,7 @@ angular
                 };
 
                 $http(codeReq).success(function (geoData) {
-                    //console.log(geoData);
+                    ////console.log(geoData);
                     var tempData = [];
                     tempData.center = '';
                     tempData.marker = [];
@@ -1072,21 +1072,21 @@ angular
             if(test)
             {
                 $scope.headerLogo = 'images/'+$routeParams.orgurl+'.png';
-                //console.log('images/'+$routeParams.orgurl+'.png is an image!');
+                ////console.log('images/'+$routeParams.orgurl+'.png is an image!');
             }
             else
             {
-                //console.log('images/'+$routeParams.orgurl+'.png is NOT an image!');
+                ////console.log('images/'+$routeParams.orgurl+'.png is NOT an image!');
 
                 var splitParts = $routeParams.orgurl.split('-');
 
                 isImage('images/'+splitParts[0]+'.png').then(function(test) {
                     if(test) {
                         $scope.headerLogo = 'images/'+splitParts[0]+'.png';
-                        //console.log('images/' + splitParts[0] + '.png is an image!');
+                        ////console.log('images/' + splitParts[0] + '.png is an image!');
                     }
                     else {
-                        //console.log('images/' + splitParts[0] + '.png is NOT an image!');
+                        ////console.log('images/' + splitParts[0] + '.png is NOT an image!');
                     }
                 });
             }

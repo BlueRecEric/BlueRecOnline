@@ -79,27 +79,31 @@
 							<div class="col-sm-3">
 								<strong>Duration:</strong> {{memtype.membership_length}}
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-3" data-ng-if="memtype.fees.data">
 								<strong>Price:</strong> <span data-ng-repeat="memFee in memtype.fees.data"
 															  data-ng-show="memFee.mem_add_family_member_fee === '0'">{{memFee.fee_name}}: ${{memFee.fee_amount}}<br></span>
 
 							</div>
-							<div class="col-sm-3">
+                            <div class="col-sm-3" data-ng-if="!memtype.fees.data">
+                                <strong>Price:</strong> 0.00<br></span>
+
+                            </div>
+							<div class="col-sm-2">
 								<strong>Family:</strong> {{(memtype.is_family === '1')?'Yes':'No'}}<span
 									data-ng-if="memtype.is_family === 1"> ({{memtype.family_max}} members)</span>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-2">
 								<strong>Auto-renew:</strong> {{(memtype.automatic_renewal === '1')?'Yes':'No'}}
 							</div>
+
+                            <div class="col-sm-2 text-right">
+                                <!--<button type="button" id="enroll" value="enroll" class="btn btn-info text-left" data-animation="am-fade-and-scale" data-placement="center" data-template="noPaymentGateway.html" bs-modal="modal"><i class="fa fa-sign-in"></i> Enroll</button>-->
+                                <a href="#/{{listMemberships.orgurl}}/membershipsignup/{{memtype.item_id}}"
+                                   class="btn btn-info"><i class="fa fa-sign-in"></i> Enroll</a>
+                            </div>
 						</div>
 
-						<div class="row">
-							<div class="col-sm-12 text-right">
-								<!--<button type="button" id="enroll" value="enroll" class="btn btn-info text-left" data-animation="am-fade-and-scale" data-placement="center" data-template="noPaymentGateway.html" bs-modal="modal"><i class="fa fa-sign-in"></i> Enroll</button>-->
-								<a href="#/{{listMemberships.orgurl}}/membershipsignup/{{memtype.item_id}}"
-								   class="btn btn-info"><i class="fa fa-sign-in"></i> Enroll</a>
-							</div>
-						</div>
+					
 						<div style='clear: both;'></div>
 					</div>
 				</div>

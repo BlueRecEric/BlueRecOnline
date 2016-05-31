@@ -8,9 +8,10 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('RequestReservation', ['$scope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout',
+    .controller('RequestReservation', ['$scope', '$rootScope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout',
         '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'reservationService', 'reservationTimeService',
-        function ($scope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment, ActiveUser, reservationService, reservationTimeService) {
+        function ($scope, $rootScope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment,
+                  ActiveUser, reservationService, reservationTimeService) {
 
             $scope.displaySearchResults = false;
             $scope.displayNoResults = false;
@@ -200,7 +201,7 @@ angular.module('bluereconlineApp')
                 show: false
             });
 
-            $scope.selectedRentalCodeRow = [];
+            $scope.selectedrentalGroupRow = [];
             $scope.selectedFacItem = 0;
 
             var selectTimeModalShow2 = selectTimeModal2.show;
@@ -212,7 +213,7 @@ angular.module('bluereconlineApp')
             };
 
             $scope.onCancelSelectTime = function () {
-                $scope.selectedRentalCodeRow = [];
+                $scope.selectedrentalGroupRow = [];
                 $scope.selectedFacItem = 0;
 
                 deferred.resolve();
@@ -224,46 +225,46 @@ angular.module('bluereconlineApp')
                 selectTimeModal2.hide();
             };
 
-            $scope.onFacilityClick = function(rentalCodeRow, facItemID, setPageID, facilityRow) {
+            $scope.onRentalClick = function(rentalGroupRow, facItemID, setPageID, rentalRow) {
                 $scope.selectTimePageID = setPageID;
 
                 reservationService.set('');
                 reservationTimeService.set('');
 
-                console.log(rentalCodeRow);
+                console.log(rentalGroupRow);
 
                 var totalMins = 0;
-                for (var a = 0; a < facilityRow.min_hours.length; a++) {
-                    totalMins += parseInt(facilityRow.min_hours[a]);
+                for (var a = 0; a < rentalRow.min_hours.length; a++) {
+                    totalMins += parseInt(rentalRow.min_hours[a]);
                 }
-                $scope.selectedTime = {'startTime':  new Date(1970, 0, 1, facilityRow.start_time_hour, facilityRow.start_time_minutes, 40),
-                    'endTime':  new Date(1970, 0, 1, facilityRow.end_time_hour, facilityRow.end_time_minutes, 40)};
+                $scope.selectedTime = {'startTime':  new Date(1970, 0, 1, rentalRow.start_time_hour, rentalRow.start_time_minutes, 40),
+                    'endTime':  new Date(1970, 0, 1, rentalRow.end_time_hour, rentalRow.end_time_minutes, 40)};
 
                 /*var foundFacData = [];
 
-                 for (var i = 0; i < rentalCodeRow.facility_data.length; i++) {
-                 if (rentalCodeRow.facility_data[i].item_id === facItemID) {
-                 foundFacData = rentalCodeRow.facility_data[i];
+                 for (var i = 0; i < rentalGroupRow.facility_data.length; i++) {
+                 if (rentalGroupRow.facility_data[i].item_id === facItemID) {
+                 foundFacData = rentalGroupRow.facility_data[i];
                  }
                  }*/
 
-                $scope.selectedRentalCodeRow = rentalCodeRow;
+                $scope.selectedrentalGroupRow = rentalGroupRow;
                 //$scope.selectedFacItem = foundFacData;
-                $scope.rentalPackages = rentalCodeRow.packageForm;
-                $scope.rentalCustomFields = rentalCodeRow.customForm;
+                $scope.rentalPackages = rentalGroupRow.packageForm;
+                $scope.rentalCustomFields = rentalGroupRow.customForm;
 
-                facilityRow.search_start_date = $scope.selectedDate2.start;
-                facilityRow.search_end_date = $scope.selectedDate2.end;
+                rentalRow.search_start_date = $scope.selectedDate2.start;
+                rentalRow.search_end_date = $scope.selectedDate2.end;
 
-                facilityRow.search_start_time = $scope.selectedTime.startTime;
-                facilityRow.search_end_time = $scope.selectedTime.endTime;
+                rentalRow.search_start_time = $scope.selectedTime.startTime;
+                rentalRow.search_end_time = $scope.selectedTime.endTime;
 
                 //tempFacData['available_start_date'] = $scope.formatMySQLDate($scope.selectedDate, $scope.startTime);
                 //tempFacData['available_end_date'] = $scope.formatMySQLDate($scope.selectedDate, $scope.endTime);
 
-                console.log(rentalCodeRow);
+                console.log(rentalGroupRow);
 
-                reservationService.set(facilityRow);
+                reservationService.set(rentalRow);
                 reservationTimeService.set('');
 
                 $location.path('/' +  $routeParams.orgurl + '/reservationtimes');
@@ -299,7 +300,7 @@ angular.module('bluereconlineApp')
 
                     reservationService.set(tempFacData);
 
-                    $scope.selectedRentalCodeRow = [];
+                    $scope.selectedrentalGroupRow = [];
                     $scope.selectedFacItem = 0;
 
                     deferred.resolve();
@@ -327,7 +328,7 @@ angular.module('bluereconlineApp')
 
                     console.log(rentalData);
 
-                    $scope.onFacilityClick(rentalData, $scope.searchSelectedTimeData.facility_item_id, 1);
+                    $scope.onRentalClick(rentalData, $scope.searchSelectedTimeData.facility_item_id, 1);
 
                     /*$scope.rentalCodeSelected = $scope.rentalCodeSearch;
                      $scope.searchSelectedFacItemID = $scope.searchSelectedTimeData.facility_item_id;
@@ -444,12 +445,15 @@ angular.module('bluereconlineApp')
 
                $http(req)
                    .then(function (response) {
+
                        for ( var i = 0; i < response.data.length; i++)
                        {
                            response.data[i].rental_code_desc_short = response.data[i].rental_code_description.substr(0, 125)+'...';
                        }
 
                        $scope.rentalDropDown = response.data;
+
+                       console.log('rental data:  ');
                        console.log($scope.rentalDropDown);
                    });
            };
@@ -678,7 +682,7 @@ angular.module('bluereconlineApp')
                         //console.log($facilityString);
                         $scope.eventSource = data;
                         //console.log($scope.eventSource[2]);
-                        ////console.table($scope.eventSource);
+                        //console.table($scope.eventSource);
                     });
 
                 }
@@ -1121,6 +1125,8 @@ angular.module('bluereconlineApp')
 
                 $http(req)
                     .success(function (data) {
+                        $rootScope.$emit('updateCartCount', {});
+
                         $scope.getUserApprovedRequests();
 
                         // //console.table(data);
