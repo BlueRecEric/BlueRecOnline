@@ -68,6 +68,64 @@
                             </table>
                         </div>
 
+                        <div data-ng-show="addonData.addons.weekdays.length > 0">
+
+                            <h5>Select the weekdays you wish to register for.</h5>
+
+                            <div class="spacing"></div>
+
+                            <div class="row" data-ng-repeat="item in addonData.addons.dropins.uniqueItems" data-ng-show="addonData.addons.dropins.showDropins">
+                                <div class="col-sm-2">
+                                    <h5>{{::item.item_name}}:</h5>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div data-ng-repeat="fee in item.original_fees.data">
+                                        <h5>{{::fee.fee_name}}: ${{::fee.fee_amount}}/day</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="row seven-cols" style="table-layout: fixed;width: 100%;">
+                                    <div data-ng-show="addonData.addons.weekdays[0].enabled" class="col-md-1"><div class="well text-center"><h5>Sun</h5></div></div>
+                                    <div data-ng-show="addonData.addons.weekdays[1].enabled" class="col-md-1"><div class="well text-center"><h5>Mon</h5></div></div>
+                                    <div data-ng-show="addonData.addons.weekdays[2].enabled" class="col-md-1"><div class="well text-center"><h5>Tue</h5></div></div>
+                                    <div data-ng-show="addonData.addons.weekdays[3].enabled" class="col-md-1"><div class="well text-center"><h5>Wed</h5></div></div>
+                                    <div data-ng-show="addonData.addons.weekdays[4].enabled" class="col-md-1"><div class="well text-center"><h5>Thu</h5></div></div>
+                                    <div data-ng-show="addonData.addons.weekdays[5].enabled" class="col-md-1"><div class="well text-center"><h5>Fri</h5></div></div>
+                                    <div data-ng-show="addonData.addons.weekdays[6].enabled" class="col-md-1"><div class="well text-center"><h5>Sat</h5></div></div>
+                                </div>
+
+                                <div class="row seven-cols" style="table-layout: fixed;width: 100%;" data-ng-repeat="week in addonData.addons.dropins.weeks">
+                                    <div data-ng-show="addonData.addons.dropins.weekdays[$index].enabled" class="col-md-1" data-ng-repeat="weekday in week.weekday">
+                                        <div class="well" data-ng-show="weekday.packages.length > 0">
+                                            <div class="text-center"><strong>{{weekday.label}}</strong></div>
+                                            <div data-ng-repeat="pkg in weekday.packages">
+                                                <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-change="clickDateAddon(addonData.addons.dropins, addonData.addons.dropins.weeks, pkg)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
+                                                <span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{::pkg.item_name}}
+                                                <div class="spacing"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="row" data-ng-repeat="item in addonData.addons.dropins.uniqueItems">
+                                        <div class="col-sm-2">
+                                            <h5>{{::item.item_name}}:</h5>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div data-ng-repeat="selfee in item.fees.data">
+                                                <h5>Total for Selected: {{selfee.fee_amount | currency}}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
                         <div class="table-responsive" data-ng-show="addonData.addons.inventory.length > 0">
 
                             <h5>The following inventory items are also available.</h5>
