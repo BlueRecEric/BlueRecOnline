@@ -57,7 +57,7 @@
             <div class="col-md-2">{{item.quantity}}</div>
         </div>
 
-        <div class="row clearfix spacing" data-ng-repeat="link in item.linked_items.data">
+        <div class="row clearfix spacing" data-ng-repeat="link in item.linked_items.data" data-ng-show="item.link_hidden == 0">
           <div class="col-md-4">
             <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{link.linked_shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button> <i class="glyphicon glyphicon-option-vertical icon-black"></i>
               <a href ng-click="gotoItemInfoPage(link.main_item_id, link.type_name)">{{link.linked_item_name}}</a>

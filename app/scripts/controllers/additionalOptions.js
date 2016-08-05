@@ -149,6 +149,11 @@ angular.module('bluereconlineApp')
                 return (uniqueItem.selected == '1');
             }
 
+            function weekdayItemSelected(weekdayItem)
+            {
+                return (weekdayItem.selected == '1');
+            }
+
             for(var r = 0; r < $scope.preLoad.data.length; r++)
             {
                 console.log('this data:');
@@ -159,6 +164,7 @@ angular.module('bluereconlineApp')
                 var hasPackage = false;
                 var hasInventory = false;
                 var selectedAddons = [];
+                var selectedWeekdays = [];
                 var selectedPackages = [];
                 var selectedDropins = [];
                 var selectedGroups = [];
@@ -237,6 +243,29 @@ angular.module('bluereconlineApp')
                                 {
                                     selectedAddons.push(selectedDropins[sdrop]);
                                 }
+                            }
+                        }
+                    }
+                }
+
+                if(angular.isDefined($scope.preLoad.data[r].addons.weekdayOptions))
+                {
+                    console.log('there are weekdays:');
+
+                    if($scope.preLoad.data[r].addons.weekdayOptions.length > 0)
+                    {
+                        selectedWeekdays = $scope.preLoad.data[r].addons.weekdayOptions.filter(weekdayItemSelected);
+
+                        console.log('here are the selected weekdays:');
+                        console.log(selectedWeekdays);
+
+
+                        if(selectedWeekdays.length > 0)
+                        {
+                            hasPackage = true;
+                            for(var swday = 0; swday < selectedWeekdays.length; swday++)
+                            {
+                                selectedAddons.push(selectedWeekdays[swday]);
                             }
                         }
                     }

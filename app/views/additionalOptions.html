@@ -68,6 +68,32 @@
                             </table>
                         </div>
 
+                        <div class="table-responsive" data-ng-show="addonData.addons.weekdayOptions.length > 0">
+
+                            <h5>The following weekday options are available.</h5>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <td class="col-med-2">Purchase</td>
+                                    <td class="col-med-4">Add-On Name</td>
+                                    <td class="col-med-4">Add-On Code</td>
+                                    <td class="col-med-2">Fee(s)</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="pkg in addonData.addons.weekdayOptions">
+                                    <td>
+                                        <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
+                                        <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
+                                    </td>
+                                    <td><span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}</td>
+                                    <td>{{pkg.item_code}}</td>
+                                    <td><p data-ng-repeat="pkgfee in pkg.fees.data">{{pkgfee.fee_name}} ${{pkgfee.fee_amount}}</p></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div data-ng-show="addonData.addons.weekdays.length > 0">
 
                             <h5>Select the weekdays you wish to register for.</h5>

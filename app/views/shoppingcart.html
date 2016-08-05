@@ -44,7 +44,7 @@
                                 </div>
 
                                 <div data-ng-repeat="link in item.linked_items.data">
-                                    <div class="row">
+                                    <div class="row" data-ng-show="link.link_hidden == 0">
                                         <div class="col-sm-2">&nbsp;</div>
                                         <div class="col-sm-1">
                                         <span data-placement="right"><span class="fa-stack fa-1x clicky" data-ng-click="removeItem({{link.linked_shopping_item_id}})"
@@ -61,7 +61,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row" data-ng-show="link.link_hidden == 0">
                                         <div class="col-sm-3">&nbsp;</div>
                                         <div class="col-sm-7">
                                             <h5 style="margin-top: 5px;">${{link.linked_total_fee}}</h5>

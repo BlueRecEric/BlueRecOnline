@@ -13,6 +13,8 @@
             <form name="newAccount" class="form-horizontal" role="form" data-ng-submit="sign.sendSignupRequest()">
               <ng-form name="newAccount">
 
+                <youtube-video video-id="signupVideo"></youtube-video>
+
                 <fieldset><legend>Primary Contact/Guardian</legend>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.remoteError.error">
@@ -176,6 +178,24 @@
                       </label>
                       <label class="radio-inline">
                         <input type="radio" name="inlineRadioOptions" data-ng-model="sign.newAccount.phoneType" id="currentPhoneType" value="Work"> Work
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="config.data.allowResidentSelection == '1'">
+                      <label class="col-sm-3 control-label"></label>
+                      <div class="col-sm-6 checkbox">
+                      <label>
+                        {{config.data.onlineResidencyText}}
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="config.data.allowResidentSelection == '1'">
+                    <label class="col-sm-3 control-label">Residency:</label>
+                    <div class="col-sm-6 checkbox">
+                      <label>
+                        <input type="checkbox" id="currentResident" data-ng-model="sign.newAccount.resident"> I am a resident
                       </label>
                     </div>
                   </div>

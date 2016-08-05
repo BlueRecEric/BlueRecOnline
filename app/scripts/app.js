@@ -39,7 +39,8 @@ angular
     'uuid4',
     'LocalStorageModule',
     'angularUtils.directives.dirPagination',
-    'djds4rce.angular-socialshare'
+    'djds4rce.angular-socialshare',
+    'youtube-embed'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;

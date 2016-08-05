@@ -69,11 +69,23 @@ angular.module('bluereconlineApp')
             sign.remote.sendSignup(sign.newAccount);
         }
 
+        function getSignupConfig() {
+            console.log('get signup config');
+            sign.config = sign.remote.getSignupConfig();
+        }
+
         uiGmapGoogleMapApi.then(function(maps) {});
 
         sign.sendSignupRequest = sendSignupRequest;
         sign.signError = false;
         sign.orgurl = $routeParams.orgurl;
+
+        SignupFactory.getSettings().then(function (result) {
+            $scope.config = result.data;
+            console.log('config');
+            console.log($scope.config);
+            $scope.signupVideo = $scope.config.data.signupTutorialVideo;
+        });
     }])
     .factory('SignupFactory', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$filter', '$location', 'MakeToast', 'AuthService', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,$filter,$location,MakeToast,AuthService,ActiveUser) {
         var signRemote = this;
@@ -92,6 +104,18 @@ angular.module('bluereconlineApp')
             $location.path('/' + orgurl + '/accountupdate');
         }
 
+        function getSettings()
+        {
+            var req = {
+                method: 'GET',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/config/signup',
+                headers: {
+                    'Content-Type': undefined
+                }
+            };
+
+            return $http(req);
+        }
 
         function processPostSignup(response)
         {
@@ -376,6 +400,7 @@ angular.module('bluereconlineApp')
             }
         };
 
+        signRemote.getSettings = getSettings;
         signRemote.processPostSignup = processPostSignup;
         signRemote.sendSignup = sendSignup;
         signRemote.returnData = '';
