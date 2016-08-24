@@ -292,15 +292,60 @@ angular.module('bluereconlineApp')
                 });
         };
 
+        reg.updateAddonFees = function (regData, itemID, regIndex, optionIndex) {
+
+            console.log('all regData:');
+            console.log(regData);
+
+            for(var regNum = 0; regNum < regData.length; regNum++) {
+                console.log('update reg data for:');
+                console.log(regData[regNum]);
+
+                reg.getUpdatedAddonFees(regData[regNum], itemID, regNum, regIndex, optionIndex);
+            }
+        };
+
+        reg.getUpdatedAddonFees = function(regData, itemID, regNum, regIndex, optionIndex)
+        {
+            regData.regNum = regNum;
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/item/' + itemID + '/addons',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {
+                    'regData': regData,
+                    'uid':regData.userID
+                }
+            };
+
+            $http(req).then(
+                function success(response) {
+                    var addons = JSON.parse(angular.toJson(response.data.data.addons));
+                    console.log(regData.addons.weekdayOptions);
+
+                    for(var wd = 0; wd < regData.addons.weekdayOptions.length; wd++)
+                    {
+                        regData.addons.weekdayOptions[wd].fees.data = addons.weekdayOptions[wd].fees.data;
+                    }
+                }
+            );
+        };
+
         reg.getCartAddons = function (regData) {
 
             var defer = $q.defer();
 
             var uid = '';
 
+            console.log('data sent to get addons:');
+            console.log(regData);
+
             if(ActiveUser.isLoggedIn())
             {
-                uid = ActiveUser.userData.user_id;
+                //uid = ActiveUser.userData.user_id;
             }
 
             var req = {
@@ -310,7 +355,7 @@ angular.module('bluereconlineApp')
                     'Content-Type': undefined
                 },
                 data: {
-                    'uid':uid
+                    'uid':regData.userID
                 }
             };
 

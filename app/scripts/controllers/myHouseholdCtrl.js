@@ -52,7 +52,7 @@ angular.module('bluereconlineApp')
       });
 
       $scope.displayBirthday = function (birthday) {
-          return $filter('date')(birthday, 'MM/dd/yyyy');
+          return $filter('date')(birthday, 'MM/dd/yyyy', '-0500');
       };
 
       $scope.showNewMember = false;

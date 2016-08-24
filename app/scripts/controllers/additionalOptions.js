@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('AddOpts', ['$scope', '$rootScope', 'ActiveUser', 'RegistrationFactory', '$location', '$routeParams', 'MakeToast', function ($scope,$rootScope,ActiveUser,RegistrationFactory,$location,$routeParams, MakeToast) {
+    .controller('AddOpts', ['$scope', '$rootScope', 'ActiveUser', 'RegistrationFactory', '$location', '$routeParams', 'MakeToast', '$timeout', function ($scope,$rootScope,ActiveUser,RegistrationFactory,$location,$routeParams, MakeToast, $timeout) {
         $scope.preLoad = [];
 
         $scope.addingToCart = false;
@@ -16,8 +16,15 @@ angular.module('bluereconlineApp')
         $scope.regularPackages = {};
         $scope.regularPackages.weekday = '';
 
+
+
         $scope.updateEveryDateAddonFees = function(dropins, weeks, pkg) {
             console.log(pkg);
+        };
+
+        $scope.updateWeekdayAddonFees = function(regIndex, optionIndex) {
+            $timeout($scope.preLoad.updateAddonFees, 500, true, $scope.preLoad.data, $routeParams.itemid, regIndex, optionIndex);
+            //$scope.preLoad.updateAddonFees($scope.preLoad.data, $routeParams.itemid);
         };
 
         $scope.updateDayGroupFees = function(dayGroups, clickedPkg) {
@@ -116,15 +123,17 @@ angular.module('bluereconlineApp')
 
             console.log('updated working data:');
             console.log($scope.preLoad);
+            $scope.itemID = $routeParams.itemid;
         });
 
         if(ActiveUser.isLoggedIn())
         {
             $scope.preLoad = RegistrationFactory;
-
+            $scope.itemID = $routeParams.itemid;
             $scope.preLoad.getLocalRegistration().then(function () {
                 console.log('working data:');
                 console.log($scope.preLoad);
+
             }); 
         }
 

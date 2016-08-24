@@ -83,7 +83,7 @@
                                 <tbody>
                                 <tr data-ng-repeat="pkg in addonData.addons.weekdayOptions">
                                     <td>
-                                        <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
+                                        <checkbox class="btn-{{(pkg.remaining <= 0)?'danger':'primary'}}" data-ng-click="updateWeekdayAddonFees($parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>
                                         <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
                                     </td>
                                     <td><span class="text-danger" data-ng-if="(pkg.remaining <= 0)">(Full) </span>{{pkg.item_name}}</td>
