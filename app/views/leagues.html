@@ -32,6 +32,31 @@
             <h5>{{team.team_name}}</h5>
 
             <div class="row">
+              <div class="col-sm-4">Games</div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <td>Type</td>
+                  <td>Teams</td>
+                  <td>Time</td>
+                  <td>Location</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="game in team.games">
+                  <td>{{game.game_type}}</td>
+                  <td>{{game.game_name}}</td>
+                  <td>{{game.game_time}}</td>
+                  <td>{{game.game_location}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row">
               <div class="col-sm-4">Roster</div>
               <div class="col-sm-8"><button type="button" id="btnNewTeamMember" value="Add Player" class="btn btn-success btn-sm pull-right" data-ng-click="addingTeamMember = !addingTeamMember"><i class="fa fa-plus"></i> Add Player</button></div>
             </div>
@@ -43,6 +68,7 @@
                   <td>Last</td>
                   <td>Email</td>
                   <td>Phone</td>
+                  <td>Birthdate</td>
                   <td data-ng-if="addingTeamMember"></td>
                 </tr>
                 </thead>
@@ -61,10 +87,42 @@
                   <td>{{player.lastname}}</td>
                   <td>{{player.email_address}}</td>
                   <td>{{player.phone_number}}</td>
+                  <td>{{player.birthdate}}</td>
                   <td data-ng-if="addingTeamMember"></td>
                 </tr>
                 </tbody>
               </table>
+          </div>
+
+          <h4 data-ng-show="league.userTeams.length > 0">All Teams</h4>
+
+          <div data-ng-repeat="team in league.teams">
+            <h5>{{team.team_name}} <button type="button" value="Games" class="btn btn-sm btn-link btn-primary" data-ng-click="team.show_games = !team.show_games"><i class="fa fa-list"></i><span data-ng-show="team.show_games"> Hide</span><span data-ng-show="!team.show_games"> Show</span> Games</button></h5>
+
+            <div class="row" data-ng-show="team.show_games">
+              <div class="col-sm-4">Games</div>
+            </div>
+
+            <div class="table-responsive" data-ng-show="team.show_games">
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <td>Type</td>
+                  <td>Teams</td>
+                  <td>Time</td>
+                  <td>Location</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="game in team.games">
+                  <td>{{game.game_type}}</td>
+                  <td>{{game.game_name}}</td>
+                  <td>{{game.game_time}}</td>
+                  <td>{{game.game_location}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <!--
