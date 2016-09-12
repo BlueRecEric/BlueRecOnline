@@ -12,6 +12,8 @@ angular.module('bluereconlineApp')
         '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'reservationService', 'reservationTimeService',
         function ($scope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment, ActiveUser, reservationService, reservationTimeService) {
 
+            console.log('itemid: ' + $routeParams.itemid);
+
             $scope.renderSlider = false;
 
             $scope.searchPanelActive = true;

@@ -162,7 +162,7 @@ angular
             .when('/:orgurl/reservations', {
                 templateUrl: 'views/requestReservation.html'
             })
-            .when('/:orgurl/reservationtimes', {
+            .when('/:orgurl/reservationtimes/:itemid', {
                 templateUrl: 'views/reservationAvailableTimes.html'
             })
             .when('/:orgurl/reservationaddons', {
