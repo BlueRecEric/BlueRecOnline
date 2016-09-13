@@ -956,3 +956,25 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     animation: halfspin 1s ease infinite;
     border-radius: 100%;
 }
+
+@media only screen and (max-width: 640px) {
+    .colHideMobile {
+        display: none;
+        visibility: hidden;
+    }
+
+    .colShowMobile{
+        visibility: visible;
+    }
+}
+
+@media  only screen and  (min-width:641px) {
+    .colHideMobile {
+        visibility: visible;
+    }
+
+    .colShowMobile{
+        display: none;
+        visibility: hidden;
+    }
+}

@@ -9,10 +9,21 @@
  */
 angular.module('bluereconlineApp')
     .controller('ReservationAvailableTimes', ['$scope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout',
-        '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'reservationService', 'reservationTimeService',
-        function ($scope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment, ActiveUser, reservationService, reservationTimeService) {
+        '$filter', '$anchorScroll', 'ActiveUser',
+        function ($scope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, ActiveUser) {
 
             console.log('itemid: ' + $routeParams.itemid);
+
+            $scope.facilityError = false;
+            $scope.weekdayError = false;
+
+            $scope.loadingWeekdays = false;
+            $scope.rentalDataLoaded = false;
+
+            $scope.rentalData = [];
+            $scope.errorLoadingRental = false;
+
+            $scope.rentalItemID = $routeParams.itemid;
 
             $scope.renderSlider = false;
 
@@ -28,45 +39,63 @@ angular.module('bluereconlineApp')
             $scope.searchRowCollection = [];
             $scope.searchSelectedTimeData = [];
 
-            $scope.facilityError = false;
-            $scope.weekdayError = false;
-
-            $scope.loadingWeekdays = false;
-
-            $scope.rentalData = [];
-
-            $scope.rentalData = reservationService.get();
-
-            $scope.facilityArray = [];
-
-            for(var ia=0; ia < $scope.rentalData.facility_ids.length; ia++)
-            {
-                $scope.facilityArray.push(false);
-            }
-
             console.log('rentalData');
             console.log($scope.rentalData);
-
-            $scope.durationSlider = {
-                ceil: $scope.rentalData.max_hour,
-                floor: $scope.rentalData.min_hour};
-
-            $scope.rentalDuration = {selectedTime:  $scope.rentalData.min_hour};
 
             $timeout(function () {
                 $scope.renderSlider = true;
             }, 500, false);
 
-            $scope.fromDate = $scope.rentalData.search_start_date;
-            $scope.untilDate = $scope.rentalData.search_end_date;
+            $scope.fromDate = new Date();
+            $scope.untilDate = new Date();
 
             $scope.startTime = new Date();
             $scope.startTime.setHours(8);
             $scope.startTime.setMinutes(0);
 
-           $scope.endTime = new Date();
+            $scope.endTime = new Date();
             $scope.endTime.setHours(16);
             $scope.endTime.setMinutes(0);
+
+            $scope.getRentalData = function() {
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/reservationdata',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {
+                        'user_id': ActiveUser.userData.user_id
+                    }
+                };
+
+                $http(req)
+                    .success(function (data) {
+                        console.log('getRentalData:');
+                        console.log(data);
+
+                        $scope.rentalData = data.rental_data;
+
+                        $scope.durationSlider = {
+                            ceil: $scope.rentalData.max_hour,
+                            floor: $scope.rentalData.min_hour};
+
+                        $scope.rentalDuration = {selectedTime:  $scope.rentalData.min_hour};
+
+                        console.log($scope.durationSlider);
+                        console.log($scope.rentalDuration);
+                        /*$scope.fromDate = $scope.rentalData.search_start_date;
+                        $scope.untilDate = $scope.rentalData.search_end_date;*/
+
+                        $scope.rentalDataLoaded = true;
+                    })
+                    .error(function (){
+                        $scope.errorLoadingRental = true;
+                        $scope.rentalDataLoaded = false;
+                    });
+            };
+
+            $scope.getRentalData();
 
             $scope.weekdayData = [];
 
@@ -74,7 +103,7 @@ angular.module('bluereconlineApp')
                 $scope.loadingWeekdays = true;
                 var req = {
                     method: 'POST',
-                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalData.rental_code_item_id + '/reservationweekday',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/reservationweekday',
                     headers: {
                         'Content-Type': undefined
                     },
@@ -103,10 +132,155 @@ angular.module('bluereconlineApp')
                 $scope.getWeekdayData();
             };
 
-            $scope.onWeekdayChange = function() {
+            $scope.getSelectedFacilities = function () {
+                var selectedFacilities = [];
+
+                for (var i=0;i < $scope.rentalData.facility_data.length; i++)
+                {
+                    if($scope.rentalData.facility_data[i].selected)
+                    {
+                        selectedFacilities.push($scope.rentalData.facility_data[i]);
+                    }
+                }
+
+                return selectedFacilities;
+            };
+
+            $scope.getSelectedWeekdays = function() {
+                var selectedWeekdays = [];
+
+                console.log('weekdayData:  ');
+                console.log($scope.weekdayData);
+
+                for (var i=0;i < $scope.weekdayData.length; i++)
+                {
+                    if($scope.weekdayData[i].selected)
+                    {
+                        console.log($scope.weekdayData);
+                        for (var a=0;a < $scope.weekdayData[i].start_time_data.length; a++)
+                        {
+                            selectedWeekdays.push({weekday_index: $scope.weekdayData[i].weekday_index,
+                                                start_time:   $scope.weekdayData[i].start_time_data[a],
+                                                end_time:   $scope.weekdayData[i].end_time_data[a]});
+                        }
+                    }
+                }
+
+                return selectedWeekdays;
+            };
+
+            $scope.onSearchRentalTimes = function ()
+            {
+                console.log($scope.rentalData.facility_data);
+
+                $scope.facilityError = false;
+                $scope.weekdayError = false;
+
+                $scope.displaySearchResults = false;
+                $scope.displayNoResults = false;
+
+                $scope.searchErrorMessage = '';
+                $scope.isSearchIconBusy = true;
+
+                $scope.searchResultsData = [];
+                $scope.searchRowCollection = [];
+                $scope.searchSelectedTimeData = [];
+
                 var selectedWeekdays = $scope.getSelectedWeekdays();
+                var selectedFacilities = $scope.getSelectedFacilities();
+
+                console.log('selectedFacilities:  ');
+                console.log(selectedFacilities);
+
+                if(selectedFacilities.length === 0)
+                {$scope.facilityError = true;}
+
+                if(selectedWeekdays.length === 0)
+                {$scope.weekdayError = true;}
+
+                if(!$scope.facilityError && !$scope.weekdayError && $scope.startTime < $scope.endTime) {
+                    $scope.isSearchIconBusy = false;
+
+                    console.log('search submit data');
+                    console.log({
+                        rental_code_item_id: $scope.rentalItemID,
+                        facilities: selectedFacilities,
+                        weekdays: selectedWeekdays,
+                        from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
+                        until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
+                        duration: $scope.rentalDuration.selectedTime,
+                        start_time: $filter('date')($scope.startTime, 'HH:mm'),
+                        end_time:  $filter('date')($scope.endTime, 'HH:mm')
+                    });
+
+                    var req = {
+                        method: 'POST',
+                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/reservation/searchavailiabletimes',
+                        headers: {
+                            'Content-Type': undefined
+                        },
+                        data: {
+                            rental_code_item_id: $scope.rentalItemID,
+                            facilities: selectedFacilities,
+                            weekdays: selectedWeekdays,
+                            from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
+                            until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
+                            duration: $scope.rentalDuration.selectedTime,
+                            start_time: $filter('date')($scope.startTime, 'HH:mm'),
+                            end_time:  $filter('date')($scope.endTime, 'HH:mm')
+                        }
+                    };
+
+                    $http(req)
+                        .success(function (data) {
+                            console.log(data);
+                            if (data.success) {
+                                $scope.isSearchIconBusy = false;
+
+                                if (data.rowCount > 0) {
+                                    $scope.searchRowCollection = data.results;
+
+                                    $scope.displayNoResults = false;
+                                    $scope.displaySearchResults = true;
+                                }
+                                else {
+                                    $scope.displaySearchResults = false;
+                                    $scope.displayNoResults = true;
+                                }
+                            }
+                            else if (data.error) {
+                                $scope.isSearchIconBusy = false;
+                                $scope.displaySearchResults = false;
+                                $scope.displayNoResults = false;
+                                $scope.searchErrorMessage = data.message;
+                            }
+                        })
+                        .error(function (data) {
+                            $scope.isSearchIconBusy = false;
+
+                            $scope.searchErrorMessage = 'There was an issue while processing your search.  We are working to resolve the issue.';
+                        });
+
+                    $scope.searchResultsData = [].concat($scope.searchRowCollection);
+                }
+                else
+                {
+                    $scope.isSearchIconBusy = false;
+
+
+                    $anchorScroll.yOffset = 500;
+                    $anchorScroll('pageTop');
+                }
+                //console.log($scope.searchResultsData);
+                $scope.searchSelectedTimeData = [];
+            };
+
+            //$scope.onSearchRentalTimes();
+
+            $scope.onWeekdayChange = function() {
+                /*var selectedWeekdays = $scope.getSelectedWeekdays();
                 if($scope.weekdayError && selectedWeekdays.length > 0)
-                {$scope.weekdayError = false;}
+                {$scope.weekdayError = false;}*/
             };
 
             $scope.translateDuration = function (value) {
@@ -143,162 +317,6 @@ angular.module('bluereconlineApp')
                 }
                 return label;
             };
-
-            $scope.getFacilitySearchString = function () {
-                //console.table( $scope.selectedSearchFacilities.facilities);
-                var facilitySearchString = '';
-
-                for (var i=0;i < $scope.facilityArray.length; i++) {
-                    if($scope.facilityArray[i]) {
-                        if (facilitySearchString !== '') {
-                            facilitySearchString += ', ';
-                        }
-                        facilitySearchString += $scope.rentalData.facility_ids[i];
-                    }
-                }
-
-                return facilitySearchString;
-            };
-
-            $scope.getSelectedWeekdays = function() {
-                var selectedWeekdays = [];
-
-                for (var i=0;i < $scope.weekdayData.length; i++)
-                {
-                    if($scope.weekdayData[i].selected)
-                    {
-                        selectedWeekdays.push($scope.weekdayData[i]);
-                    }
-                }
-
-                return selectedWeekdays;
-            };
-
-            $scope.onSearchRentalTimes = function ()
-            {
-                //console.log($scope.rentalData);
-
-                $scope.facilityError = false;
-                $scope.weekdayError = false;
-
-                $scope.displaySearchResults = false;
-                $scope.displayNoResults = false;
-
-                $scope.searchErrorMessage = '';
-                $scope.isSearchIconBusy = true;
-
-                $scope.searchResultsData = [];
-                $scope.searchRowCollection = [];
-                $scope.searchSelectedTimeData = [];
-
-
-                var selectedWeekdays = $scope.getSelectedWeekdays();
-                var facilitySearchString = $scope.getFacilitySearchString();
-
-                if(facilitySearchString.length === 0)
-                {$scope.facilityError = true;}
-
-                if(selectedWeekdays.length === 0)
-                {$scope.weekdayError = true;}
-
-                if(!$scope.facilityError && !$scope.weekdayError && $scope.startTime < $scope.endTime) {
-                    $scope.isSearchIconBusy = false;
-
-                    /*for(var i=0;i < $scope.rentalData.weekday_indexes2.length; i++)
-                     {
-                     if($scope.weekdaySearch2[$scope.rentalData.weekday_indexes[i]])
-                     {
-                     var day = {};
-                     if(tempStartTime <= $scope.convertDateTo24Hour($scope.rentalData.weekday_end[i])) {
-
-                     day = {
-                     'day': $scope.getWeekdaysString($scope.rentalData.weekday_indexes[i]),
-                     'start_time': tempStartTime,
-                     'end_time': tempEndTime,
-                     'check_start_time': $scope.convertDateTo24Hour($scope.rentalData.weekday_start[i]),
-                     'check_end_time': $scope.convertDateTo24Hour($scope.rentalData.weekday_end[i])
-                     };
-                     }
-
-                     weekdayData.push(day);
-                     }
-                     }*/
-
-                    console.log('selectedWeekdays');
-                    console.log(selectedWeekdays);
-
-                    var req = {
-                        method: 'POST',
-                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/reservation/searchavailiabletimes',
-                        headers: {
-                            'Content-Type': undefined
-                        },
-                        data: {
-                            rental_code: $scope.rentalData.rental_code_item_id,
-                            facilities: facilitySearchString,
-                            from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
-                            until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
-                            duration: $scope.rentalDuration.selectedTime,
-                            start_time: $filter('date')($scope.startTime, 'HH:mm'),
-                            end_time:  $filter('date')($scope.endTime, 'HH:mm'),
-                            weekdays: selectedWeekdays
-                        }
-                    };
-
-                    $http(req)
-                        .success(function (data) {
-
-                            //console.log(data);
-                            if (data.success) {
-                                $scope.isSearchIconBusy = false;
-
-                                if (data.rowCount > 0) {
-                                    $scope.searchRowCollection = data.results;
-
-                                    $scope.displayNoResults = false;
-                                    $scope.displaySearchResults = true;
-                                }
-                                else {
-                                    $scope.displaySearchResults = false;
-                                    $scope.displayNoResults = true;
-                                }
-                            }
-                            else if (data.error) {
-                                $scope.isSearchIconBusy = false;
-                                $scope.displaySearchResults = false;
-                                $scope.displayNoResults = false;
-                                $scope.searchErrorMessage = data.message;
-                            }
-                        })
-                        .error(function (data) {
-                            $scope.isSearchIconBusy = false;
-
-                            /*$scope.searchSelectedTimeData = [];
-                             $scope.searchRowCollection = [];
-                             $scope.searchResultsData = [];
-
-                             $scope.displaySearchResults = false;
-                             $scope.displayNoResults = false;
-
-                             $scope.searchErrorMessage = data;*/
-                        });
-
-                    $scope.searchResultsData = [].concat($scope.searchRowCollection);
-                }
-                else
-                {
-                    $scope.isSearchIconBusy = false;
-
-                    $scope.searchErrorMessage = 'You must select something for the options highlighted red.';
-
-                    $anchorScroll.yOffset = 500;
-                    $anchorScroll('pageTop');
-                }
-                //console.log($scope.searchResultsData);
-                $scope.searchSelectedTimeData = [];
-            };
-
-            //$scope.onSearchRentalTimes();
 
             var confirmationModal = $modal({
                 scope: $scope,
@@ -348,7 +366,7 @@ angular.module('bluereconlineApp')
 
                 var feeAmount = 0;
                 var selectedFacilities = [];
-                for (var i=0;i < $scope.facilityArray.length; i++) {
+                /*for (var i=0;i < $scope.facilityArray.length; i++) {
                     if ($scope.facilityArray[i]) {
                         feeAmount += (timeDiff * $scope.rentalData.facility_fees[i].per_hour_amount);
 
@@ -356,28 +374,29 @@ angular.module('bluereconlineApp')
                         //$scope.rentalData.facility_ids[i].fee_amount = feeAmount;
                         selectedFacilities.push($scope.rentalData.facility_ids[i]);
                     }
-                }
+                }*/
 
                 //console.log('feeAmount: ' + feeAmount);
 
                 $scope.searchSelectedTimeData.fee_amount = feeAmount;
 
                 $scope.searchSelectedTimeData.selectedFacilityIds = selectedFacilities;
-                reservationTimeService.set($scope.searchSelectedTimeData);
+
+                //reservationTimeService.set($scope.searchSelectedTimeData);
 
                 $location.path('/' + $routeParams.orgurl + '/reservationaddons');
 
                 /*var $userID = ActiveUser.userData.user_id;
 
-                 if ($scope.rentalData.rental_code_item_id !== '' && $userID) {
+                 if ($scope.rentalItemID !== '' && $userID) {
                  //var $facilityString = $scope.getFacilityString();
 
-                 // //console.log($scope.rentalData.rental_code_item_id);
+                 // //console.log($scope.rentalItemID);
 
                  var submitData = {};
                  submitData.request_id = 1;
                  submitData.householdID = ActiveUser.userData.household_id;
-                 submitData.itemID = $scope.rentalData.rental_code_item_id;
+                 submitData.itemID = $scope.rentalItemID;
                  submitData.userID = ActiveUser.userData.user_id;
                  submitData.addedByUserID = ActiveUser.userData.user_id;
                  submitData.usePaymentPlan = '0';
