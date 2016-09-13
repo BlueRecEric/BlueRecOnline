@@ -53,17 +53,19 @@
                 </div>
 
                 <form name="searchForm" novalidate>
-                    <div class="" style="padding-left: 0px;" ng-hide="rentalData.force_facility_order=='1'">
+                    <div class="" style="padding-left: 0px;">
                         <div class="col-sm-12">
                             <div class="col-sm-12">
-                                <label data-ng-class="{'has-error': searchForm.$submitted && facilityError}">Select One or More Facility to Rental</label>
+                                <label data-ng-class="{'has-error': searchForm.$submitted && facilityError}"
+                                       data-ng-hide="rentalData.force_facility_order=='1'">Select One or More Facility to Rental</label>
+                                <label  data-ng-show="rentalData.force_facility_order=='1'">Facilities Included in Rental</label>
                             </div>
                         </div>
                         <div class="col-sm-12 form-group" data-ng-repeat="fac in rentalData.facility_data">
                             <div class="col-sm-12">
                             <span class="no-word-wrap checkbox-weekday-spacing"><checkbox
                                     class="btn-default checkbox-dark-border"
-                                    data-ng-model="fac.selected"
+                                    data-ng-model="fac.selected" data-ng-hide="rentalData.force_facility_order=='1'"
                                     data-ng-disabled="(rentalData.force_facility_order=='1')"></checkbox>
                                 <label class="label-weekday-spacing" style="width:135px">{{fac.item_name}} - <b>${{fac.total_per_hour_amount}}/{{fac.booking_type}}</b></label>
                             </span>
@@ -202,7 +204,7 @@
                                             <rzslider ng-if="renderSlider"
                                                       rz-slider-draggable-range="true"
                                                       rz-slider-step="30"
-                                                      rz-slider-model="rentalDuration.selectedTime"
+                                                      rz-slider-model="rentalDurationTemp.selectedTime"
                                                       rz-slider-floor="durationSlider.floor"
                                                       rz-slider-ceil="durationSlider.ceil"
                                                       rz-slider-translate="translateDuration"

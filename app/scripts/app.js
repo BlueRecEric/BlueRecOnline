@@ -31,7 +31,6 @@ angular
     'ui.checkbox',
     'ngAutocomplete',
     'rzModule',
-    'ui.select',
     'vButton',
     'smart-table',
     'angularMoment',
@@ -40,7 +39,8 @@ angular
     'LocalStorageModule',
     'angularUtils.directives.dirPagination',
     'djds4rce.angular-socialshare',
-    'youtube-embed'
+    'youtube-embed',
+    'ui.select'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;

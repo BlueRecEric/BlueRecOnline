@@ -122,15 +122,42 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Locations</h3>
+                    <h3 class="panel-title pull-left">Search Options</h3>
                 </div>
                 <div class="panel-body ">
-                    <select data-ng-model="selectedLocation" class="form-control" style="width: 100%;max-width:225px;"
-                            data-ng-change="getRentalData()" data-ng-options="locationRow.location_id as locationRow.location_name for locationRow in locationData">
-                        <option value="">--Select Location--</option>
-                    </select>
+                    <div class="row">
+                        <div class="col-sm-12">
+                    <div class="col-sm-4">
+                        <form class="form-inline">
+                            <label for="rg-from">Keyword:</label>
+                            <div class="form-group">
+                                <input type="text" id="keyword" data-ng-model="search.keyword" class="form-control" style="width: 250px;"
+                                       ng-model-options='{ debounce: 500 }' ng-change='getRentalData()'/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-8">
+                         <select data-ng-model="selectedLocation" class="form-control" style="width: 100%;max-width:225px;font-size: 16px;"
+                                data-ng-change="getRentalData()" data-ng-options="locationRow.location_id as locationRow.location_name for locationRow in locationData">
+                            <option value="">--Select Location--</option>
+                        </select>
+                    </div>
+                        </div>
+                </div>
+
+                    <div class="panel-body">
+                    <div class="col-xs-12">
+                        <ui-select multiple ng-model="selectedPurposeOfUse.selected" ng-disabled="disabled" style="width: 100%;" close-on-select="false" search-enabled="true"
+                                   on-select="numberSelected($select)" on-remove="getRentalData()" reset-search-input="true">
+                            <ui-select-match class="ui-select-match"  placeholder="Select Purpose of Use" style="font-size: 17px;color: #000!important;" >{{$item.purpose_name}}</ui-select-match>
+                            <ui-select-choices class="ui-select-choices" group-by="'category_name'" repeat="purpose in purposeOfUseData | propsFilter: {purpose_name: $select.search}" style="font-size: 17px;" >
+                                <div ng-bind-html="purpose.purpose_name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
                 </div>
             </div>
+
 
             <div class="panel panel-primary" data-ng-repeat="rentalGroupRow in rentalDropDown | orderBy:'item_name'">
                 <div class="panel-heading clearfix">

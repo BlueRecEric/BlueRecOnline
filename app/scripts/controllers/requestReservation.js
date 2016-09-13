@@ -30,6 +30,21 @@ angular.module('bluereconlineApp')
             $scope.selectedLocation = 0;
             $scope.locationData = [];
 
+            $scope.purposeOfUseData = [];
+
+            $scope.selectedPurposeOfUse = {};
+            $scope.selectedPurposeOfUse.selected = [];
+
+            $scope.search = {};
+            $scope.search.keyword = [];
+
+            $scope.numberSelected = function ($select) {
+                // clear search text
+                $select.search = '';
+
+                $scope.getRentalData();
+            };
+
             $scope.getLocationData = function () {
                 var req = {
                     method: 'GET',
@@ -47,6 +62,26 @@ angular.module('bluereconlineApp')
             };
 
             $scope.getLocationData();
+
+            $scope.$getPurposeOfUseData = function () {
+                var req = {
+                    method: 'GET',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/reservationpurposeofuse',
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                };
+
+                $http(req)
+                    .success(function (data) {
+                        $scope.purposeOfUseData = data;
+
+                        console.log('Purpose Of Use Date:  ');
+                        console.log($scope.purposeOfUseData);
+                    });
+            };
+
+            $scope.$getPurposeOfUseData();
 
             $scope.onRentalClick = function(rentalRow) {
                 console.log('rentalRow');
@@ -70,7 +105,9 @@ angular.module('bluereconlineApp')
                    },
                    data: {
                        user_id: ActiveUser.userData.user_id,
-                       location_id: $scope.selectedLocation
+                       location_id: $scope.selectedLocation,
+                       purpose_of_use: $scope.selectedPurposeOfUse.selected,
+                       keyword: $scope.search.keyword
                    }
                };
 
@@ -201,5 +238,36 @@ angular.module('bluereconlineApp')
 
                 element.css('width', ratio + '%');
             }
+        };
+    })
+
+    .filter('propsFilter', function() {
+        return function(items, props) {
+            var out = [];
+
+            if (angular.isArray(items)) {
+                items.forEach(function(item) {
+                    var itemMatches = false;
+
+                    var keys = Object.keys(props);
+                    for (var i = 0; i < keys.length; i++) {
+                        var prop = keys[i];
+                        var text = props[prop].toLowerCase();
+                        if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                            itemMatches = true;
+                            break;
+                        }
+                    }
+
+                    if (itemMatches) {
+                        out.push(item);
+                    }
+                });
+            } else {
+                // Let the output be the input untouched
+                out = items;
+            }
+
+            return out;
         };
     });
