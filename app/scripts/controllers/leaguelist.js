@@ -64,7 +64,7 @@ angular.module('bluereconlineApp')
         }
 
     }])
-    .factory('LeagueLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
+    .factory('LeagueLoader', ['$http', '$filter', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,$filter,BLUEREC_ONLINE_CONFIG,$routeParams) {
 
         var leagueData = this;
 
@@ -83,6 +83,14 @@ angular.module('bluereconlineApp')
         };
 
         var saveNewTeamMember = function (userForm) {
+
+            userForm.formatBirthday = '';
+
+            if(angular.isDefined(userForm.birthday))
+            {
+                userForm.formatBirthday = $filter('date')(userForm.birthday, 'yyyy-MM-dd');
+            }
+
             var req = {
                 method: 'POST',
                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/leagues/addTeamMember',

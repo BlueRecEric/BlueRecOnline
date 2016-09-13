@@ -66,18 +66,22 @@
                 <tr>
                   <td>First</td>
                   <td>Last</td>
+                  <td>Birthday</td>
                   <td>Email</td>
                   <td>Phone</td>
-                  <td>Birthdate</td>
                   <td data-ng-if="addingTeamMember"></td>
                 </tr>
                 </thead>
                 <tbody>
+                <tr data-ng-show="newTeamMemberErrors.length > 0" class="danger" data-ng-repeat="error in newTeamMemberErrors">
+                  <td colspan="6"><span class="danger">{{error.error.text}}</span></td>
+                </tr>
                 <tr data-ng-if="addingTeamMember" class="warning">
                   <td><input placeholder="Required" type="text" id="newFirstName" data-ng-model="newTeamMemberForm.firstname" class="form-control" required/></td>
                   <td><input placeholder="Required" type="text" id="newLastName" data-ng-model="newTeamMemberForm.lastname" class="form-control" required/></td>
+                  <td><span class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><input class="form-control" placeholder="MM/DD/YYYY" data-ng-model="newTeamMemberForm.birthday" data-date-format="M/d/yyyy" id="newBirthday" name="date" data-autoclose="true" data-start-view="2" bs-datepicker type="text" required></span></td>
                   <td><input placeholder="Optional" type="text" id="newEmail" data-ng-model="newTeamMemberForm.email" class="form-control"/></td>
-                  <td><input placeholder="Optional" type="text" id="newPhone" data-ng-model="newTeamMemberForm.phone" class="form-control"/></td>
+                  <td><input placeholder="" type="text" id="newPhone" value="" ui-mask="(999) 999-9999" data-ng-model="newTeamMemberForm.phone" class="form-control" required/></td>
                   <td data-ng-if="addingTeamMember">
                     <button type="button" id="btnSaveTeamMember" value="Save" class="btn btn-info btn-sm" data-ng-click="onSaveNewTeamMember(team.team_id)"><i class="fa fa-save"></i> Save</button>
                   </td>
@@ -85,9 +89,9 @@
                 <tr data-ng-repeat="player in team.roster">
                   <td>{{player.firstname}}</td>
                   <td>{{player.lastname}}</td>
+                  <td>{{player.birthday}}</td>
                   <td>{{player.email_address}}</td>
                   <td>{{player.phone_number}}</td>
-                  <td>{{player.birthdate}}</td>
                   <td data-ng-if="addingTeamMember"></td>
                 </tr>
                 </tbody>
