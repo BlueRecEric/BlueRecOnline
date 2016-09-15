@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('LeagueList', ['$scope', '$routeParams', 'ActiveUser', 'LeagueLoader', function ($scope, $routeParams, ActiveUser, LeagueLoader) {
+    .controller('LeagueList', ['$scope', '$routeParams', '$filter', 'ActiveUser', 'LeagueLoader', function ($scope, $routeParams, $filter, ActiveUser, LeagueLoader) {
 
         $scope.addingTeamMember = false;
         $scope.newTeamMemberForm = {};
@@ -22,6 +22,45 @@ angular.module('bluereconlineApp')
                 console.log('working data:');
                 console.log(response);
             });
+
+            $scope.onSaveEditTeamMember = function(player)
+            {
+                player.teamID = player.team_id;
+                player.phone = player.phone_number;
+                player.email = player.email_address;
+
+                player.birthday = player.formatBirthday;
+                player.formatBirthday = $filter('date')(player.birthday, 'yyyy-MM-dd');
+
+                console.log('edit member form:');
+                console.log(player);
+
+                $scope.league.saveEditTeamMember(player).then(function (response) {
+                    $scope.league.getUserLeagues(ActiveUser.userData.user_id).then(function (response) {
+                        console.log('working data:');
+                        console.log(response);
+                    });
+                });
+            };
+
+            $scope.onRemoveTeamMember = function(player)
+            {
+                var remUser = {};
+
+                remUser.teamID = player.team_id;
+                remUser.registered = player.registered_user;
+                remUser.userID = player.user_id;
+
+                console.log('remove member form:');
+                console.log(remUser);
+
+                $scope.league.removeTeamMember(remUser).then(function (response) {
+                    $scope.league.getUserLeagues(ActiveUser.userData.user_id).then(function (response) {
+                        console.log('working data:');
+                        console.log(response);
+                    });
+                });
+            };
 
             $scope.onSaveNewTeamMember = function(teamID)
             {
@@ -82,6 +121,32 @@ angular.module('bluereconlineApp')
             });
         };
 
+        var removeTeamMember = function (removeForm) {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/leagues/removeTeamMember',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: removeForm
+            };
+
+            return $http(req);
+        };
+
+        var saveEditTeamMember = function (playerForm) {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/leagues/editTeamMember',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: playerForm
+            };
+
+            return $http(req);
+        };
+
         var saveNewTeamMember = function (userForm) {
 
             userForm.formatBirthday = '';
@@ -105,5 +170,7 @@ angular.module('bluereconlineApp')
 
         leagueData.getUserLeagues = getUserLeagues;
         leagueData.saveNewTeamMember = saveNewTeamMember;
+        leagueData.saveEditTeamMember = saveEditTeamMember;
+        leagueData.removeTeamMember = removeTeamMember;
         return leagueData;
     }]);

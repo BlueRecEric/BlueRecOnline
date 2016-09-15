@@ -197,6 +197,8 @@ angular
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         $httpProvider.defaults.headers.common.Accept = 'application/json';
+        $httpProvider.defaults.headers.common['Cache-Control'] = 'no-cache';
+        $httpProvider.defaults.headers.common.Pragma = 'no-cache';
     })
 
     .run(['$rootScope','$location', '$routeParams', '$anchorScroll', 'ActiveUser', '$templateCache', function($rootScope, $location, $routeParams, $anchorScroll, ActiveUser,$templateCache) {
