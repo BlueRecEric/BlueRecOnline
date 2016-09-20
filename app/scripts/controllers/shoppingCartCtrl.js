@@ -36,6 +36,22 @@ angular.module('bluereconlineApp')
       }, function() {
       });
 
+    function getSettings()
+    {
+        var req = {
+            method: 'GET',
+            url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/config/signup',
+            headers: {
+                'Content-Type': undefined
+            }
+        };
+
+        return $http(req).then(function(result) {
+                $scope.config = result.data;
+            }
+        );
+    }
+
       function checkPromo()
       {
         var req = {
@@ -276,11 +292,13 @@ angular.module('bluereconlineApp')
       };
 
       loadCart();
+      getSettings();
 
       $scope.goToCheckout = goToCheckout;
       $scope.removeItem = removeItem;
       $scope.payCart = payCart;
       $scope.checkPromo = checkPromo;
+      $scope.getSettings = getSettings;
       $scope.pageData = {paymentComplete:false};
 
       //console.log('page data');
