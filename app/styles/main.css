@@ -657,6 +657,7 @@ input::-moz-focus-inner {
 /* Or more specifically*/
 input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     outline: 0!important;
+    background-color: #fff; !important;
 }
 
 .navbar-collapse.collapsing {
@@ -684,6 +685,14 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 
 .has-error {
     color: #f00010;
+}
+
+.table-hover > tbody > tr > td.active:hover,
+.table-hover > tbody > tr > th.active:hover,
+.table-hover > tbody > tr.active:hover > td,
+.table-hover > tbody > tr:hover > .active,
+.table-hover > tbody > tr.active:hover > th {
+    color: #000000;
 }
 
 .table-hover > tbody > tr:hover {
@@ -888,14 +897,6 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     padding-left: 14px;
 }
 
-.table-hover > tbody > tr > td.active:hover,
-.table-hover > tbody > tr > th.active:hover,
-.table-hover > tbody > tr.active:hover > td,
-.table-hover > tbody > tr:hover > .active,
-.table-hover > tbody > tr.active:hover > th {
-    color: #000000;
-}
-
 .panel-success > .panel-heading {
     color: #ffffff!important;
 }
@@ -928,10 +929,10 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     margin: 0 0.4em;
     min-width: 1.5em;
     min-height: 1.5em;
-    border-top: 4px solid #e7962e;
+    border-top: 4px solid #000000;
     border-right: 4px solid #e6e6e6;
     border-left: 4px solid #e6e6e6;
-    border-bottom: 4px solid #e7962e;
+    border-bottom: 4px solid #000000;
     content: "";
     -webkit-animation: halfspin 1s ease infinite;
     -moz-animation: halfspin 1s ease infinite;
@@ -945,10 +946,10 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     margin: 0 0.4em;
     min-width: 1.5em;
     min-height: 1.5em;
-    border-top: 4px solid #e7962e;
+    border-top: 4px solid #000000;
     border-right: 4px solid #e6e6e6;
     border-left: 4px solid #e6e6e6;
-    border-bottom: 4px solid #e7962e;
+    border-bottom: 4px solid #000000;
     content: "";
     -webkit-animation: halfspin 1s ease infinite;
     -moz-animation: halfspin 1s ease infinite;
@@ -1011,4 +1012,38 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 
 .ui-select-choices .item {
     height: auto !important
+}
+
+.table2 > tbody + tbody {
+    border-top: 0px solid rgb(221, 221, 221) !important;
+}
+
+td .rentalSearchTimeCol {
+     padding-left:20px !important;
+     border-bottom: none !important;
+     border-top: none !important;
+ }
+
+td .rentalSearchTimePadFull {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+td .rentalSearchTimePadTop {
+    padding-top: 4px !important;
+    padding-bottom: 2px !important;
+}
+
+td .rentalSearchTimePadMid {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+}
+
+td .rentalSearchTimePadBot {
+    padding-top: 2px !important;
+    padding-bottom: 4px !important;
+}
+
+.white-font {
+    color: #ffffff !important;
 }

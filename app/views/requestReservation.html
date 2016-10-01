@@ -26,237 +26,238 @@
     </nav>
 </script>
 
+<div class="row">
+    <div data-ng-animate="'slide'">
 
-<div data-ng-animate="'slide'">
+        <h3>Rental Listings</h3>
 
-    <h3>Rental Listings</h3>
+        <div data-ng-controller="RequestReservation">
 
-    <div data-ng-controller="RequestReservation">
+            <!--<div class="hidden-xs" data-ng-hide="true">
+                <button type="button" class="" data-ng-click="mapClicked(1)" style="padding: 0px;border: 0px;margin: 0px;"><img
+                        src="images/map1.jpg" style="padding: 0px;border: 0px;margin: 0px;"></button>
+                <button type="button " class="" data-ng-click="mapClicked(2)" style="padding: 0px;border: 0px;margin: 0px;"><img
+                        src="images/map2.jpg" style="padding: 0px;border: 0px;margin: 0px;"></button>
+            </div>-->
 
-        <!--<div class="hidden-xs" data-ng-hide="true">
-            <button type="button" class="" data-ng-click="mapClicked(1)" style="padding: 0px;border: 0px;margin: 0px;"><img
-                    src="images/map1.jpg" style="padding: 0px;border: 0px;margin: 0px;"></button>
-            <button type="button " class="" data-ng-click="mapClicked(2)" style="padding: 0px;border: 0px;margin: 0px;"><img
-                    src="images/map2.jpg" style="padding: 0px;border: 0px;margin: 0px;"></button>
-        </div>-->
-
-        <div data-ng-show="displayApprovedRentals">
-            <h3>Approved Reservation Requests</h3>
-        </div>
-
-        <div class="panel panel-default" data-ng-show="displayApprovedRentals">
-            <div class="panel-heading clearfix">
-                <h3 class="panel-title">Select Approved Reservation</h3>
+            <div data-ng-show="displayApprovedRentals">
+                <h3>Approved Reservation Requests</h3>
             </div>
 
-            <div class="panel-body" style="padding: 0px!important;">
-                <table st-table="approvedRentalData" st-safe-src="approvedRentalCollection" class="table">
-                    <thead>
-                        <th style="border: 0px;"></th>
-                    </thead>
-
-                    <tbody>
-                        <tr data-ng-repeat="approvedRow in approvedRentalData" style="font-size: 15px;">
-                            <td>
-                                <button type="submit" class="btn btn-info"
-                                        data-ng-click="onSelectApprovedRental(approvedRow)">
-                                    Add to
-                                    Cart
-                                </button>
-                            </td>
-                            <td st-ratio="20" class="text-left clicky no-select control-label-center"
-                                data-ng-bind="::approvedRow.item_name">
-                            </td>
-                            <td st-ratio="20" class="text-left clicky no-select control-label-center"
-                                data-ng-bind="::approvedRow.facility_names">
-                            </td>
-                            <td st-ratio="20" class="text-left clicky no-select control-label-center"
-                                data-ng-bind="::approvedRow.starting">
-                            </td>
-                            <td st-ratio="20" class="text-left clicky no-select control-label-center"
-                                data-ng-bind="::approvedRow.ending">
-                            </td>
-                            <td st-ratio="20" class="text-left clicky no-select control-label-center"
-                                data-ng-bind="::approvedRow.fee_estimate">
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="6" class="text-center" style="padding-bottom: 0px; padding-top: 0px;">
-
-                            </td>
-                        </tr>
-                    </tfoot>
-
-                </table>
-
-            </div>
-        </div>
-
-        <div data-ng-hide="true">
-            <h3 style="">Reservation Request Form</h3>
-        </div>
-
-        <div data-ng-show="!userLoggedIn">
-            <div class="alert alert-danger" role="alert">
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                Login to access the reservation request feature.
-            </div>
-        </div>
-
-        <div data-ng-show="userLoggedIn">
-
-            <div class="bs-callout bs-callout-info" id="callout-type-b-i-elems">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <i class="text-danger fa fa-lg fa-cubes"></i> <b>-</b> Listings with this icon are bundle
-                        rentals. Bundle rentals have predefined facilities. When signing up for a bundle rental you
-                        choose an available start time and the facilities and there times are automatically setup for
-                        you.
-
-                        <p>Find the rental below that you are interested in reserving and click the link to continue.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-primary">
+            <div class="panel panel-default" data-ng-show="displayApprovedRentals">
                 <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Search Options</h3>
+                    <h3 class="panel-title">Select Approved Reservation</h3>
                 </div>
-                <div class="panel-body ">
+
+                <div class="panel-body" style="padding: 0px!important;">
+                    <table st-table="approvedRentalData" st-safe-src="approvedRentalCollection" class="table">
+                        <thead>
+                            <th style="border: 0px;"></th>
+                        </thead>
+
+                        <tbody>
+                            <tr data-ng-repeat="approvedRow in approvedRentalData" style="font-size: 15px;">
+                                <td>
+                                    <button type="submit" class="btn btn-info"
+                                            data-ng-click="onSelectApprovedRental(approvedRow)">
+                                        Add to
+                                        Cart
+                                    </button>
+                                </td>
+                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
+                                    data-ng-bind="::approvedRow.item_name">
+                                </td>
+                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
+                                    data-ng-bind="::approvedRow.facility_names">
+                                </td>
+                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
+                                    data-ng-bind="::approvedRow.starting">
+                                </td>
+                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
+                                    data-ng-bind="::approvedRow.ending">
+                                </td>
+                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
+                                    data-ng-bind="::approvedRow.fee_estimate">
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-center" style="padding-bottom: 0px; padding-top: 0px;">
+
+                                </td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+            </div>
+
+            <div data-ng-hide="true">
+                <h3 style="">Reservation Request Form</h3>
+            </div>
+
+            <div data-ng-show="!userLoggedIn">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    Login to access the reservation request feature.
+                </div>
+            </div>
+
+            <div data-ng-show="userLoggedIn">
+
+                <div class="bs-callout bs-callout-info" id="callout-type-b-i-elems">
                     <div class="row">
-                        <div class="col-sm-12">
-                    <div class="col-sm-4">
-                        <form class="form-inline">
-                            <label for="rg-from">Keyword:</label>
-                            <div class="form-group">
-                                <input type="text" id="keyword" data-ng-model="search.keyword" class="form-control" style="width: 250px;"
-                                       ng-model-options='{ debounce: 500 }' ng-change='getRentalData()'/>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-sm-8">
-                         <select data-ng-model="selectedLocation" class="form-control" style="width: 100%;max-width:225px;font-size: 16px;"
-                                data-ng-change="getRentalData()" data-ng-options="locationRow.location_id as locationRow.location_name for locationRow in locationData">
-                            <option value="">--Select Location--</option>
-                        </select>
-                    </div>
-                        </div>
-                </div>
-
-                    <div class="panel-body">
-                    <div class="col-xs-12">
-                        <ui-select multiple ng-model="selectedPurposeOfUse.selected" ng-disabled="disabled" style="width: 100%;" close-on-select="false" search-enabled="true"
-                                   on-select="numberSelected($select)" on-remove="getRentalData()" reset-search-input="true">
-                            <ui-select-match class="ui-select-match"  placeholder="Select Purpose of Use" style="font-size: 17px;color: #000!important;" >{{$item.purpose_name}}</ui-select-match>
-                            <ui-select-choices class="ui-select-choices" group-by="'category_name'" repeat="purpose in purposeOfUseData | propsFilter: {purpose_name: $select.search}" style="font-size: 17px;" >
-                                <div ng-bind-html="purpose.purpose_name | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="panel panel-primary" data-ng-repeat="rentalGroupRow in rentalDropDown | orderBy:'item_name'">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">{{rentalGroupRow.item_name}}</h3>
-                </div>
-                <div class="panel-body ">
-                    <div class="media">
-                        <!--<div class="media-left listing" data-ng-show="rentalGroupRow.item_name === 'Farm Tours'">
-                            <img class="media-object thumbnail"
-                                 data-ng-src="http://www.prairiefruits.com/images/gallery/w500/1435870739_fe1cbeacd2f3.jpg">
-                        </div>
-                        <div class="media-left listing"
-                             data-ng-show="rentalGroupRow.item_name === 'Northwest Arts Center Room Rental w/Kitchen'">
-                            <img class="media-object thumbnail"
-                                 data-ng-src="http://ballardseniorcenter.org/Portals/29/Images/Rentals/Kitchen_web2.jpg">
-                        </div>
-
-                        <div class="media-left listing"
-                             data-ng-show="rentalGroupRow.item_name === 'Northwest Arts Center Room Rental'">
-                            <img class="media-object thumbnail"
-                                 data-ng-src="http://www.descmiworks.com/wp-content/uploads/2014/07/NWAC-outside-2-web1.jpg">
-                        </div>
-
-                        <div class="media-left listing" data-ng-show="rentalGroupRow.item_name === 'Birthday Parties'">
-                            <img class="media-object thumbnail"
-                                 data-ng-src="http://www.afromum.com/wp-content/uploads/2015/05/o-CHILD-BIRTHDAY-PARTY-facebook.jpg">
-                        </div>-->
-
-                        <div class="media-body">
-                            <div class="hidden-xs hidden-sm">{{rentalGroupRow.rental_code_description}}</div>
-                            <div class="visible-xs visible-sm">{{rentalGroupRow.rental_code_desc_short}}</div>
-                        </div>
-                    </div>
-
-                    <div class="panel-body">
                         <div class="col-xs-12">
-                            <h4 class="header-no-margin visible-xs visible-sm">Rental Types/Facilities For Rent</h4>
+                            <i class="text-danger fa fa-lg fa-cubes"></i> <b>-</b> Listings with this icon are bundle
+                            rentals. Bundle rentals have predefined facilities. When signing up for a bundle rental you
+                            choose an available start time and the facilities and there times are automatically setup for
+                            you.
+
+                            <p>Find the rental below that you are interested in reserving and click the link to continue.</p>
                         </div>
-
-                        <div class="col-xs-5">
-                            <h4 class="header-no-margin hidden-xs hidden-sm">Rental Types/Facilities For Rent</h4>
-                        </div>
-
-                        <div class="col-xs-5">
-                            <h4 class="header-no-margin hidden-xs hidden-sm">Rental Availability</h4>
-                        </div>
-
-                        <div class="col-xs-2">
-                            <h4 class="header-no-margin hidden-xs hidden-sm">Price</h4>
-                        </div>
-                    </div>
-
-                    <div class="panel-body" style="padding-bottom: 0px!important;">
-
-                        <ul class="list-group">
-                            <li class="list-group-item" data-ng-repeat="rentalRow in rentalGroupRow.rental_data">
-                                <div class="row">
-                                    <div class="col-xs-12 visible-xs visible-sm"><a href="" data-ng-click="onRentalClick(rentalRow)">
-                                        <b>{{rentalGroupRow.is_group===1?'('+rentalRow.rental_code+')':'('+rentalGroupRow.item_code+')'}}
-                                            {{rentalGroupRow.is_group===1?rentalRow.rental_name:rentalGroupRow.item_name}}</b></a>
-                                    </div>
-
-                                    <div class="col-xs-5 hidden-xs hidden-sm"><a href="" data-ng-click="onRentalClick(rentalRow)" class="text-underline">
-                                        <b>{{rentalGroupRow.is_group===1?'('+rentalRow.rental_code+')':'('+rentalGroupRow.item_code+')'}}
-                                            {{rentalGroupRow.is_group===1?rentalRow.rental_name:rentalGroupRow.item_name}}</b></a>
-                                    </div>
-
-
-                                    <div class="col-xs-7 hidden-xs hidden-sm">{{rentalRow.weekday_display}}</div>
-
-                                </div>
-
-                                <div class="row" data-ng-if="!rentalRow.force_facility_order" data-ng-repeat="facName in rentalRow.facility_names"  style="padding-left:20px;">
-
-                                    <div class="col-xs-10 word-wrap: break-word">
-                                        {{facName}}<br>
-                                    </div>
-
-                                    <div class="col-xs-2 hidden-xs hidden-sm">${{rentalRow.facility_fees[$index].per_hour_amount}}/{{rentalRow.booking_type}}</div>
-                                </div>
-
-                                <div class="row" data-ng-if="rentalRow.force_facility_order" style="padding-left:20px;">
-                                    <div class="col-xs-10 word-wrap: break-word" >
-                                        <i class="text-danger fa fa-lg fa-cubes"
-                                           data-ng-show="rentalRow.force_facility_order"></i>
-                                        {{rentalRow.force_facility_order?'('+rentalRow.facility_name_string+')':rentalRow.facility_name_string}}
-                                    </div>
-
-                                    <div class="col-xs-2 hidden-xs hidden-sm">${{rentalRow.per_hour_amount}}/{{rentalRow.booking_type}}</div>
-                                </div>
-                            </li>
-
-                        </ul>
-
                     </div>
                 </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title pull-left">Search Options</h3>
+                    </div>
+                    <div class="panel-body ">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    <form class="form-inline">
+                                        <label for="rg-from">Keyword:</label>
+                                        <div class="form-group">
+                                            <input type="text" id="keyword" data-ng-model="search.keyword" class="form-control" style="width: 250px;"
+                                                   ng-model-options='{ debounce: 500 }' ng-change='getRentalData()'/>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select data-ng-model="selectedLocation" class="form-control" style="width: 100%;max-width:225px;font-size: 16px;"
+                                            data-ng-change="getRentalData()" data-ng-options="locationRow.location_id as locationRow.location_name for locationRow in locationData">
+                                        <option value="">--Select Location--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="col-xs-12">
+                                <ui-select multiple ng-model="selectedPurposeOfUse.selected" ng-disabled="disabled" style="width: 100%;" close-on-select="true" search-enabled="true"
+                                           on-select="numberSelected($select)" on-remove="getRentalData()" reset-search-input="true">
+                                    <ui-select-match class="ui-select-match"  placeholder="Select Purpose of Use" style="font-size: 17px;color: #000!important;" >{{$item.purpose_name}}</ui-select-match>
+                                    <ui-select-choices class="ui-select-choices" group-by="'category_name'" repeat="purpose in purposeOfUseData | propsFilter: {purpose_name: $select.search}" style="font-size: 17px;" >
+                                        <div ng-bind-html="purpose.purpose_name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary" data-ng-repeat="rentalGroupRow in rentalDropDown | orderBy:'item_name'">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title pull-left">{{rentalGroupRow.item_name}}</h3>
+                    </div>
+                    <div class="panel-body ">
+                        <div class="media">
+                            <!--<div class="media-left listing" data-ng-show="rentalGroupRow.item_name === 'Farm Tours'">
+                                <img class="media-object thumbnail"
+                                     data-ng-src="http://www.prairiefruits.com/images/gallery/w500/1435870739_fe1cbeacd2f3.jpg">
+                            </div>
+                            <div class="media-left listing"
+                                 data-ng-show="rentalGroupRow.item_name === 'Northwest Arts Center Room Rental w/Kitchen'">
+                                <img class="media-object thumbnail"
+                                     data-ng-src="http://ballardseniorcenter.org/Portals/29/Images/Rentals/Kitchen_web2.jpg">
+                            </div>
+
+                            <div class="media-left listing"
+                                 data-ng-show="rentalGroupRow.item_name === 'Northwest Arts Center Room Rental'">
+                                <img class="media-object thumbnail"
+                                     data-ng-src="http://www.descmiworks.com/wp-content/uploads/2014/07/NWAC-outside-2-web1.jpg">
+                            </div>
+
+                            <div class="media-left listing" data-ng-show="rentalGroupRow.item_name === 'Birthday Parties'">
+                                <img class="media-object thumbnail"
+                                     data-ng-src="http://www.afromum.com/wp-content/uploads/2015/05/o-CHILD-BIRTHDAY-PARTY-facebook.jpg">
+                            </div>-->
+
+                            <div class="media-body">
+                                <div class="hidden-xs hidden-sm">{{rentalGroupRow.rental_code_description}}</div>
+                                <div class="visible-xs visible-sm">{{rentalGroupRow.rental_code_desc_short}}</div>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="col-xs-12">
+                                <h4 class="header-no-margin visible-xs visible-sm">Rental Types/Facilities For Rent</h4>
+                            </div>
+
+                            <div class="col-xs-5">
+                                <h4 class="header-no-margin hidden-xs hidden-sm">Rental Types/Facilities For Rent</h4>
+                            </div>
+
+                            <div class="col-xs-5">
+                                <h4 class="header-no-margin hidden-xs hidden-sm">Rental Availability</h4>
+                            </div>
+
+                            <div class="col-xs-2">
+                                <h4 class="header-no-margin hidden-xs hidden-sm">Price</h4>
+                            </div>
+                        </div>
+
+                        <div class="panel-body" style="padding-bottom: 0px!important;">
+
+                            <ul class="list-group">
+                                <li class="list-group-item" data-ng-repeat="rentalRow in rentalGroupRow.rental_data">
+                                    <div class="row">
+                                        <div class="col-xs-12 visible-xs visible-sm"><a href="" data-ng-click="onRentalClick(rentalRow)">
+                                            <b>{{rentalGroupRow.is_group===1?'('+rentalRow.rental_code+')':'('+rentalGroupRow.item_code+')'}}
+                                                {{rentalGroupRow.is_group===1?rentalRow.rental_name:rentalGroupRow.item_name}}</b></a>
+                                        </div>
+
+                                        <div class="col-xs-5 hidden-xs hidden-sm"><a href="" data-ng-click="onRentalClick(rentalRow)" class="text-underline">
+                                            <b>{{rentalGroupRow.is_group===1?'('+rentalRow.rental_code+')':'('+rentalGroupRow.item_code+')'}}
+                                                {{rentalGroupRow.is_group===1?rentalRow.rental_name:rentalGroupRow.item_name}}</b></a>
+                                        </div>
+
+
+                                        <div class="col-xs-7 hidden-xs hidden-sm">{{rentalRow.weekday_display}}</div>
+
+                                    </div>
+
+                                    <div class="row" data-ng-if="!rentalRow.force_facility_order" data-ng-repeat="facName in rentalRow.facility_names"  style="padding-left:20px;">
+
+                                        <div class="col-xs-10 word-wrap: break-word">
+                                            {{facName}}<br>
+                                        </div>
+
+                                        <div class="col-xs-2 hidden-xs hidden-sm">${{rentalRow.facility_fees[$index].per_hour_amount}}/{{rentalRow.booking_type}}</div>
+                                    </div>
+
+                                    <div class="row" data-ng-if="rentalRow.force_facility_order" style="padding-left:20px;">
+                                        <div class="col-xs-10 word-wrap: break-word" >
+                                            <i class="text-danger fa fa-lg fa-cubes"
+                                               data-ng-show="rentalRow.force_facility_order"></i>
+                                            {{rentalRow.force_facility_order?'('+rentalRow.facility_name_string+')':rentalRow.facility_name_string}}
+                                        </div>
+
+                                        <div class="col-xs-2 hidden-xs hidden-sm">${{rentalRow.per_hour_amount}}/{{rentalRow.booking_type}}</div>
+                                    </div>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
-
     </div>
 </div>
