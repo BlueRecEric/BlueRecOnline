@@ -23,7 +23,7 @@
             </thead>
 
             <tbody data-ng-repeat="payment in item.payments">
-                <tr class="{{(payment.payment_due <= 0)?'success':(payment.due_now == '1')?'danger':''}}">
+                <tr  class="white-font {{(payment.payment_due <= 0)?'green-bg':(payment.due_now == '1')?'red-bg':''}}">
                     <td class="col-md-1">{{payment.payment_order}}</td>
                     <td class="col-md-1">{{payment.due_date}}</td>
                     <td class="col-md-1">{{payment.payment_status}}</td>
@@ -32,7 +32,7 @@
                     <td class="col-md-1">{{payment.payment_due | currency}}</td>
                     <td class="col-md-1">
                         <button data-ng-show="payment.payment_due > 0 && !payment.inCart" class="btn btn-success btn-sm" data-ng-click="invoices.addInvoiceToCart($parent.$index, $index)"><i class="glyphicon glyphicon-shopping-cart"></i> Add to cart</button>
-                        <button data-ng-show="payment.payment_due > 0 && payment.inCart" class="btn btn-disabled btn-sm"><i class="glyphicon glyphicon-shopping-cart"></i> In cart</button>
+                        <button data-ng-show="payment.payment_due > 0 && payment.inCart" style="color: #000000!important;" class="btn btn-disabled btn-sm"><i class="glyphicon glyphicon-shopping-cart"></i> In cart</button>
                     </td>
                 </tr>
             </tbody>

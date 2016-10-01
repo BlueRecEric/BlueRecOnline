@@ -583,7 +583,7 @@ aside .aside-dialog .aside-footer:before,
     /*width: 90%;*/
 }
 
-.checkbox-weekday-spacing {
+.checkbox-spacing {
     width: 95px!important;
 }
 
@@ -593,10 +593,9 @@ aside .aside-dialog .aside-footer:before,
     width: 70px!important;
 }
 
-.label-weekday-spacing {
+.label-spacing {
     padding-left: 10px;
     padding-right: 10px;
-    width: 70px!important;;
     font-weight: normal!important;
 }
 
@@ -657,7 +656,7 @@ input::-moz-focus-inner {
 /* Or more specifically*/
 input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     outline: 0!important;
-    background-color: #fff; !important;
+    background-color: #fff !important;
 }
 
 .navbar-collapse.collapsing {
@@ -967,6 +966,10 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     .colShowMobile{
         visibility: visible;
     }
+
+    .colMobileTextCenter{
+        text-align:center;
+    }
 }
 
 @media  only screen and  (min-width:641px) {
@@ -977,6 +980,10 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     .colShowMobile{
         display: none;
         visibility: hidden;
+    }
+
+    .colMobileTextCenter{
+        text-align:left;
     }
 }
 
@@ -1018,32 +1025,59 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     border-top: 0px solid rgb(221, 221, 221) !important;
 }
 
-td .rentalSearchTimeCol {
-     padding-left:20px !important;
-     border-bottom: none !important;
-     border-top: none !important;
+tr.rentalSearchTimeCol td {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
  }
 
-td .rentalSearchTimePadFull {
+tr.rentalSearchTimeColNB td {
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+tr.rentalSearchTimePadFull td {
     padding-top: 4px !important;
     padding-bottom: 4px !important;
 }
 
-td .rentalSearchTimePadTop {
+tr.rentalSearchTimePadTop td {
     padding-top: 4px !important;
     padding-bottom: 2px !important;
 }
 
-td .rentalSearchTimePadMid {
+tr.rentalSearchTimePadMid  td {
     padding-top: 2px !important;
     padding-bottom: 2px !important;
 }
 
-td .rentalSearchTimePadBot {
+tr.rentalSearchTimePadBot td {
     padding-top: 2px !important;
     padding-bottom: 4px !important;
 }
 
 .white-font {
     color: #ffffff !important;
+}
+
+#toast-container > div {
+    opacity:1;
+}
+
+.red-bg {
+    background-color: #d9534f !important;
+}
+
+.green-bg {
+    background-color: #5cb85c !important;
+}
+
+
+#toast-container > .toast-plus {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAeFBMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////GqOSsAAAAJ3RSTlMAAQIDBAUGCxUtL0JHTk9QUlVWe3yPkqCiq62vtbfAxc/V4Obv9fmUvQF3AAAAqUlEQVQ4y83R2Q6CMBQE0MFyBVe0bqCWRcH5/z/0AYzVQowYjfPUdE6T9hb4YeZJMqtX/vq48p1+QZIRAGBLcuOAPT2PCQCgypBVT7WSlABTERGhgaEou49IEmATA0NyaYGyDZQWIEkGwQ3kw7w+8QicvAWMOzjTE4wmL8B9uxdQIilFZNAFLs37Dl1gqvWJWuvx9y4JYHf+dJJ9QdH224UFwtg4iUP8S66jZyQb+4kdrAAAAABJRU5ErkJggg==") !important;
+    background-color: #51a351;
+}
+
+#toast-container > .toast-remove {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAvVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////+Ke75sAAAAPnRSTlMAAQIDBAUGBwgJCgsMDg8QEhQVGRwhIyUqND5OT1BSVVxee3yPkqKrrbW3ub7Axc7P1dfZ3ujr7e/x9fn7/WkSMyMAAADJSURBVDjLzdHXDoIwFAbgg1D3xL23aJHlRNTz/o9lAU3QWhIvNP4XzUnP15EW4IfpaVo3rJTpaqJw/QGy9INyzqoZB5YoSagFpWeC6b20ZWIgABrED1KgSORov+/vz8A9PkAcRoD7DrgREEzncg9gJ+1wxTPg8hGg/MPRr4CsWWZjU1dEoHh0K9C6bojwiNL+NEYrFXOH/AEtEnfJNqJXiwEdXFd357oQNFCXIbO9FERAGiXYmB588SXFwHn3204EqAvKZaHCv+QG1vY5MqvAlMYAAAAASUVORK5CYII=") !important;
+    background-color: #bd362f;
 }
