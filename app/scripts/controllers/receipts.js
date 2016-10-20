@@ -13,13 +13,28 @@ angular.module('bluereconlineApp')
         $scope.receiptData.loadReceipt();
 
 
-        $scope.showItemData = function(itemType, columnType)
+        $scope.showItemData = function(itemType, columnType, columnData)
         {
             var bShow = false;
 
             switch(itemType) {
                 case 'PROGRAM':
                     bShow = true;
+                    break;
+                case 'PAYMENT PLAN':
+                    if(
+                        columnType === 'item_name' ||
+                        columnType === 'itemDates' ||
+                        columnType === 'personName' ||
+                        columnType === 'originalItem' ||
+                        columnType === 'extraDataTwo'
+                    )
+
+                    if(columnData.length > 0) {
+                        {
+                            bShow = true;
+                        }
+                    }
                     break;
                 case 'RENTAL CODE':
                     if(columnType === 'item_name' || columnType === 'itemDates')
