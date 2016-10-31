@@ -9,40 +9,47 @@
  */
 angular.module('bluereconlineApp')
     .controller('ReservationAddons', ['$scope', '$rootScope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout',
-        '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'reservationService', 'reservationTimeService',
+        '$filter', '$anchorScroll', 'moment', 'ActiveUser', 'ReservationFactory',
         function ($scope, $rootScope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment,
-                  ActiveUser, reservationService, reservationTimeService) {
+                  ActiveUser, ReservationFactory) {
             $scope.submittingData = false;
 
             $scope.contactCheckAlert = false;
 
-            $scope.hideBasicInfo = true;
-
+            $scope.feeAmount = 0.00;
             $scope.depositAmount = 0.00;
 
-            $scope.feeAmount = 0.00;
+            $scope.rentalItemID = 0;
 
-            $scope.facilityData = reservationService.get();
-            $scope.selectedTimeData = reservationTimeService.get();
+            $scope.agreementSigned = [];
+            $scope.agreementSigned.checked = false;
 
-            console.log('SELECT TIME - FACILITYDATA');
-            console.log($scope.facilityData);
+            $scope.rentalData = ReservationFactory.getReservationData();
+            $scope.selectedTimeData = ReservationFactory.getReservationTimes();
 
-            console.log('SELECT TIME - selectedTimeData');
-            console.log($scope.selectedTimeData);
+            $scope.reservationDataSet = false;
 
-            $scope.feeAmount = $scope.selectedTimeData.fee_amount;
+            if ($scope.rentalData == undefined || $scope.selectedTimeData == undefined) {
+
+                if ($scope.rentalData == undefined)
+                {
+                    $location.path('/' + $routeParams.orgurl + '/reservations');
+                }
+                else
+                {
+                    $location.path('/' +  $routeParams.orgurl + '/reservationtimes/' + $scope.rentalData.rental_code_item_id);
+                }
+            }
+            else
+            {
+                $scope.rentalItemID = $scope.rentalData.rental_code_item_id;
+
+                $scope.reservationDataSet = true;
+            }
 
             $scope.packageFeeAmount = 0.0;
 
-            $scope.rentalCodeSelected = $scope.facilityData.rental_code_item_id;
-
-            //console.log('$scope.rentalCodeSelected:  '+$scope.rentalCodeSelected);
-
-            $scope.startTime = new Date($scope.rentalCodeSelected.start_time_check_24);
-            $scope.endTime = new Date($scope.facilityData.end_time_check_24);
-
-            //console.log('  $scope.startTime: ' +   $scope.startTime);
+            //console.log('$scope.rentalItemID:  '+$scope.rentalItemID);
 
             $scope.rentalPackages = [];
             $scope.rentalCustomFields = [];
@@ -50,10 +57,24 @@ angular.module('bluereconlineApp')
             $scope.displayPackages = false;
             $scope.displayCustomFields = false;
 
+            $scope.calRentalTimeFeeAmt = function()
+            {
+                var amt = 0.0;
+
+                for (var t=0;t < $scope.selectedTimeData.length; t++) {
+                    /*for (var f = 0; f < $scope.selectedTimeData[t].fee_data.length; f++) {
+                     amt +=  $scope.selectedTimeData[t].fee_data[f].fee_amount;
+                     }*/
+                    amt += $scope.selectedTimeData[t].fee_amount;
+                }
+
+                $scope.feeAmount = amt;
+            };
+
             $scope.setPackages = function() {
                 var req = {
                     method: 'POST',
-                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $scope.rentalCodeSelected + '/packages',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $scope.rentalItemID + '/packages',
                     headers: {
                         'Content-Type': undefined
                     },
@@ -62,7 +83,7 @@ angular.module('bluereconlineApp')
 
                 $http(req)
                     .success(function (data) {
-                        console.log(data);
+                        //console.log(data);
 
                         $scope.rentalPackages = data.packageForm;
 
@@ -75,7 +96,7 @@ angular.module('bluereconlineApp')
             $scope.setCustomFields = function() {
                 var req = {
                     method: 'POST',
-                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $scope.rentalCodeSelected + '/customfields',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $scope.rentalItemID + '/customfields',
                     headers: {
                         'Content-Type': undefined
                     },
@@ -84,7 +105,7 @@ angular.module('bluereconlineApp')
 
                 $http(req)
                     .success(function (data) {
-                        console.table(data);
+                        //console.table(data);
 
                         $scope.rentalCustomFields = data.customForm;
 
@@ -92,11 +113,6 @@ angular.module('bluereconlineApp')
                             $scope.displayCustomFields = true;
                         }
                     });
-            };
-
-            Date.prototype.AddHours = function(noOfHours) {
-                this.setTime(this.getTime() + (noOfHours * (1000 * 60* 60)));
-                return this;
             };
 
             $scope.formatMySQLDate = function (formatDate) {
@@ -114,7 +130,7 @@ angular.module('bluereconlineApp')
 
             $scope.onPackageChangeEvent = function() {
                 var newPackageFee = 0.0;
-                console.log($scope.rentalPackages);
+                //console.log($scope.rentalPackages);
                 for (var i = 0; i < $scope.rentalPackages.length; i++) {
                     if($scope.rentalPackages[i].selected)
                     {
@@ -129,7 +145,7 @@ angular.module('bluereconlineApp')
                 }
                 $scope.packageFeeAmount = newPackageFee;
             };
-            
+
             $scope.onSubmitAddRentalToCart = function() {
                 $scope.addRentalRequest();
             };
@@ -139,74 +155,89 @@ angular.module('bluereconlineApp')
             };
 
             $scope.addRentalRequest = function() {
-                var $autoApproved = ($scope.facilityData.auto_approve==='1');
+                var $autoApproved = ($scope.rentalData.auto_approve === '1');
 
                 if ($scope.agreementSigned.checked) {
                     var $userID = ActiveUser.userData.user_id;
 
-                    if ($scope.facilityData.rental_code_item_id !== '' && $userID) {
-                        $scope.submittingData = true;
-
-                         //var $facilityString = $scope.getFacilityString();
-
-                        // //console.log($scope.facilityData.rental_code_item_id);
+                    if ($scope.rentalData.rental_code_item_id !== '' && $userID)
+                    {
+                        //$scope.submittingData = true;
 
                         var submitData = {};
-                        submitData.request_id = 1;
+                        submitData.request_id = 0;
                         submitData.householdID = ActiveUser.userData.household_id;
-                        submitData.itemID = $scope.facilityData.rental_code_item_id;
+                        submitData.itemID = $scope.rentalData.rental_code_item_id;
                         submitData.userID = ActiveUser.userData.user_id;
                         submitData.addedByUserID = ActiveUser.userData.user_id;
                         submitData.usePaymentPlan = '0';
                         submitData.itemType = 'rental code';
                         submitData.familyMembership = '0';
-                        submitData.totalCharge = $scope.selectedTimeData.fee_amount;
+
+                        //submitData.totalCharge = $scope.selectedTimeData.fee_amount;
+                        submitData.totalCharge = $scope.feeAmount;
+
                         submitData.waivers = [];
                         submitData.members = [];
 
-                        submitData.fees = [];
-                        submitData.fees[0] = {};
-                        submitData.fees[0].itemFeeID = $scope.facilityData.item_fee_id;
-                        //submitData.fees[0].feeAmount =  $scope.facilityData.fee_amount;
-                        submitData.fees[0].feeAmount = $scope.feeAmount;
+                        var t, f;
 
-                        submitData.start_date = $scope.formatMySQLDate(new Date($scope.selectedTimeData.check_date + 'T' + $scope.selectedTimeData.start_check_time_24));
-                        submitData.end_date = $scope.formatMySQLDate(new Date($scope.selectedTimeData.check_date + 'T' + $scope.selectedTimeData.end_check_time_24));
+                        /*var feeData = [];
 
-                        //var tempTime = new Date('1970-01-01T'+$scope.selectedTimeData.start_check_time_24);
+                        for (t=0;t < $scope.selectedTimeData.length; t++) {
+                            for (f = 0; f < $scope.selectedTimeData[t].fee_data.length; f++) {
 
-                        ////console.log(tempDate);
-                        ////console.log(tempTime);
+                                var feeFound = false;
+                                for (var fd=0;fd < feeData.length; fd++)
+                                {
+                                    if(feeData[fd].itemFeeID === $scope.selectedTimeData[t].fee_data[f].item_fee_id)
+                                    {
+                                        feeData[fd].feeAmount = feeData[fd].feeAmount + ($scope.selectedTimeData[t].fee_data[f].per_hour_amount * ($scope.selectedTimeData[t].dur / 60));
+                                        feeFound = true;
+                                        break;
+                                    }
+                                }
 
-                        // var startDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDay(), tempTime.getHours(), tempTime.getMinutes(), 40);
-                        var startDate = new Date($scope.selectedTimeData.check_date + 'T' + $scope.selectedTimeData.start_check_time_24);
+                                if(!feeFound)
+                                {
+                                    feeData.push({itemFeeID:  $scope.selectedTimeData[t].fee_data[f].item_fee_id,
+                                        feeAmount: $scope.selectedTimeData[t].fee_data[f].per_hour_amount * ($scope.selectedTimeData[t].dur / 60)
+                                    });
+                                }
+                            }
+                        }
+
+                        submitData.fees = feeData;*/
+
+                        /*submitData.fees[0] = {};
+                         submitData.fees[0].itemFeeID = $scope.rentalData.item_fee_id;
+                         //submitData.fees[0].feeAmount =  $scope.rentalData.fee_amount;
+                         submitData.fees[0].feeAmount = $scope.feeAmount;*/
 
                         submitData.events = [];
 
-                        var eventData = {};
-
                         var i;
-                        for (i = 0; i < $scope.selectedTimeData.selectedFacilityIds.length; i++) {
 
-                            //var endDate = new Date(startDate);
+                        for (i = 0; i < $scope.selectedTimeData.length; i++) {
+                            //var startDate = new Date($scope.selectedTimeData[i].d + 'T' + $scope.selectedTimeData[i].st24);
+                            //var endDate = new Date($scope.selectedTimeData[i].d + 'T' + $scope.selectedTimeData[i].et24);
 
-                            var endDate = new Date($scope.selectedTimeData.check_date + 'T' + $scope.selectedTimeData.end_check_time_24);
+                            //console.log(startDate);
+                            //console.log(endDate);
 
-                            //endDate.AddHours($scope.facilityData.min_hours[i]);
+                            var feeTokenData = [];
 
-                            ////console.log(startDate);
-                            ////console.log(endDate);
+                            for (f = 0; f < $scope.selectedTimeData[i].fee_data.length; f++) {
+                                feeTokenData.push({token:  $scope.selectedTimeData[i].fee_data[f].token});
+                            }
 
-                            eventData = {};
-                            eventData = {
-                                'facility_item_id': $scope.selectedTimeData.selectedFacilityIds[i],
-                                'event_start': $scope.formatMySQLDate(startDate),
-                                'event_end': $scope.formatMySQLDate(endDate)
-                            };
+                            //'fee_data': $scope.selectedTimeData[i].fee_data,
+                            /*'facility_item_id': $scope.selectedTimeData[i].fid,
+                            'event_start': $scope.formatMySQLDate(startDate),
+                            'event_end': $scope.formatMySQLDate(endDate),*/
 
-                            submitData.events.push(eventData);
-
-                            //startDate.AddHours($scope.facilityData.min_hours[i]);
+                            submitData.events.push({'token': $scope.selectedTimeData[i].token,
+                                'fee_token_data': feeTokenData});
                         }
 
                         submitData.addons = [];
@@ -234,14 +265,36 @@ angular.module('bluereconlineApp')
                                 },
                                 data: submitData
                             };
-                            $http(req)
-                                .success(function () {
-                                    $rootScope.$emit('updateCartCount', {});
+                            $http(req).
+                                then(function(response) {
 
-                                    $location.path('/' + $routeParams.orgurl + '/addedtocart');
-                                    // $location.path('/' +  $routeParams.orgurl + '/reservations');
+                                    console.log('success', response);
 
-                                    //$scope.submittingData = false;
+                                    if(response.status === 200 && response.data.result !== 'not_auto_approve')
+                                    {
+                                        console.log('added');
+                                        /*ReservationFactory.clearReservationData();
+                                        ReservationFactory.clearReservationTimes();
+
+                                        $rootScope.$emit('updateCartCount', {});*/
+
+                                        //$location.path('/' + $routeParams.orgurl + '/addedtocart');
+
+                                        //$scope.submittingData = false;
+                                    }
+                                    else
+                                    {
+                                        ReservationFactory.clearReservationData();
+                                        ReservationFactory.clearReservationTimes();
+
+                                        $location.path('/' + $routeParams.orgurl + '/reservations');
+                                    }
+                                }, function(response) {
+                                    console.log('error', response);
+                                    /*ReservationFactory.clearReservationData();
+                                    ReservationFactory.clearReservationTimes();
+
+                                    $location.path('/' + $routeParams.orgurl + '/reservations');*/
                                 });
                         }
                         else
@@ -256,10 +309,10 @@ angular.module('bluereconlineApp')
                             };
                             $http(req)
                                 .success(function (data) {
-                                    //console.log(data);
+                                    ReservationFactory.clearReservationData();
+                                    ReservationFactory.clearReservationTimes();
 
                                     $location.path('/' + $routeParams.orgurl + '/rentalrequestsubmitted');
-                                    //$location.path('/' +  $routeParams.orgurl + '/reservations');
 
                                     //$scope.submittingData = false;
                                 });
@@ -272,9 +325,25 @@ angular.module('bluereconlineApp')
                 }
             };
 
-            $scope.setPackages();
-            $scope.setCustomFields();
+            $scope.onAgreementChecked = function()
+            {
+                if ($scope.agreementSigned.checked) {
+                    $scope.contactCheckAlert = false;
+                }
+            };
 
+            if($scope.reservationDataSet) {
+                console.log('RENTAL DATA:  ');
+                console.log($scope.rentalData);
+
+                console.log('SELECTED TIME DATA:  ');
+                console.log($scope.selectedTimeData);
+
+                $scope.calRentalTimeFeeAmt();
+
+                $scope.setPackages();
+                $scope.setCustomFields();
+            }
         }])
 
     .directive('numbersOnly', function(){
@@ -282,9 +351,6 @@ angular.module('bluereconlineApp')
             require: 'ngModel',
             link: function(scope, element, attrs, modelCtrl) {
                 modelCtrl.$parsers.push(function (inputValue) {
-                    // this next if is necessary for when using ng-required on your input.
-                    // In such cases, when a letter is typed first, this parser will be called
-                    // again, and the 2nd time, the value will be undefined
                     if (inputValue == undefined) return '';
 
                     var transformedInput = inputValue.replace(/[^0-9]/g, '');

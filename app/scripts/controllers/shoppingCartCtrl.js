@@ -159,6 +159,7 @@ angular.module('bluereconlineApp')
         {
             if(!(angular.isDefined($scope.cardForm.customerName) && $scope.cardForm.customerName.length > 0))
             {
+
                 formErrors.push('Please enter the name on the card.');
             }
 
@@ -209,8 +210,6 @@ angular.module('bluereconlineApp')
             if ($scope.cart.data.length > 0) {
                 customerData.cartItems = $scope.cart.data;
 
-
-
                 //console.log('shopping cart post:');
                 //console.log(customerData);
 
@@ -229,7 +228,7 @@ angular.module('bluereconlineApp')
                     .then(function success(response) {
                         //console.log('pay response:');
                         $scope.paymentResponse = response.data;
-                        //console.log($scope.paymentResponse);
+                        console.log($scope.paymentResponse);
 
                         paymentModal.show = false;
 

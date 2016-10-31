@@ -57,7 +57,7 @@ angular.module('bluereconlineApp')
                 $http(req)
                     .success(function (data) {
                         $scope.locationData = data;
-                        console.log($scope.locationData);
+                        //console.log($scope.locationData);
                     });
             };
 
@@ -76,16 +76,16 @@ angular.module('bluereconlineApp')
                     .success(function (data) {
                         $scope.purposeOfUseData = data;
 
-                        console.log('Purpose Of Use Date:  ');
-                        console.log($scope.purposeOfUseData);
+                        //console.log('Purpose Of Use Date:  ');
+                        //console.log($scope.purposeOfUseData);
                     });
             };
 
             $scope.$getPurposeOfUseData();
 
             $scope.onRentalClick = function(rentalRow) {
-                console.log('rentalRow');
-                console.log(rentalRow);
+                //console.log('rentalRow');
+                //console.log(rentalRow);
 
                 $location.path('/' +  $routeParams.orgurl + '/reservationtimes/' + rentalRow.rental_code_item_id);
 
@@ -119,10 +119,10 @@ angular.module('bluereconlineApp')
                            response.data[i].rental_code_desc_short = response.data[i].rental_code_description.substr(0, 125)+'...';
                        }
 
-                       $scope.rentalDropDown = response.data;
+                       $scope.rentalGroupData = response.data;
 
-                       console.log('rental data:  ');
-                       console.log($scope.rentalDropDown);
+                       //console.log('rental data:  ');
+                       //console.log($scope.rentalGroupData);
                    });
            };
 
@@ -145,7 +145,7 @@ angular.module('bluereconlineApp')
 
                 $http(req)
                     .success(function (data) {
-                        // //console.table(data);
+                       //console.table(data);
 
                         $scope.approvedRentalCollection = data;
 
@@ -200,7 +200,7 @@ angular.module('bluereconlineApp')
 
                         $scope.getUserApprovedRequests();
 
-                        // //console.table(data);
+                        //console.table(data);
 
                         /*$scope.approvedRentalCollection = data;
 

@@ -190,7 +190,6 @@ angular
                 redirectTo: '/:orgurl/login'
             });
 
-
         $locationProvider.html5Mode();
 
         $httpProvider.interceptors.push('AuthInterceptor');
@@ -206,7 +205,7 @@ angular
             $anchorScroll('pageTop');
         });
 
-        ActiveUser.getFromLocal(); 
+        ActiveUser.getFromLocal();
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
             if (typeof(current) !== 'undefined'){
@@ -332,7 +331,7 @@ angular
 
         var popOn = function(style, title, text)
         {
-            toaster.pop(style, title, text);
+            toaster.pop({type: style, body: text, title:  title, toasterId: 1});
         };
 
         bread.popOn = popOn;
@@ -825,7 +824,7 @@ angular
         return cfLoad;
     }])
 
-    .factory('reservationService', function() {
+    /*.factory('reservationService', function() {
         var reservationData = [];
 
         function set(data) {
@@ -859,7 +858,7 @@ angular
             set: set,
             get: get
         };
-    })
+    })*/
 
   .factory('ProInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'uiGmapGoogleMapApi', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,uiGmapGoogleMapApi,ActiveUser) {
     var proload = this;

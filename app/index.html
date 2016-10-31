@@ -1,6 +1,6 @@
 <!doctype html>
-<html class="no-js" ng-app="bluereconlineApp">
-    <head data-ng-controller="appController">
+<html class="no-js" ng-app="bluereconlineApp"  data-ng-controller="appController">
+    <head >
         <meta charset="utf-8">
         <title></title>
         <meta name="description" content="">
@@ -21,7 +21,7 @@
         <style type="text/css">
             body {visibility:hidden;}
         </style>
-        <link data-ng-if="CssLink" data-ng-href="https://alphadev.bluerec.com/php/API/ORG/{{ CssLink }}/css?css" rel="stylesheet">
+        <link  data-ng-href="https://alphadev.bluerec.com/php/API/ORG/{{CssLink}}/css?css" rel="stylesheet" />
 
         <script src="https://platform.twitter.com/widgets.js"></script>
         <!-- build:css(.tmp) styles/main.css -->
@@ -30,12 +30,10 @@
         <link rel="stylesheet" href="styles/main.css">
         <link rel="stylesheet" href="styles/calendar.css">
         <link rel="stylesheet" href="styles/bootstrap-social.css">
-
         <!-- endbuild -->
 
         <script src="https://use.fontawesome.com/f3b2244b08.js"></script>
 
-        <link rel='stylesheet' href="bower_components/angular-socialshare/angular-socialshare.min.css">
         <script src="https://www.youtube.com/iframe_api"></script>
         <link href='//fonts.googleapis.com/css?family=Roboto|Roboto:b' rel='stylesheet' type='text/css'>
         <!--<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>-->
@@ -58,7 +56,7 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <header class="noprint" data-ng-controller="appController">
+        <header class="noprint">
             <div class="wide">
                 <div class="container logo"><img class="img-responsive" data-ng-if="headerLogo" data-ng-src="{{headerLogo}}"></div>
             </div>
@@ -120,7 +118,6 @@
         <!--<div class="container view-animate-container">
             <div ng-view="" class="view-animate"></div>
         </div>-->
-
         <div class="container">
             <div ng-view="" ></div>
             <div class="spacing noprint">&nbsp;</div>
@@ -128,7 +125,9 @@
             <div class="spacing noprint">&nbsp;</div>
             <div class="spacing noprint">&nbsp;</div>
         </div>
-        <toaster-container toaster-options="{'icon-classes': {
+
+        <toaster-container toaster-options="{'toaster-id': 1,
+                'icon-classes': {
                 error: 'toast-error',
                 info: 'toast-info',
                 wait: 'toast-wait',
@@ -136,6 +135,24 @@
                 warning: 'toast-warning',
                 remove: 'toast-remove',
                 plus: 'toast-plus'}, 'time-out': 3000}"></toaster-container>
+
+        <toaster-container toaster-options="{'toaster-id': 2,
+                'icon-classes': {
+                error: 'toast-error',
+                info: 'toast-info',
+                wait: 'toast-wait',
+                success: 'toast-success',
+                warning: 'toast-warning',
+                remove: 'toast-remove',
+                plus: 'toast-plus',
+                list: 'toast-list'},
+                'time-out': 0,
+                'position-class': 'toast-bottom-full-width',
+                'limit': 1,
+                'prevent-duplicates': true,
+                'newest-on-top': true,
+                'close-button': true}"></toaster-container>
+
         <footer class="header noborders noprint">
             <div class="navbar navbar-inverse navbar-fixed-bottom">
                 <div class="container socialnav ">
@@ -213,6 +230,7 @@
 
         <script src="scripts/factories/navFactory.js"></script>
         <script src="scripts/factories/registrationFactory.js"></script>
+        <script src="scripts/factories/reservationFactory.js"></script>
         <script src="scripts/factories/searchFactory.js"></script>
 
         <script src="scripts/controllers/homeCtrl.js"></script>
