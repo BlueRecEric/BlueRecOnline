@@ -21,7 +21,7 @@
         <style type="text/css">
             body {visibility:hidden;}
         </style>
-        <link  data-ng-href="https://alphadev.bluerec.com/php/API/ORG/{{CssLink}}/css?css" rel="stylesheet" />
+        <link data-ng-if="CssLink" data-ng-href="https://alphadev.bluerec.com/php/API/ORG/{{CssLink}}/css?css" rel="stylesheet" />
 
         <script src="https://platform.twitter.com/widgets.js"></script>
         <!-- build:css(.tmp) styles/main.css -->

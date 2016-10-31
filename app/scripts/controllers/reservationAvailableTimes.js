@@ -47,10 +47,12 @@ angular.module('bluereconlineApp')
             $scope.searchResultsData = [];
             $scope.searchRowCollection = [];
 
-            /*Date.prototype.AddDays = function(noOfDays) {
+            Date.prototype.AddDays = function(noOfDays) {
              this.setTime(this.getTime() + (noOfDays * (1000 * 60 * 60 * 24)));
-             return this;
-             };*/
+             return this;};
+
+            $scope.minDate = new Date();
+            $scope.minDate.AddDays(-1);
 
             $scope.fromDate = new Date();
             $scope.untilDate = new Date();
@@ -188,6 +190,11 @@ angular.module('bluereconlineApp')
             $scope.getWeekdayData();
 
             $scope.onSearchDateChange = function() {
+                if($scope.untilDate < $scope.fromDate)
+                {
+                    $scope.untilDate = $scope.fromDate;
+                }
+
                 $scope.getWeekdayData();
             };
 
@@ -311,7 +318,8 @@ angular.module('bluereconlineApp')
                             until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
                             duration: $scope.rentalDuration.selectedTime,
                             start_time: $filter('date')($scope.startTime, 'HH:mm'),
-                            end_time:  $filter('date')($scope.endTime, 'HH:mm')
+                            end_time:  $filter('date')($scope.endTime, 'HH:mm'),
+                            force_order: ($scope.rentalData.force_facility_order=='1')
                         }
                     };
 

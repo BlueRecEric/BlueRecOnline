@@ -116,7 +116,7 @@
                                                         <input id="earliestStartDate" name="earliestStartDate"
                                                                type="text" class="form-control" data-ng-model="fromDate"
                                                                data-ng-change="onSearchDateChange()"
-                                                               data-max-date="{{untilDate}}" datepicker-popup="yyyy-MM-dd"
+                                                               data-min-date="{{minDate}}" datepicker-popup="yyyy-MM-dd"
                                                                placeholder="From Date" data-autoclose="1" required bs-datepicker>
                                                     </div>
                                                 </div>
@@ -140,7 +140,7 @@
                                                         <input id="latestStartDate"  name="latestStartDate"
                                                                type="text" class="form-control" data-ng-model="untilDate"
                                                                data-ng-change="onSearchDateChange()"
-                                                               data-min-date="{{fromDate}}" datepicker-popup="yyyy-MM-dd"
+                                                               data-min-date="{{minDate}}" datepicker-popup="yyyy-MM-dd"
                                                                placeholder="Until Date" data-autoclose="1" required bs-datepicker>
                                                     </div>
                                                 </div>
@@ -257,7 +257,7 @@
 
                         <div class="animate-show animate-hide" data-ng-if="selectedRentalTimes.rentals.length > 0" style=" margin-top: 8px;">
                             <a id="selRentalTimes"></a>
-                            <table st-table="selectedRentalTimes.rentals" class="table table-striped"
+                            <table st-table="selectedRentalTimes.rentals" class="table vtable table-striped"
                                    style=" margin-bottom: 8px;border-bottom: 1px solid #ddd;">
                                 <tbody>
                                     <tr ng-repeat="rentalRow in selectedRentalTimes.rentals" class="rentalSearchTimePadFull" scroll-glue>
@@ -267,7 +267,7 @@
 
                                             <button class="btn btn-sm btn-danger colShowMobile" ng-click="removeSelectedRental(rentalRow)">
                                                 <i class="fa fa-calendar-times-o" aria-hidden="true"></i></button>
-                                            &nbsp;&nbsp;{{::rentalRow.fname}}
+                                            &nbsp;&nbsp;{{(rentalData.force_facility_order=='1')?rentalData.rental_item_name:rentalRow.fname}}
                                         </td>
 
                                         <td st-ratio="30" class="colHideMobile colMobileTextCenter"
@@ -342,7 +342,7 @@
                                                                 <button style="width: 76px;" class="btn btn-sm " ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}" ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')">
                                                                     <i class="fa" ng-class="{'fa-calendar-plus-o': !timeRow.added, 'fa-calendar-times-o': timeRow.added}" aria-hidden="true"></i> {{(timeRow.added)?'Remove':'Add'}}</button>
                                                                 <button class="btn btn-sm btn-success colShowMobile" ng-click="onSelectRentalTime(searchRow, timeRow)">
-                                                                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>&nbsp;&nbsp;{{::timeRow.fname}}
+                                                                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>&nbsp;&nbsp;{{(rentalData.force_facility_order=='1')?rentalData.rental_item_name:timeRow.fname}}
                                                                 <span class="colHideMobile"> - {{timeRow.fee_amount | currency}}/{{timeRow.booking_type}}</span>
                                                             </td>
 

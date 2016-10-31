@@ -113,7 +113,6 @@ angular.module('bluereconlineApp')
 
                $http(req)
                    .then(function (response) {
-
                        for ( var i = 0; i < response.data.length; i++)
                        {
                            response.data[i].rental_code_desc_short = response.data[i].rental_code_description.substr(0, 125)+'...';
