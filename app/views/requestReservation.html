@@ -40,12 +40,8 @@
                         src="images/map2.jpg" style="padding: 0px;border: 0px;margin: 0px;"></button>
             </div>-->
 
-            <div data-ng-show="displayApprovedRentals">
-                <h3>Approved Reservation Requests</h3>
-            </div>
-
-            <div class="panel panel-default" data-ng-show="displayApprovedRentals">
-                <div class="panel-heading clearfix">
+            <div class="panel panel-primary animate-show animate-hide clearfix" data-ng-show="displayApprovedRentals">
+                <div class="panel-heading">
                     <h3 class="panel-title">Select Approved Reservation</h3>
                 </div>
 
@@ -56,28 +52,19 @@
                         </thead>
 
                         <tbody>
-                            <tr data-ng-repeat="approvedRow in approvedRentalData" style="font-size: 15px;">
+                            <tr data-ng-repeat="approvedRow in approvedRentalData">
                                 <td>
-                                    <button type="submit" class="btn btn-primary"
-                                            data-ng-click="onSelectApprovedRental(approvedRow)">
-                                        Add to
-                                        Cart
-                                    </button>
+                                    <button type="submit" class="btn btn-success"
+                                            data-ng-click="onSelectApprovedRental(approvedRow)">Add to Cart</button>
                                 </td>
-                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
+                                <td st-ratio="25" class="text-left"
                                     data-ng-bind="::approvedRow.item_name">
                                 </td>
-                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
-                                    data-ng-bind="::approvedRow.facility_names">
+                                <td st-ratio="65" class="text-left"
+                                    data-ng-bind-html="::approvedRow.facility_label">
                                 </td>
-                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
-                                    data-ng-bind="::approvedRow.starting">
-                                </td>
-                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
-                                    data-ng-bind="::approvedRow.ending">
-                                </td>
-                                <td st-ratio="20" class="text-left clicky no-select control-label-center"
-                                    data-ng-bind="::approvedRow.fee_estimate">
+                                <td st-ratio="10" class="text-left"
+                                    data-ng-bind="::approvedRow.fee_amount">
                                 </td>
                             </tr>
                         </tbody>

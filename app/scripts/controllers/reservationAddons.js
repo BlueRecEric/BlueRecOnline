@@ -155,7 +155,7 @@ angular.module('bluereconlineApp')
             };
 
             $scope.addRentalRequest = function() {
-                var $autoApproved = ($scope.rentalData.auto_approve === '1');
+                var autoApproved = ($scope.rentalData.auto_approve === '1');
 
                 if ($scope.agreementSigned.checked) {
                     var $userID = ActiveUser.userData.user_id;
@@ -182,7 +182,7 @@ angular.module('bluereconlineApp')
 
                         var t, f;
 
-                        /*var feeData = [];
+                        var feeData = [];
 
                         for (t=0;t < $scope.selectedTimeData.length; t++) {
                             for (f = 0; f < $scope.selectedTimeData[t].fee_data.length; f++) {
@@ -207,34 +207,19 @@ angular.module('bluereconlineApp')
                             }
                         }
 
-                        submitData.fees = feeData;*/
-
-                        /*submitData.fees[0] = {};
-                         submitData.fees[0].itemFeeID = $scope.rentalData.item_fee_id;
-                         //submitData.fees[0].feeAmount =  $scope.rentalData.fee_amount;
-                         submitData.fees[0].feeAmount = $scope.feeAmount;*/
+                        submitData.fees = feeData;
 
                         submitData.events = [];
 
                         var i;
 
                         for (i = 0; i < $scope.selectedTimeData.length; i++) {
-                            //var startDate = new Date($scope.selectedTimeData[i].d + 'T' + $scope.selectedTimeData[i].st24);
-                            //var endDate = new Date($scope.selectedTimeData[i].d + 'T' + $scope.selectedTimeData[i].et24);
-
-                            //console.log(startDate);
-                            //console.log(endDate);
 
                             var feeTokenData = [];
 
                             for (f = 0; f < $scope.selectedTimeData[i].fee_data.length; f++) {
                                 feeTokenData.push({token:  $scope.selectedTimeData[i].fee_data[f].token});
                             }
-
-                            //'fee_data': $scope.selectedTimeData[i].fee_data,
-                            /*'facility_item_id': $scope.selectedTimeData[i].fid,
-                            'event_start': $scope.formatMySQLDate(startDate),
-                            'event_end': $scope.formatMySQLDate(endDate),*/
 
                             submitData.events.push({'token': $scope.selectedTimeData[i].token,
                                 'fee_token_data': feeTokenData});
@@ -255,7 +240,7 @@ angular.module('bluereconlineApp')
 
                         var req;
 
-                        if($autoApproved)
+                        if(autoApproved)
                         {
                             req = {
                                 method: 'POST',
@@ -309,10 +294,10 @@ angular.module('bluereconlineApp')
                             };
                             $http(req)
                                 .success(function (data) {
-                                    ReservationFactory.clearReservationData();
-                                    ReservationFactory.clearReservationTimes();
+                                    //ReservationFactory.clearReservationData();
+                                    //ReservationFactory.clearReservationTimes();
 
-                                    $location.path('/' + $routeParams.orgurl + '/rentalrequestsubmitted');
+                                    //$location.path('/' + $routeParams.orgurl + '/rentalrequestsubmitted');
 
                                     //$scope.submittingData = false;
                                 });

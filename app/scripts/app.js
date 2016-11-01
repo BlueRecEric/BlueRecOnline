@@ -200,8 +200,10 @@ angular
         $httpProvider.defaults.headers.common.Pragma = 'no-cache';
     })
 
-    .run(['$rootScope','$location', '$routeParams', '$anchorScroll', 'ActiveUser', '$templateCache', function($rootScope, $location, $routeParams, $anchorScroll, ActiveUser,$templateCache) {
+    .run(['$rootScope','$location', '$routeParams', '$anchorScroll', 'ActiveUser', 'toaster', '$templateCache',
+        function($rootScope, $location, $routeParams, $anchorScroll, ActiveUser, toaster, $templateCache) {
         $rootScope.$on('$routeChangeSuccess', function () {
+            toaster.clear('*');
             $anchorScroll('pageTop');
         });
 

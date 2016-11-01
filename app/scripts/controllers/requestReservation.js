@@ -8,8 +8,8 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('RequestReservation', ['$scope', '$rootScope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$modal', '$q', '$timeout', 'moment', 'ActiveUser',
-        function ($scope, $rootScope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, moment, ActiveUser) {
+    .controller('RequestReservation', ['$scope', '$rootScope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'MakeToast', '$modal', '$q', '$timeout', 'moment', 'ActiveUser',
+        function ($scope, $rootScope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, MakeToast, $modal, $q, $timeout, moment, ActiveUser) {
 
             $scope.displayApprovedRentals = false;
 
@@ -125,8 +125,6 @@ angular.module('bluereconlineApp')
                    });
            };
 
-            $scope.getRentalData();
-
             $scope.getUserApprovedRequests = function () {
                 $scope.displayApprovedRentals = false;
 
@@ -144,8 +142,6 @@ angular.module('bluereconlineApp')
 
                 $http(req)
                     .success(function (data) {
-                       //console.table(data);
-
                         $scope.approvedRentalCollection = data;
 
                         if ($scope.approvedRentalCollection.length > 0) {
@@ -156,50 +152,36 @@ angular.module('bluereconlineApp')
                 $scope.approvedRentalData = [].concat($scope.approvedRentalCollection);
             };
 
+            $scope.getRentalData();
+
             if ($scope.userLoggedIn) {
                 $scope.getUserApprovedRequests();
             }
 
             $scope.onSelectApprovedRental = function (selectedRow) {
 
-                //console.table(selectedRow);
-
-                var submitData = {};
-                submitData.request_id = selectedRow.request_id;
-                submitData.householdID = ActiveUser.userData.household_id;
-                submitData.itemID = selectedRow.rental_code_item_id;
-                submitData.userID = ActiveUser.userData.user_id;
-                submitData.addedByUserID = ActiveUser.userData.user_id;
-                submitData.usePaymentPlan = '0';
-                submitData.itemType = 'RENTAL CODE';
-                submitData.familyMembership = '0';
-                submitData.totalCharge = selectedRow.fee_estimate;
-                submitData.waivers = [];
-                submitData.members = [];
-
-                submitData.fees = [];
-                if (selectedRow.item_fee_id !== 0 && selectedRow.item_fee_id !== null) {
-                    submitData.fees[0] = {};
-                    submitData.fees[0].itemFeeID = selectedRow.item_fee_id;
-                    submitData.fees[0].feeAmount = selectedRow.fee_estimate;
-                }
+                console.log('selectedRow:', selectedRow);
 
                 var req = {
                     method: 'POST',
-                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + selectedRow.rental_code_item_id + '/addtocart',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/addapprovedrentaltocart',
                     headers: {
                         'Content-Type': undefined
                     },
-                    data: submitData
+                    data: {request_id:  selectedRow.request_id,
+                        addedByUserID: ActiveUser.userData.user_id}
                 };
 
                 $http(req)
                     .success(function (data) {
+
+                        //console.log('addapprovedrentaltocart', data);
+
                         $rootScope.$emit('updateCartCount', {});
 
                         $scope.getUserApprovedRequests();
 
-                        //console.table(data);
+                        MakeToast.popOn('success', 'Added to Cart', 'Your approved rental request has been added to your cart!');
 
                         /*$scope.approvedRentalCollection = data;
 

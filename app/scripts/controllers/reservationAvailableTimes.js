@@ -319,9 +319,11 @@ angular.module('bluereconlineApp')
                             duration: $scope.rentalDuration.selectedTime,
                             start_time: $filter('date')($scope.startTime, 'HH:mm'),
                             end_time:  $filter('date')($scope.endTime, 'HH:mm'),
-                            force_order: ($scope.rentalData.force_facility_order=='1')
+                            force_order: ($scope.rentalData.force_facility_order=='1')?'true':'false'
                         }
                     };
+
+                    console.log('data', req);
 
                     $http(req)
                         .success(function (data) {
@@ -396,7 +398,7 @@ angular.module('bluereconlineApp')
                         .error(function (data) {
                             $scope.isSearchIconBusy.loading = false;
 
-                            $scope.searchErrorMessage = 'There was an issue while processing your search.  We are working to resolve the issue.';
+                            $scope.searchErrorMessage = 'An error occured while processing your search.';
                         });
 
                     $scope.searchResultsData = [].concat($scope.searchRowCollection);
