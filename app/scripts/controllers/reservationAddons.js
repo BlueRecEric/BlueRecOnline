@@ -29,6 +29,9 @@ angular.module('bluereconlineApp')
 
             $scope.reservationDataSet = false;
 
+            $scope.reportName = 'agreement1_version222';
+            $scope.reportData = {};
+
             if ($scope.rentalData == undefined || $scope.selectedTimeData == undefined) {
 
                 if ($scope.rentalData == undefined)
@@ -70,6 +73,25 @@ angular.module('bluereconlineApp')
 
                 $scope.feeAmount = amt;
             };
+
+            $scope.setAgreementData = function() {
+                var req = {
+                    method: 'GET',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/agreement',
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                };
+
+                $http(req)
+                    .success(function (data) {
+                        //console.log('agreement data', data);
+
+                        $scope.reportData = data;
+                    });
+            };
+
+            $scope.setAgreementData();
 
             $scope.setPackages = function() {
                 var req = {
@@ -236,7 +258,7 @@ angular.module('bluereconlineApp')
 
                         submitData.custom_fields = $scope.rentalCustomFields;
 
-                        console.log(submitData);
+                        //console.log(submitData);
 
                         var req;
 
@@ -253,11 +275,11 @@ angular.module('bluereconlineApp')
                             $http(req).
                                 then(function(response) {
 
-                                    console.log('success', response);
+                                    //console.log('success', response);
 
                                     if(response.status === 200 && response.data.result !== 'not_auto_approve')
                                     {
-                                        console.log('added');
+                                        //console.log('added');
                                         /*ReservationFactory.clearReservationData();
                                         ReservationFactory.clearReservationTimes();
 
@@ -275,7 +297,7 @@ angular.module('bluereconlineApp')
                                         $location.path('/' + $routeParams.orgurl + '/reservations');
                                     }
                                 }, function(response) {
-                                    console.log('error', response);
+                                    //console.log('error', response);
                                     /*ReservationFactory.clearReservationData();
                                     ReservationFactory.clearReservationTimes();
 
@@ -318,11 +340,11 @@ angular.module('bluereconlineApp')
             };
 
             if($scope.reservationDataSet) {
-                console.log('RENTAL DATA:  ');
-                console.log($scope.rentalData);
+                //console.log('RENTAL DATA:  ');
+                //console.log($scope.rentalData);
 
-                console.log('SELECTED TIME DATA:  ');
-                console.log($scope.selectedTimeData);
+                //console.log('SELECTED TIME DATA:  ');
+                //console.log($scope.selectedTimeData);
 
                 $scope.calRentalTimeFeeAmt();
 

@@ -1,0 +1,1468 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer application="StiReport" type="Flex" version="1.02">
+  <Dictionary type="Dictionary" isKey="true" Ref="1">
+    <Databases count="0" isList="true"/>
+    <DataSources count="9" isList="true">
+      <agreements type="DataTableSource" isKey="true" Ref="2">
+        <Alias>agreements</Alias>
+        <Columns count="1" isList="true">
+          <value>agreement_id,System.String</value>
+        </Columns>
+        <Dictionary isRef="1"/>
+        <Name>agreements</Name>
+        <NameInSource>report_data.agreements</NameInSource>
+      </agreements>
+      <header_data type="DataTableSource" isKey="true" Ref="3">
+        <Alias>header_data</Alias>
+        <Columns count="11" isList="true">
+          <value>organization_name,System.String</value>
+          <value>organization_logo,System.String</value>
+          <value>admin_name,System.String</value>
+          <value>organization_address_one,System.String</value>
+          <value>organization_city,System.String</value>
+          <value>organization_state,System.String</value>
+          <value>organization_zipcode,System.String</value>
+          <value>organization_phone,System.String</value>
+          <value>organization_fax,System.String</value>
+          <value>agreement_name,System.String</value>
+          <value>agreement_id,System.String</value>
+        </Columns>
+        <Dictionary isRef="1"/>
+        <Name>header_data</Name>
+        <NameInSource>report_data.header_data</NameInSource>
+      </header_data>
+      <transaction_item_agreement_data type="DataTableSource" isKey="true" Ref="4">
+        <Alias>transaction_item_agreement_data</Alias>
+        <Columns count="14" isList="true">
+          <value>first_name,System.String</value>
+          <value>last_name,System.String</value>
+          <value>home_phone,System.String</value>
+          <value>work_phone,System.String</value>
+          <value>mailing_addr_one,System.String</value>
+          <value>mailing_addr_two,System.String</value>
+          <value>mailing_city,System.String</value>
+          <value>mailing_state,System.String</value>
+          <value>mailing_zip,System.String</value>
+          <value>cell_phone,System.String</value>
+          <value>household_name,System.String</value>
+          <value>new_purpose_of_use,System.String</value>
+          <value>agreement_id,System.String</value>
+          <value>purpose_of_use,System.String</value>
+        </Columns>
+        <Dictionary isRef="1"/>
+        <Name>transaction_item_agreement_data</Name>
+        <NameInSource>report_data.transaction_item_agreement_data</NameInSource>
+      </transaction_item_agreement_data>
+      <agreement_data type="DataTableSource" isKey="true" Ref="5">
+        <Alias>agreement_data</Alias>
+        <Columns count="8" isList="true">
+          <value>description,System.String</value>
+          <value>comments,System.String</value>
+          <value>agreement_name,System.String</value>
+          <value>agreement_id,System.String</value>
+          <value>sign_off,System.String</value>
+          <value>transaction_id,System.String</value>
+          <value>transaction_item_agreement_id,System.String</value>
+          <value>transaction_item_agreement_date,System.String</value>
+        </Columns>
+        <Dictionary isRef="1"/>
+        <Name>agreement_data</Name>
+        <NameInSource>report_data.agreement_data</NameInSource>
+      </agreement_data>
+      <event_data type="DataTableSource" isKey="true" Ref="6">
+        <Alias>event_data</Alias>
+        <Columns count="11" isList="true">
+          <value>num_of_bookings,System.String</value>
+          <value>event_facility_name,System.String</value>
+          <value>event_location_facility_name,System.String</value>
+          <value>event_dow,System.String</value>
+          <value>event_start_date,System.String</value>
+          <value>event_start_time,System.String</value>
+          <value>event_end_date,System.String</value>
+          <value>event_end_time,System.String</value>
+          <value>event_capacity,System.String</value>
+          <value>event_fee_amount,System.String</value>
+          <value>agreement_id,System.String</value>
+        </Columns>
+        <Dictionary isRef="1"/>
+        <Name>event_data</Name>
+        <NameInSource>report_data.event_data</NameInSource>
+      </event_data>
+      <payment_method_data type="DataTableSource" isKey="true" Ref="7">
+        <Alias>payment_method_data</Alias>
+        <Columns count="4" isList="true">
+          <value>payment_method_type,System.String</value>
+          <value>payment_method_reference,System.String</value>
+          <value>payment_method_amount,System.String</value>
+          <value>agreement_id,System.String</value>
+        </Columns>
+        <Dictionary isRef="1"/>
+        <Name>payment_method_data</Name>
+        <NameInSource>report_data.payment_method_data</NameInSource>
+      </payment_method_data>
+      <fee_data type="DataTableSource" isKey="true" Ref="8">
+        <Alias>fee_data</Alias>
+        <Columns count="10" isList="true">
+          <value>rental_fee,System.Decimal</value>
+          <value>extra_fee,System.Decimal</value>
+          <value>tax,System.Decimal</value>
+          <value>rental_total,System.Decimal</value>
+          <value>deposit,System.Decimal</value>
+          <value>total_applied,System.Decimal</value>
+          <value>balance,System.Decimal</value>
+          <value>current,System.Decimal</value>
+          <value>discount_total,System.Nullable`1[System.Decimal]</value>
+          <value>agreement_id,System.String</value>
+        </Columns>
+        <Dictionary isRef="1"/>
+        <Name>fee_data</Name>
+        <NameInSource>report_data.fee_data</NameInSource>
+      </fee_data>
+      <transaction_item_requirements type="DataTableSource" isKey="true" Ref="9">
+        <Alias>transaction_item_requirements</Alias>
+        <Columns count="3" isList="true">
+          <value>requirement_name,System.String</value>
+          <value>requirement_status,System.String</value>
+          <value>agreement_id,System.String</value>
+        </Columns>
+        <Dictionary isRef="1"/>
+        <Name>transaction_item_requirements</Name>
+        <NameInSource>report_data.transaction_item_requirements</NameInSource>
+      </transaction_item_requirements>
+      <transaction_item_items type="DataTableSource" isKey="true" Ref="10">
+        <Alias>transaction_item_items</Alias>
+        <Columns count="8" isList="true">
+          <value>item_name,System.String</value>
+          <value>item_answer,System.String</value>
+          <value>item_qty,System.String</value>
+          <value>item_amount,System.String</value>
+          <value>item_discount,System.String</value>
+          <value>item_subtotal,System.String</value>
+          <value>item_total,System.String</value>
+          <value>agreement_id,System.String</value>
+        </Columns>
+        <Dictionary isRef="1"/>
+        <Name>transaction_item_items</Name>
+        <NameInSource>report_data.transaction_item_items</NameInSource>
+      </transaction_item_items>
+    </DataSources>
+    <Relations count="8" isList="true">
+      <header_data type="DataRelation" isKey="true" Ref="11">
+        <Alias>header_data</Alias>
+        <ChildColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ChildColumns>
+        <ChildSource isRef="4"/>
+        <Dictionary isRef="1"/>
+        <Name>header_data</Name>
+        <NameInSource>transaction_item_agreement_data.header_data</NameInSource>
+        <ParentColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ParentColumns>
+        <ParentSource isRef="3"/>
+      </header_data>
+      <header_data type="DataRelation" isKey="true" Ref="12">
+        <Alias>header_data</Alias>
+        <ChildColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ChildColumns>
+        <ChildSource isRef="5"/>
+        <Dictionary isRef="1"/>
+        <Name>header_data</Name>
+        <NameInSource>agreement_data.header_data</NameInSource>
+        <ParentColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ParentColumns>
+        <ParentSource isRef="3"/>
+      </header_data>
+      <header_data type="DataRelation" isKey="true" Ref="13">
+        <Alias>header_data</Alias>
+        <ChildColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ChildColumns>
+        <ChildSource isRef="6"/>
+        <Dictionary isRef="1"/>
+        <Name>header_data</Name>
+        <NameInSource>event_data.header_data</NameInSource>
+        <ParentColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ParentColumns>
+        <ParentSource isRef="3"/>
+      </header_data>
+      <agreements type="DataRelation" isKey="true" Ref="14">
+        <Alias>agreements</Alias>
+        <ChildColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ChildColumns>
+        <ChildSource isRef="3"/>
+        <Dictionary isRef="1"/>
+        <Name>agreements</Name>
+        <NameInSource>header_data.agreements</NameInSource>
+        <ParentColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ParentColumns>
+        <ParentSource isRef="2"/>
+      </agreements>
+      <header_data type="DataRelation" isKey="true" Ref="15">
+        <Alias>header_data</Alias>
+        <ChildColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ChildColumns>
+        <ChildSource isRef="7"/>
+        <Dictionary isRef="1"/>
+        <Name>header_data</Name>
+        <NameInSource>payment_method_data.header_data</NameInSource>
+        <ParentColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ParentColumns>
+        <ParentSource isRef="3"/>
+      </header_data>
+      <header_data type="DataRelation" isKey="true" Ref="16">
+        <Alias>header_data</Alias>
+        <ChildColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ChildColumns>
+        <ChildSource isRef="8"/>
+        <Dictionary isRef="1"/>
+        <Name>header_data</Name>
+        <NameInSource>fee_data.header_data</NameInSource>
+        <ParentColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ParentColumns>
+        <ParentSource isRef="3"/>
+      </header_data>
+      <header_data type="DataRelation" isKey="true" Ref="17">
+        <Alias>header_data</Alias>
+        <ChildColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ChildColumns>
+        <ChildSource isRef="9"/>
+        <Dictionary isRef="1"/>
+        <Name>header_data</Name>
+        <NameInSource>transaction_item_requirements.header_data</NameInSource>
+        <ParentColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ParentColumns>
+        <ParentSource isRef="3"/>
+      </header_data>
+      <header_data type="DataRelation" isKey="true" Ref="18">
+        <Alias>header_data</Alias>
+        <ChildColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ChildColumns>
+        <ChildSource isRef="10"/>
+        <Dictionary isRef="1"/>
+        <Name>header_data</Name>
+        <NameInSource>transaction_item_items.header_data</NameInSource>
+        <ParentColumns count="1" isList="true">
+          <value>agreement_id</value>
+        </ParentColumns>
+        <ParentSource isRef="3"/>
+      </header_data>
+    </Relations>
+    <Report isRef="0"/>
+    <Variables count="0" isList="true"/>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings count="0" isList="true"/>
+  <MetaTags count="0" isList="true"/>
+  <NumberOfPass>DoublePass</NumberOfPass>
+  <Pages count="1" isList="true">
+    <Page1 type="Page" isKey="true" Ref="19">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components count="10" isList="true">
+        <dbHeaderData type="DataBand" isKey="true" Ref="20">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.2,7.72,1.18</ClientRectangle>
+          <Components count="9" isList="true">
+            <Text4 type="Text" isKey="true" Ref="21">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.81,0,2.89,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,12,Bold</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="19"/>
+              <Parent isRef="20"/>
+              <Text>{header_data.agreement_name}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text4>
+            <Image1 type="Image" isKey="true" Ref="22">
+              <AspectRatio>True</AspectRatio>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,1.6,1</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <ImageURL>{header_data.organization_logo}</ImageURL>
+              <Name>Image1</Name>
+              <Page isRef="19"/>
+              <Parent isRef="20"/>
+              <Stretch>True</Stretch>
+            </Image1>
+            <Text23 type="Text" isKey="true" Ref="23">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.1,0.4,2.6,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="19"/>
+              <Parent isRef="20"/>
+              <Text>User: {header_data.admin_name}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text23>
+            <Text10 type="Text" isKey="true" Ref="24">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,0,3.2,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="19"/>
+              <Parent isRef="20"/>
+              <Text>{header_data.organization_name}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text10>
+            <Text13 type="Text" isKey="true" Ref="25">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,0.2,3.5,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="19"/>
+              <Parent isRef="20"/>
+              <Text>{header_data.organization_address_one}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text13>
+            <Text14 type="Text" isKey="true" Ref="26">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,0.4,3.5,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text14</Name>
+              <Page isRef="19"/>
+              <Parent isRef="20"/>
+              <Text>{header_data.organization_city}, {header_data.organization_state} {header_data.organization_zipcode}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text14>
+            <Text15 type="Text" isKey="true" Ref="27">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,0.6,3.5,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text15</Name>
+              <Page isRef="19"/>
+              <Parent isRef="20"/>
+              <Text>Phone:  {header_data.organization_phone}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text15>
+            <Text21 type="Text" isKey="true" Ref="28">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,0.8,3.5,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>5acca8f0f1e5682af42ce259c9da3a13</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text21</Name>
+              <Page isRef="19"/>
+              <Parent isRef="20"/>
+              <Text>{Length(header_data.organization_fax) &gt;0 ?"Fax:  "+header_data.organization_fax:""}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text21>
+            <Text6 type="Text" isKey="true" Ref="29">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.1,0.23,2.6,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="19"/>
+              <Parent isRef="20"/>
+              <Text>Date Printed:  {Time}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text6>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <DataRelationName>header_data.agreements</DataRelationName>
+          <DataSourceName>header_data</DataSourceName>
+          <Filters count="0" isList="true"/>
+          <Name>dbHeaderData</Name>
+          <NewPageBefore>True</NewPageBefore>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+          <Sort count="0" isList="true"/>
+        </dbHeaderData>
+        <DataBand4 type="DataBand" isKey="true" Ref="30">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,1.78,7.72,0.5</ClientRectangle>
+          <Components count="2" isList="true">
+            <Panel2 type="Panel" isKey="true" Ref="31">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,7.7,0.43</ClientRectangle>
+              <Components count="5" isList="true">
+                <Text11 type="Text" isKey="true" Ref="32">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0.04,1,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text11</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="31"/>
+                  <Text>Receipt #:</Text>
+                  <TextBrush>Black</TextBrush>
+                </Text11>
+                <Text8 type="Text" isKey="true" Ref="33">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>1.1,0.04,3.9,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,9,Bold</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text8</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="31"/>
+                  <Text>{agreement_data.transaction_id}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>DataColumn</Type>
+                </Text8>
+                <Text12 type="Text" isKey="true" Ref="34">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0.22,1,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text12</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="31"/>
+                  <Text>Date:</Text>
+                  <TextBrush>Black</TextBrush>
+                </Text12>
+                <Text9 type="Text" isKey="true" Ref="35">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>1.1,0.22,3.9,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,9,Bold</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text9</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="31"/>
+                  <Text>{agreement_data.transaction_item_agreement_date}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>DataColumn</Type>
+                </Text9>
+                <HorizontalLinePrimitive1 type="HorizontalLinePrimitive" isKey="true" Ref="36">
+                  <ClientRectangle>0,0,7.7,0.01</ClientRectangle>
+                  <Color>Black</Color>
+                  <Conditions count="0" isList="true"/>
+                  <EndCap type="Cap" isKey="true" Ref="37">
+                    <Color>Black</Color>
+                  </EndCap>
+                  <Name>HorizontalLinePrimitive1</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="31"/>
+                  <StartCap type="Cap" isKey="true" Ref="38">
+                    <Color>Black</Color>
+                  </StartCap>
+                </HorizontalLinePrimitive1>
+              </Components>
+              <Conditions count="0" isList="true"/>
+              <Name>Panel2</Name>
+              <Page isRef="19"/>
+              <Parent isRef="30"/>
+            </Panel2>
+            <HorizontalLinePrimitive2 type="HorizontalLinePrimitive" isKey="true" Ref="39">
+              <ClientRectangle>0,0.43,7.7,0.01</ClientRectangle>
+              <Color>Black</Color>
+              <Conditions count="0" isList="true"/>
+              <EndCap type="Cap" isKey="true" Ref="40">
+                <Color>Black</Color>
+              </EndCap>
+              <Name>HorizontalLinePrimitive2</Name>
+              <Page isRef="19"/>
+              <Parent isRef="30"/>
+              <StartCap type="Cap" isKey="true" Ref="41">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive2>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <DataRelationName>agreement_data.header_data</DataRelationName>
+          <DataSourceName>agreement_data</DataSourceName>
+          <Filters count="0" isList="true"/>
+          <Name>DataBand4</Name>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+          <Sort count="0" isList="true"/>
+        </DataBand4>
+        <DataBand1 type="DataBand" isKey="true" Ref="42">
+          <Brush>Transparent</Brush>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,2.68,7.72,0.75</ClientRectangle>
+          <Components count="1" isList="true">
+            <Panel5 type="Panel" isKey="true" Ref="43">
+              <Brush>Transparent</Brush>
+              <CanBreak>True</CanBreak>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0,0.02,7.7,0.7</ClientRectangle>
+              <Components count="6" isList="true">
+                <Text24 type="Text" isKey="true" Ref="44">
+                  <AllowHtmlTags>True</AllowHtmlTags>
+                  <Brush>Transparent</Brush>
+                  <CanBreak>True</CanBreak>
+                  <CanGrow>True</CanGrow>
+                  <CanShrink>True</CanShrink>
+                  <ClientRectangle>0,0,5.1,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text24</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="43"/>
+                  <Text>{transaction_item_agreement_data.household_name != 0?transaction_item_agreement_data.household_name:""}{transaction_item_agreement_data.household_name != 0 ? " " : ""}{transaction_item_agreement_data.first_name} {transaction_item_agreement_data.last_name}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text24>
+                <Text42 type="Text" isKey="true" Ref="45">
+                  <AllowHtmlTags>True</AllowHtmlTags>
+                  <Brush>Transparent</Brush>
+                  <CanBreak>True</CanBreak>
+                  <CanGrow>True</CanGrow>
+                  <CanShrink>True</CanShrink>
+                  <ClientRectangle>0,0.2,5.1,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text42</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="43"/>
+                  <Text>{transaction_item_agreement_data.mailing_addr_one}{transaction_item_agreement_data.mailing_addr_two != 0?transaction_item_agreement_data.mailing_addr_two:""}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+                  <Type>Expression</Type>
+                </Text42>
+                <Text43 type="Text" isKey="true" Ref="46">
+                  <AllowHtmlTags>True</AllowHtmlTags>
+                  <Brush>Transparent</Brush>
+                  <CanBreak>True</CanBreak>
+                  <CanGrow>True</CanGrow>
+                  <CanShrink>True</CanShrink>
+                  <ClientRectangle>0,0.4,5.1,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text43</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="43"/>
+                  <Text>{(Length(transaction_item_agreement_data.mailing_city) &gt; 0)?transaction_item_agreement_data.mailing_city:""}{Length(transaction_item_agreement_data.mailing_city) &gt; 0 &amp;&amp; Length(transaction_item_agreement_data.mailing_state) &gt; 0? ", " : ""}{(Length(transaction_item_agreement_data.mailing_state) &gt; 0)?transaction_item_agreement_data.mailing_state+" ":""}{transaction_item_agreement_data.mailing_zip}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+                  <Type>Expression</Type>
+                </Text43>
+                <Text765 type="Text" isKey="true" Ref="47">
+                  <Brush>Transparent</Brush>
+                  <CanGrow>True</CanGrow>
+                  <CanShrink>True</CanShrink>
+                  <ClientRectangle>5.3,0,2.3,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text765</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="43"/>
+                  <Text>Cell Phone:  {transaction_item_agreement_data.cell_phone}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text765>
+                <Text435 type="Text" isKey="true" Ref="48">
+                  <Brush>Transparent</Brush>
+                  <CanGrow>True</CanGrow>
+                  <CanShrink>True</CanShrink>
+                  <ClientRectangle>5.3,0.2,2.3,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text435</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="43"/>
+                  <Text>Work Phone:  {transaction_item_agreement_data.work_phone}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text435>
+                <Text454 type="Text" isKey="true" Ref="49">
+                  <Brush>Transparent</Brush>
+                  <CanGrow>True</CanGrow>
+                  <CanShrink>True</CanShrink>
+                  <ClientRectangle>5.3,0.4,2.3,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text454</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="43"/>
+                  <Text>Home Phone:  {transaction_item_agreement_data.home_phone}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text454>
+              </Components>
+              <Conditions count="0" isList="true"/>
+              <GrowToHeight>True</GrowToHeight>
+              <Name>Panel5</Name>
+              <Page isRef="19"/>
+              <Parent isRef="42"/>
+            </Panel5>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <DataRelationName>transaction_item_agreement_data.header_data</DataRelationName>
+          <DataSourceName>transaction_item_agreement_data</DataSourceName>
+          <Filters count="0" isList="true"/>
+          <Name>DataBand1</Name>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+          <Sort count="0" isList="true"/>
+        </DataBand1>
+        <DataBand2 type="DataBand" isKey="true" Ref="50">
+          <Brush>Transparent</Brush>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,3.83,7.72,0.4</ClientRectangle>
+          <Components count="2" isList="true">
+            <Text22 type="Text" isKey="true" Ref="51">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0,0.1,7.7,0</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>06bd93734d6124202882eeae3522cce3</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="19"/>
+              <Parent isRef="50"/>
+              <Text>{transaction_item_agreement_data.new_purpose_of_use =  0?"Purpose of Use:  ":""}{transaction_item_agreement_data.new_purpose_of_use =  0?transaction_item_agreement_data.new_purpose_of_use:""}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text22>
+            <Text40 type="Text" isKey="true" Ref="52">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0,0.1,7.7,0</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>82a979923dacf754daec519616eb399a</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text40</Name>
+              <Page isRef="19"/>
+              <Parent isRef="50"/>
+              <Text>{transaction_item_agreement_data.purpose_of_use}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>DataColumn</Type>
+            </Text40>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <DataRelationName>transaction_item_agreement_data.header_data</DataRelationName>
+          <DataSourceName>transaction_item_agreement_data</DataSourceName>
+          <Filters count="0" isList="true"/>
+          <MasterComponent isRef="42"/>
+          <Name>DataBand2</Name>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+          <Sort count="0" isList="true"/>
+        </DataBand2>
+        <HeaderBand2 type="HeaderBand" isKey="true" Ref="53">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,4.63,7.72,0.52</ClientRectangle>
+          <Components count="10" isList="true">
+            <Text5 type="Text" isKey="true" Ref="54">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.1,1.8,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <Guid>ffe704243e3d7ed29b884809ec4997ae</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text>Date(s) and Time(s) of Use</Text>
+              <TextBrush>Black</TextBrush>
+            </Text5>
+            <Text7 type="Text" isKey="true" Ref="55">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0.3,2.5,0.22</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <Guid>fbc5efad40841e6e1a2f4809ec493662</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text>Facilities</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text7>
+            <Text16 type="Text" isKey="true" Ref="56">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.3,0.3,0.3,0.22</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <Guid>efd41c560c9e986518064809ec49db2b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text>Day</Text>
+              <TextBrush>Black</TextBrush>
+            </Text16>
+            <Text17 type="Text" isKey="true" Ref="57">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.7,0.3,0.7,0.22</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <Guid>0fcd348407eb55766d874809ec49d0f7</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text>Start Date</Text>
+              <TextBrush>Black</TextBrush>
+            </Text17>
+            <Text29 type="Text" isKey="true" Ref="58">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.3,0.3,0.7,0.22</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <Guid>3b95d1332bd81514dba94809ec49c856</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text29</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text>Start Time</Text>
+              <TextBrush>Black</TextBrush>
+            </Text29>
+            <Text31 type="Text" isKey="true" Ref="59">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.5,0.3,0.7,0.22</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <Guid>69a63c1bda13e17565124809ec498998</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text31</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text>End Date</Text>
+              <TextBrush>Black</TextBrush>
+            </Text31>
+            <Text32 type="Text" isKey="true" Ref="60">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.1,0.3,0.7,0.22</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <Guid>fc0c7f84802a1eeb5c534809ec4946d7</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text32</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text>End Time</Text>
+              <TextBrush>Black</TextBrush>
+            </Text32>
+            <Text33 type="Text" isKey="true" Ref="61">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.8,0.1,1.9,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>6df99f4800968a8d3cec4809ec49b5d1</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text33</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text># of Bookings:  {event_data.num_of_bookings}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text33>
+            <Text35 type="Text" isKey="true" Ref="62">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.9,0.3,0.7,0.22</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <Guid>acfdbda98b4012bb251c4809ec492ed0</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text35</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text>Fee</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text35>
+            <Text20 type="Text" isKey="true" Ref="63">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.6,0.3,0.6,0.22</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <Guid>79543abf279b785a8ff84809ec491ee2</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="19"/>
+              <Parent isRef="53"/>
+              <Text>Expected</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text20>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <Guid>6770086e353f410f23624809ec493931</Guid>
+          <Name>HeaderBand2</Name>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+        </HeaderBand2>
+        <DataBand3 type="DataBand" isKey="true" Ref="64">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,5.55,7.72,0.18</ClientRectangle>
+          <Components count="8" isList="true">
+            <Text34 type="Text" isKey="true" Ref="65">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0,2.5,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>d4ebec1c656cc38981254809ec491337</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text34</Name>
+              <Page isRef="19"/>
+              <Parent isRef="64"/>
+              <Text>{event_data.event_facility_name}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text34>
+            <Text36 type="Text" isKey="true" Ref="66">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>3.3,0,0.3,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>33e3ea40f70f05611f8b4809ec49de5e</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text36</Name>
+              <Page isRef="19"/>
+              <Parent isRef="64"/>
+              <Text>{event_data.event_dow}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text36>
+            <Text25 type="Text" isKey="true" Ref="67">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>3.7,0,0.7,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>8852c0d5461dda7990a24809ec495cfc</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text25</Name>
+              <Page isRef="19"/>
+              <Parent isRef="64"/>
+              <Text>{event_data.event_start_date}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text25>
+            <Text26 type="Text" isKey="true" Ref="68">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>4.5,0,0.7,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>27ff731f4c1e26f4d5714809ec4957c2</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text26</Name>
+              <Page isRef="19"/>
+              <Parent isRef="64"/>
+              <Text>{event_data.event_end_date}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text26>
+            <Text27 type="Text" isKey="true" Ref="69">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>5.3,0,0.7,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>3a8b8ff5ddf9a89b63934809ec49561c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text27</Name>
+              <Page isRef="19"/>
+              <Parent isRef="64"/>
+              <Text>{event_data.event_start_time}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text27>
+            <Text30 type="Text" isKey="true" Ref="70">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>6.1,0,0.7,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>cfe69571ad92c6b5fac14809ec494e8c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text30</Name>
+              <Page isRef="19"/>
+              <Parent isRef="64"/>
+              <Text>{event_data.event_end_time}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text30>
+            <Text28 type="Text" isKey="true" Ref="71">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanBreak>True</CanBreak>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>6.9,0,0.8,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>d97b40134db8b9717f104809ec491435</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text28</Name>
+              <Page isRef="19"/>
+              <Parent isRef="64"/>
+              <Text>{event_data.event_fee_amount}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text28>
+            <Text37 type="Text" isKey="true" Ref="72">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>2.6,0,0.6,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>7eab9cb4c4c074b609a74809ec499c5c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text37</Name>
+              <Page isRef="19"/>
+              <Parent isRef="64"/>
+              <Text>{event_data.event_capacity}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text37>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <DataRelationName>event_data.header_data</DataRelationName>
+          <DataSourceName>event_data</DataSourceName>
+          <Filters count="0" isList="true"/>
+          <Guid>847c112546a29f370a254809ec49c721</Guid>
+          <Name>DataBand3</Name>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+          <Sort count="0" isList="true"/>
+        </DataBand3>
+        <DataBand6 type="DataBand" isKey="true" Ref="73">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,6.13,7.72,0.6</ClientRectangle>
+          <Components count="1" isList="true">
+            <Panel3 type="Panel" isKey="true" Ref="74">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,7.5,0.6</ClientRectangle>
+              <Components count="13" isList="true">
+                <Text19 type="Text" isKey="true" Ref="75">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0,1,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Guid>f77ea7bcf614ba56a4424809ec49a090</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text19</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>Fee Information:</Text>
+                  <TextBrush>Black</TextBrush>
+                </Text19>
+                <Text38 type="Text" isKey="true" Ref="76">
+                  <AllowHtmlTags>True</AllowHtmlTags>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.1,0.2,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Guid>d118ddbb14c04d72e8094809ec494ff9</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text38</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>Rental Fee</Text>
+                  <TextBrush>Black</TextBrush>
+                </Text38>
+                <Text18 type="Text" isKey="true" Ref="77">
+                  <AllowHtmlTags>True</AllowHtmlTags>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>1,0.2,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Guid>f4ab39d3d0f7c601efe24809ec49bc25</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text18</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>Extra Fees</Text>
+                  <TextBrush>Black</TextBrush>
+                </Text18>
+                <Text39 type="Text" isKey="true" Ref="78">
+                  <AllowHtmlTags>True</AllowHtmlTags>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>1.9,0.2,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Guid>7f1ceab70ffd8fa09d944809ec49d0af</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text39</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>Rental Total</Text>
+                  <TextBrush>Black</TextBrush>
+                </Text39>
+                <Text44 type="Text" isKey="true" Ref="79">
+                  <AllowHtmlTags>True</AllowHtmlTags>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.8,0.2,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Guid>024fe5cedd12361b93264809ec49192e</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text44</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>Deposit</Text>
+                  <TextBrush>Black</TextBrush>
+                </Text44>
+                <Text45 type="Text" isKey="true" Ref="80">
+                  <AllowHtmlTags>True</AllowHtmlTags>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>3.7,0.2,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Guid>5d9410f6efd52ec33de04809ec49e7b9</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text45</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>Total Paid</Text>
+                  <TextBrush>Black</TextBrush>
+                </Text45>
+                <Text47 type="Text" isKey="true" Ref="81">
+                  <AllowHtmlTags>True</AllowHtmlTags>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>4.6,0.2,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8,Bold</Font>
+                  <Guid>1aa953772855b16623cd4809ec491b4b</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text47</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>Balance</Text>
+                  <TextBrush>Black</TextBrush>
+                </Text47>
+                <Text48 type="Text" isKey="true" Ref="82">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.1,0.4,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Guid>f19a4192ff37bed2e2cc4809ec49e483</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text48</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>{fee_data.rental_fee}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat type="CurrencyFormat" isKey="true" Ref="83">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>0</NegativePattern>
+                    <PositivePattern>0</PositivePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                  <Type>DataColumn</Type>
+                </Text48>
+                <Text50 type="Text" isKey="true" Ref="84">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>1,0.4,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Guid>0ae94bd186f1022bbba24809ec4992df</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text50</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>{fee_data.extra_fee}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat type="CurrencyFormat" isKey="true" Ref="85">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>0</NegativePattern>
+                    <PositivePattern>0</PositivePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                </Text50>
+                <Text51 type="Text" isKey="true" Ref="86">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>1.9,0.4,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Guid>72ab045f4054d86f74a44809ec49fac5</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text51</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>{fee_data.rental_total}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat type="CurrencyFormat" isKey="true" Ref="87">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>0</NegativePattern>
+                    <PositivePattern>0</PositivePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                </Text51>
+                <Text52 type="Text" isKey="true" Ref="88">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.8,0.4,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Guid>1165a526fcd4ea843be24809ec49b532</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text52</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>{fee_data.deposit}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat type="CurrencyFormat" isKey="true" Ref="89">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>0</NegativePattern>
+                    <PositivePattern>0</PositivePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                </Text52>
+                <Text53 type="Text" isKey="true" Ref="90">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>3.7,0.4,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Guid>551c4e86d8273ed5fa714809ec49cc36</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text53</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>{fee_data.total_applied}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat type="CurrencyFormat" isKey="true" Ref="91">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>0</NegativePattern>
+                    <PositivePattern>0</PositivePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                </Text53>
+                <Text55 type="Text" isKey="true" Ref="92">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>4.6,0.4,0.8,0.2</ClientRectangle>
+                  <Conditions count="0" isList="true"/>
+                  <Font>Arial,8</Font>
+                  <Guid>d2922810a65ffdd8cbbb4809ec4940f6</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text55</Name>
+                  <Page isRef="19"/>
+                  <Parent isRef="74"/>
+                  <Text>{fee_data.balance}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat type="CurrencyFormat" isKey="true" Ref="93">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>0</NegativePattern>
+                    <PositivePattern>0</PositivePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                </Text55>
+              </Components>
+              <Conditions count="0" isList="true"/>
+              <Guid>c503978f23389253a19c4809ec49da9d</Guid>
+              <Name>Panel3</Name>
+              <Page isRef="19"/>
+              <Parent isRef="73"/>
+            </Panel3>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <DataRelationName>fee_data.header_data</DataRelationName>
+          <DataSourceName>fee_data</DataSourceName>
+          <Filters count="0" isList="true"/>
+          <Guid>a528e8a11e95e1ae1b5a4809ec49e32e</Guid>
+          <Name>DataBand6</Name>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+          <Sort count="0" isList="true"/>
+        </DataBand6>
+        <DataBand9 type="DataBand" isKey="true" Ref="94">
+          <Brush>Transparent</Brush>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,7.13,7.72,0.2</ClientRectangle>
+          <Components count="1" isList="true">
+            <Text1 type="Text" isKey="true" Ref="95">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0,0,7.7,0.2</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="19"/>
+              <Parent isRef="94"/>
+              <Text>{agreement_data.description}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+            </Text1>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <DataRelationName>agreement_data.header_data</DataRelationName>
+          <DataSourceName>agreement_data</DataSourceName>
+          <Filters count="0" isList="true"/>
+          <Guid>824cdc3618b73a009b365cffa5a200b2</Guid>
+          <Name>DataBand9</Name>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+          <Sort count="0" isList="true"/>
+        </DataBand9>
+        <FooterBand1 type="FooterBand" isKey="true" Ref="96">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,7.73,7.72,1.12</ClientRectangle>
+          <Components count="6" isList="true">
+            <Text2 type="Text" isKey="true" Ref="97">
+              <Border>Top, Left;Black;1;Solid;False;4;Black</Border>
+              <Brush>[230:230:230]</Brush>
+              <ClientRectangle>0.01,0.22,3.79,0.3</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="19"/>
+              <Parent isRef="96"/>
+              <Text>Customer</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text46 type="Text" isKey="true" Ref="98">
+              <Border>Top, Left, Right;Black;1;Solid;False;2;Black</Border>
+              <Brush>[230:230:230]</Brush>
+              <ClientRectangle>3.8,0.22,3.88,0.3</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,12</Font>
+              <Guid>ba01badc72234ebfd5ea51c087cead3c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text46</Name>
+              <Page isRef="19"/>
+              <Parent isRef="96"/>
+              <Text>Office</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text46>
+            <Text57 type="Text" isKey="true" Ref="99">
+              <Border>Left;Black;1;Solid;False;4;Black</Border>
+              <Brush>White</Brush>
+              <ClientRectangle>0.01,0.52,3.79,0.3</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,12</Font>
+              <Guid>a434f7a873a82b9cbd1251c3ded24352</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text57</Name>
+              <Page isRef="19"/>
+              <Parent isRef="96"/>
+              <Text>Signature: X_____________________________</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text57>
+            <Text49 type="Text" isKey="true" Ref="100">
+              <Border>Left, Right;Black;1;Solid;False;4;Black</Border>
+              <Brush>White</Brush>
+              <ClientRectangle>3.8,0.52,3.88,0.3</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,12</Font>
+              <Guid>479697a98d4f7b82101351c2dbeb03bd</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text49</Name>
+              <Page isRef="19"/>
+              <Parent isRef="96"/>
+              <Text>Signature: X_______________________________</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text49>
+            <Text62 type="Text" isKey="true" Ref="101">
+              <Border>Left, Bottom;Black;1;Solid;False;4;Black</Border>
+              <Brush>White</Brush>
+              <ClientRectangle>0.01,0.82,3.79,0.3</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,12</Font>
+              <Guid>905b40af7c9c4022ea9051c41ab76d59</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text62</Name>
+              <Page isRef="19"/>
+              <Parent isRef="96"/>
+              <Text>Date: ______/______/__________</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text62>
+            <Text54 type="Text" isKey="true" Ref="102">
+              <Border>Left, Right, Bottom;Black;1;Solid;False;4;Black</Border>
+              <Brush>White</Brush>
+              <ClientRectangle>3.8,0.82,3.88,0.3</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,12</Font>
+              <Guid>423e4abfb829b93ce2e851c3c55f4d59</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text54</Name>
+              <Page isRef="19"/>
+              <Parent isRef="96"/>
+              <Text>Date: ______/______/__________</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text54>
+          </Components>
+          <Conditions count="1" isList="true">
+            <value>agreement_data_x002E_sign_off,EqualTo,complete_box,,String,Red,Transparent,Arial_x002C_10,True,False,,,None</value>
+          </Conditions>
+          <Enabled>False</Enabled>
+          <Name>FooterBand1</Name>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+          <PrintOn>OnlyLastPage</PrintOn>
+        </FooterBand1>
+        <FooterBand3 type="FooterBand" isKey="true" Ref="103">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,9.25,7.72,0.5</ClientRectangle>
+          <Components count="2" isList="true">
+            <Text64 type="Text" isKey="true" Ref="104">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.2,4.9,0.3</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,12</Font>
+              <Guid>8da31456bc03561986e855a11dd221e0</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text64</Name>
+              <Page isRef="19"/>
+              <Parent isRef="103"/>
+              <Text>Signature: X_________________________________________</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text64>
+            <Text41 type="Text" isKey="true" Ref="105">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.88,0.2,2.78,0.3</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,12</Font>
+              <Guid>78a5c349b82aaafca62055a11dd29102</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text41</Name>
+              <Page isRef="19"/>
+              <Parent isRef="103"/>
+              <Text>Date: ______/______/__________</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text41>
+          </Components>
+          <Conditions count="1" isList="true">
+            <value>agreement_data_x002E_sign_off,EqualTo,line,,String,Red,Transparent,Arial_x002C_10,True,False,,,None</value>
+          </Conditions>
+          <Enabled>False</Enabled>
+          <Guid>6868cd85d92ab34bd2ca55a11dd26d6c</Guid>
+          <Name>FooterBand3</Name>
+          <Page isRef="19"/>
+          <Parent isRef="19"/>
+          <PrintAtBottom>True</PrintAtBottom>
+          <PrintOn>OnlyLastPage</PrintOn>
+        </FooterBand3>
+      </Components>
+      <Conditions count="0" isList="true"/>
+      <Guid>a6328a63170a38290ce6e8047f86b3ec</Guid>
+      <Margins>0.39,0.39,0.39,0.39</Margins>
+      <Name>Page1</Name>
+      <PageHeight>11</PageHeight>
+      <PageWidth>8.5</PageWidth>
+      <PaperSize>Letter</PaperSize>
+      <Report isRef="0"/>
+      <Watermark type="Stimulsoft.Report.Components.StiWatermark" isKey="true" Ref="106">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" Ref="107"/>
+  <ReportAlias>Report</ReportAlias>
+  <ReportCacheMode>Auto</ReportCacheMode>
+  <ReportChanged>11/09/2016 02:38:07 AM</ReportChanged>
+  <ReportCreated>12/24/2010 00:56:30 AM</ReportCreated>
+  <ReportFile>C:\Users\Pete\Desktop\BlueRecOnline\app\reports\agreement1_version222.mrt</ReportFile>
+  <ReportGuid>44a28c084de6b4245ece483c048d38bb</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Inches</ReportUnit>
+  <ReportVersion>2016.2</ReportVersion>
+  <Script>Imports System
+Imports System.Drawing
+Imports System.Windows.Forms
+Imports System.Data
+Imports Stimulsoft.Controls
+Imports Stimulsoft.Base.Drawing
+Imports Stimulsoft.Report
+Imports Stimulsoft.Report.Dialogs
+Imports Stimulsoft.Report.Components
+
+Namespace Reports
+    
+    Public Class Report
+        Inherits Stimulsoft.Report.StiReport
+        
+        Public Sub New()
+            MyBase.New
+            Me.InitializeComponent
+        End Sub
+        #Region "StiReport Designer generated code - do not modify"#End Region 'StiReport Designer generated code - do not modify
+    End Class
+End Namespace</Script>
+  <ScriptLanguage>VB</ScriptLanguage>
+  <Styles count="1" isList="true">
+    <Style1 type="Stimulsoft.Report.StiStyle" isKey="true" Ref="108">
+      <Brush>Transparent</Brush>
+      <Conditions count="0" isList="true"/>
+      <Font>Arial,8</Font>
+      <Name>Style1</Name>
+      <TextBrush>Black</TextBrush>
+    </Style1>
+  </Styles>
+</StiSerializer>

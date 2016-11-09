@@ -1082,13 +1082,14 @@ tr.rentalSearchTimePadBot td {
 .toast-plus {
     background-color:  #009900!important;
 }
+
 #toast-container > .toast-plus {
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAeFBMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////GqOSsAAAAJ3RSTlMAAQIDBAUGCxUtL0JHTk9QUlVWe3yPkqCiq62vtbfAxc/V4Obv9fmUvQF3AAAAqUlEQVQ4y83R2Q6CMBQE0MFyBVe0bqCWRcH5/z/0AYzVQowYjfPUdE6T9hb4YeZJMqtX/vq48p1+QZIRAGBLcuOAPT2PCQCgypBVT7WSlABTERGhgaEou49IEmATA0NyaYGyDZQWIEkGwQ3kw7w+8QicvAWMOzjTE4wmL8B9uxdQIilFZNAFLs37Dl1gqvWJWuvx9y4JYHf+dJJ9QdH224UFwtg4iUP8S66jZyQb+4kdrAAAAABJRU5ErkJggg==") !important;
     width:100%;
 }
 
 .toast-list {
-    background-color:  #5C5C5C!important;
+    background-color:  #009900!important;
 }
 #toast-container > .toast-list {
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAtFBMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////oK74hAAAAO3RSTlMAAQIDBAUJEBESExQVFxkeJiksLzAxMjM1Njc4UVRXWV1fYmRtdH6DiImdnqutr7zAwc/a4uvt7/Hz/Y2K4i8AAAC+SURBVDjL7dFHE4IwEAXgNYIFO4q9YW/YG+7//19uiA5cQvDgLe8Cb+Y7vNkA6OgoYx4xzMWKxzZOFjjvi/jjeOygUcbsp1ynKhyNEkdnKPHfZ4wiOKOakQpxyR8qZ5yXrwAXfcSBfEaQHYOKy+2TSl0+g8dj1NIABbklvNpyu2fAqtStB5VG/OkOZD3sQf5OxVHcuQawoY/LbVN6Z1vgNUDuJn5b8kcxT4LMvroNycJ1J6HlupvYAhg/WB2dN7c4LzaY40fuAAAAAElFTkSuQmCC") !important;

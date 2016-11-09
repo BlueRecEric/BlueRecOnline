@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="styles/main.css">
         <link rel="stylesheet" href="styles/calendar.css">
         <link rel="stylesheet" href="styles/bootstrap-social.css">
+        <link rel='stylesheet' href='scripts/directives/stiReport/css/stimulsoft.viewer.office2013.whiteblue.css' />
         <!-- endbuild -->
 
         <script src="https://use.fontawesome.com/f3b2244b08.js"></script>
@@ -151,7 +152,8 @@
                 'limit': 1,
                 'prevent-duplicates': true,
                 'newest-on-top': true,
-                'close-button': true}"></toaster-container>
+                'close-button': true,
+                'tap-to-dismiss':false}"></toaster-container>
 
         <footer class="header noborders noprint">
             <div class="navbar navbar-inverse navbar-fixed-bottom">
@@ -267,6 +269,9 @@
         <script src="scripts/controllers/resetPasswordCtrl.js"></script>
         <script src="scripts/controllers/requestSubmittedCtrl.js"></script>
         <script src="scripts/filters/filterHTML.js"></script>
+        <script src="scripts/directives/stiReport/stiReport.js"></script>
         <!-- endbuild -->
+        <script src="scripts/directives/stiReport/scripts/stimulsoft.reports.js"></script>
+        <script src="scripts/directives/stiReport/scripts/stimulsoft.viewer.js"></script>
     </body>
 </html>

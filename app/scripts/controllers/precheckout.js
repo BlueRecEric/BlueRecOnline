@@ -427,6 +427,7 @@ angular.module('bluereconlineApp')
                 data: {'userID': ActiveUser.userData.user_id, 'householdID': ActiveUser.userData.household_id}
             };
 
+
             return $http(req).then(
                 function success(response) {
                     preloader.waivers = [];

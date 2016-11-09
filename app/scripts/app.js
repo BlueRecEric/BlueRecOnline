@@ -40,7 +40,8 @@ angular
     'angularUtils.directives.dirPagination',
     'djds4rce.angular-socialshare',
     'youtube-embed',
-    'ui.select'
+    'ui.select',
+    'stiReport'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
