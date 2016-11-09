@@ -29,7 +29,7 @@ angular.module('bluereconlineApp')
 
             $scope.reservationDataSet = false;
 
-            $scope.reportName = 'agreement1_version222';
+            $scope.reportName = 'web_agreement1_version2';
             $scope.reportData = {};
 
             if ($scope.rentalData == undefined || $scope.selectedTimeData == undefined) {
