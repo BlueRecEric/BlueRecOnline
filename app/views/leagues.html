@@ -58,7 +58,7 @@
 
             <div class="row">
               <div class="col-sm-4">Roster</div>
-              <div class="col-sm-8"><button type="button" id="btnNewTeamMember" value="Add Player" class="btn btn-success btn-sm pull-right" data-ng-click="addingTeamMember = !addingTeamMember"><i class="fa fa-plus"></i> Add Player</button></div>
+              <div class="col-sm-8"><button type="button" id="btnNewTeamMember" value="Add Player" class="btn btn-success btn-sm pull-right" data-ng-show="team.roster_locked == '0'" data-ng-click="addingTeamMember = !addingTeamMember"><i class="fa fa-plus"></i> Add Player</button></div>
             </div>
             <div class="table-responsive">
               <table class="table table-bordered table-striped">
@@ -95,8 +95,8 @@
                   <td><span data-ng-show="player.editingPlayer"><input placeholder="" type="text" id="editPhone" value="" ui-mask="(999) 999-9999" data-ng-model="player.phone_number" class="form-control" required/></span><span data-ng-show="!player.editingPlayer">{{player.phone_number}}</span></td>
                   <td>
                     <span data-ng-show="!addingTeamMember && !player.editingPlayer && !player.removingPlayer">
-                      <button data-ng-show="player.registered_user == '0'" type="button" id="btnEditTeamMember" value="Edit" class="btn btn-info btn-sm btn-block" data-ng-click="player.editingPlayer = !player.editingPlayer"><i class="fa fa-pencil-square-o"></i> Edit</button>
-                      <button type="button" id="btnRemoveTeamMember" value="Remove" class="btn btn-danger btn-sm btn-block" data-ng-click="player.removingPlayer = !player.removingPlayer"><i class="fa fa-trash-o"></i> Remove</button>
+                      <button data-ng-show="player.registered_user == '0' && team.roster_locked == '0'" type="button" id="btnEditTeamMember" value="Edit" class="btn btn-info btn-sm btn-block" data-ng-click="player.editingPlayer = !player.editingPlayer"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                      <button type="button" id="btnRemoveTeamMember" value="Remove" class="btn btn-danger btn-sm btn-block" data-ng-show="team.roster_locked == '0'" data-ng-click="player.removingPlayer = !player.removingPlayer"><i class="fa fa-trash-o"></i> Remove</button>
                     </span>
                     <span data-ng-show="player.removingPlayer">
                       <button type="button" id="btnRemoveConfirmTeamMember" value="Confirm" class="btn btn-danger btn-sm btn-block" data-ng-click="onRemoveTeamMember(player)"><i class="fa fa-trash-o"></i> Confirm</button>
