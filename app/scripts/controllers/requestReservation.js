@@ -120,8 +120,7 @@ angular.module('bluereconlineApp')
 
                        $scope.rentalGroupData = response.data;
 
-                       //console.log('rental data:  ');
-                       //console.log($scope.rentalGroupData);
+                       console.log('rental data:  ', $scope.rentalGroupData);
                    });
            };
 

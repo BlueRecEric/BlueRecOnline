@@ -41,7 +41,8 @@ angular
     'djds4rce.angular-socialshare',
     'youtube-embed',
     'ui.select',
-    'stiReport'
+    'stiReport',
+    '720kb.tooltips'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;

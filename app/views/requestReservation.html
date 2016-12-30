@@ -98,9 +98,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <i class="text-danger fa fa-lg fa-cubes"></i> <b>-</b> Listings with this icon are bundle
-                            rentals. Bundle rentals have predefined facilities. When signing up for a bundle rental you
-                            choose an available start time and the facilities and there times are automatically setup for
-                            you.
+                            rentals. Bundles are special rentals that are setup with multiple facilities, the order and rental durations of the facilities are predefined.
 
                             <p>Find the rental below that you are interested in reserving and click the link to continue.</p>
                         </div>
@@ -181,15 +179,15 @@
 
                         <div class="panel-body">
                             <div class="col-xs-12">
-                                <h4 class="header-no-margin visible-xs visible-sm">Rental Types/Facilities For Rent</h4>
+                                <h4 class="header-no-margin visible-xs visible-sm">Rental Types/Facilities for Rent</h4>
                             </div>
 
                             <div class="col-xs-5">
-                                <h4 class="header-no-margin hidden-xs hidden-sm">Rental Types/Facilities For Rent</h4>
+                                <h4 class="header-no-margin hidden-xs hidden-sm">Rental Types/Facilities for Rent</h4>
                             </div>
 
                             <div class="col-xs-5">
-                                <h4 class="header-no-margin hidden-xs hidden-sm">Rental Availability</h4>
+                                <h4 class="header-no-margin hidden-xs hidden-sm">Availability</h4>
                             </div>
 
                             <div class="col-xs-2">
@@ -198,7 +196,6 @@
                         </div>
 
                         <div class="panel-body" style="padding-bottom: 0px!important;">
-
                             <ul class="list-group">
                                 <li class="list-group-item" data-ng-repeat="rentalRow in rentalGroupRow.rental_data track by rentalRow.rental_code_item_id">
                                     <div class="row">
@@ -223,7 +220,7 @@
                                             {{facName}}<br>
                                         </div>
 
-                                        <div class="col-xs-2 hidden-xs hidden-sm">${{rentalRow.facility_fees[$index].per_hour_amount}}/{{rentalRow.booking_type}}</div>
+                                        <div class="col-xs-2 hidden-xs hidden-sm">{{::rentalRow.facility_fees[$index].per_hour_amount | currency}}{{(rentalRow.booking_type=='hour')?'/hour':''}}</div>
                                     </div>
 
                                     <div class="row" data-ng-if="rentalRow.force_facility_order" style="padding-left:20px;">
@@ -233,18 +230,15 @@
                                             {{rentalRow.force_facility_order?'('+rentalRow.facility_name_string+')':rentalRow.facility_name_string}}
                                         </div>
 
-                                        <div class="col-xs-2 hidden-xs hidden-sm">${{rentalRow.per_hour_amount}}/{{rentalRow.booking_type}}</div>
+                                        <div class="col-xs-2 hidden-xs hidden-sm">{{::(rentalRow.per_hour_amount*(rentalRow.min_hour/60)) | currency}}{{(rentalRow.booking_type=='hour')?'/hour':''}}</div>
                                     </div>
                                 </li>
-
                             </ul>
 
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>

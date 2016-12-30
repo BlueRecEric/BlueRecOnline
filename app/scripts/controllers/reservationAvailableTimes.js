@@ -88,8 +88,7 @@ angular.module('bluereconlineApp')
 
                 $http(req)
                     .success(function (data) {
-                        //console.log('getRentalData:');
-                        //console.log(data);
+                        console.log('getRentalData', data);
 
                         $scope.rentalData = data.rental_data;
 
@@ -101,8 +100,7 @@ angular.module('bluereconlineApp')
                             }
                         }
 
-                        //console.log('Rental Data:');
-                        //console.log($scope.rentalData);
+                        console.log('Rental Date: ', $scope.rentalData);
 
                         $scope.durationSlider = {
                             ceil: $scope.rentalData.max_hour,
@@ -323,12 +321,11 @@ angular.module('bluereconlineApp')
                         }
                     };
 
-                    console.log('data', req);
+                    //console.log('data', req);
 
                     $http(req)
                         .success(function (data) {
-                            //console.log('search results: ');
-                            //console.log(data);
+                            //console.log('Search Results: ', data);
 
                             if (data.success) {
                                 $scope.isSearchIconBusy.loading = false;
@@ -377,8 +374,7 @@ angular.module('bluereconlineApp')
 
                                     $scope.searchRowCollection = tempResults;
 
-                                    //console.log('search results: ');
-                                    //console.log($scope.searchRowCollection);
+                                    console.log('search results: ', $scope.searchRowCollection);
 
                                     $scope.displayNoResults = false;
                                     $scope.displaySearchResults = true;
@@ -591,13 +587,14 @@ angular.module('bluereconlineApp')
                 selectedRentalData.rental_code_item_id = $scope.rentalItemID;
                 selectedRentalData.auto_approve = $scope.rentalData.auto_approve;
 
-                //console.log(selectedRentalData);
+                console.log('selectedRentalData: ', selectedRentalData);
+                console.log(' $scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
 
                 ReservationFactory.setReservationData(selectedRentalData);
 
                 ReservationFactory.setReservationTimes($scope.selectedRentalTimes.rentals);
 
-                $location.path('/' + $routeParams.orgurl + '/reservationaddons');
+                //$location.path('/' + $routeParams.orgurl + '/reservationaddons');
             };
 
             $rootScope.$on('reviewSelTimesEvent', function (event) {

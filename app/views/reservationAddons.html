@@ -8,15 +8,6 @@
 
             <form class="form-horizontal" role="form">
                 <ng-form>
-                    <button type="submit" class="btn btn-success" data-ng-click="setAgreementData()">Test</button>
-                    <div class="panel panel-primary animate-show animate-hide">
-                        <div class="panel-heading clearfix">
-                            <h3 class="panel-title">Agreement</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div sti-report report-name="reportName" report-data="reportData"></div>
-                        </div>
-                    </div>
 
                     <div class="panel panel-primary animate-show animate-hide" data-ng-if="displayPackages">
                         <div class="panel-heading clearfix">
@@ -217,6 +208,19 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <button type="submit" class="btn btn-success" data-ng-click="setAgreementData()" ng-show="false">Test</button>
+                    <div class="panel panel-primary animate-show animate-hide">
+                        <div class="panel-heading clearfix">
+                            <h3 class="panel-title">Agreement</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div sti-report report-name="reportName" report-data="reportData"></div>
+                        </div>
+                    </div>
+
+
 
                     <div class="panel panel-primary animate-show animate-hide">
 

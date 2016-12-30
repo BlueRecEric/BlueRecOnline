@@ -1146,3 +1146,11 @@ tr.rentalSearchTimePadBot td {
 #toast-container > :hover {
     cursor: default!important;
 }
+
+tooltip tip {
+     background: rgba(105, 105, 105, 1) !important;
+ }
+
+tooltip tip.facility-address {
+    min-width: 300px !important;
+}
