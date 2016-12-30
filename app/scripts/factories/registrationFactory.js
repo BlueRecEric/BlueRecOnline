@@ -17,8 +17,8 @@ angular.module('bluereconlineApp')
         {
             var defer = $q.defer();
 
-            console.log('save reg to local storage:');
-            console.log(reg.data);
+            //console.log('save reg to local storage:');
+            //console.log(reg.data);
 
             defer.resolve(localStorageService.set('temp-reg', reg.data));
 
@@ -154,15 +154,15 @@ angular.module('bluereconlineApp')
 
             var userSelected = false;
 
-            console.log('registering for:');
-            console.log(regProgram);
+            //console.log('registering for:');
+            //console.log(regProgram);
 
             promises.push(reg.clearLocalRegistration());
 
             for(var a = 0; a < regProgram.users.length; a++) {
 
                 if(regProgram.users[a].selected) {
-                    console.log('found a selected participant: ' + regProgram.users[a].user_id);
+                    //console.log('found a selected participant: ' + regProgram.users[a].user_id);
 
                     promises.push(reg.addRegistration(
                         regProgram.users[a].user_id,
@@ -177,13 +177,13 @@ angular.module('bluereconlineApp')
                     regProgram.users[a].eligible = false;
                     regProgram.users[a].selected = false;
 
-                    console.log('regProgram:');
-                    console.log(regProgram);
+                    //console.log('regProgram:');
+                    //console.log(regProgram);
                     userSelected = true;
                 }
                 else
                 {
-                    console.log('user ' + regProgram.users[a].user_id + ' is not selected.');
+                    //console.log('user ' + regProgram.users[a].user_id + ' is not selected.');
                 }
             }
 
@@ -194,7 +194,7 @@ angular.module('bluereconlineApp')
 
         reg.addRegistration = function(userID, itemID, itemType, itemName, userName, requiresPackage, requiresItem)
         {
-            console.log('add the registration data...');
+            //console.log('add the registration data...');
             var defer = $q.defer();
 
             if(isFinite(userID) && userID !== null)
@@ -215,13 +215,13 @@ angular.module('bluereconlineApp')
                     regData.fields = [];
                     regData.addons = [];
 
-                    console.log('now get the addons...');
+                    //console.log('now get the addons...');
 
                     regData.loadingAddons = true;
 
                     reg.getCartAddons(regData).then(function(response) {
-                        console.log('here is the response: ');
-                        console.log(response);
+                        //console.log('here is the response: ');
+                        //console.log(response);
 
                         regData.loadingAddons = false;
 
@@ -292,20 +292,128 @@ angular.module('bluereconlineApp')
                 });
         };
 
-        reg.updateAddonFees = function (regData, itemID, regIndex, optionIndex) {
+        reg.updateStandardAddOnFees = function (regData, itemID, pkgItemID) {
 
             console.log('all regData:');
             console.log(regData);
+
+            var currPkg = '';
+            var numSelected = 0;
+            var includeAdditionalFee = false;
 
             for(var regNum = 0; regNum < regData.length; regNum++) {
                 console.log('update reg data for:');
                 console.log(regData[regNum]);
 
-                reg.getUpdatedAddonFees(regData[regNum], itemID, regNum, regIndex, optionIndex);
+                for(var sa = 0; sa < regData[regNum].addons.packages.length; sa++)
+                {
+                    currPkg = regData[regNum].addons.packages[sa];
+
+                    if(currPkg.item_id == pkgItemID && currPkg.selected == '1')
+                    {
+                        numSelected++;
+                    }
+                    else
+                    {
+                        console.log(currPkg.item_id+' does not equal '+pkgItemID);
+                    }
+
+                    regData[regNum].addons.packages[sa].numSelected = numSelected;
+                    console.log('this package is selected '+numSelected+' times so far.');
+                }
+
+                if(numSelected > 1)
+                {
+                    includeAdditionalFee = true;
+                }
+
+                reg.getUpdatedStandardAddOnFees(regData[regNum], itemID, pkgItemID, regNum, includeAdditionalFee);
             }
         };
 
-        reg.getUpdatedAddonFees = function(regData, itemID, regNum, regIndex, optionIndex)
+        reg.getUpdatedStandardAddOnFees = function(regData, itemID, pkgItemID, regNum, includeAdditionalFee)
+        {
+            regData.regNum = regNum;
+            regData.includeAdditionalPackageFee = includeAdditionalFee;
+
+            console.log('sending reg data:');
+            console.log(regData);
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/item/' + itemID + '/addons',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {
+                    'regData': regData,
+                    'uid':regData.userID
+                }
+            };
+
+            $http(req).then(
+                function success(response) {
+                    var addons = JSON.parse(angular.toJson(response.data.data.addons));
+                    console.log(regData.addons);
+
+                    console.log('returned regdata:');
+                    console.log(response.data);
+                    console.log('returned addons:');
+                    console.log(addons);
+
+                    for(var sa = 0; sa < regData.addons.packages.length; sa++)
+                    {
+                        if(regData.addons.packages[sa].item_id == pkgItemID)
+                        {
+                            regData.addons.packages[sa].fees.data = addons.packages[sa].fees.data;
+                        }
+                    }
+                }
+            );
+        };
+
+        reg.updateWeekdayAddOnFees = function (regData, itemID, pkgItemID, optionIndex) {
+
+            console.log('all regData:');
+            console.log(regData);
+
+            var weekdayList = [
+                {'weekday':'0', 'selected':0},
+                {'weekday':'1', 'selected':0},
+                {'weekday':'2', 'selected':0},
+                {'weekday':'3', 'selected':0},
+                {'weekday':'4', 'selected':0},
+                {'weekday':'5', 'selected':0},
+                {'weekday':'6', 'selected':0},
+            ];
+
+            for(var regNum = 0; regNum < regData.length; regNum++) {
+                console.log('update reg data for:');
+                console.log(regData[regNum]);
+
+                for(var wkOpt = 0; wkOpt < regData[regNum].addons.weekdayOptions.length; wkOpt++)
+                {
+                    if(regData[regNum].addons.weekdayOptions[wkOpt].item_id == pkgItemID && regData[regNum].addons.weekdayOptions[wkOpt].selected == '1')
+                    {
+                        for(var wd = 0; wd < 7; wd++)
+                        {
+                            if(weekdayList[wd].weekday == regData[regNum].addons.weekdayOptions[wkOpt].weekday)
+                            {
+                                weekdayList[wd].selected++;
+                                regData[regNum].addons.weekdayOptions[wkOpt].numSelected = weekdayList[wd].selected;
+                            }
+                        }
+                    }
+                }
+
+                reg.getUpdatedWeekdayAddOnFees(regData[regNum], itemID, regNum);
+            }
+
+            console.log('weekday list:');
+            console.log(weekdayList);
+        };
+
+        reg.getUpdatedWeekdayAddOnFees = function(regData, itemID, regNum)
         {
             regData.regNum = regNum;
 
@@ -324,11 +432,15 @@ angular.module('bluereconlineApp')
             $http(req).then(
                 function success(response) {
                     var addons = JSON.parse(angular.toJson(response.data.data.addons));
-                    console.log(regData.addons.weekdayOptions);
+                    console.log('returned regdata:');
+                    console.log(response.data);
+                    console.log('returned addons:');
+                    console.log(addons);
 
                     for(var wd = 0; wd < regData.addons.weekdayOptions.length; wd++)
                     {
                         regData.addons.weekdayOptions[wd].fees.data = addons.weekdayOptions[wd].fees.data;
+                        regData.addons.weekdayOptions[wd].numSelected = addons.weekdayOptions[wd].numSelected;
                     }
                 }
             );

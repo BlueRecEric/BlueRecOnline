@@ -22,8 +22,12 @@ angular.module('bluereconlineApp')
             console.log(pkg);
         };
 
-        $scope.updateWeekdayAddonFees = function(regIndex, optionIndex) {
-            $timeout($scope.preLoad.updateAddonFees, 500, true, $scope.preLoad.data, $routeParams.itemid, regIndex, optionIndex);
+        $scope.updateStandardAddonFees = function(pkgItemID) {
+            $timeout($scope.preLoad.updateStandardAddOnFees, 500, true, $scope.preLoad.data, $routeParams.itemid, pkgItemID);
+        };
+
+        $scope.updateWeekdayAddonFees = function(pkgItemID, optionIndex) {
+            $timeout($scope.preLoad.updateWeekdayAddOnFees, 500, true, $scope.preLoad.data, $routeParams.itemid, pkgItemID, optionIndex);
             //$scope.preLoad.updateAddonFees($scope.preLoad.data, $routeParams.itemid);
         };
 
