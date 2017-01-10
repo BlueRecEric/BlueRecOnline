@@ -302,11 +302,14 @@ angular.module('bluereconlineApp')
             var includeAdditionalFee = false;
 
             for(var regNum = 0; regNum < regData.length; regNum++) {
+
                 console.log('update reg data for:');
                 console.log(regData[regNum]);
 
                 for(var sa = 0; sa < regData[regNum].addons.packages.length; sa++)
                 {
+                    numSelected += regData[regNum].addons.packages[sa].numInCart;
+
                     currPkg = regData[regNum].addons.packages[sa];
 
                     if(currPkg.item_id == pkgItemID && currPkg.selected == '1')
@@ -467,7 +470,8 @@ angular.module('bluereconlineApp')
                     'Content-Type': undefined
                 },
                 data: {
-                    'uid':regData.userID
+                    'uid':regData.userID,
+                    'hid':regData.householdID
                 }
             };
 
