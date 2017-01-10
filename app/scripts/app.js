@@ -53,9 +53,9 @@ angular
     })
     .config(function(uiGmapGoogleMapApiProvider) {
         uiGmapGoogleMapApiProvider.configure({
-            //    key: 'your api key',
-            v: '3.20', //defaults to latest 3.X anyhow
-            libraries: 'weather,geometry,visualization'
+            key: 'AIzaSyByZtU7qFJGcqzDg1HbFVvR8-F7hqPvdr0',
+            v: '3.20',
+            libraries: 'places,geometry'
         });
     })
     .config(function ($routeProvider,$httpProvider,$locationProvider) {
@@ -717,14 +717,17 @@ angular
         function addToken(config) {
             var token = AuthToken.getToken();
 
-            ////console.log('config:');
-            ////console.log(config);
+
 
             if(token && config.skipAuthorization !== true) {
                 config.headers = config.headers || {};
                 config.headers.Authorization = 'Bearer ' + token;
             }
-
+            else
+            {
+                console.log('skipAuthorization config:');
+                console.log(config);
+            }
             return config;
         }
 
@@ -1005,9 +1008,11 @@ angular
                 var codeReq = {
                     method: 'GET',
                     skipAuthorization: true,
-                    url: 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyByZtU7qFJGcqzDg1HbFVvR8-F7hqPvdr0&address=' + responseData.locations[key].geo_address + '&sensor=false',
+                    url: 'https://maps.google.com/maps/api/geocode/json?address=' + responseData.locations[key].geo_address,
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': undefined,
+                        'Cache-Control': undefined,
+                        'Pragma': undefined
                     }
                 };
 
