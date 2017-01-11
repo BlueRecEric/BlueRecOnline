@@ -8,7 +8,7 @@
     "angular-bootstrap-checkbox": "~0.3.1",
     "angular-cookies": "#1.4.0",
     "angular-dynforms": "~0.0.4",
-    "angular-google-maps": "~2.1.1",
+    "angular-google-maps": "2.1.1",
     "angular-jwt": "~0.0.8",
     "angular-loading-bar": "~0.8.0",
     "angular-md5": "~0.1.7",

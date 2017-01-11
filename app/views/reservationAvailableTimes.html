@@ -182,8 +182,8 @@
                                                 <div class="col-sm-12">
                                                     <label>Rental Duration</label>
                                                 </div>
-                                                <div class="col-sm-12" data-ng-if="rentalData.min_hour === rentalData.max_hour">
-                                                    <div class="form-inline">
+                                                <div class="col-sm-12">
+                                                    <div class="form-inline" data-ng-if="rentalData.min_hour === rentalData.max_hour">
                                                         <input type="text" class="form-control" size="8" data-ng-model="rentalDuration.selectedTime" disabled>
                                                         <span class="control-label">Minutes</span>
                                                     </div>
