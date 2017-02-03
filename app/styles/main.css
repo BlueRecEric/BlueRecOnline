@@ -11,6 +11,17 @@
 }
 
 
+#ticketBox {
+    border: 1px solid #080808;
+    page-break-before: always;
+    margin: 10px !important;
+    padding: 10px !important;
+}
+
+#ticketBox td {
+    padding:5px;
+}
+
 .panel-heading {
     padding: 10px 10px!important;
 }

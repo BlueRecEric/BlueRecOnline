@@ -168,6 +168,21 @@
               </div>
 
               <div class="panel-body" data-ng-show="!program.loadingProgram">
+
+                <div class="row" quick-ng-repeat="note in program.listData.notes">
+                  <div class="col-xs-10 col-xs-offset-1">
+                    <div class="bs-callout bs-callout-warning" id="callout-type-b-i-elems" >
+                      <div class="row">
+                        <div class="col-xs-12 text-left">
+                          <h4><i class="fa fa-edit fa-2x pull-left fa-border text-warning"></i> <strong>{{note.note_name}}</strong></h4>
+
+                          <p data-ng-bind-html="note.note_text | sanitize"></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="row">
                   <div class="col-xs-12 col-sm-9">
                     <div class="row clearfix">

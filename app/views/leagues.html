@@ -58,60 +58,70 @@
 
             <div class="row">
               <div class="col-sm-4">Roster</div>
-              <div class="col-sm-8"><button type="button" id="btnNewTeamMember" value="Add Player" class="btn btn-success btn-sm pull-right" data-ng-show="team.roster_locked == '0'" data-ng-click="addingTeamMember = !addingTeamMember"><i class="fa fa-plus"></i> Add Player</button></div>
+              <div class="col-sm-1 col-sm-offset-6">
+                <button type="button" id="btnImportTeamMembers" value="Add Player" class="btn btn-success btn-sm pull-right" data-ng-show="(!confirmPastTeamMember && team.roster_locked == '0')" data-ng-click="confirmPastTeamMember = !confirmPastTeamMember"><i class="fa fa-plus"></i> Import Past Players</button>
+                <button type="button" id="btnConfirmImportTeamMembers" value="Add Player" class="btn btn-warning btn-sm pull-right" data-ng-show="(confirmPastTeamMember && team.roster_locked == '0')" data-ng-click="importPastTeamMembers(team.team_id)"><i class="fa fa-plus"></i> Confirm Import</button>
+              </div>
+              <div class="col-sm-1">
+                <button type="button" id="btnNewTeamMember" value="Add Player" class="btn btn-success btn-sm pull-right" data-ng-show="team.roster_locked == '0'" data-ng-click="addingTeamMember = !addingTeamMember"><i class="fa fa-plus"></i> Add Player</button>
+              </div>
             </div>
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <td>First</td>
-                  <td>Last</td>
-                  <td>Birthday</td>
-                  <td>Email</td>
-                  <td>Phone</td>
-                  <td data-ng-if="addingTeamMember"></td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr data-ng-show="newTeamMemberErrors.length > 0" class="danger" data-ng-repeat="error in newTeamMemberErrors">
-                  <td colspan="6"><span class="danger">{{error.error.text}}</span></td>
-                </tr>
-                <tr data-ng-if="addingTeamMember" class="warning">
-                  <td><input placeholder="Required" type="text" id="newFirstName" data-ng-model="newTeamMemberForm.firstname" class="form-control" required/></td>
-                  <td><input placeholder="Required" type="text" id="newLastName" data-ng-model="newTeamMemberForm.lastname" class="form-control" required/></td>
-                  <td><span class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><input class="form-control" placeholder="MM/DD/YYYY" data-ng-model="newTeamMemberForm.birthday" data-date-format="M/d/yyyy" id="newBirthday" name="date" data-autoclose="true" data-start-view="2" bs-datepicker type="text" required></span></td>
-                  <td><input placeholder="Optional" type="text" id="newEmail" data-ng-model="newTeamMemberForm.email" class="form-control"/></td>
-                  <td><input placeholder="" type="text" id="newPhone" value="" ui-mask="(999) 999-9999" data-ng-model="newTeamMemberForm.phone" class="form-control" required/></td>
-                  <td data-ng-if="addingTeamMember">
-                    <button type="button" id="btnSaveTeamMember" value="Save" class="btn btn-info btn-sm" data-ng-click="onSaveNewTeamMember(team.team_id)"><i class="fa fa-save"></i> Save</button>
-                  </td>
-                </tr>
 
-                <tr data-ng-repeat="player in team.roster">
-                  <td><span data-ng-show="player.editingPlayer"><input type="text" id="editFirstName" data-ng-model="player.firstname" class="form-control" required/></span><span data-ng-show="!player.editingPlayer">{{player.firstname}}</span></td>
-                  <td><span data-ng-show="player.editingPlayer"><input type="text" id="editLastName" data-ng-model="player.lastname" class="form-control" required/></span><span data-ng-show="!player.editingPlayer">{{player.lastname}}</span></td>
-                  <td><span data-ng-show="player.editingPlayer"><span class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><input class="form-control" placeholder="MM/DD/YYYY" data-ng-model="player.formatBirthday" data-date-format="M/d/yyyy" id="editBirthday" name="date" data-autoclose="true" data-start-view="2" bs-datepicker type="text" required></span></span><span data-ng-show="!player.editingPlayer">{{player.birthday}}</span></td>
-                  <td><span data-ng-show="player.editingPlayer"><input type="text" id="editEmail" data-ng-model="player.email_address" class="form-control" required/></span><span data-ng-show="!player.editingPlayer">{{player.email_address}}</span></td>
-                  <td><span data-ng-show="player.editingPlayer"><input placeholder="" type="text" id="editPhone" value="" ui-mask="(999) 999-9999" data-ng-model="player.phone_number" class="form-control" required/></span><span data-ng-show="!player.editingPlayer">{{player.phone_number}}</span></td>
-                  <td>
-                    <span data-ng-show="!addingTeamMember && !player.editingPlayer && !player.removingPlayer">
-                      <button data-ng-show="player.registered_user == '0' && team.roster_locked == '0'" type="button" id="btnEditTeamMember" value="Edit" class="btn btn-info btn-sm btn-block" data-ng-click="player.editingPlayer = !player.editingPlayer"><i class="fa fa-pencil-square-o"></i> Edit</button>
-                      <button type="button" id="btnRemoveTeamMember" value="Remove" class="btn btn-danger btn-sm btn-block" data-ng-show="team.roster_locked == '0'" data-ng-click="player.removingPlayer = !player.removingPlayer"><i class="fa fa-trash-o"></i> Remove</button>
-                    </span>
-                    <span data-ng-show="player.removingPlayer">
-                      <button type="button" id="btnRemoveConfirmTeamMember" value="Confirm" class="btn btn-danger btn-sm btn-block" data-ng-click="onRemoveTeamMember(player)"><i class="fa fa-trash-o"></i> Confirm</button>
-                      <button type="button" id="btnRemoveCancelTeamMember" value="Cancel" class="btn btn-info btn-sm btn-block" data-ng-click="player.removingPlayer = !player.removingPlayer"><i class="fa fa-times-circle-o"></i> Cancel</button>
-                    </span>
-                    <span data-ng-show="player.editingPlayer">
-                      <button type="button" id="btnEditSaveTeamMember" value="Save" class="btn btn-info btn-sm btn-block" data-ng-click="onSaveEditTeamMember(player)"><i class="fa fa-save"></i> Save</button>
-                      <button type="button" id="btnEditCancelTeamMember" value="Save" class="btn btn-danger btn-sm btn-block" data-ng-click="player.editingPlayer = !player.editingPlayer"><i class="fa fa-times-circle-o"></i> Cancel</button>
-                    </span>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <td>First</td>
+                      <td>Last</td>
+                      <!--<td>Birthday</td>-->
+                      <td>Email</td>
+                      <td>Phone</td>
+                      <td data-ng-if="addingTeamMember"></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-show="newTeamMemberErrors.length > 0" class="danger" data-ng-repeat="error in newTeamMemberErrors">
+                      <td colspan="6"><span class="danger">{{error.error.text}}</span></td>
+                    </tr>
+                    <tr data-ng-if="addingTeamMember" class="warning">
+                      <td><input placeholder="Required" type="text" id="newFirstName" data-ng-model="newTeamMemberForm.firstname" class="form-control" required/></td>
+                      <td><input placeholder="Required" type="text" id="newLastName" data-ng-model="newTeamMemberForm.lastname" class="form-control" required/></td>
+                      <!--<td><span class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><input class="form-control" placeholder="MM/DD/YYYY" data-ng-model="newTeamMemberForm.birthday" data-date-format="M/d/yyyy" id="newBirthday" name="date" data-autoclose="true" data-start-view="2" bs-datepicker type="text" required></span></td>-->
+                      <td><input placeholder="Optional" type="text" id="newEmail" data-ng-model="newTeamMemberForm.email" class="form-control"/></td>
+                      <td><input placeholder="" type="text" id="newPhone" value="" ui-mask="(999) 999-9999" data-ng-model="newTeamMemberForm.phone" class="form-control" required/></td>
+                      <td data-ng-if="addingTeamMember">
+                        <button type="button" id="btnSaveTeamMember" value="Save" class="btn btn-info btn-sm" data-ng-click="onSaveNewTeamMember(team.team_id)"><i class="fa fa-save"></i> Save</button>
+                      </td>
+                    </tr>
+
+                    <tr data-ng-repeat="player in team.roster">
+                      <td><span data-ng-show="player.editingPlayer"><input type="text" id="editFirstName" data-ng-model="player.firstname" class="form-control" required/></span><span data-ng-show="!player.editingPlayer">{{player.firstname}}</span></td>
+                      <td><span data-ng-show="player.editingPlayer"><input type="text" id="editLastName" data-ng-model="player.lastname" class="form-control" required/></span><span data-ng-show="!player.editingPlayer">{{player.lastname}}</span></td>
+                      <!--<td><span data-ng-show="player.editingPlayer"><span class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><input class="form-control" placeholder="MM/DD/YYYY" data-ng-model="player.formatBirthday" data-date-format="M/d/yyyy" id="editBirthday" name="date" data-autoclose="true" data-start-view="2" bs-datepicker type="text" required></span></span><span data-ng-show="!player.editingPlayer">{{player.birthday}}</span></td>-->
+                      <td><span data-ng-show="player.editingPlayer"><input type="text" id="editEmail" data-ng-model="player.email_address" class="form-control" required/></span><span data-ng-show="!player.editingPlayer">{{player.email_address}}</span></td>
+                      <td><span data-ng-show="player.editingPlayer"><input placeholder="" type="text" id="editPhone" value="" ui-mask="(999) 999-9999" data-ng-model="player.phone_number" class="form-control" required/></span><span data-ng-show="!player.editingPlayer">{{player.phone_number}}</span></td>
+                      <td>
+                        <span data-ng-show="!addingTeamMember && !player.editingPlayer && !player.removingPlayer">
+                          <button data-ng-show="player.registered_user == '0' && team.roster_locked == '0'" type="button" id="btnEditTeamMember" value="Edit" class="btn btn-info btn-sm btn-block" data-ng-click="player.editingPlayer = !player.editingPlayer"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                          <button type="button" id="btnRemoveTeamMember" value="Remove" class="btn btn-danger btn-sm btn-block" data-ng-show="team.roster_locked == '0'" data-ng-click="player.removingPlayer = !player.removingPlayer"><i class="fa fa-trash-o"></i> Remove</button>
+                        </span>
+                        <span data-ng-show="player.removingPlayer">
+                          <button type="button" id="btnRemoveConfirmTeamMember" value="Confirm" class="btn btn-danger btn-sm btn-block" data-ng-click="onRemoveTeamMember(player)"><i class="fa fa-trash-o"></i> Confirm</button>
+                          <button type="button" id="btnRemoveCancelTeamMember" value="Cancel" class="btn btn-info btn-sm btn-block" data-ng-click="player.removingPlayer = !player.removingPlayer"><i class="fa fa-times-circle-o"></i> Cancel</button>
+                        </span>
+                        <span data-ng-show="player.editingPlayer">
+                          <button type="button" id="btnEditSaveTeamMember" value="Save" class="btn btn-info btn-sm btn-block" data-ng-click="onSaveEditTeamMember(player)"><i class="fa fa-save"></i> Save</button>
+                          <button type="button" id="btnEditCancelTeamMember" value="Save" class="btn btn-danger btn-sm btn-block" data-ng-click="player.editingPlayer = !player.editingPlayer"><i class="fa fa-times-circle-o"></i> Cancel</button>
+                        </span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
           </div>
-
           <h4 data-ng-show="league.userTeams.length > 0">All Teams</h4>
 
           <div data-ng-repeat="team in league.teams">
@@ -168,3 +178,21 @@
   </div>
 
 </div>
+
+<div ng-controller="ModalPastTeamCtrl as $pastTeamMemberSelect" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

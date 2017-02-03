@@ -11,6 +11,7 @@ angular.module('bluereconlineApp')
     .controller('LeagueList', ['$scope', '$routeParams', '$filter', 'ActiveUser', 'LeagueLoader', function ($scope, $routeParams, $filter, ActiveUser, LeagueLoader) {
 
         $scope.addingTeamMember = false;
+        $scope.confirmPastTeamMember = false;
         $scope.newTeamMemberForm = {};
         $scope.newTeamMemberErrors = [];
 
@@ -59,6 +60,24 @@ angular.module('bluereconlineApp')
                         console.log('working data:');
                         console.log(response);
                     });
+                });
+            };
+
+            $scope.importPastTeamMembers = function(teamID)
+            {
+                console.log('import past team members:');
+                $scope.league.importPastTeamMembers(ActiveUser.userData.user_id, teamID).then(function () {
+                    $scope.league.getUserLeagues(ActiveUser.userData.user_id).then(function (response) {
+                        console.log('working data:');
+                        console.log(response);
+                    });
+                });
+            };
+
+            $scope.getPastTeamMembers = function()
+            {
+                console.log('get past team members:');
+                $scope.league.getPastTeamMembers(ActiveUser.userData.user_id).then(function (response) {
                 });
             };
 
@@ -121,6 +140,38 @@ angular.module('bluereconlineApp')
             });
         };
 
+        var importPastTeamMembers = function (captainUserID,teamID) {
+
+            var requestData = {'uid':captainUserID,'import':true,'teamID':teamID};
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/leagues/pastTeamMembers',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: requestData
+            };
+
+            return $http(req);
+        };
+
+        var getPastTeamMembers = function (captainUserID) {
+
+            var requestData = {'uid':captainUserID,'import':false};
+
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/leagues/pastTeamMembers',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: requestData
+            };
+
+            return $http(req);
+        };
+
         var removeTeamMember = function (removeForm) {
             var req = {
                 method: 'POST',
@@ -172,5 +223,7 @@ angular.module('bluereconlineApp')
         leagueData.saveNewTeamMember = saveNewTeamMember;
         leagueData.saveEditTeamMember = saveEditTeamMember;
         leagueData.removeTeamMember = removeTeamMember;
+        leagueData.getPastTeamMembers = getPastTeamMembers;
+        leagueData.importPastTeamMembers = importPastTeamMembers;
         return leagueData;
     }]);

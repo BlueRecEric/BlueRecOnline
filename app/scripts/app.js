@@ -42,11 +42,17 @@ angular
     'youtube-embed',
     'ui.select',
     'stiReport',
-    '720kb.tooltips'
+    '720kb.tooltips',
+    'google-signin'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
   }])
+    .config(['GoogleSigninProvider', function(GoogleSigninProvider) {
+        GoogleSigninProvider.init({
+            client_id: '259114639392-mjl4bj985aactok5rcidv7qjv0n9dlv1.apps.googleusercontent.com'
+        });
+    }])
     .config(function (localStorageServiceProvider) {
         localStorageServiceProvider
             .setPrefix('blueRec');
