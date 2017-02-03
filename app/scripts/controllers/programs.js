@@ -18,6 +18,20 @@ angular.module('bluereconlineApp')
 
         $scope.search = SearchFactory;
 
+        $scope.checkTypeRoute = function () {
+            if(angular.isDefined($routeParams.typeid))
+            {
+                console.log('search type is defined:' + $routeParams.typeid);
+                $scope.search.programSearch.type = $routeParams.typeid;
+                $scope.doSearch();
+            }
+            else
+            {
+                $scope.getPrograms();
+            }
+
+        };
+
         $scope.doSearch = function () {
             console.log('search keyword:' + $scope.search.programSearch.keyword);
 
@@ -276,10 +290,11 @@ angular.module('bluereconlineApp')
             }
         };
 
+
         $scope.checkActiveUser();
         $scope.getProgramTypes();
         $scope.getProgramLocations();
-        $scope.getPrograms();
+        $scope.checkTypeRoute();
 
     }])
     .factory('ProgramsLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams) {

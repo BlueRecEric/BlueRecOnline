@@ -30,7 +30,7 @@ module.exports = function(config) {
       'bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js',
       'bower_components/angular-cookies/angular-cookies.js',
       'bower_components/angular-dynforms/dynamic-forms.js',
-      'bower_components/lodash/dist/lodash.compat.js',
+      'bower_components/lodash/lodash.js',
       'bower_components/angular-google-maps/dist/angular-google-maps.js',
       'bower_components/angular-jwt/dist/angular-jwt.js',
       'bower_components/angular-loading-bar/build/loading-bar.js',
@@ -64,7 +64,6 @@ module.exports = function(config) {
       'bower_components/angular-ui-mask/dist/mask.js',
       'bower_components/angular-youtube-mb/src/angular-youtube-embed.js',
       'bower_components/angular-tooltips/dist/angular-tooltips.min.js',
-      'bower_components/ng-google-signin/dist/ng-google-signin.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",
