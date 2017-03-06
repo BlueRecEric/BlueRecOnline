@@ -19,10 +19,24 @@ angular.module('bluereconlineApp')
         $scope.search = SearchFactory;
 
         $scope.checkTypeRoute = function () {
+            var searchSet = false;
+
             if(angular.isDefined($routeParams.typeid))
             {
                 console.log('search type is defined:' + $routeParams.typeid);
                 $scope.search.programSearch.type = $routeParams.typeid;
+                searchSet = true;
+            }
+
+            if(angular.isDefined($routeParams.keyword))
+            {
+                console.log('search type is defined:' + $routeParams.keyword);
+                $scope.search.programSearch.keyword = $routeParams.keyword;
+                searchSet = true;
+            }
+
+            if(searchSet)
+            {
                 $scope.doSearch();
             }
             else

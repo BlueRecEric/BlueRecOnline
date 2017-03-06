@@ -71,7 +71,11 @@ angular.module('bluereconlineApp')
 
         function getSignupConfig() {
             console.log('get signup config');
-            sign.config = sign.remote.getSignupConfig();
+            sign.config = sign.remote.getSignupConfig().then(function(result){
+                sign.newAccount.requireGender = result.requireGender;
+                console.log('config result:');
+                console.log(result);
+            });
         }
 
         uiGmapGoogleMapApi.then(function(maps) {});
@@ -84,6 +88,7 @@ angular.module('bluereconlineApp')
             $scope.config = result.data;
             console.log('config');
             console.log($scope.config);
+            sign.newAccount.requireGender = $scope.config.data.requireGender;
             $scope.signupVideo = $scope.config.data.signupTutorialVideo;
         });
     }])
@@ -178,6 +183,10 @@ angular.module('bluereconlineApp')
             signRemote.formData.lastnameError.error = false;
             signRemote.formData.lastnameError.message = '';
 
+            signRemote.formData.genderError = [];
+            signRemote.formData.genderError.error = false;
+            signRemote.formData.genderError.message = '';
+
             signRemote.formData.birthdayError = [];
             signRemote.formData.birthdayError.error = false;
             signRemote.formData.birthdayError.message = '';
@@ -206,6 +215,22 @@ angular.module('bluereconlineApp')
             signRemote.formData.phoneError.error = false;
             signRemote.formData.phoneError.message = '';
 
+            signRemote.formData.phoneTypeError = [];
+            signRemote.formData.phoneTypeError.error = false;
+            signRemote.formData.phoneTypeError.message = '';
+
+            signRemote.formData.cityError = [];
+            signRemote.formData.cityError.error = false;
+            signRemote.formData.cityError.message = '';
+
+            signRemote.formData.stateError = [];
+            signRemote.formData.stateError.error = false;
+            signRemote.formData.stateError.message = '';
+
+            signRemote.formData.zipError = [];
+            signRemote.formData.zipError.error = false;
+            signRemote.formData.zipError.message = '';
+
             if(!angular.isDefined(signRemote.formData.firstname) || signRemote.formData.firstname.length === 0)
             {
                 signRemote.formError = true;
@@ -218,6 +243,13 @@ angular.module('bluereconlineApp')
                 signRemote.formError = true;
                 signRemote.formData.lastnameError.error = true;
                 signRemote.formData.lastnameError.message = 'Please enter your last name.';
+            }
+
+            if(signRemote.formData.requireGender == '1' && (!angular.isDefined(signRemote.formData.gender) || signRemote.formData.gender.length === 0 || signRemote.formData.gender == 'NS'))
+            {
+                signRemote.formError = true;
+                signRemote.formData.genderError.error = true;
+                signRemote.formData.genderError.message = 'Please select your gender.';
             }
 
             if(!angular.isDefined(signRemote.formData.formatBirthday) || signRemote.formData.formatBirthday === 0)
@@ -248,25 +280,25 @@ angular.module('bluereconlineApp')
                 signRemote.formData.phoneError.message = 'Please enter your phone number.';
             }
 
-            if(!angular.isDefined(signRemote.formData.zip) || signRemote.formData.state.zip === 0)
+            if(!angular.isDefined(signRemote.formData.zip) || signRemote.formData.zip.length === 0)
             {
                 signRemote.formError = true;
-                signRemote.formData.addressError.error = true;
-                signRemote.formData.addressError.message = 'Please enter your zipcode.';
+                signRemote.formData.zipError.error = true;
+                signRemote.formData.zipError.message = 'Please enter your zipcode.';
             }
 
             if(!angular.isDefined(signRemote.formData.state) || signRemote.formData.state.length === 0)
             {
                 signRemote.formError = true;
-                signRemote.formData.addressError.error = true;
-                signRemote.formData.addressError.message = 'Please enter your state.';
+                signRemote.formData.stateError.error = true;
+                signRemote.formData.stateError.message = 'Please enter your state.';
             }
 
             if(!angular.isDefined(signRemote.formData.city) || signRemote.formData.city.length === 0)
             {
                 signRemote.formError = true;
-                signRemote.formData.addressError.error = true;
-                signRemote.formData.addressError.message = 'Please enter your city.';
+                signRemote.formData.cityError.error = true;
+                signRemote.formData.cityError.message = 'Please enter your city.';
             }
 
             if(!angular.isDefined(signRemote.formData.addr) || signRemote.formData.addr.length === 0)
@@ -292,15 +324,8 @@ angular.module('bluereconlineApp')
             if(!angular.isDefined(signRemote.formData.phoneType) || signRemote.formData.phoneType.length === 0)
             {
                 signRemote.formError = true;
-                signRemote.formData.addressError.error = true;
-                signRemote.formData.addressError.message = 'Please select your primary phone type.';
-            }
-
-            if(!angular.isDefined(signRemote.formData.phone) || signRemote.formData.phone.length === 0)
-            {
-                signRemote.formError = true;
-                signRemote.formData.addressError.error = true;
-                signRemote.formData.addressError.message = 'Please enter your primary phone number.';
+                signRemote.formData.phoneTypeError.error = true;
+                signRemote.formData.phoneTypeError.message = 'Please select your primary phone type.';
             }
 
 

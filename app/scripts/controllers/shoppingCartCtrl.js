@@ -24,8 +24,9 @@ angular.module('bluereconlineApp')
             show: false
         });
 
-      $scope.promoCodeEnabled = false;
-      $scope.promoCode = '';
+      $scope.promoCodeEnabled = true;
+      $scope.promoCode = {};
+      $scope.promoCode.code = '';
 
       $scope.$route = $route;
 
@@ -60,7 +61,7 @@ angular.module('bluereconlineApp')
           headers: {
             'Content-Type': undefined
           },
-          data: {'userID': ActiveUser.userData.user_id, 'householdID':ActiveUser.userData.household_id, 'promoCode':$scope.promoCode}
+          data: {'userID': ActiveUser.userData.user_id, 'householdID':ActiveUser.userData.household_id, 'promoCode':$scope.promoCode.code}
         };
 
         return $http(req)

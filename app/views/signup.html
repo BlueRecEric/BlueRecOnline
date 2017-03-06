@@ -45,7 +45,21 @@
                   <div class="form-group">
                     <label for="newLastName" class="col-sm-3 control-label">Last Name:</label>
                     <div class="col-sm-6">
+                      <input type="hidden" name="requireGender" id="requireGender" data-ng-model="sign.newAccount.requireGender" value="{{config.data.requireGender}}">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-pencil-square-o"></i></span><input type="text" id="newLastName" data-ng-model="sign.newAccount.lastname" class="form-control"/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.genderError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.genderError.message}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="config.data.requireGender == '1'">
+                    <label class="col-sm-3 control-label">Gender</label>
+                    <div class="col-sm-6">
+                      <gender-select id="currentState" ng-model="sign.newAccount.gender" name="currentGender" class="form-control" required></gender-select>
                     </div>
                   </div>
 
@@ -154,9 +168,9 @@
                     </div>
                   </div>
 
-                <div class="form-group" data-ng-show="sign.remote.formData.addressError.error">
+                <div class="form-group" data-ng-show="sign.remote.formData.phoneError.error">
                     <div class="col-sm-6 col-sm-offset-3">
-                        <div class="alert alert-danger" role="alert">{{sign.remote.formData.addressError.message}}</div>
+                        <div class="alert alert-danger" role="alert">{{sign.remote.formData.phoneError.message}}</div>
                     </div>
                 </div>
 
@@ -164,6 +178,12 @@
                     <label for="currentPhone" class="col-sm-3 control-label">Primary Phone:</label>
                     <div class="col-sm-6">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span><input type="text" id="currentPhone" data-ng-model="sign.newAccount.phone" value="" class="form-control" ui-mask="(999) 999-9999" required/></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.phoneTypeError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.phoneTypeError.message}}</div>
                     </div>
                   </div>
 
@@ -200,6 +220,12 @@
                     </div>
                   </div>
 
+                  <div class="form-group" data-ng-show="sign.remote.formData.addressError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.addressError.message}}</div>
+                    </div>
+                  </div>
+
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Address</label>
                     <div class="col-sm-6">
@@ -214,6 +240,12 @@
                     </div>
                   </div>
 
+                  <div class="form-group" data-ng-show="sign.remote.formData.cityError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.cityError.message}}</div>
+                    </div>
+                  </div>
+
                   <div class="form-group">
                     <label class="col-sm-3 control-label">City</label>
                     <div class="col-sm-6">
@@ -221,10 +253,22 @@
                     </div>
                   </div>
 
+                  <div class="form-group" data-ng-show="sign.remote.formData.stateError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.stateError.message}}</div>
+                    </div>
+                  </div>
+
                   <div class="form-group">
                     <label class="col-sm-3 control-label">State</label>
                     <div class="col-sm-6">
                       <state-select id="currentState" ng-model="sign.newAccount.state" name="currentState" class="form-control" required></state-select>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-show="sign.remote.formData.zipError.error">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <div class="alert alert-danger" role="alert">{{sign.remote.formData.zipError.message}}</div>
                     </div>
                   </div>
 

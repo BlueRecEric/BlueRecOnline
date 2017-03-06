@@ -123,7 +123,7 @@ angular
                 templateUrl: 'views/userSettings/autoPayments.html',
                 controller: 'AutoPaymentCtrl'
             })
-            .when('/:orgurl/programs/:typeid?', {
+            .when('/:orgurl/programs/:typeid?/:keyword?', {
                 templateUrl: 'views/programs.html',
                 controller: 'ProgramsCtrl'
             })
