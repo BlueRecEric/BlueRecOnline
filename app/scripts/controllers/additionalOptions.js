@@ -19,7 +19,7 @@ angular.module('bluereconlineApp')
 
 
         $scope.updateEveryDateAddonFees = function(dropins, weeks, pkg) {
-            console.log(pkg);
+            //console.log(pkg);
         };
 
         $scope.updateStandardAddonFees = function(pkgItemID) {
@@ -32,11 +32,11 @@ angular.module('bluereconlineApp')
         };
 
         $scope.updateDayGroupFees = function(dayGroups, clickedPkg) {
-            console.log('update day group selection for ' + dayGroups.length + ' items');
+            //console.log('update day group selection for ' + dayGroups.length + ' items');
 
             for(var dg = 0; dg < dayGroups.length; dg++)
             {
-                console.log('clicked package item: ' + clickedPkg.item_id + ' and loop package item: ' + dayGroups[dg].item_id);
+                //console.log('clicked package item: ' + clickedPkg.item_id + ' and loop package item: ' + dayGroups[dg].item_id);
 
                 if(dayGroups[dg].item_id == clickedPkg.item_id && dayGroups[dg].day_group_id != clickedPkg.day_group_id)
                 {
@@ -47,7 +47,7 @@ angular.module('bluereconlineApp')
         };
 
         $scope.clickDateAddon = function (dropins, weeks, pkg) {
-            console.log(pkg);
+            //console.log(pkg);
 
             for(var ui = 0; ui < dropins.uniqueItems.length; ui++)
             {
@@ -64,7 +64,7 @@ angular.module('bluereconlineApp')
                             {
                                 if(weeks[w].weekday[wd].packages[wdp].item_id == pkg.item_id && weeks[w].weekday[wd].packages[wdp].selected == '1')
                                 {
-                                    console.log('selected package ' + weeks[w].weekday[wd].packages[wdp].item_id + ' with date ' + weeks[w].weekday[wd].packages[wdp].item_day);
+                                    //console.log('selected package ' + weeks[w].weekday[wd].packages[wdp].item_id + ' with date ' + weeks[w].weekday[wd].packages[wdp].item_day);
                                     dropins.uniqueItems[ui].selected_count++;
                                     dropins.uniqueItems[ui].selected_days.push(weeks[w].weekday[wd].packages[wdp].item_day);
                                     dropins.uniqueItems[ui].selected = '1';
@@ -84,7 +84,7 @@ angular.module('bluereconlineApp')
                     {
                         if(dropins.uniqueItems[uif].fees.data[f].fee_id == dropins.uniqueItems[uif].original_fees.data[ofee].fee_id)
                         {
-                            console.log('updating fee');
+                            //console.log('updating fee');
                             dropins.uniqueItems[uif].fees.data[f].fee_amount = dropins.uniqueItems[uif].original_fees.data[ofee].fee_amount * dropins.uniqueItems[uif].selected_count;
                         }
                     }
@@ -92,7 +92,7 @@ angular.module('bluereconlineApp')
                 }
             }
 
-            console.log(dropins);
+            //console.log(dropins);
 
         };
 
@@ -125,8 +125,8 @@ angular.module('bluereconlineApp')
         $scope.$on('registration:loaded', function() {
             $scope.preLoad = RegistrationFactory;
 
-            console.log('updated working data:');
-            console.log($scope.preLoad);
+            //console.log('updated working data:');
+            //console.log($scope.preLoad);
             $scope.itemID = $routeParams.itemid;
         });
 
@@ -135,8 +135,8 @@ angular.module('bluereconlineApp')
             $scope.preLoad = RegistrationFactory;
             $scope.itemID = $routeParams.itemid;
             $scope.preLoad.getLocalRegistration().then(function () {
-                console.log('working data:');
-                console.log($scope.preLoad);
+                //console.log('working data:');
+                //console.log($scope.preLoad);
 
             }); 
         }
@@ -150,8 +150,8 @@ angular.module('bluereconlineApp')
 
             $scope.optionErrors = [];
 
-            console.log('here is the data we will submit:');
-            console.log($scope.preLoad);
+            //console.log('here is the data we will submit:');
+            //console.log($scope.preLoad);
 
             function isSelected(pkg) {
                 return (pkg.selected == '1');
@@ -169,8 +169,8 @@ angular.module('bluereconlineApp')
 
             for(var r = 0; r < $scope.preLoad.data.length; r++)
             {
-                console.log('this data:');
-                console.log($scope.preLoad.data[r]);
+                //console.log('this data:');
+                //console.log($scope.preLoad.data[r]);
 
                 //$scope.preLoad.data[r].addons.selectedpackages = [];
 
@@ -184,12 +184,14 @@ angular.module('bluereconlineApp')
                 var selectedInventory = [];
                 var registration = $scope.preLoad.data[r];
 
+                var requiredAmountSelected = true;
+
                 if(angular.isDefined(registration.addons.inventory) && registration.addons.inventory.length > 0)
                 {
                     selectedInventory = registration.addons.inventory.filter(isSelected);
 
-                    console.log('here are the selected inventory:');
-                    console.log(selectedInventory);
+                    //console.log('here are the selected inventory:');
+                    //console.log(selectedInventory);
 
                     if(selectedInventory.length > 0)
                     {
@@ -205,8 +207,8 @@ angular.module('bluereconlineApp')
                 {
                     selectedPackages = registration.addons.packages.filter(isSelected);
 
-                    console.log('here are the selected packages:');
-                    console.log(selectedPackages);
+                    //console.log('here are the selected packages:');
+                    //console.log(selectedPackages);
 
                     if(selectedPackages.length > 0)
                     {
@@ -222,8 +224,8 @@ angular.module('bluereconlineApp')
                 {
                     selectedGroups = registration.addons.dayGroups.filter(isSelected);
 
-                    console.log('here are the selected groups:');
-                    console.log(selectedGroups);
+                    //console.log('here are the selected groups:');
+                    //console.log(selectedGroups);
 
                     if(selectedGroups.length > 0)
                     {
@@ -239,14 +241,14 @@ angular.module('bluereconlineApp')
                 {
                     if(angular.isDefined(registration.addons.dropins.uniqueItems))
                     {
-                        console.log('there are dropins:');
+                        //console.log('there are dropins:');
 
                         if($scope.preLoad.data[r].addons.dropins.uniqueItems.length > 0)
                         {
                             selectedDropins = $scope.preLoad.data[r].addons.dropins.uniqueItems.filter(dropinSelected);
 
-                            console.log('here are the selected dropins:');
-                            console.log(selectedDropins);
+                            //console.log('here are the selected dropins:');
+                            //console.log(selectedDropins);
 
 
                             if(selectedDropins.length > 0)
@@ -263,14 +265,96 @@ angular.module('bluereconlineApp')
 
                 if(angular.isDefined($scope.preLoad.data[r].addons.weekdayOptions))
                 {
-                    console.log('there are weekdays:');
+                    //console.log('there are weekdays:');
+
+                    var currentPackageItemID = '';
+                    var selectedCount = 0;
+                    var currentMin = 0;
+                    var currentMax = 0;
+                    var currentItemName = '';
+
+                    var weekdayError = {};
+
+                    if($scope.preLoad.data[r].addons.weekdayOptions.length > 0 && $scope.preLoad.data[r].addons.weekdayItems.length > 0)
+                    {
+                        for(var wdi = 0; wdi < $scope.preLoad.data[r].addons.weekdayItems.length; wdi++) {
+                            for (var p = 0; p < $scope.preLoad.data[r].addons.weekdayOptions.length; p++) {
+                                if($scope.preLoad.data[r].addons.weekdayOptions[p].item_id == $scope.preLoad.data[r].addons.weekdayItems[wdi]) {
+                                    if (currentPackageItemID != $scope.preLoad.data[r].addons.weekdayOptions[p].item_id) {
+                                        if (!requiredAmountSelected && (currentMin >= 0 || currentMax >= 0)) {
+                                            if (selectedCount >= $scope.preLoad.data[r].addons.weekdayOptions[p].min_days && (currentMax == 0 && selectedCount > 0 || selectedCount <= $scope.preLoad.data[r].addons.weekdayOptions[p].max_days)) {
+                                                //console.log('count passed in main loop');
+                                                requiredAmountSelected = true;
+                                            }
+                                            else {
+                                                //console.log('count error in main loop');
+                                                weekdayError.message = 'You must select between ' + currentMin + ' and ' + currentMax + ' weekday(s) for ' + currentItemName;
+                                                weekdayError.itemID = currentPackageItemID;
+                                                $scope.optionErrors.push(weekdayError);
+                                            }
+                                        }
+
+                                        if ($scope.preLoad.data[r].addons.weekdayOptions[p].selected == '1') {
+                                            selectedCount = 0;
+                                            currentPackageItemID = $scope.preLoad.data[r].addons.weekdayOptions[p].item_id;
+                                            currentMin = $scope.preLoad.data[r].addons.weekdayOptions[p].min_days;
+                                            currentMax = $scope.preLoad.data[r].addons.weekdayOptions[p].max_days;
+                                            currentItemName = $scope.preLoad.data[r].addons.weekdayOptions[p].item_name;
+                                            if (currentMin >= 0 || currentMax >= 0) {
+                                                requiredAmountSelected = false;
+                                                selectedCount++;
+                                            }
+                                            //console.log('weekday count initiated:');
+                                            //console.log('current min is ' + currentMin + ' and current max is ' + currentMax);
+                                            //console.log('current count is ' + selectedCount);
+                                            //console.log('requiredAmountSelected is: ' + requiredAmountSelected);
+                                        }
+                                    }
+                                    else {
+                                        if ($scope.preLoad.data[r].addons.weekdayOptions[p].selected == '1') {
+                                            selectedCount++;
+                                            //console.log('current count is ' + selectedCount);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(!requiredAmountSelected) {
+                            if (selectedCount < currentMin || (selectedCount < currentMin && currentMax == 0) || (currentMax > 0 && selectedCount > currentMax)) {
+
+                                //console.log('count error outside main loop');
+                                //console.log('Outside: current min is ' + currentMin + ' and current max is ' + currentMax);
+                                //console.log('Outside: current count is ' + selectedCount);
+                                //console.log('Outside: requiredAmountSelected is: ' + requiredAmountSelected);
+                                if (currentMin == currentMax) {
+                                    weekdayError.message = 'You must select ' + currentMin + ' weekday(s) for ' + currentItemName;
+                                }
+                                else if (currentMin == 0 && currentMax > 0) {
+                                    weekdayError.message = 'You may only select up to ' + currentMax + ' weekday(s) for ' + currentItemName;
+                                }
+                                else if (currentMin > 0 && currentMax == 0) {
+                                    weekdayError.message = 'You must select at least ' + currentMin + ' weekday(s) for ' + currentItemName;
+                                }
+                                else {
+                                    weekdayError.message = 'You must select between ' + currentMin + ' and ' + currentMax + ' weekday(s) for ' + currentItemName;
+                                }
+
+                                weekdayError.itemID = currentPackageItemID;
+                                $scope.optionErrors.push(weekdayError);
+                            }
+                            else {
+                                //console.log('count passed outside main loop');
+                            }
+                        }
+                    }
 
                     if($scope.preLoad.data[r].addons.weekdayOptions.length > 0)
                     {
                         selectedWeekdays = $scope.preLoad.data[r].addons.weekdayOptions.filter(weekdayItemSelected);
 
-                        console.log('here are the selected weekdays:');
-                        console.log(selectedWeekdays);
+                        //console.log('here are the selected weekdays:');
+                        //console.log(selectedWeekdays);
 
 
                         if(selectedWeekdays.length > 0)
@@ -284,13 +368,13 @@ angular.module('bluereconlineApp')
                     }
                 }
 
-                console.log('here are the all selections:');
-                console.log(selectedAddons);
+                //console.log('here are the all selections:');
+                //console.log(selectedAddons);
 
                 $scope.preLoad.data[r].addons.selectedpackages = selectedAddons;
 
-                console.log('updated registration array:');
-                console.log($scope.preLoad);
+                //console.log('updated registration array:');
+                //console.log($scope.preLoad);
 
                 if(!hasPackage && $scope.preLoad.data[r].requiresPackage == '1')
                 {
@@ -311,8 +395,8 @@ angular.module('bluereconlineApp')
                 }
             }
 
-            console.log('here is the data we will submit, with only selected packages:');
-            console.log($scope.preLoad);
+            //console.log('here is the data we will submit, with only selected packages:');
+            //console.log($scope.preLoad);
 
             if($scope.optionErrors.length > 0)
             {
@@ -320,6 +404,8 @@ angular.module('bluereconlineApp')
                 $scope.addingToCart = false;
             }
             else {
+                //console.log('no errors, add to cart');
+
                 $scope.preLoad.addToCart().then(function (response) {
                     console.log('add to cart response(2):');
                     console.log(response);

@@ -58,6 +58,12 @@ angular.module('bluereconlineApp')
             $location.path('/' + $routeParams.orgurl + '/login');
         };
 
+        $scope.checkPreEligibleRegistrant = function (person) {
+            if(!person.preEligible) {
+                person.selected = false;
+            }
+        };
+
         $scope.checkEligibleRegistrant = function (person) {
             if(!person.eligible) {
                 person.selected = false;
@@ -268,11 +274,13 @@ angular.module('bluereconlineApp')
 
 
                         program.listData.showEligibleButton = false;
+                        program.listData.showPreEligibleButton = false;
 
-                        console.log('current listing:');
-                        console.log(program.listData);
+                        //console.log('current listing:');
+                        //console.log(program.listData);
 
                         if (angular.isDefined(program.listData.users) && program.listData.users.length > 0) {
+                            /*
                             console.log('There are ' + program.listData.users.length + ' users');
 
                             console.log(program.listData.users.filter(function (user) {
@@ -281,11 +289,17 @@ angular.module('bluereconlineApp')
                             console.log(program.listData.users.filter(function (user) {
                                     return !user.eligible;
                                 }).length + ' users are ineligible for this class');
-
+                            */
                             if (program.listData.users.filter(function (user) {
                                     return !user.eligible;
                                 }).length > 0) {
                                 program.listData.showEligibleButton = true;
+                            }
+
+                            if (program.listData.users.filter(function (user) {
+                                    return !user.preEligible;
+                                }).length > 0) {
+                                program.listData.showPreEligibleButton = true;
                             }
                         }
                         program.loadingProgram = false;

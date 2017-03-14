@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row" style="padding-top: 5px;">
+                                <div class="row" style="padding-top: 5px;" data-ng-if="{{item.total_fee > 0}}">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-7">
                                         <h4>${{item.total_fee}}</h4>
@@ -46,17 +46,17 @@
                                 <div data-ng-repeat="link in item.linked_items.data">
                                     <div class="row" data-ng-show="link.link_hidden == 0">
                                         <div class="col-sm-2">&nbsp;</div>
-                                        <div class="col-sm-1">
+                                        <!--<div class="col-sm-1">
                                         <span data-placement="right"><span class="fa-stack fa-1x clicky" data-ng-click="removeItem({{link.linked_shopping_item_id}})"
                                                                           data-ng-hide="{{$route.current.templateUrl == 'views/precheckout.html'}}">
                                           <i class="fa fa-square fa-stack-2x text-danger"></i>
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span>
-                                        </div>
-                                        <div class="col-sm-7" data-ng-show="link.linked_item_name != item.item_name">
+                                        </div>-->
+                                        <div class="col-sm-5" data-ng-show="link.linked_item_name != item.item_name">
                                             <h5 style="margin-top: 5px;"><a href ng-click="gotoItemInfoPage(link.main_item_id, link.type_name);$hide();">{{link.linked_item_name}} <element data-ng-show="link.linked_quantity>0">x{{link.linked_quantity}}</element></a></h5>
                                         </div>
-                                        <div class="col-sm-7" data-ng-show="link.linked_person_name != item.person_name">
+                                        <div class="col-sm-5" data-ng-show="link.linked_person_name != item.person_name">
                                             <h5 style="margin-top: 5px;">{{link.linked_person_name}}</h5>
                                         </div>
                                     </div>

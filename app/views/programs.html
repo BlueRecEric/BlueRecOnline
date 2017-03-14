@@ -6,7 +6,7 @@
       <div class="col-xs-12">
         <div class="row">
           <div class="form-group col-xs-12 col-md-4">
-            <label for="searchKeyword">Keyword:</label>
+            <label for="searchKeyword">Keyword/Code:</label>
             <input id="searchKeyword" ng-model="search.programSearch.keyword" class="form-control" data-ng-change="doSearch()" ng-model-options="{debounce: 500}">
           </div>
 
@@ -221,6 +221,29 @@
 
                   </div>
 
+                  <!-- pre registration table -->
+                  <div class="col-sm-3 col-md-3" data-ng-if="((program.listData.remaining_spots > 0 || program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_preregistration == '1' || program.listData.in_online_resident_preregistration == '1'))">
+                    <div class="row"><div class="col-sm-12"><h4><a id="register_{{program.listData.item_id}}">Pre-Register</a></h4></div></div>
+                    <ul class="list-group" data-ng-if="showRegisteredUser">
+                      <li class="list-group-item" quick-ng-repeat="person in program.listData.users track by person.user_id" data-ng-if="person.preEligible || program.showIneligible">
+                        <checkbox id="register_{{person.user_id}}" name="register_{{person.user_id}}" class="btn-{{(person.preEligible)?'default':'danger'}}" data-ng-model="person.selected" data-ng-change="checkPreEligibleRegistrant(person)"></checkbox>
+                        <label class="clickable" for="register_{{person.user_id}}">
+                          {{person.full_name}} <span class="text-success" data-ng-if="person.in_cart == '1'"> (In Cart)</span>
+                        </label>
+                        <div data-ng-if="!person.preEligible"><span class="text-danger" quick-ng-repeat="preReason in person.preReasons">{{preReason}}</span></div>
+                      </li>
+                      <li class="list-group-item" data-ng-if="program.listData.showPreEligibleButton">
+                        <button class="btn btn-block btn-default" data-ng-click="program.showIneligible = !program.showIneligible"><span data-ng-if="!program.showIneligible">Show</span><span data-ng-if="program.showIneligible">Hide</span> Ineligible</button>
+                      </li>
+                    </ul>
+                    <ul class="list-group" data-ng-if="!showRegisteredUser">
+                      <li class="list-group-item">
+                        <button class="btn btn-block btn-primary" data-ng-click="onGoToLogin()"><i class="fa fa-sign-in fa-fw"></i> Log in to register</button>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- regular registration table -->
                   <div class="col-sm-3 col-md-3" data-ng-if="((program.listData.remaining_spots > 0 || program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1'))">
                     <div class="row"><div class="col-sm-12"><h4><a id="register_{{program.listData.item_id}}">Register</a></h4></div></div>
                     <ul class="list-group" data-ng-if="showRegisteredUser">
@@ -240,7 +263,6 @@
                         <button class="btn btn-block btn-primary" data-ng-click="onGoToLogin()"><i class="fa fa-sign-in fa-fw"></i> Log in to register</button>
                       </li>
                     </ul>
-
                   </div>
                 </div>
 
@@ -263,7 +285,7 @@
                     <div class="spacing"></div>
                     <div class="alert alert-danger" data-ng-if="program.listData.noSelection">Select at least one person.</div>
                     <div class="alert alert-danger" data-ng-if="program.listData.overLimit">{{program.listData.overLimitMessage}}</div>
-                    <button class="btn btn-success btn-block" data-ng-model="program.listData.addCartButton" data-ng-click="onAddToCartClick(program.listData,program.listData.remaining_spots)" data-ng-if="(showRegisteredUser && program.listData.remaining_spots > 0 && (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1') && !addingRegistration)"><!--
+                    <button class="btn btn-success btn-block" data-ng-model="program.listData.addCartButton" data-ng-click="onAddToCartClick(program.listData,program.listData.remaining_spots)" data-ng-if="(showRegisteredUser && program.listData.remaining_spots > 0 && ((program.listData.in_online_nonresident_preregistration == '1' || program.listData.in_online_resident_preregistration == '1') || (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1')) && !addingRegistration)"><!--
                       --><span data-ng-if="program.listData.package_count == 0"><i class="fa fa-shopping-cart"></i> Add to cart</span><!--
                       --><span data-ng-if="program.listData.package_count > 0"><i class="fa fa-cart-plus"></i> Enrollment Options</span><!--
                       --></button>

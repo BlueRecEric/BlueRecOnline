@@ -57,14 +57,16 @@
             <div class="col-md-2">{{item.quantity}}</div>
         </div>
 
-        <div class="row clearfix spacing" data-ng-repeat="link in item.linked_items.data" data-ng-show="item.link_hidden == 0">
-          <div class="col-md-4">
+        <div class="row clearfix spacing" data-ng-repeat="link in item.linked_items.data" data-ng-show="link.link_hidden == 0">
+          <!--<div class="col-md-4">
             <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{link.linked_shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button> <i class="glyphicon glyphicon-option-vertical icon-black"></i>
               <a href ng-click="gotoItemInfoPage(link.main_item_id, link.type_name)">{{link.linked_item_name}}</a>
-          </div>
+          </div>-->
+          <div class="col-md-1"></div>
+          <div class="col-md-3"><i class="glyphicon glyphicon-option-vertical icon-black"></i>{{link.linked_item_name}}</div>
           <div class="col-md-3">{{link.linked_person_name}}</div>
           <div class="col-md-3"><span data-ng-show="link.linked_total_fee > 0">${{link.linked_total_fee}}</span> <span data-ng-show="cart.hasPromo && link.linked_total_original_fee > 0">*</span></div>
-            <div class="col-md-2">{{link.linked_quantity}}</div>
+          <div class="col-md-2">{{link.linked_quantity}}</div>
         </div>
       </div>
     </div>
