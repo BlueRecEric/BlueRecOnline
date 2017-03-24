@@ -182,6 +182,13 @@ body > .container {
     border-radius: 0px !important;
 }
 
+#listingbadge.badge {
+    border-radius: 4px;
+    margin-bottom:auto;
+    margin-top:auto;
+    text-wrap: normal !important;
+}
+
 #nav.affix {
     position: fixed;
     top: 0;

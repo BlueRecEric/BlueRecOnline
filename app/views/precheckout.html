@@ -22,7 +22,7 @@
                 <div ng-if="field.type=='text'" class="form-group">
                   <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
                   <div class="col-sm-6">
-                    <input type="{{field.type}}" id="{{field.id}}" data-ng-model="field.response_value" class="form-control" required/>
+                    <input type="{{field.type}}" id="{{field.id}}" data-ng-model="field.response_value" class="form-control">
                   </div>
                 </div>
 
@@ -30,7 +30,7 @@
                 <div ng-if="field.type=='number'" class="form-group">
                   <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
                   <div class="col-sm-6">
-                    <input type="text" id="{{field.name}}" data-ng-model="field.response_value"  class="form-control" required/>
+                    <input type="text" id="{{field.name}}" data-ng-model="field.response_value"  class="form-control">
                   </div>
                 </div>
 
@@ -38,7 +38,7 @@
                 <div ng-if="field.type=='select'" class="form-group" >
                   <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
                   <div class="col-sm-6">
-                    <select data-ng-model="field.response_value" class="form-control" prompt="Select One" required>
+                    <select data-ng-model="field.response_value" class="form-control" prompt="Select One">
                       <option data-ng-repeat="option in field.options">{{option}}</option>
                     </select>
                   </div>
@@ -51,7 +51,7 @@
                     <!--<input type="checkbox" data-ng-if="person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}" required/>
                     <input type="checkbox" data-ng-if="!person.customForm[$index].required" data-ng-model="person.customForm[$index].response_value"  name="taskGroup" id="{{field.name}}" value="{{field.id}}"/>
 
-                    --><checkbox class="btn-primary checkbox-bump-down" data-ng-if="field.required" data-ng-model="field.response_value" required></checkbox>
+                    --><checkbox class="btn-primary checkbox-bump-down" data-ng-if="field.required" data-ng-model="field.response_value"></checkbox>
                     <checkbox class="btn-primary checkbox-bump-down" data-ng-if="!field.required" data-ng-model="field.response_value"></checkbox>
                   </div>
                 </div>

@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row" style="padding-top: 5px;" data-ng-if="{{item.total_fee > 0}}">
+                                <div class="row" style="padding-top: 5px;" data-ng-show="{{item.total_fee > 0}}">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-7">
                                         <h4>${{item.total_fee}}</h4>

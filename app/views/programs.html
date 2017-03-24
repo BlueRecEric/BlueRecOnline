@@ -126,11 +126,11 @@
 
   <div class="row">
 
-    <dir-pagination-controls pagination-id="session.session_id" data-ng-if="!programs.busy"></dir-pagination-controls>
+    <dir-pagination-controls pagination-id="session.session_id" data-ng-show="!programs.busy"></dir-pagination-controls>
 
     <div class="panel panel-primary" dir-paginate="session in activePrograms.data.sessions | itemsPerPage:10 track by session.session_id" current-page="activePrograms.data.pageNumber" pagination-id="session.session_id">
       <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">({{::session.item_code}}) {{::session.item_name}}</h3>
+        {{::session.item_name}}
       </div>
       <div class="panel-body">
         <p>
@@ -145,15 +145,28 @@
         <div id="sessionList_{{session.session_id}}" class="panel-group">
           <div class="panel panel-default" quick-ng-repeat="program in session.programs track by program.item_id">
             <div class="panel-heading clearfix clickable" data-ng-click="onProgramClick(program)" data-parent="#sessionList_{{session.session_id}}" data-toggle="collapse" data-target="#programdetail_{{::program.item_id}}">
-              <h3 class="panel-title">
-                <div class="row">
-                  <div class="col-md-2 col-xs-4">{{::program.item_code}}</div>
-                  <div class="col-md-2 hidden-xs">{{::program.locations}}</div>
-                  <div class="col-md-2 col-xs-8">{{::program.dates}}</div>
-                  <div class="col-md-3 hidden-xs">{{::program.weekdays}}</div>
-                </div>
-              </h3>
-              <span class="pull-right clickable"><i class="glyphicon glyphicon-plus"></i></span>
+                   <div class="row clearfix">
+                         <div class="col-xs-10">
+                               <div class="row">
+                                 <div class="col-md-2 col-xs-6">{{::program.item_code}}</div>
+                                 <div class="col-md-3 hidden-xs">{{::program.locations}}</div>
+                                 <div class="col-md-2 col-xs-6">{{::program.dates}}</div>
+                                 <div class="col-md-3 hidden-xs">{{::program.weekdays}}</div>
+                                 <div class="col-md-2 hidden-xs">{{::program.listfee}}</div>
+                               </div>
+                               <div class="row hidden-sm hidden-med hidden-lg">
+                                 <div class="col-xs-6 hidden-sm hidden-med hidden-lg">{{::program.times}}</div>
+                                 <div class="col-xs-6 hidden-sm hidden-med hidden-lg">{{::program.listfee}}</div>
+                               </div>
+                         </div>
+                         <div class="col-xs-2">
+                               <div class="row">
+                                     <div class="col-xs-12">
+                                       <span class="clickable"><i class="glyphicon glyphicon-plus pull-right"></i></span>
+                                     </div>
+                               </div>
+                         </div>
+                   </div>
             </div>
 
             <div class="panel-collapse collapse" id="programdetail_{{::program.item_id}}">
@@ -209,7 +222,7 @@
                       <div class="col-sm-6">
                         <div class="row" data-ng-if="(program.listData.restrict_age === '1' || program.listData.restrict_grade === '1' || program.listData.restrict_birthday === '1' || program.listData.restrict_gender === '1')?true:false"><div class="col-sm-12"><h4>Eligibility</h4></div></div>
                         <div class="row striped-row" data-ng-if="(program.listData.restrict_age === '1')?true:false"><div class="col-xs-12">
-                          <span data-ng-if="program.listData.minimum_age > 0 && program.listData.maximum_age > 0">{{::program.listData.minimum_age}} - {{::program.listData.maximum_age}} years old</span>
+                          <span data-ng-if="program.listData.minimum_age > 0 && program.listData.maximum_age > 0"><span data-ng-bind="program.listData.minimum_age"></span> - <span data-ng-bind="program.listData.maximum_age"></span> years old</span>
                           <span data-ng-if="program.listData.minimum_age > 0 && program.listData.maximum_age <= 0">{{::program.listData.minimum_age}} and up</span>
                           <span data-ng-if="program.listData.minimum_age <= 0 && program.listData.maximum_age > 0">Up to {{::program.listData.maximum_age}} years old</span>
                         </div></div>

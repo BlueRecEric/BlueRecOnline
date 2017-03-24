@@ -208,13 +208,15 @@
               <th>Date</th>
               <th>Time</th>
               <th>Location</th>
+              <th>Note</th>
             </tr>
           </thead>
           <tbody>
             <tr data-ng-repeat="date in proinfo.returnData.prodates track by date.facility_event_id">
-              <td>{{date.event_date}}</td>
-              <td>{{date.event_start}} to {{date.event_end}}</td>
-              <td>{{date.item_name}}</td>
+              <td><span data-ng-if="date.no_class == '1'"><strong>{{date.event_date}}</strong></span><span data-ng-if="date.no_class != '1'">{{date.event_date}}</span></td>
+              <td><span data-ng-if="date.no_class == '1'"><strong>No Class</strong></span><span data-ng-if="date.no_class != '1'">{{date.event_start}} to {{date.event_end}}</span></td>
+              <td><span data-ng-if="date.no_class != '1'">{{date.item_name}}</span></td>
+              <th>{{date.event_label}}</th>
             </tr>
           </tbody>
         </table>
