@@ -39,7 +39,7 @@
                   <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
                   <div class="col-sm-6">
                     <select data-ng-model="field.response_value" class="form-control" prompt="Select One">
-                      <option data-ng-repeat="option in field.options">{{option}}</option>
+                      <option data-ng-repeat="option in field.options" data-ng-selected="(field.response_value == option)?true:false">{{option}}</option>
                     </select>
                   </div>
                 </div>

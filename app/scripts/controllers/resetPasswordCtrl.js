@@ -21,8 +21,12 @@ angular.module('bluereconlineApp')
         $scope.aOne = '';
         $scope.aTwo = '';
 
-        $scope.sendPasswordRequest = function (email) {
-            $scope.serverData.sendPasswordRequestEmail(email);
+        $scope.sendPasswordRequest = function (email,claim) {
+            if(!angular.isDefined(claim))
+            {
+                claim = false;
+            }
+            $scope.serverData.sendPasswordRequestEmail(email,claim);
         };
 
         $scope.verifySecurityAnswers = function (aOne, aTwo)
@@ -34,6 +38,13 @@ angular.module('bluereconlineApp')
         {
             $scope.serverData.submitPasswordChange(passwd, cpasswd);
         };
+
+        ResetPasswordFactory.getSettings().then(function (result) {
+            $scope.config = result.data;
+            console.log('config');
+            console.log($scope.config);
+            $scope.claimAccountVideo = $scope.config.data.claimAccountVideo;
+        });
 
         console.log($scope.serverData);
     }])
@@ -48,8 +59,33 @@ angular.module('bluereconlineApp')
 
     factoryData.busySendingEmail = false;
 
-    var sendPasswordRequestEmail = function(email) {
+    function getSettings()
+    {
+        var req = {
+            method: 'GET',
+            url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/config/signup',
+            headers: {
+                'Content-Type': undefined
+            }
+        };
+
+        return $http(req);
+    }
+
+    var sendPasswordRequestEmail = function(email,claim) {
         console.log('try to send password request email');
+
+        if(!angular.isDefined(claim))
+        {
+            claim = false;
+        }
+
+        var claimAccount = '0';
+
+        if(claim)
+        {
+            claimAccount = '1';
+        }
 
         var req = {
             method: 'POST',
@@ -57,7 +93,7 @@ angular.module('bluereconlineApp')
             headers: {
                 'Content-Type': undefined
             },
-            data: {'email': email}
+            data: {'email': email,'claim': claimAccount}
         };
 
         factoryData.busySendingEmail = true;
@@ -156,6 +192,7 @@ angular.module('bluereconlineApp')
             );
     };
 
+    factoryData.getSettings = getSettings;
     factoryData.sendPasswordRequestEmail = sendPasswordRequestEmail;
     factoryData.submitPasswordChange = submitPasswordChange;
     factoryData.checkSecurityQuestions = checkSecurityQuestions;

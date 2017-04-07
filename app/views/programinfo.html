@@ -107,13 +107,13 @@
       <div class="col-sm-12"><h4>Eligibility</h4></div>
     </div>
     <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_age === '1')?true:false"><div class="col-xs-12 col-sm-3">
-      <span data-ng-if="proinfo.returnData.listData.minimum_age > 0 && proinfo.returnData.listData.maximum_age > 0">{{::proinfo.returnData.listData.minimum_age}} - {{::proinfo.returnData.listData.maximum_age}} years old</span>
-      <span data-ng-if="proinfo.returnData.listData.minimum_age > 0 && proinfo.returnData.listData.maximum_age <= 0">{{::proinfo.returnData.listData.minimum_age}} and up</span>
-      <span data-ng-if="proinfo.returnData.listData.minimum_age <= 0 && proinfo.returnData.listData.maximum_age > 0">Up to {{::proinfo.returnData.listData.maximum_age}} years old</span>
+      <span data-ng-if="proinfo.returnData.listData.minimum_age > 0 && proinfo.returnData.listData.maximum_age > 0"><span data-ng-bind="proinfo.returnData.listData.minimum_age"></span> - <span data-ng-bind="proinfo.returnData.listData.maximum_age"></span> years old</span>
+      <span data-ng-if="proinfo.returnData.listData.minimum_age > 0 && proinfo.returnData.listData.maximum_age <= 0"><span data-ng-bind="proinfo.returnData.listData.minimum_age"></span> and up</span>
+      <span data-ng-if="proinfo.returnData.listData.minimum_age <= 0 && proinfo.returnData.listData.maximum_age > 0">Up to <span data-ng-bind="proinfo.returnData.listData.maximum_age"></span> years old</span>
     </div><div class="col-xs-0 col-sm-9"></div></div>
-    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_grade === '1')?true:false"><div class="col-xs-12 col-sm-3">Grade(s) {{::proinfo.returnData.listData.minimum_grade}} - {{::proinfo.returnData.listData.maximum_grade}}</div><div class="col-xs-0 col-sm-9"></div></div>
-    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_gender === '1')?true:false"><div class="col-xs-12 col-sm-3">Gender: {{::proinfo.returnData.listData.gender}}</div><div class="col-xs-0 col-sm-9"></div></div>
-    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_birthday === '1')?true:false"><div class="col-xs-12">Born After: {{::proinfo.returnData.listData.format_born_after}}<br>Born Before: {{::proinfo.returnData.listData.format_born_before}}</div></div>
+    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_grade === '1')?true:false"><div class="col-xs-12 col-sm-3">Grade(s) <span data-ng-bind="proinfo.returnData.listData.minimum_grade"></span> - <span data-ng-bind="proinfo.returnData.listData.maximum_grade"></span></div><div class="col-xs-0 col-sm-9"></div></div>
+    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_gender === '1')?true:false"><div class="col-xs-12 col-sm-3">Gender: <span data-ng-bind="proinfo.returnData.listData.gender"></span></div><div class="col-xs-0 col-sm-9"></div></div>
+    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_birthday === '1')?true:false"><div class="col-xs-12">Born After: <span data-ng-bind="proinfo.returnData.listData.format_born_after"></span><br>Born Before: <span data-ng-bind="proinfo.returnData.listData.format_born_before"></span></div></div>
 
 
 
@@ -182,7 +182,15 @@
     <div class="col-xs-12 text-left" data-ng-repeat="maplocation in proinfo.returnData.mapData">
 
       <div>
-        <h5>{{maplocation.marker.id}}</h5>
+        <h5>{{maplocation.marker.id}}
+          <span data-ng-if="(maplocation.marker.locAddr.address.length > 0)?true:false"> -
+            <span data-ng-if="(maplocation.marker.locAddr.address.length > 0)?true:false" data-ng-bind="maplocation.marker.locAddr.address"></span><span data-ng-if="(maplocation.marker.locAddr.unit.length > 0)?true:false"> </span><span data-ng-if="(maplocation.marker.locAddr.unit.length > 0)?true:false" data-ng-bind="maplocation.marker.locAddr.unit"></span><span data-ng-if="(maplocation.marker.locAddr.city.length > 0)?true:false">,</span>
+            <span data-ng-if="(maplocation.marker.locAddr.city.length > 0)?true:false" data-ng-bind="maplocation.marker.locAddr.city"></span><span data-ng-if="(maplocation.marker.locAddr.state.length > 0)?true:false">,</span>
+            <span data-ng-if="(maplocation.marker.locAddr.state.length > 0)?true:false" data-ng-bind="maplocation.marker.locAddr.state"></span>
+            <span data-ng-if="(maplocation.marker.locAddr.zip.length > 0)?true:false" data-ng-bind="maplocation.marker.locAddr.zip"></span>
+          </span>
+        </h5>
+
       </div>
 
       <ui-gmap-google-map center='maplocation.center' zoom='12' options="proinfo.returnData.mapData.mapOptions">

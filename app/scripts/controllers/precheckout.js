@@ -37,6 +37,66 @@ angular.module('bluereconlineApp')
                 $scope.readyToCheckout = false;
                 $scope.waiverErrors = [];
 
+
+                for(var f = 0; f < preLoad.fields.length; f++)
+                {
+                    for(var cf = 0; cf < preLoad.fields[f].fields.customForm.length; cf++)
+                    {
+                        var thisField = preLoad.fields[f].fields.customForm[cf];
+
+                        if(thisField.response_value === null || !angular.isDefined(thisField.response_value))
+                        {
+                            thisField.response_value = '';
+                        }
+
+                        if(thisField.required && thisField.type == 'select' && thisField.response_value.length == 0)
+                        {
+                            var selectError = {};
+                            selectError.message = 'Please select a value for "' + thisField.label + '"';
+                            selectError.fieldID = thisField.model;
+
+                            $scope.waiverErrors.push(selectError);
+                        }
+
+                        if(thisField.required && thisField.type == 'text' && thisField.response_value.length == 0)
+                        {
+                            var textError = {};
+                            textError.message = 'Please enter a value for "' + thisField.label + '"';
+                            textError.fieldID = thisField.model;
+
+                            $scope.waiverErrors.push(textError);
+                        }
+
+                        if(thisField.required && thisField.type == 'number' && thisField.response_value.length == 0 && !isFinite(thisField.response_value))
+                        {
+                            var numError = {};
+                            numError.message = 'Please enter a number for "' + thisField.label + '"';
+                            numError.fieldID = thisField.model;
+
+                            $scope.waiverErrors.push(numError);
+                        }
+                        else
+                        {
+                            if(thisField.type == 'number' && thisField.response_value.length > 0 && !isFinite(thisField.response_value))
+                            {
+                                var notNumError = {};
+                                notNumError.message = 'The value of "' + thisField.label + '" must be a number';
+                                notNumError.fieldID = thisField.model;
+
+                                $scope.waiverErrors.push(notNumError);
+                            }
+                        }
+
+                        if(thisField.required && thisField.type == 'checkbox' && (thisField.response_value.length == 0 || thisField.response_value == '0')) {
+                            var fError = {};
+                            fError.message = 'The field "' + thisField.label + '" is required';
+                            fError.waiverID = thisField.model;
+
+                            $scope.waiverErrors.push(fError);
+                        }
+                    }
+                }
+
                 var allWaiversSigned = true;
 
                 for(var w = 0; w < preLoad.waivers.length; w++)

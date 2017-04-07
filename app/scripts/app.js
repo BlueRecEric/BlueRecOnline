@@ -95,6 +95,10 @@ angular
                 templateUrl: 'views/recoverPassword.html',
                 controller: 'ResetPasswordCtrl'
             })
+            .when('/:orgurl/claimaccount', {
+                templateUrl: 'views/recoverAccount.html',
+                controller: 'ResetPasswordCtrl'
+            })
             .when('/:orgurl/myaccount', {
                 templateUrl: 'views/userSettings/myAccount.html',
                 controller: 'MyAccountCtrl'
@@ -1027,6 +1031,12 @@ angular
                     };
                     var marker = [];
                     marker.id = responseData.locations[key].location_name;
+                    marker.locAddr = [];
+                    marker.locAddr.address = responseData.locations[key].location_addr_one;
+                    marker.locAddr.unit = responseData.locations[key].location_addr_two;
+                    marker.locAddr.city = responseData.locations[key].location_city;
+                    marker.locAddr.state = responseData.locations[key].location_state;
+                    marker.locAddr.zip = responseData.locations[key].location_zip;
                     marker.location = {
                         latitude: geoData.results[0].geometry.location.lat,
                         longitude: geoData.results[0].geometry.location.lng
@@ -1087,6 +1097,20 @@ angular
             }
             else
             {
+                isImage('images/'+$routeParams.orgurl+'.jpg').then(function(test) {
+                    if(test)
+                    {
+                        $scope.headerLogo = 'images/'+$routeParams.orgurl+'.jpg';
+                    }
+                    else {
+                        isImage('images/'+$routeParams.orgurl+'.gif').then(function(test) {
+                            if(test)
+                            {
+                                $scope.headerLogo = 'images/'+$routeParams.orgurl+'.gif';
+                            }
+                        });
+                    }
+                });
                 ////console.log('images/'+$routeParams.orgurl+'.png is NOT an image!');
 
                 var splitParts = $routeParams.orgurl.split('-');

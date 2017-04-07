@@ -24,7 +24,7 @@ angular.module('bluereconlineApp')
             show: false
         });
 
-      $scope.promoCodeEnabled = true;
+      $scope.promoCodeEnabled = false;
       $scope.promoCode = {};
       $scope.promoCode.code = '';
 
@@ -49,6 +49,18 @@ angular.module('bluereconlineApp')
 
         return $http(req).then(function(result) {
                 $scope.config = result.data;
+
+                console.log('config:');
+                console.log($scope.config);
+
+                if($scope.config.data.hidePromo == '1')
+                {
+                    $scope.promoCodeEnabled = false;
+                }
+                else
+                {
+                    $scope.promoCodeEnabled = true;
+                }
             }
         );
     }
