@@ -201,6 +201,8 @@ body > .container {
     width:64px;
 }
 
+
+
 .wide {
     width:100%;
     height:150px;
@@ -457,6 +459,11 @@ body > .container {
     .listing img
     {
         width:128px;
+    }
+
+    .receiptImg
+    {
+        max-width:220px;
     }
 }
 
@@ -809,10 +816,9 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     }
 }
 
-@page {
-    size: A4;
-    margin: 0;
-}
+
+@page { size:8in 10.5in; }
+
 @media print {
     body * {
         visibility:hidden;
@@ -824,6 +830,10 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 
     .report-image {
         width: 220px;
+    }
+
+    .receiptImg
+    {
     }
 
     .noprint {
