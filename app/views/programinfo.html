@@ -111,7 +111,7 @@
       <span data-ng-if="proinfo.returnData.listData.minimum_age > 0 && proinfo.returnData.listData.maximum_age <= 0"><span data-ng-bind="proinfo.returnData.listData.minimum_age"></span> and up</span>
       <span data-ng-if="proinfo.returnData.listData.minimum_age <= 0 && proinfo.returnData.listData.maximum_age > 0">Up to <span data-ng-bind="proinfo.returnData.listData.maximum_age"></span> years old</span>
     </div><div class="col-xs-0 col-sm-9"></div></div>
-    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_grade === '1')?true:false"><div class="col-xs-12 col-sm-3">Grade(s) <span data-ng-bind="proinfo.returnData.listData.minimum_grade"></span> - <span data-ng-bind="proinfo.returnData.listData.maximum_grade"></span></div><div class="col-xs-0 col-sm-9"></div></div>
+    <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_grade === '1')?true:false"><div class="col-xs-12 col-sm-3">Grade(s) <span data-ng-bind="proinfo.returnData.listData.minimum_grade_format"></span> - <span data-ng-bind="proinfo.returnData.listData.maximum_grade_format"></span></div><div class="col-xs-0 col-sm-9"></div></div>
     <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_gender === '1')?true:false"><div class="col-xs-12 col-sm-3">Gender: <span data-ng-bind="proinfo.returnData.listData.gender"></span></div><div class="col-xs-0 col-sm-9"></div></div>
     <div class="row" data-ng-if="(proinfo.returnData.listData.restrict_birthday === '1')?true:false"><div class="col-xs-12">Born After: <span data-ng-bind="proinfo.returnData.listData.format_born_after"></span><br>Born Before: <span data-ng-bind="proinfo.returnData.listData.format_born_before"></span></div></div>
 
