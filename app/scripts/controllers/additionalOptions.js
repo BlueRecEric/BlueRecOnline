@@ -22,8 +22,20 @@ angular.module('bluereconlineApp')
             //console.log(pkg);
         };
 
-        $scope.updateStandardAddonFees = function(pkgItemID) {
-            $timeout($scope.preLoad.updateStandardAddOnFees, 500, true, $scope.preLoad.data, $routeParams.itemid, pkgItemID);
+        $scope.updateStandardAddonFees = function(pkg) {
+
+            console.log('Clicked package');
+            console.log(pkg);
+
+            if(pkg.required_purchase == '1')
+            {
+                pkg.selected = '1';
+            }
+
+            console.log('Requirement checked');
+            console.log(pkg);
+
+            $timeout($scope.preLoad.updateStandardAddOnFees, 500, true, $scope.preLoad.data, $routeParams.itemid, pkg.item_id);
         };
 
         $scope.updateWeekdayAddonFees = function(pkgItemID, optionIndex) {

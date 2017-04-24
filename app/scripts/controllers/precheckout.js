@@ -18,14 +18,32 @@ angular.module('bluereconlineApp')
         $scope.readyToCheckout = true;
         $scope.wkdPkgOpt = [];
 
+        $scope.requiredEmergencyCount = '';
+
         if(ActiveUser.isLoggedIn())
         {
+            console.log('userdata-pre:');
+            console.log(ActiveUser.userData);
+
+            if(!angular.isNumber(ActiveUser.userData.requiredEmergencyCount))
+            {
+                console.log('required count is not a number');
+                ActiveUser.userData.requiredEmergencyCount = 0;
+            }
+
+            console.log('userdata:');
+            console.log(ActiveUser.userData);
+
+            $scope.requiredEmergencyCount = ActiveUser.userData.requiredEmergencyCount;
+
             var preLoad = PreCheckRequest;
             preLoad.getCartRequirements().then(
                 function()
                 {
                     //console.log('preLoad waivers');
                     //console.log(preLoad.waivers);
+
+
                     console.log(preLoad);
                     $scope.preLoad = preLoad;
                 }
@@ -116,9 +134,48 @@ angular.module('bluereconlineApp')
                     }
                 }
 
-                if($scope.waiverErrors.length > 0)
+                var contactErrors = false;
+
+                for(var ec = 0; ec < preLoad.emergencycontacts.data.length; ec++)
                 {
-                    $scope.showWaiverError = true;
+                    var ecError = {};
+
+                    if(preLoad.emergencycontacts.data[ec].contactName.length <= 0)
+                    {
+                        preLoad.emergencycontacts.data[ec].errors = [];
+                        ecError = {};
+                        ecError.message = 'Please enter a name for the emergency contact.';
+                        contactErrors = true;
+
+                        preLoad.emergencycontacts.data[ec].errors.push(ecError);
+                    }
+
+                    if(preLoad.emergencycontacts.data[ec].contactRelationship.length <= 0)
+                    {
+                        preLoad.emergencycontacts.data[ec].errors = [];
+                        ecError = {};
+                        ecError.message = 'Please enter a relationship for the emergency contact.';
+                        contactErrors = true;
+
+                        preLoad.emergencycontacts.data[ec].errors.push(ecError);
+                    }
+
+                    if(preLoad.emergencycontacts.data[ec].contactPhone.length <= 0)
+                    {
+                        preLoad.emergencycontacts.data[ec].errors = [];
+                        ecError = {};
+                        ecError.message = 'Please enter a phone # for the emergency contact.';
+                        contactErrors = true;
+
+                        preLoad.emergencycontacts.data[ec].errors.push(ecError);
+                    }
+                }
+
+                if($scope.waiverErrors.length > 0 || contactErrors)
+                {
+                    if($scope.waiverErrors.length > 0) {
+                        $scope.showWaiverError = true;
+                    }
                     $scope.readyToCheckout = true;
                 }
                 else
@@ -140,6 +197,7 @@ angular.module('bluereconlineApp')
         preloader.payments = [];
         preloader.fields = [];
         preloader.addons = [];
+        preloader.emergencycontacts = [];
 
         var updateEveryDateAddonFees = function(proIdx, pkgIdx, pkgItmID, weekday)
         {
@@ -516,6 +574,24 @@ angular.module('bluereconlineApp')
                 });
         };
 
+        var getCartEmergencyContacts = function () {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/emergencycontacts',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'userID': ActiveUser.userData.user_id, 'householdID': ActiveUser.userData.household_id}
+            };
+
+            return $http(req).then(
+                function success(response) {
+                    preloader.emergencycontacts = [];
+                    var contacts = JSON.parse(angular.toJson(response.data.data.emergencyContacts));
+                    preloader.emergencycontacts = contacts;
+                });
+        };
+
         var getCartCustomFields = function () {
             var req = {
                 method: 'POST',
@@ -593,6 +669,7 @@ angular.module('bluereconlineApp')
                     getCartCustomFields(),
                     getCartPayments(),
                     getCartWaivers(),
+                    getCartEmergencyContacts()
                 ]).then(function(data) {
 
                 });

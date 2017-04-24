@@ -13,8 +13,8 @@ angular.module('bluereconlineApp')
 
       function setHouseholdData()
       {
-          //console.log('setting user data after update');
-          //console.log(ActiveUser.userData.household);
+          console.log('setting user data after update');
+          console.log(ActiveUser.userData);
           $scope.household = ActiveUser.userData.household;
 
           for(var p = 0; p < $scope.household.length; p++)
@@ -56,11 +56,108 @@ angular.module('bluereconlineApp')
       };
 
       $scope.showNewMember = false;
+      $scope.showEmergencyContact = false;
       $scope.newMemberForm = [];
+      $scope.emergencyContactForm = [];
+
+      $scope.emergencyContactError = '';
+      $scope.emergencyContactUpdates = '';
+
+      $scope.saveEmergencyContacts = function() {
+          $scope.emergencyContactError = '';
+          $scope.emergencyContactUpdates = '';
+
+          var Updater = UserUpdate;
+          Updater.submitEmergencyContacts($scope.emergencyContactForm).then(
+              function handleContactsUpdate(updateResult) {
+
+                  console.log('update result');
+                  console.log(updateResult);
+
+                  if(updateResult.data.errors)
+                  {
+                      $scope.emergencyContactError = updateResult.data.errortext;
+                  }
+                  else
+                  {
+                      ActiveUser.userData.emergencycontacts = updateResult.data.contacts;
+                      updateHouseholdData();
+                      $scope.showEmergencyContact = false;
+                      $scope.emergencyContactUpdates = 'Emergency contacts updated.';
+                  }
+
+              }
+          );
+      };
+
+      $scope.editEmergencyContacts = function() {
+
+          $scope.showNewMember = false;
+
+          if(!angular.isNumber(ActiveUser.userData.requiredEmergencyCount))
+          {
+              ActiveUser.userData.requiredEmergencyCount = 0;
+          }
+
+          if(angular.isDefined(ActiveUser.userData.emergencycontacts) &&
+              angular.isDefined(ActiveUser.userData.emergencycontacts.data) &&
+              ActiveUser.userData.emergencycontacts.data.length >= ActiveUser.userData.requiredEmergencyCount)
+          {
+              $scope.emergencyContactForm = ActiveUser.userData.emergencycontacts.data;
+              $scope.showEmergencyContact = true;
+          }
+          else
+          {
+              $scope.showEmergencyContact = true;
+              $scope.emergencyContactForm = [];
+          }
+      };
 
       $scope.newMemberClicked = function() {
-        $scope.showNewMember = true;
-        $scope.newMemberForm = [];
+
+          $scope.showEmergencyContact = false;
+
+          var blankContacts = false;
+
+          if(!angular.isNumber(ActiveUser.userData.requiredEmergencyCount))
+          {
+              ActiveUser.userData.requiredEmergencyCount = 0;
+          }
+
+          console.log('active user on new member click');
+          console.log(ActiveUser.userData);
+
+          if(angular.isDefined(ActiveUser.userData.emergencycontacts) &&
+              angular.isDefined(ActiveUser.userData.emergencycontacts.data) &&
+              ActiveUser.userData.emergencycontacts.data.length >= ActiveUser.userData.requiredEmergencyCount)
+          {
+              $scope.emergencyContactForm = ActiveUser.userData.emergencycontacts.data;
+
+              for(var ec = 0; ec < ActiveUser.userData.emergencycontacts.data.length; ec++)
+              {
+                  if(ActiveUser.userData.emergencycontacts.data[ec].contactID == '')
+                  {
+                      blankContacts = true;
+                  }
+              }
+
+              if(blankContacts && ActiveUser.userData.requiredEmergencyCount > 0)
+              {
+                  $scope.showEmergencyContact = true;
+              }
+              else
+              {
+                  $scope.showNewMember = true;
+                  $scope.newMemberForm = [];
+              }
+          }
+          else
+          {
+              $scope.showEmergencyContact = true;
+              $scope.emergencyContactForm = [];
+          }
+
+
       };
 
         $scope.newMemberCancelClicked = function() {
@@ -205,6 +302,7 @@ angular.module('bluereconlineApp')
                 else
                 {
                     $scope.household[updateIndex].user_updated = false;
+                    person.memberUpdateErrorText = response.data.errorText;
                 }
             }
         );
@@ -250,6 +348,20 @@ angular.module('bluereconlineApp')
 
       }
 
+      function submitEmergencyContacts(formData)
+      {
+          var req = {
+              method: 'POST',
+              url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/myaccount' + '?action=save_emergency_contacts',
+              headers: {
+                  'Content-Type': undefined
+              },
+              data: formData
+          };
+
+          return $http(req);
+      }
+
       function submitNewMemberForm(formData, loggedInUser)
       {
         //console.log('active user');
@@ -276,13 +388,17 @@ angular.module('bluereconlineApp')
             'lastname': formData.lastname,
             'gender': formData.gender,
             'grade': gradeValue,
-            'birthday': formData.formatBirthday
+            'birthday': formData.formatBirthday,
+            'emerNameOne': formData.emerNameOne,
+            'emerRelOne': formData.emerRelOne,
+            'emerPhoneOne': formData.emerPhoneOne
           }
         };
 
         return $http(req);
       }
 
+      usrUpdate.submitEmergencyContacts = submitEmergencyContacts;
       usrUpdate.submitPartForm = submitPartForm;
       usrUpdate.submitNewMemberForm = submitNewMemberForm;
 

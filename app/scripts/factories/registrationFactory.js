@@ -260,6 +260,22 @@ angular.module('bluereconlineApp')
                 });
         };
 
+        reg.getCartEmergencyContacts = function (contactList) {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/emergencycontacts',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'userID': ActiveUser.userData.user_id, 'householdID': ActiveUser.userData.household_id}
+            };
+
+            return $http(req).then(
+                function success(response) {
+                    contactList = JSON.parse(angular.toJson(response.data.data.emergencycontacts));
+                });
+        };
+
         reg.getCartPayments = function (paymentList) {
             var req = {
                 method: 'POST',
@@ -294,8 +310,8 @@ angular.module('bluereconlineApp')
 
         reg.updateStandardAddOnFees = function (regData, itemID, pkgItemID) {
 
-            console.log('all regData:');
-            console.log(regData);
+            //console.log('all regData:');
+            //console.log(regData);
 
             var currPkg = '';
             var numSelected = 0;
@@ -303,8 +319,8 @@ angular.module('bluereconlineApp')
 
             for(var regNum = 0; regNum < regData.length; regNum++) {
 
-                console.log('update reg data for:');
-                console.log(regData[regNum]);
+                //console.log('update reg data for:');
+                //console.log(regData[regNum]);
 
                 for(var sa = 0; sa < regData[regNum].addons.packages.length; sa++)
                 {
@@ -318,11 +334,11 @@ angular.module('bluereconlineApp')
                     }
                     else
                     {
-                        console.log(currPkg.item_id+' does not equal '+pkgItemID);
+                        //console.log(currPkg.item_id+' does not equal '+pkgItemID);
                     }
 
                     regData[regNum].addons.packages[sa].numSelected = numSelected;
-                    console.log('this package is selected '+numSelected+' times so far.');
+                    //console.log('this package is selected '+numSelected+' times so far.');
                 }
 
                 if(numSelected > 1)
@@ -339,8 +355,8 @@ angular.module('bluereconlineApp')
             regData.regNum = regNum;
             regData.includeAdditionalPackageFee = includeAdditionalFee;
 
-            console.log('sending reg data:');
-            console.log(regData);
+            //console.log('sending reg data:');
+            //console.log(regData);
 
             var req = {
                 method: 'POST',
@@ -377,8 +393,8 @@ angular.module('bluereconlineApp')
 
         reg.updateWeekdayAddOnFees = function (regData, itemID, pkgItemID, optionIndex) {
 
-            console.log('all regData:');
-            console.log(regData);
+            //console.log('all regData:');
+            //console.log(regData);
 
             var weekdayList = [
                 {'weekday':'0', 'selected':0},
@@ -391,8 +407,8 @@ angular.module('bluereconlineApp')
             ];
 
             for(var regNum = 0; regNum < regData.length; regNum++) {
-                console.log('update reg data for:');
-                console.log(regData[regNum]);
+                //console.log('update reg data for:');
+                //console.log(regData[regNum]);
 
                 for(var wkOpt = 0; wkOpt < regData[regNum].addons.weekdayOptions.length; wkOpt++)
                 {
@@ -412,8 +428,8 @@ angular.module('bluereconlineApp')
                 reg.getUpdatedWeekdayAddOnFees(regData[regNum], itemID, regNum);
             }
 
-            console.log('weekday list:');
-            console.log(weekdayList);
+            //console.log('weekday list:');
+            //console.log(weekdayList);
         };
 
         reg.getUpdatedWeekdayAddOnFees = function(regData, itemID, regNum)
@@ -435,10 +451,10 @@ angular.module('bluereconlineApp')
             $http(req).then(
                 function success(response) {
                     var addons = JSON.parse(angular.toJson(response.data.data.addons));
-                    console.log('returned regdata:');
-                    console.log(response.data);
-                    console.log('returned addons:');
-                    console.log(addons);
+                    //console.log('returned regdata:');
+                    //console.log(response.data);
+                    //console.log('returned addons:');
+                    //console.log(addons);
 
                     for(var wd = 0; wd < regData.addons.weekdayOptions.length; wd++)
                     {
@@ -483,8 +499,8 @@ angular.module('bluereconlineApp')
                     var addons = JSON.parse(angular.toJson(response.data.data.addons));
                     regData.addons = addons;
 
-                    console.log('addon response:');
-                    console.log(response);
+                    //console.log('addon response:');
+                    //console.log(response);
 
                     for(var a = 0; a < regData.addons.length; a++)
                     {
@@ -529,13 +545,13 @@ angular.module('bluereconlineApp')
                     reg.getCartPayments(regData.payments),
                     reg.getCartWaivers(regData.waivers),
                 ]).then(function(data) {
-                    console.log('get requirements result');
-                    console.log(data);
+                    //console.log('get requirements result');
+                    //console.log(data);
                 });
             }
             else
             {
-                console.log('user not logged in.');
+                //console.log('user not logged in.');
             }
         };
 
@@ -546,13 +562,13 @@ angular.module('bluereconlineApp')
             waitlistData.itemType = 'program';
             waitlistData.waitlists = [];
 
-            console.log('waitlist data to add:');
-            console.log(reg.waitlist);
+            //console.log('waitlist data to add:');
+            //console.log(reg.waitlist);
 
             for(var a = 0; a < reg.waitlist.length; a++)
             {
-                console.log('data for this registration:');
-                console.log(reg.data[a]);
+                //console.log('data for this registration:');
+                //console.log(reg.data[a]);
 
                 var regID = uuid4.generate();
 
@@ -570,8 +586,8 @@ angular.module('bluereconlineApp')
                 waitlistData.waitlists.push(waitData);
             }
 
-            console.log('here is the waitlist data:');
-            console.log(waitlistData);
+            //console.log('here is the waitlist data:');
+            //console.log(waitlistData);
 
             if(waitlistData.waitlists.length > 0) {
                 var req = {
@@ -597,13 +613,13 @@ angular.module('bluereconlineApp')
             cartData.itemType = 'program';
             cartData.registrations = [];
 
-            console.log('reg data to add:');
-            console.log(reg.data);
+            //console.log('reg data to add:');
+            //console.log(reg.data);
 
             for(var a = 0; a < reg.data.length; a++)
             {
-                console.log('data for this registration:');
-                console.log(reg.data[a]);
+                //console.log('data for this registration:');
+                //console.log(reg.data[a]);
 
                 var regID = uuid4.generate();
 
@@ -627,7 +643,7 @@ angular.module('bluereconlineApp')
                         reg.data[a].addons.selectedpackages[pkg].addedByUserID = ActiveUser.userData.user_id;
                     }
 
-                    console.log('adding an addon to the array');
+                    //console.log('adding an addon to the array');
                     regData.addons = reg.data[a].addons;
                 }
 
@@ -635,8 +651,8 @@ angular.module('bluereconlineApp')
 
             }
 
-            console.log('here is the cart data:');
-            console.log(cartData);
+            //console.log('here is the cart data:');
+            //console.log(cartData);
 
             if(cartData.registrations.length > 0) {
                 var req = {
@@ -651,8 +667,8 @@ angular.module('bluereconlineApp')
                 return $http(req)
                     .then(
                         function success(response) {
-                            console.log('add to cart response(1):');
-                            console.log(response);
+                            //console.log('add to cart response(1):');
+                            //console.log(response);
                         }
                     );
             }

@@ -63,6 +63,46 @@
 
       <div class="spacing"> </div>
 
+      <div class="panel panel-default" data-ng-show="(preLoad.emergencycontacts.data.length > 0 && requiredEmergencyCount > 0)">
+        <div class="panel-heading">
+          <label>Emergency Contacts</label>
+        </div>
+        <div class="panel-body">
+          <h4>Emergency Contact Information</h4>
+          <p>Please provide at least <span data-ng-bind="requiredEmergencyCount"></span> emergency contact(s).</p>
+
+          <div data-ng-repeat="contact in preLoad.emergencycontacts.data">
+
+            <div class="alert alert-danger" role="alert" data-ng-show="(contact.errors.length > 0)?true:false"><div data-ng-repeat="error in contact.errors">{{error.message}}</div></div>
+
+            <div class="form-group">
+              <label for="contactName" class="col-sm-2 control-label">* <span data-ng-bind="($index + 1)"></span>) Contact Name</label>
+              <div class="col-sm-6">
+                <input type="text" id="contactName" data-ng-model="contact.contactName" placeholder="Firstname Lastname" class="form-control" required/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="contactRelationship" class="col-sm-2 control-label">* <span data-ng-bind="($index + 1)"></span>) Relationship</label>
+              <div class="col-sm-6">
+                <input type="text" id="contactRelationship" data-ng-model="contact.contactRelationship" placeholder="Relationship to participant" class="form-control" required/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="contactPhone" class="col-sm-2 control-label">* <span data-ng-bind="($index + 1)"></span>) Phone #</label>
+              <div class="col-sm-6">
+                <input type="text" id="contactPhone" data-ng-model="contact.contactPhone" value="" class="form-control" ui-mask="(999) 999-9999" required/>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="spacing"> </div>
+
       <div class="panel panel-default" data-ng-show="preLoad.hasAddons">
         <div class="panel-heading">
           <label>Add-Ons</label>
