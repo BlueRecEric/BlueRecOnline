@@ -108,6 +108,11 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
+
+                        <li ng-cloak class="clicky" data-ng-hide="!currentUser.validLogin"
+                            data-template="views/shoppingcart.html" data-placement="right"
+                            data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body"><timer countdown="10041" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer></li>
+
                         <li ng-cloak class="clicky" data-ng-hide="!currentUser.validLogin"
                             data-template="views/shoppingcart.html" data-placement="right"
                             data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body">
@@ -160,12 +165,13 @@
                 'close-button': true,
                 'tap-to-dismiss':false}"></toaster-container>
 
-        <footer class="header noborders noprint">
+        <footer class="header noborders noprint" data-ng-controller="SocialCtrl">
             <div class="navbar navbar-inverse navbar-fixed-bottom">
                 <div class="container socialnav ">
-                    <a href="https://twitter.com"><i class="fa fa-twitter fa-2x"></i></a>
-                    <a href="https://facebook.com"><i class="fa fa-facebook-official fa-2x"></i></a>
-                    <a href="https://plus.google.com"><i class="fa fa-google-plus-square fa-2x"></i></a>
+                    <a data-ng-href="{{linkTwitter}}" data-ng-show="hasTwitter"><i class="fa fa-twitter fa-2x"></i></a>
+                    <a data-ng-href="{{linkFacebook}}" data-ng-show="hasFacebook"><i class="fa fa-facebook-official fa-2x"></i></a>
+                    <a data-ng-href="{{linkGoogle}}" data-ng-show="hasGoogle"><i class="fa fa-google-plus-square fa-2x"></i></a>
+                    <a data-ng-href="{{linkInstagram}}" data-ng-show="hasInstagram"><i class="fa fa-instagram fa-2x"></i></a>
                 </div>
             </div>
         </footer>
@@ -193,7 +199,7 @@
         <script src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
         <script src="bower_components/angular-cookies/angular-cookies.js"></script>
         <script src="bower_components/angular-dynforms/dynamic-forms.js"></script>
-        <script src="bower_components/lodash/lodash.js"></script>
+        <script src="bower_components/lodash/dist/lodash.compat.js"></script>
         <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
         <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
         <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
@@ -227,6 +233,8 @@
         <script src="bower_components/angular-ui-mask/dist/mask.js"></script>
         <script src="bower_components/angular-youtube-mb/src/angular-youtube-embed.js"></script>
         <script src="bower_components/angular-tooltips/dist/angular-tooltips.min.js"></script>
+        <script src="bower_components/humanize-duration/humanize-duration.js"></script>
+        <script src="bower_components/angular-timer/dist/angular-timer.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
         <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places"></script>
@@ -248,6 +256,7 @@
         <script src="scripts/controllers/signupCtrl.js"></script>
         <script src="scripts/controllers/userAuthCtrl.js"></script>
         <script src="scripts/controllers/menuCtrl.js"></script>
+        <script src="scripts/controllers/socialCtrl.js"></script>
         <script src="scripts/controllers/programlist.js"></script>
         <script src="scripts/controllers/programs.js"></script>
         <script src="scripts/controllers/programinfo.js"></script>

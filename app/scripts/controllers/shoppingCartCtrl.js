@@ -250,18 +250,22 @@ angular.module('bluereconlineApp')
                             $scope.removed = response.data;
                             if (angular.isDefined(response.data.data.receiptID)) {
 
-                                var reqTwo = {
-                                    method: 'POST',
-                                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/email/receipt',
-                                    headers: {
-                                        'Content-Type': undefined
-                                    },
-                                    data: {'uid': ActiveUser.userData.user_id, 'tid': response.data.data.receiptID}
-                                };
+                                if(angular.isDefined(response.data.data.receiptID))
+                                {
+                                    var reqTwo = {
+                                        method: 'POST',
+                                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/email/receipt',
+                                        headers: {
+                                            'Content-Type': undefined
+                                        },
+                                        data: {'uid': ActiveUser.userData.user_id, 'tid': response.data.data.receiptID}
+                                    };
 
-                                $http(reqTwo);
+                                    $http(reqTwo);
 
-                                goToReceipt(response.data.data.receiptID);
+                                    goToReceipt(response.data.data.receiptID);
+                                }
+
                             }
 
                             $scope.cart.paymentComplete = true;

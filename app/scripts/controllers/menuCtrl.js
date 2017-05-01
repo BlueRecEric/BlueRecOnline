@@ -12,6 +12,7 @@ angular.module('bluereconlineApp')
         function ($scope,$rootScope,$routeParams,$route,AuthService, $http, $location,ActiveUser, $aside, NavFactory, BLUEREC_ONLINE_CONFIG, UserData) {
 
         $scope.CartCount = 0;
+        $scope.CartExpireTime = '';
 
         $rootScope.$on('updateCartCount', function () {
             $scope.getCartCount();
@@ -33,6 +34,7 @@ angular.module('bluereconlineApp')
             $http(req)
                 .success(function (data) {
                     $scope.CartCount = data.cart_total_items;
+                    $scope.CartExpireTime = data.cart_total_items;
                 });
         };
 
