@@ -121,7 +121,7 @@ angular.module('bluereconlineApp')
                 {
                     for(var s = 0; s < preLoad.waivers[w].signoff.length; s++)
                     {
-                        if(!preLoad.waivers[w].signoff[s].agreed)
+                        if(!preLoad.waivers[w].signoff[s].agreed && preLoad.waivers[w].is_optional == '0')
                         {
                             allWaiversSigned = false;
 

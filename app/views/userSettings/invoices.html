@@ -23,7 +23,7 @@
             </thead>
 
             <tbody data-ng-repeat="payment in item.payments">
-                <tr  class="text-white {{(payment.payment_due <= 0)?'green-bg':(payment.due_now == '1')?'red-bg':''}}">
+                <tr  class="{{(payment.payment_due <= 0)?'green-bg':(payment.due_now == '1')?'text-white red-bg':''}}">
                     <td class="col-md-1">{{payment.payment_order}}</td>
                     <td class="col-md-1">{{payment.due_date}}</td>
                     <td class="col-md-1">{{payment.payment_status}}</td>

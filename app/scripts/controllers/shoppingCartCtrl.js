@@ -16,6 +16,8 @@ angular.module('bluereconlineApp')
       $scope.removed = {};
       $scope.paymentResponse;
       $scope.payingCart = false;
+      $scope.registeringFreeCart = false;
+      $scope.freeRegErrors = [];
 
         var paymentModal =   $modal({
             title: 'Processing Payment',
@@ -154,6 +156,75 @@ angular.module('bluereconlineApp')
                   loadCart();
                 }
             );
+      }
+
+      function registerFreeCart()
+      {
+          $scope.registeringFreeCart = true;
+          $scope.freeRegErrors = [];
+
+          var customerData = {};
+
+          customerData.uid = ActiveUser.userData.user_id;
+          customerData.hid = ActiveUser.userData.household_id;
+          customerData.customerID = ActiveUser.userData.household_id + '_' + ActiveUser.userData.user_id;
+
+          if ($scope.cart.data.length > 0) {
+              customerData.cartItems = $scope.cart.data;
+
+              MakeToast.popOn('info', 'Registering', 'We are registering your items...');
+
+              var req = {
+                  method: 'POST',
+                  url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/free',
+                  headers: {
+                      'Content-Type': undefined
+                  },
+                  data: customerData
+              };
+
+              return $http(req)
+                  .then(function success(response) {
+                      //console.log('pay response:');
+                      $scope.paymentResponse = response.data;
+                      console.log($scope.paymentResponse);
+
+                      paymentModal.show = false;
+
+                      if (response.data.data.authorized) {
+                          MakeToast.popOn('success', 'Registering', 'Your registration has been completed!');
+                          $scope.removed = response.data;
+                          if (angular.isDefined(response.data.data.receiptID)) {
+
+                              if (angular.isDefined(response.data.data.receiptID)) {
+                                  var reqTwo = {
+                                      method: 'POST',
+                                      url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/email/receipt',
+                                      headers: {
+                                          'Content-Type': undefined
+                                      },
+                                      data: {'uid': ActiveUser.userData.user_id, 'tid': response.data.data.receiptID}
+                                  };
+
+                                  $http(reqTwo);
+
+                                  goToReceipt(response.data.data.receiptID);
+                              }
+
+                          }
+
+                          $scope.cart.paymentComplete = true;
+                          $scope.payingCart = false;
+                          loadCart();
+                      }
+                      else {
+                          $scope.payingCart = false;
+                          MakeToast.popOn('warning', 'Registering', 'There was a problem completing your purchase.');
+                      }
+
+                  });
+          }
+
       }
 
       function payCart()
@@ -313,6 +384,7 @@ angular.module('bluereconlineApp')
       $scope.goToCheckout = goToCheckout;
       $scope.removeItem = removeItem;
       $scope.payCart = payCart;
+      $scope.registerFreeCart = registerFreeCart;
       $scope.checkPromo = checkPromo;
       $scope.getSettings = getSettings;
       $scope.pageData = {paymentComplete:false};

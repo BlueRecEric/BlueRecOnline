@@ -291,7 +291,7 @@
         <div class="panel-body">
           <div class="panel panel-primary" data-ng-repeat="waiverData in preLoad.waivers">
             <div class="panel-heading clearfix">
-              <h3 class="panel-title">{{waiverData.waiver_name}}</h3>
+              <h3 class="panel-title"><span data-ng-if="waiverData.is_optional == '1'">(Optional) </span>{{waiverData.waiver_name}}</h3>
             </div>
 
             <div class="panel-body">
@@ -301,7 +301,7 @@
                 <div data-ng-repeat="signoff in waiverData.signoff">
                   <div class="col-xs-12 spacing">
                     <checkbox class="btn-primary" data-ng-model="signoff.agreed" id="signoff.name" name="signoff.name" required></checkbox>
-                    <label for="signoff.name">I agree to the terms outlined in the above waiver on behalf of {{signoff.user_name}}.</label>
+                    <label for="signoff.name">I agree to the terms outlined in the above <span data-ng-if="waiverData.is_optional == '1'">optional </span>waiver on behalf of {{signoff.user_name}}.</label>
                   </div>
                 </div>
               </div>
