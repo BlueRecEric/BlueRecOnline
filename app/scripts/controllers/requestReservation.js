@@ -96,33 +96,33 @@ angular.module('bluereconlineApp')
 
             $scope.anchorRentalCode = false;
 
-           $scope.getRentalData = function () {
-               var req = {
-                   method: 'POST',
-                   url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/requestreservation',
-                   headers: {
-                       'Content-Type': undefined
-                   },
-                   data: {
-                       user_id: ActiveUser.userData.user_id,
-                       location_id: $scope.selectedLocation,
-                       purpose_of_use: $scope.selectedPurposeOfUse.selected,
-                       keyword: $scope.search.keyword
-                   }
-               };
+            $scope.getRentalData = function () {
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/requestreservation',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {
+                        user_id: ActiveUser.userData.user_id,
+                        location_id: $scope.selectedLocation,
+                        purpose_of_use: $scope.selectedPurposeOfUse.selected,
+                        keyword: $scope.search.keyword
+                    }
+                };
 
-               $http(req)
-                   .then(function (response) {
-                       for ( var i = 0; i < response.data.length; i++)
-                       {
-                           response.data[i].rental_code_desc_short = response.data[i].rental_code_description.substr(0, 125)+'...';
-                       }
+                $http(req)
+                    .then(function (response) {
+                        for ( var i = 0; i < response.data.length; i++)
+                        {
+                            response.data[i].rental_code_desc_short = response.data[i].rental_code_description.substr(0, 125)+'...';
+                        }
 
-                       $scope.rentalGroupData = response.data;
+                        $scope.rentalGroupData = response.data;
 
-                       console.log('rental data:  ', $scope.rentalGroupData);
-                   });
-           };
+                        console.log('rental data:  ', $scope.rentalGroupData);
+                    });
+            };
 
             $scope.getUserApprovedRequests = function () {
                 $scope.displayApprovedRentals = false;
