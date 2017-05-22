@@ -463,7 +463,7 @@ body > .container {
 
     .receiptImg
     {
-        max-width:220px;
+        /* max-height:220px; */
     }
 }
 
@@ -819,72 +819,7 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 
 @page { size:8in 10.5in; }
 
-@media print {
-    body * {
-        visibility:hidden;
-    }
 
-    html, body {
-        width: 980px;
-    }
-
-    .report-image {
-        width: 220px;
-    }
-
-    .receiptImg
-    {
-    }
-
-    .noprint {
-        visibility: hidden;
-    }
-
-    .col-print-3 {
-        display: inline-block;
-        padding-left:0px;
-        padding-right:0px;
-        width:20%;
-    }
-
-    #printContainer, #printContainer * {
-        visibility:visible;
-        margin-left:auto;
-        margin-right:auto;
-        font-size: 12px;
-        line-height: 1.2;
-        width: 100%;
-    }
-
-    #printContainer {
-        position:absolute;
-        left:5px;
-        top:10mm;
-    }
-
-    #printSection, #printSection * {
-        visibility:visible;
-        margin-left:auto;
-        margin-right:auto;
-        font-size: 12px;
-        line-height: 1.2;
-        width: 100%;
-    }
-
-    table.report-table { font-size: 75%; table-layout: fixed; width: 100%; }
-    table.report-table-scale { font-size: 75%; table-layout: fixed; }
-    th, td { padding: 0.01em; position: relative;}
-
-    table {
-        page-break-inside:avoid;
-    }
-
-    #printSection {
-        position:absolute;
-        left:0;
-        top:0;
-    }
-}
 
 @media (min-width: 768px){
     .seven-cols .col-md-1,
@@ -1180,3 +1115,76 @@ tooltip tip.facility-address {
 }
 
 .text-white { color: #FFF; }
+
+@media print {
+    body * {
+        visibility:hidden;
+    }
+
+    html, body {
+        width: 980px;
+    }
+
+    .report-image {
+        width: 220px;
+    }
+
+    .receiptImg
+    {
+        height: auto !important;
+        width: auto !important;
+        max-width:200px !important;
+        max-height:200px !important;
+        min-width:75px !important;
+        min-height:75px !important;
+    }
+
+    .noprint {
+        visibility: hidden;
+    }
+
+    .col-print-3 {
+        display: inline-block;
+        padding-left:0px;
+        padding-right:0px;
+        width:20%;
+    }
+
+    #printContainer, #printContainer * {
+        visibility:visible;
+        margin-left:auto;
+        margin-right:auto;
+        font-size: 12px;
+        line-height: 1.2;
+        width: 100%;
+    }
+
+    #printContainer {
+        position:absolute;
+        left:5px;
+        top:10mm;
+    }
+
+    #printSection, #printSection * {
+        visibility:visible;
+        margin-left:auto;
+        margin-right:auto;
+        font-size: 12px;
+        line-height: 1.2;
+        width: 100%;
+    }
+
+    table.report-table { font-size: 75%; table-layout: fixed; width: 100%; }
+    table.report-table-scale { font-size: 75%; table-layout: fixed; }
+    th, td { padding: 0.01em; position: relative;}
+
+    table {
+        page-break-inside:avoid;
+    }
+
+    #printSection {
+        position:absolute;
+        left:0;
+        top:0;
+    }
+}
