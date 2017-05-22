@@ -20,9 +20,35 @@ angular.module('bluereconlineApp')
             $scope.loadingWeekdays = [];
             $scope.loadingWeekdays.loading = false;
 
+            $scope.fees = [];
+            $scope.fees.show = false;
+            $scope.fees.fee_data = [];
+
             $scope.rentalDataLoaded = false;
 
+            /**
+             * @typedef {Object} rentalData
+             * @property {int} how_far_in_advance
+             * @property {int} how_far_out
+             * @property {string} force_facility_order
+             * @property {string} facility_data
+             * @property {int} facility_limit
+             * @property {string} lf_date
+             * @property {string} sf_date
+             * @property {string} st_date
+             * @property {string} et_date
+             * @property {string} etime
+             * @property {string} fac_label
+             * @property {string} slots
+             * @property {Object} tdata
+             * @property {int} tdata.eg
+             * @property {string} tdata.fname
+             * @property {string} tdata.et
+             * @property {string} tdata.st
+             */
             $scope.rentalData = [];
+            $scope.rentalData.facility_limit = 1;
+
             $scope.errorLoadingRental = false;
 
             $scope.selectedRentalTimes = [];
@@ -95,15 +121,27 @@ angular.module('bluereconlineApp')
 
                         $scope.rentalData = data.rental_data;
 
+                        $scope.rentalData.facility_limit = 0;
+
                         if($scope.rentalData.force_facility_order === '1')
                         {
-                            for (var i=0;i < $scope.rentalData.facility_data.length; i++)
+                            var facCount = $scope.rentalData.facility_data.length;
+
+                            if(facCount > 0)
+                            {
+                                $scope.rentalData.facility_limit = $filter('Number')((facCount / 2)+1, 0);
+                            }
+
+                            for (var i=0;i < facCount; i++)
                             {
                                 $scope.rentalData.facility_data[i].selected = true;
                             }
                         }
 
-                        //console.log('Rental Date: ', $scope.rentalData);
+                        console.log('Rental Date: ', $scope.rentalData);
+
+                        $scope.fees.fee_data = $scope.rentalData.fee_data;
+                        $scope.fees.show = $scope.rentalData.show_fees;
 
                         if($scope.rentalData.how_far_in_advance > 0) {
                             var inAdvanceDate = new Date();
@@ -351,15 +389,16 @@ angular.module('bluereconlineApp')
                     angular.isDate($scope.fromDate) && angular.isDate($scope.untilDate)) {
                     $scope.isSearchIconBusy.loading = true;
 
-                    /*console.log({rental_code_item_id: $scope.rentalItemID,
-                     facilities: selectedFacilities,
-                     weekdays: selectedWeekdays,
-                     from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
-                     until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
-                     duration: $scope.rentalDuration.selectedTime,
-                     start_time: $filter('date')($scope.startTime, 'HH:mm'),
-                     end_time:  $filter('date')($scope.endTime, 'HH:mm')
-                     });*/
+                    console.log({rental_code_item_id: $scope.rentalItemID,
+                         facilities: selectedFacilities,
+                         weekdays: selectedWeekdays,
+                         from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
+                         until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
+                         duration: $scope.rentalDuration.selectedTime,
+                         start_time: $filter('date')($scope.startTime, 'HH:mm'),
+                         end_time:  $filter('date')($scope.endTime, 'HH:mm'),
+                         force_order: ($scope.rentalData.force_facility_order=='1')?'true':'false'
+                         });
 
                     var req = {
                         method: 'POST',
@@ -387,7 +426,8 @@ angular.module('bluereconlineApp')
                             if (data.success) {
                                 $scope.isSearchIconBusy.loading = false;
 
-                                if (data.rowCount > 0) {
+                                if (data.rowCount > 0)
+                                {
                                     var tempResults = data.results;
 
                                     for (var i=0;i < tempResults.length; i++) {
@@ -395,19 +435,24 @@ angular.module('bluereconlineApp')
 
                                             //console.log('tempResults: ', tempResults[i].tdata);
 
-                                            var feeData = $scope.getFacilityFeeData(tempResults[i].tdata[t].fid);
+                                            //var feeData = $scope.getFacilityFeeData(tempResults[i].tdata[t].fid);
+
+                                            /*var feeData = tempResults[i].tdata[t].fac_fee_data;
+                                            console.log('feeData: ', feeData);
 
                                             var perHourFeeAmt = 0;
 
                                             if(!angular.isUndefined(feeData) && feeData !== null)
                                             {
+
                                                 for (var f=0;f < feeData.length; f++) {
                                                     perHourFeeAmt += feeData[f].per_hour_amount * (tempResults[i].tdata[t].dur / 60);
                                                 }
-                                            }
+                                            }*/
 
-                                            tempResults[i].tdata[t].fee_data = feeData;
-                                            tempResults[i].tdata[t].fee_amount = perHourFeeAmt;
+                                            //tempResults[i].tdata[t].fee_data = feeData;
+                                            //tempResults[i].tdata[t].fee_amount = perHourFeeAmt;
+
                                             tempResults[i].tdata[t].booking_type = $scope.getFacilityFeeBookingType(tempResults[i].tdata[t].fid);
                                             tempResults[i].tdata[t].location_address = $scope.getFacilityAddress(tempResults[i].tdata[t].fid);
 
@@ -442,7 +487,8 @@ angular.module('bluereconlineApp')
                                     $scope.displayNoResults = false;
                                     $scope.displaySearchResults = true;
                                 }
-                                else {
+                                else
+                                {
                                     $scope.displaySearchResults = false;
                                     $scope.displayNoResults = true;
                                 }
@@ -456,17 +502,39 @@ angular.module('bluereconlineApp')
                         })
                         .error(function (data) {
                             $scope.isSearchIconBusy.loading = false;
+                            $scope.displaySearchResults = false;
+                            $scope.displayNoResults = false;
 
-                            $scope.searchErrorMessage = 'An error occured while processing your search.';
+                            //$scope.searchErrorMessage = 'An error occured while processing your search.';
+                            $scope.searchErrorMessage = 'No facility rentals found at this time.';
                         });
 
                     $scope.searchResultsData = [].concat($scope.searchRowCollection);
                 }
                 else
                 {
-                    $scope.isSearchIconBusy.loading = false;
+                    if($scope.startTime >= $scope.endTime)
+                    {
+                        $scope.searchErrorMessage = 'Start time cannot be greater than the End time.';
+                    }
+                    else if($scope.formErrors.facilityError)
+                    {
+                        $scope.searchErrorMessage = 'Please select at least one facility.';
+                    }
+                    else if($scope.formErrors.weekdayError)
+                    {
+                        $scope.searchErrorMessage = 'Please select at least one weekday.';
+                    }
+                    else if(!angular.isDate($scope.fromDate) || !angular.isDate($scope.untilDate))
+                    {
+                        $scope.searchErrorMessage = 'Please select a Start/End date.';
+                    }
+                    else
+                    {
+                        $scope.searchErrorMessage = 'Make sure all options highlighted red are selected.';
+                    }
 
-                    $scope.searchErrorMessage = 'Please select at least one option for the following items highlighted red.';
+                    $scope.isSearchIconBusy.loading = false;
 
                     //$anchorScroll.yOffset = 500;
                     //$anchorScroll('pageTop');
@@ -621,12 +689,14 @@ angular.module('bluereconlineApp')
             $scope.onAcceptRentalTimes = function ()
             {
                 var selectedRentalData = {};
-
+	
+				console.log('test: ',  selectedRentalData);
+				
                 selectedRentalData.rental_code_item_id = $scope.rentalItemID;
                 selectedRentalData.auto_approve = $scope.rentalData.auto_approve;
 
-                //console.log ('selectedRentalData: ', selectedRentalData);
-                //console.log('$scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
+                console.log ('selectedRentalData: ', selectedRentalData);
+                console.log('$scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
 
                 ReservationFactory.setReservationData(selectedRentalData);
 

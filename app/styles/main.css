@@ -189,13 +189,6 @@ body > .container {
     text-wrap: normal !important;
 }
 
-#nav.affix {
-    position: fixed;
-    top: 0;
-    width: 100%!important;
-    z-index:10;
-}
-
 .listing img
 {
     width:64px;
@@ -433,6 +426,15 @@ body > .container {
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     /* Remove the padding we set earlier */
+    .two_column_list {
+        -moz-column-count: 2;
+        -moz-column-gap: 10px;
+        -webkit-column-count: 2;
+        -webkit-column-gap: 10px;
+        column-count: 2;
+        column-gap: 10px;
+    }
+
     .header,
     .marketing,
     .footer {
@@ -680,14 +682,6 @@ input::-moz-focus-inner {
 input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     outline: 0!important;
     background-color: #fff !important;
-}
-
-.navbar-collapse.collapsing {
-    -webkit-transition: height 0.01s;
-    -moz-transition: height 0.01s;
-    -ms-transition: height 0.01s;
-    -o-transition: height 0.01s;
-    transition: height 0.01s;
 }
 
 .ng-enter {
@@ -987,7 +981,7 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     border-radius: 100%;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
     .colHideMobile {
         display: none;
         visibility: hidden;
@@ -1000,9 +994,18 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
     .colMobileTextCenter{
         text-align:center;
     }
+
+    .two_column_list {
+        -moz-column-count: 1;
+        -moz-column-gap: 10px;
+        -webkit-column-count: 1;
+        -webkit-column-gap: 10px;
+        column-count: 1;
+        column-gap: 10px;
+    }
 }
 
-@media  only screen and  (min-width:641px) {
+@media  only screen and  (min-width:768px) {
     .colHideMobile {
         visibility: visible;
     }
@@ -1061,8 +1064,8 @@ tr.rentalSearchTimeCol td {
  }
 
 tr.rentalSearchTimeColNB td {
-    border-bottom: none !important
-
+    border-bottom: none !important;
+    border-top: none !important;
 }
 
 tr.rentalSearchTimePadFull td {
@@ -1183,3 +1186,52 @@ tooltip tip.facility-address {
 
 .font-bold
 {font-weight: bold;}
+
+.no-animate {
+    -webkit-transition: none !important;
+    transition: none !important;
+}
+
+.table-no-padding > thead > tr > th,
+.table-no-padding > tbody > tr > th,
+.table-no-padding > tfoot > tr > th,
+.table-no-padding > thead > tr > td,
+.table-no-padding > tbody > tr > td,
+.table-no-padding > tfoot > tr > td {
+	padding: 0px !important;
+}
+
+.table-min-padding > thead > tr > th,
+.table-min-padding > tbody > tr > th,
+.table-min-padding > tfoot > tr > th,
+.table-min-padding > thead > tr > td,
+.table-min-padding > tbody > tr > td,
+.table-min-padding > tfoot > tr > td {
+	padding: 2px !important;
+	border-top: 0px solid #ddd !important;
+}
+
+.divider {
+	height: 2px;
+	width:100%;
+	display:block; /* for use on default inline elements like span */
+	margin: 9px 0;
+	overflow: hidden;
+	background-color: #e5e5e5;
+}
+
+
+.navbar-collapse.collapsing {
+	-webkit-transition: height 0.01s;
+	-moz-transition: height 0.01s;
+	-ms-transition: height 0.01s;
+	-o-transition: height 0.01s;
+	transition: height 0.01s;
+}
+
+#nav.affix {
+	position: fixed;
+	top: 0;
+	width: 100%!important;
+	z-index:10;
+}
