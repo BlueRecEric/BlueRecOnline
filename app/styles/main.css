@@ -996,8 +996,8 @@ tr.rentalSearchTimeCol td {
  }
 
 tr.rentalSearchTimeColNB td {
-    border-bottom: none !important;
-    border-top: none !important;
+    border-bottom: none !important
+
 }
 
 tr.rentalSearchTimePadFull td {
@@ -1115,6 +1115,9 @@ tooltip tip.facility-address {
 }
 
 .text-white { color: #FFF; }
+
+.font-bold
+{font-weight: bold;}
 
 @media print {
     body * {
