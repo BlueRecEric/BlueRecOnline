@@ -40,11 +40,11 @@
 					<form class="form-inline">
 						<div class="form-group col-xs-4">
 							<label>Keyword:</label>
-							<input ng-model="query.item_name" class="form-control">
+							<input ng-model="query.item_name" class="form-control" data-ng-change="doSearch()">
 						</div>
 						<div class="form-group col-xs-4 checkbox-bump-down">
 							<checkbox name="searchFamily" id="searchFamily" class="btn-primary" data-ng-false-value=''
-									  data-ng-model="query.family_mem"></checkbox>
+									  data-ng-model="query.family_mem" data-ng-change="doSearch()"></checkbox>
 							<label for="searchFamily">Only Family Memberships</label>
 						</div>
 					</form>
