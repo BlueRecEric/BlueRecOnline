@@ -8,21 +8,26 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('MembershipListCtrl', ['$scope', 'MembershipLoader','$timeout', function ($scope,MembershipLoader,$timeout) {
+  .controller('MembershipListCtrl', ['$scope', 'MembershipLoader','$timeout', '$routeParams', function ($scope,MembershipLoader,$timeout,$routeParams) {
       $scope.listMemberships = MembershipLoader;
+      $scope.query = [];
 
-      $scope.listMemberships.loadMemberships($scope.query);
+      $scope.checkTypeRoute = function () {
 
-      var filterTextTimeout;
+          if(angular.isDefined($routeParams.keyword))
+          {
+              console.log('search type is defined:' + $routeParams.keyword);
+              $scope.query.item_name = $routeParams.keyword;
+          }
 
-      $scope.$watch('query.item_name', function () {
-        if (filterTextTimeout) {
-          $timeout.cancel(filterTextTimeout);
-        }
-        filterTextTimeout = $timeout(function() {
           $scope.listMemberships.loadMemberships($scope.query);
-        }, 250); // delay 250 ms
-      });
+      };
+
+      $scope.doSearch = function () {
+          $scope.listMemberships.loadMemberships($scope.query);
+      };
+
+      $scope.checkTypeRoute();
   }])
   .factory('MembershipLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'md5', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,md5) {
     var memload = this;

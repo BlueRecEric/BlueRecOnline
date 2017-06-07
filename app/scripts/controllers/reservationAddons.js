@@ -157,7 +157,7 @@ angular.module('bluereconlineApp')
 		
 		$scope.onPackageChangeEvent = function() {
 			var newPackageFee = 0.0;
-			console.log($scope.rentalPackages);
+			//console.log($scope.rentalPackages);
 			for (var i = 0; i < $scope.rentalPackages.length; i++) {
 				if($scope.rentalPackages[i].selected)
 				{
@@ -267,7 +267,7 @@ angular.module('bluereconlineApp')
 					
 					submitData.custom_fields = $scope.rentalCustomFields;
 					
-					console.log(submitData);
+					console.log('submitData', submitData);
 					
 					var req;
 					
@@ -288,7 +288,7 @@ angular.module('bluereconlineApp')
 							
 							if(response.status === 200 && response.data.result !== 'not_auto_approve')
 							{
-								console.log('added');
+								//console.log('added');
 								ReservationFactory.clearReservationData();
 								 ReservationFactory.clearReservationTimes();
 								 
@@ -307,6 +307,8 @@ angular.module('bluereconlineApp')
 							}
 						}, function(response) {
 							console.log('error', response);
+							
+							$scope.submittingData = false;
 							/*ReservationFactory.clearReservationData();
 							 ReservationFactory.clearReservationTimes();
 							 
@@ -352,7 +354,7 @@ angular.module('bluereconlineApp')
 		$scope.onLightingFeeSelected = function()
 		{
 		
-		}
+		};
 		
 		if($scope.reservationDataSet) {
 			//console.log('RENTAL DATA:  ');

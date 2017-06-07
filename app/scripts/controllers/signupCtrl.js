@@ -375,6 +375,14 @@ angular.module('bluereconlineApp')
                             signRemote.formData.remoteError = [];
                             signRemote.formData.remoteError.error = true;
                             signRemote.formData.remoteError.message = 'Unable to create a new account.';
+
+                            if(response.data.errors.length > 0)
+                            {
+                                if(response.data.errors[0].error.text.length > 0)
+                                {
+                                    signRemote.formData.remoteError.message = response.data.errors[0].error.text;
+                                }
+                            }
                         }
                         else
                         {
