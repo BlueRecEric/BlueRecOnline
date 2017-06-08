@@ -20,11 +20,6 @@ angular.module('bluereconlineApp')
 
             $scope.userLoggedIn = ActiveUser.isLoggedIn();
 
-            $scope.depositAmount = 0.00;
-
-            $scope.feeAmount = 0.00;
-            $scope.feeItemID = 0;
-
             $scope.itemsByPage = 15;
 
             $scope.selectedLocation = 0;

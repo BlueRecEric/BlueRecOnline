@@ -54,9 +54,9 @@
 											<h4>Fees</h4>
 										</div>
 									</div>
-									<div class="well row striped-row" data-ng-repeat="fee in fees.fee_data" data-ng-if="fees.show">
-										<div class="col-xs-8" style="padding-left: 0px;padding-right: 0px;">{{::fee.fee_name}}:</div>
-										<div class="col-xs-4 text-right">${{::fee.fee_amount}}</div>
+									<div class="well row striped-row" data-ng-repeat="(key, items) in fees.fee_data | groupBy:'fee_name'" data-ng-if="fees.show">
+										<div class="col-xs-8" style="padding-left: 0px;padding-right: 0px;">{{items[0].fee_name}}:</div>
+										<div class="col-xs-4 text-right">${{ getGroupedSum(items) | currency }}</div>
 									</div>
 								</div>
 							</div>
@@ -217,7 +217,7 @@
 											<div class="" style="padding-left: 0px;">
 												<div class="col-sm-12">
 													<div class="col-sm-12">
-														<h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.weekdayError}">{{(formErrors.weekdayError)?'*':''}}Weekdays</h4>
+														<h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.weekdayError}">{{(formErrors.weekdayError)?'*':''}}Hours</h4>
 														<span ng-hide="!loadingWeekdays.loading"><i class="fa fa-spinner fa-spin fa-lg fa-fw"></i></span>
 													</div>
 												</div>
