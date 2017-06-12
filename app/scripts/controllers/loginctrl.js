@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-  .controller('LoginCtrl',['$scope','$http','AuthService','$routeParams','$location','ActiveUser', '$q', 'Page', 'MakeToast', function ($scope,$http,AuthService,$routeParams,$location,ActiveUser,$q,Page,MakeToast) {
+  .controller('LoginCtrl',['$scope','$http','AuthService','$routeParams','$location','ActiveUser', '$q', 'Page', 'MakeToast', 'SaveData', function ($scope,$http,AuthService,$routeParams,$location,ActiveUser,$q,Page,MakeToast,SaveData) {
     var log = this;
 
     //console.log(Page);
@@ -41,13 +41,22 @@ angular.module('bluereconlineApp')
                           //console.log('activeuser set to');
                           //console.log(ActiveUser.userData);
 
-                          if(response.data.questions_answered == '1')
+                          var returnToPage = SaveData.getAfterLogin();
+
+                          if(returnToPage.length > 0)
                           {
-                              $location.path('/' + log.orgurl + '/home');
+                              console.log('return to last page:');
+                              console.log(returnToPage);
+                              SaveData.setAfterLogin();
+                              $location.path('/' + log.orgurl + '/' + returnToPage);
                           }
-                          else
-                          {
-                              $location.path('/' + log.orgurl + '/accountupdate');
+                          else {
+                              if (response.data.questions_answered == '1') {
+                                  $location.path('/' + log.orgurl + '/home');
+                              }
+                              else {
+                                  $location.path('/' + log.orgurl + '/accountupdate');
+                              }
                           }
                       }, function () {
                       }, function () {
