@@ -693,6 +693,30 @@ angular
             }
         };
     }])
+    .factory('SaveData', ['$window', function($window) {
+        var store = $window.localStorage;
+        var afterLogin = '';
+
+        function getAfterLogin() {
+            return store.getItem('afterLogin');
+        }
+
+        function setAfterLogin(afterLogin) {
+            if(afterLogin)
+            {
+                return store.setItem('afterLogin',afterLogin);
+            }
+            else
+            {
+                store.removeItem('afterLogin');
+            }
+        }
+
+        return {
+            getAfterLogin: getAfterLogin,
+            setAfterLogin: setAfterLogin
+        };
+    }])
     .factory('AuthToken', ['$window', function($window) {
         var store = $window.localStorage;
         var key = 'auth-token';

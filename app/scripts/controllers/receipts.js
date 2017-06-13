@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('ReceiptCtrl', ['$scope', 'ReceiptLoader', '$routeParams', '$location', function ($scope,ReceiptLoader, $routeParams, $location) {
+    .controller('ReceiptCtrl', ['$scope', 'ReceiptLoader', '$routeParams', '$location', function ($scope,ReceiptLoader) {
         $scope.receiptData = ReceiptLoader;
         $scope.receiptData.loadReceipt();
 
@@ -50,13 +50,10 @@ angular.module('bluereconlineApp')
         };
 
     }])
-    .factory('ReceiptLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
+    .factory('ReceiptLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$location', 'SaveData', '$rootScope', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,$location,SaveData,$rootScope) {
         var receiptLoad = this;
 
         var loadReceipt = function() {
-            if(receiptLoad.busy) {
-                return false;
-            }
             receiptLoad.busy = true;
 
             var req = {
@@ -71,11 +68,21 @@ angular.module('bluereconlineApp')
                 receiptLoad.returnData = {};
                 receiptLoad.returnData = response.data.data;
 
+                if(receiptLoad.returnData.auth === false)
+                {
+                    $location.path('/' + $routeParams.orgurl + '/purchases');
+                }
+
                 console.log('receiptLoad.returnData:');
                 console.log(receiptLoad.returnData);
 
                 receiptLoad.busy = false;
-            }.bind(this));
+            }.bind(this))
+            .catch(function () {
+                receiptLoad.busy = false;
+                SaveData.setAfterLogin('purchases/receipt/' + $routeParams.receiptID);
+                $rootScope.$emit('logoutUser', {});
+            });
         };
 
         receiptLoad.loadReceipt = loadReceipt;

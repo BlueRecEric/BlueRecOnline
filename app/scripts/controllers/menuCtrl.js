@@ -18,6 +18,10 @@ angular.module('bluereconlineApp')
             $scope.getCartCount();
         });
 
+        $rootScope.$on('logoutUser', function () {
+            $scope.logout();
+        });
+
         $scope.getCartCount = function() {
             var req = {
                 method: 'POST',
