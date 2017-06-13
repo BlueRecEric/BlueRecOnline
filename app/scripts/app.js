@@ -42,7 +42,8 @@ angular
     'youtube-embed',
     'ui.select',
     'stiReport',
-    '720kb.tooltips'
+    '720kb.tooltips',
+    'angular.filter'
   ])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;

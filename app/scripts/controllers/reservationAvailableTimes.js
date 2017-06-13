@@ -122,11 +122,11 @@ angular.module('bluereconlineApp')
                         $scope.rentalData = data.rental_data;
 
                         $scope.rentalData.facility_limit = 0;
+	
+						var facCount = $scope.rentalData.facility_data.length;
 
-                        if($scope.rentalData.force_facility_order === '1')
+						if($scope.rentalData.force_facility_order === '1')
                         {
-                            var facCount = $scope.rentalData.facility_data.length;
-
                             if(facCount > 0)
                             {
                                 $scope.rentalData.facility_limit = $filter('Number')((facCount / 2)+1, 0);
@@ -137,10 +137,22 @@ angular.module('bluereconlineApp')
                                 $scope.rentalData.facility_data[i].selected = true;
                             }
                         }
-
-                        console.log('Rental Date: ', $scope.rentalData);
-
-                        $scope.fees.fee_data = $scope.rentalData.fee_data;
+	
+						$scope.fees.fee_data = [];
+						for (var fi=0;fi < facCount; fi++)
+						{
+							for(var fd=0;fd < $scope.rentalData.facility_data[fi].fee_data.length; fd++)
+							{
+								$scope.fees.fee_data.push({item_fee_id: $scope.rentalData.facility_data[fi].fee_data[fd].item_fee_id,
+														fee_id: $scope.rentalData.facility_data[fi].fee_data[fd].fee_id,
+														fee_name: $scope.rentalData.facility_data[fi].fee_data[fd].fee_name,
+														fee_amount: parseFloat($scope.rentalData.facility_data[fi].fee_data[fd].fee_amount)});
+							}
+						}
+	
+						console.log($scope.fees.fee_data);
+							
+                        //$scope.fees.fee_data = $scope.rentalData.fee_data;
                         $scope.fees.show = $scope.rentalData.show_fees;
 
                         if($scope.rentalData.how_far_in_advance > 0) {
@@ -156,7 +168,6 @@ angular.module('bluereconlineApp')
 
                             $scope.minDate = angular.copy(inAdvanceDate);
                         }
-
 
                         if($scope.rentalData.how_far_out > 0) {
                             var farOutDate = new Date();
@@ -634,15 +645,9 @@ angular.module('bluereconlineApp')
             $scope.onSelectRentalTime = function onSelectRentalTime(selectedRow, timeRow) {
                 var selectedTimeData = $filter('filter')(selectedRow.tdata, {fgid: timeRow.fgid}, true);
 
-                //console.log('timeRow.fgid: ',  timeRow.fgid);
-
-                //console.log('selectedRow: ',  selectedRow);
-
                 if (!timeRow.added)
                 {
                     timeRow.added = true;
-
-                    //console.log('selectedTimeData: ',  selectedTimeData);
 
                     $scope.selectedRentalTimes.rentals = $scope.selectedRentalTimes.rentals.concat(selectedTimeData);
                 }
@@ -650,9 +655,7 @@ angular.module('bluereconlineApp')
                 {
                     $scope.removeSelectedRentalData(timeRow);
                 }
-
-                //console.log('$scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
-
+                
                 if(!$scope.showingToast || angular.isUndefined(toaster.toast))
                 {
                     toaster.pop({
@@ -713,6 +716,12 @@ angular.module('bluereconlineApp')
             $rootScope.$on('continueProcessEvent', function (event) {
                 $scope.onAcceptRentalTimes();
             });
+	
+			$scope.getGroupedSum = function(items) {
+				return items
+				.map(function(x) { return x.fee_amount; })
+				.reduce(function(a, b) { return a + b; });
+			};
         }])
 
     .directive('undo', function($rootScope) {
