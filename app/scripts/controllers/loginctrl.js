@@ -43,7 +43,7 @@ angular.module('bluereconlineApp')
 
                           var returnToPage = SaveData.getAfterLogin();
 
-                          if(returnToPage.length > 0)
+                          if(returnToPage != null && angular.isDefined(returnToPage) && returnToPage.length > 0)
                           {
                               console.log('return to last page:');
                               console.log(returnToPage);
