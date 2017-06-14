@@ -317,10 +317,10 @@
 															<span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_loc}}<br></span>
 														</td>
 														<td st-ratio="15" class="text-right" data-ng-if="rentalData.force_facility_order!='1'">
-															<span>{{::timeRow.fee_amount | currency}}{{(timeRow.booking_type=='hour')?'/hour':''}}</span>
+															<span>{{::timeRow.fee_amount | currency}}</span>
 														</td>
 														<td st-ratio="15" class="text-right" data-ng-if="rentalData.force_facility_order=='1'">
-															<span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fee_amount | currency}}{{(facRow.booking_type=='hour')?'/hour':''}}<br></span>
+															<span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fee_amount | currency}}<br></span>
 														</td>
 														<td st-ratio="25" class="text-right" data-ng-if="rentalData.force_facility_order!='1'">
 															{{::timeRow.st}}&nbsp;to&nbsp;</span>{{::timeRow.et}}<br>
