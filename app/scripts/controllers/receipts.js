@@ -12,6 +12,10 @@ angular.module('bluereconlineApp')
         $scope.receiptData = ReceiptLoader;
         $scope.receiptData.loadReceipt();
 
+        $scope.printReceipt = function ()
+        {
+            window.print();
+        }
 
         $scope.showItemData = function(itemType, columnType, columnData)
         {

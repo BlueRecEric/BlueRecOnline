@@ -4,6 +4,10 @@
         <div class="col-xs-12"><h3>Receipt</h3></div>
     </div>
 
+    <div class="row" data-ng-if="!receiptData.busy">
+        <div class="col-xs-12" align="center"><button data-ng-click="printReceipt()" class="btn btn-primary btn-sm hidden-print"><i class="glyphicon glyphicon-print"></i> Print Receipt</button></div>
+    </div>
+
     <div class="row" data-ng-if="receiptData.busy">
         <div class="col-xs-12 text-center">
             <p><i class="fa fa-refresh fa-spin fa-2x text-primary pull-left"></i>
@@ -222,5 +226,9 @@
             </tr>
         </table>
 
+    </div>
+
+    <div class="row" data-ng-if="!receiptData.busy">
+        <div class="col-xs-12" align="center"><button data-ng-click="printReceipt()" class="btn btn-primary btn-sm hidden-print"><i class="glyphicon glyphicon-print"></i> Print Receipt</button></div>
     </div>
 </div>
