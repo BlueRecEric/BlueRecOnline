@@ -234,8 +234,19 @@
 
                   </div>
 
+                  <!-- registration over table -->
+                  <div class="col-sm-3 col-md-3" data-ng-if="(program.listData.registration_over == '1')">
+                    <div class="row"><div class="col-sm-12"><h4><a id="register_{{program.listData.item_id}}">Register</a></h4></div></div>
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <h5>Registration has ended</h5>
+                      </li>
+                    </ul>
+                  </div>
+
+
                   <!-- pre registration table -->
-                  <div class="col-sm-3 col-md-3" data-ng-if="((program.listData.remaining_spots > 0 || program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_preregistration == '1' || program.listData.in_online_resident_preregistration == '1'))">
+                  <div class="col-sm-3 col-md-3" data-ng-if="(program.listData.registration_over != '1' && (program.listData.remaining_spots > 0 || program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_preregistration == '1' || program.listData.in_online_resident_preregistration == '1'))">
                     <div class="row"><div class="col-sm-12"><h4><a id="register_{{program.listData.item_id}}">Pre-Register</a></h4></div></div>
                     <ul class="list-group" data-ng-if="showRegisteredUser">
                       <li class="list-group-item" quick-ng-repeat="person in program.listData.users track by person.user_id" data-ng-if="person.preEligible || program.showIneligible">
@@ -257,7 +268,7 @@
                   </div>
 
                   <!-- regular registration table -->
-                  <div class="col-sm-3 col-md-3" data-ng-if="((program.listData.remaining_spots > 0 || program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1'))">
+                  <div class="col-sm-3 col-md-3" data-ng-if="(program.listData.registration_over != '1' && (program.listData.remaining_spots > 0 || program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1'))">
                     <div class="row"><div class="col-sm-12"><h4><a id="register_{{program.listData.item_id}}">Register</a></h4></div></div>
                     <ul class="list-group" data-ng-if="showRegisteredUser">
                       <li class="list-group-item" quick-ng-repeat="person in program.listData.users track by person.user_id" data-ng-if="person.eligible || program.showIneligible">

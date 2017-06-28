@@ -16,8 +16,17 @@
         </p>
       </div>
 
-      <div class="col-sm-3 col-xs-12" data-ng-if="((proinfo.returnData.remaining_spots > 0 || proinfo.returnData.allow_waitinglist == '1') && (proinfo.returnData.listData.in_online_nonresident_registration == '1' || proinfo.returnData.listData.in_online_resident_registration == '1'))">
+      <!-- registration over table -->
+      <div class="col-sm-3 col-xs-12" data-ng-if="(proinfo.returnData.listData.registration_over == '1')">
+        <div class="row"><div class="col-sm-12"><h4><a id="register_{{proinfo.returnData.listData.item_id}}">Register</a></h4></div></div>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <h5>Registration has ended</h5>
+          </li>
+        </ul>
+      </div>
 
+      <div class="col-sm-3 col-xs-12" data-ng-if="(proinfo.returnData.listData.registration_over != '1' && (proinfo.returnData.remaining_spots > 0 || proinfo.returnData.allow_waitinglist == '1') && (proinfo.returnData.listData.in_online_nonresident_registration == '1' || proinfo.returnData.listData.in_online_resident_registration == '1'))">
         <div class="row" data-ng-if="(proinfo.returnData.listData.in_online_nonresident_registration == '1' || proinfo.returnData.listData.in_online_resident_registration == '1')"><div class="col-sm-12"><h4><a id="register_{{proinfo.returnData.listData.item_id}}">Register</a></h4></div></div>
         <ul class="list-group" data-ng-if="loggedIn">
           <li class="list-group-item" data-ng-repeat="person in proinfo.returnData.listData.users track by person.user_id" data-ng-if="person.eligible || proinfo.returnData.listData.showIneligible">
