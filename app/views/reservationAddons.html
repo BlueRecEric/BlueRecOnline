@@ -17,37 +17,37 @@
 						<div class="hidden-xs">
 							<table class="table table-min-padding table-responsive" style="margin-bottom: 0px;">
 								<thead>
-									<tr>
-										<td></td>
-										<td><strong>Add-On Name</strong></td>
-										<td><strong>Add-On Code</strong></td>
-										<td><strong>Qty</strong></td>
-										<td><strong>Fee</strong></td>
-									</tr>
+								<tr>
+									<td></td>
+									<td><strong>Add-On Name</strong></td>
+									<td><strong>Add-On Code</strong></td>
+									<td><strong>Qty</strong></td>
+									<td><strong>Fee</strong></td>
+								</tr>
 								</thead>
 								<tbody>
-									<tr data-ng-repeat="pkg in rentalPackages">
-										<td  style="padding-left:6px!important;">
-													<checkbox class="btn-default checkbox-dark-border"
-													          data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
-													          data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-													          name="package_{{pkg.item_id}}" required></checkbox>
-													<checkbox class="btn-default checkbox-dark-border"
-													          data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
-													          data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-													          name="package_{{pkg.item_id}}"></checkbox>
-										</td>
-										<td><label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_name}}</label>
-										</td>
-										<td ><label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_code}}</label>
-										</td>
-										<td ><input type="text" style="width: 50px;" ng-model="pkg.quantity"
-										            maxlength="3" numbers-only="numbers-only"
-										            data-ng-change="onPackageChangeEvent()">
-										</td>
-										<td ><p data-ng-repeat="pkgfee in pkg.fees">
-											<!--{{pkgfee.fee_name}}-->{{pkgfee.fee_amount | currency}}</p></td>
-									</tr>
+								<tr class="striped-row" data-ng-repeat="pkg in rentalPackages">
+									<td  style="padding-left:6px!important;">
+										<checkbox class="btn-default checkbox-dark-border"
+														data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
+														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
+														name="package_{{pkg.item_id}}" required></checkbox>
+										<checkbox class="btn-default checkbox-dark-border"
+														data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
+														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
+														name="package_{{pkg.item_id}}"></checkbox>
+									</td>
+									<td><label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_name}}</label>
+									</td>
+									<td ><label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_code}}</label>
+									</td>
+									<td ><input type="text" style="width: 50px;" ng-model="pkg.quantity"
+													maxlength="3" numbers-only="numbers-only"
+													data-ng-change="onPackageChangeEvent()">
+									</td>
+									<td ><p data-ng-repeat="pkgfee in pkg.fees">
+										<!--{{pkgfee.fee_name}}-->{{pkgfee.fee_amount | currency}}</p></td>
+								</tr>
 
 								</tbody>
 							</table>
@@ -56,181 +56,95 @@
 						<div class="table-responsive visible-xs" style="border:0px !important;">
 							<table class="table table-min-padding table-responsive" style="margin-bottom: 0px;">
 								<tbody data-ng-repeat="pkg in rentalPackages">
-									<tr>
-										<td class="text-center"><div class="col-sm-6 text-center vcenter" style="height: 30px!important;">
-											<checkbox class="btn-default checkbox-dark-border"
-													          data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
-													          data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-													          name="package_{{pkg.item_id}}" required></checkbox>
-													<checkbox class="btn-default checkbox-dark-border"
-													          data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
-													          data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-													          name="package_{{pkg.item_id}}"></checkbox></div></td>
-										<td>
-											<label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_name}}</label><br>
-											<span data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}}{{pkgfee.fee_amount | currency}}</span>
-										</td>
-									</tr>
+								<tr>
+									<td class="text-center"><div class="col-sm-6 text-center vcenter" style="height: 30px!important;">
+										<checkbox class="btn-default checkbox-dark-border"
+														data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
+														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
+														name="package_{{pkg.item_id}}" required></checkbox>
+										<checkbox class="btn-default checkbox-dark-border"
+														data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
+														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
+														name="package_{{pkg.item_id}}"></checkbox></div></td>
+									<td>
+										<label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_name}}</label><br>
+										<span data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}}{{pkgfee.fee_amount | currency}}</span>
+									</td>
+								</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
-					<div class="panel panel-primary animate-show" data-ng-if="displayCustomFields">
-						<div class="panel-heading clearfix">
-							<h3 class="panel-title">Options</h3>
-						</div>
 
-						<div class="panel-body ">
 
-							<div class="container">
-								<div data-ng-repeat="field in rentalCustomFields">
-									<!-- TEXT FIELDS -->
-									<div data-ng-if="field.type=='text'" class="form-group">
-										<label class="col-sm-3 control-label-center" style="font-weight: normal;">{{field.label}}</label>
-
-										<div class="col-sm-6">
-											<input type="{{field.type}}" id="{{field.id}}"
-											       data-ng-model="rentalCustomFields[$index].response_value"
-											       class="form-control" required/>
-										</div>
+					<div>
+						<div class="panel panel-primary animate-show animate-hide">
+							<div class="panel-heading clearfix">
+								<h3 class="panel-title">Payment Information</h3>
+							</div>
+							<div class="panel-body">
+								<div style="padding: 8px;">
+									<div class="form-group">
+										<label class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">Facilities:</label>
+										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Date:</label>
+										<label class="col-sm-3" style="padding-bottom:0px;margin-bottom:0px;">Time:</label>
+										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
 									</div>
 
-									<!-- NUMERIC FIELDS -->
-									<div data-ng-if="field.type=='number'" class="form-group">
-										<label class="col-sm-3 control-label-center"style="font-weight: normal;">{{field.label}}</label>
-
-										<div class="col-sm-6">
-											<input type="text" id="{{field.name}}"
-											       data-ng-model="rentalCustomFields[$index].response_value"
-											       class="form-control" required/>
-										</div>
+									<div class="form-group striped-row" data-ng-repeat="time in selectedTimeData">
+										<span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fname}}</span>
+										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.sf_date}}</span>
+										<span class="col-sm-3" style="padding-bottom:0px;margin-bottom:0px;">{{::time.st}}-{{::time.et}}</span>
+										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fee_amount | currency}}</span>
 									</div>
 
-									<!-- SELECT FIELDS -->
-									<div data-ng-if="field.type=='select'" class="form-group">
-										<label class="col-sm-3 control-label-center" style="font-weight: normal;">{{field.label}}</label>
+									<!--<div class="form-group" data-ng-if="lighting.show" style="margin-left: 0px;">
+										<label class="control-label-center">Include Lighting for {{(lighting.feeAmount) | currency}} &nbsp;&nbsp;<checkbox class="btn-default checkbox-dark-border"
+														data-ng-model="lighting.selected" ng-checked="onLightingFeeSelected()"
+														id="chkLighting" name="chkLighting"></checkbox></label>
+									</div>-->
 
-										<div class="col-sm-6">
-											<select data-ng-model="rentalCustomFields[$index].response_value"
-											        class="form-control"
-											        prompt="Select One" required>
-												<option data-ng-repeat="option in field.options">{{option}}</option>
-											</select>
-										</div>
+									<span class="divider"></span>
+
+
+									<div class="form-group row">
+										<h4 class="col-sm-2 header-no-margin text-primary" style="margin-bottom:0px;">Rental Amount:</h4>
+										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.feeAmount) | currency}}</h4></div>
 									</div>
 
-									<!-- CHECKBOX FIELDS -->
-									<div data-ng-if="field.type=='checkbox'" class="form-group">
-										<label class="col-sm-3 control-label-center" style="font-weight: normal;">{{field.label}}</label>
 
-										<div class="col-sm-6">
-											<checkbox class="btn-default checkbox-dark-border"
-											          data-ng-if="rentalCustomFields[$index].required"
-											          data-ng-model="rentalCustomFields[$index].response_value"
-											          required></checkbox>
-											<checkbox class="btn-default checkbox-dark-border"
-											          data-ng-if="!rentalCustomFields[$index].required"
-											          data-ng-model="rentalCustomFields[$index].response_value"></checkbox>
-										</div>
+									<div class="form-group row">
+										<h4 class="col-sm-2 header-no-margin text-primary">Package Amount:</h4>
+										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.packageFeeAmount) | currency}}</h4></div>
+									</div>
+
+									<div class="form-group row">
+										<h4 class="col-sm-2 header-no-margin text-primary">Total Amount:</h4>
+										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.feeAmount + rentalFees.packageFeeAmount) | currency}}</h4></div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="panel panel-primary animate-show animate-hide">
-						<div class="panel-heading clearfix">
-							<h3 class="panel-title">Payment Information</h3>
-						</div>
-						<div class="panel-body">
-							<div style="padding: 8px;">
-
-								<div class="form-group">
-									<label class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">Facilities:</label>
-									<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Date:</label>
-									<label class="col-sm-3" style="padding-bottom:0px;margin-bottom:0px;">Time:</label>
-									<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
-								</div>
-
-								<div class="form-group" data-ng-repeat="time in selectedTimeData">
-									<span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fname}}</span>
-									<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.sf_date}}</span>
-									<span class="col-sm-3" style="padding-bottom:0px;margin-bottom:0px;">{{::time.st}}-{{::time.et}}</span>
-									<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fee_amount | currency}}</span>
-								</div>
-
-								<div class="form-group" data-ng-if="lighting.show" style="margin-left: 0px;">
-									<label class="control-label-center">Include Lighting for {{(lighting.feeAmount) | currency}} &nbsp;&nbsp;<checkbox class="btn-default checkbox-dark-border"
-									                                              data-ng-model="lighting.selected" ng-checked="onLightingFeeSelected()"
-									                                              id="chkLighting" name="chkLighting"></checkbox></label>
-								</div>
-
-								<span class="divider"></span>
-
-								<div class="form-group" style="padding: 0px">
-									<label class="col-sm-2 control-label-center" style="margin-bottom:0px;">Rental Amount:</label>
-									<div class="col-sm-10">
-										<label class="text-danger control-label-center" style="margin-bottom:0px;">{{(rentalFees.feeAmount) | currency}}</label>
-									</div>
-								</div>
-								<div class="form-group" style="padding: 0px">
-									<label class="col-sm-2 control-label-center" style="margin-bottom:0px;">Package Amount:</label>
-									<div class="col-sm-10">
-										<label class="text-danger control-label-center" style="margin-bottom:0px;">{{(rentalFees.packageFeeAmount) | currency}}</label>
-									</div>
-								</div>
 
 
-								<div class="form-group" style="padding: 0px">
-									<label class="col-sm-2 control-label-center">Total Amount:</label>
-									<div class="col-sm-10">
-										<label class="text-danger control-label-center">{{(rentalFees.feeAmount + rentalFees.packageFeeAmount) | currency}}</label>
-									</div>
-								</div>
-
-								<div class="form-group" style="padding-left:10px;padding-right:10px"www>
-									<p>The estimated rental cost is based on information supplied at the time of the
-									   request and may change according to additional information, change in rental request, and/or residency
-									   status of the renter. This request is not an official rental until it has been approved and the renter has
-									   paid in full.</p>
-								</div>
+					<div>
+						<div class="panel panel-primary">
+							<div class="panel-heading clearfix">
+								<h3 class="panel-title">Rental Agreement - {{agreementData.agreement_name}}</h3>
 							</div>
-						</div>
-					</div>
 
-					<button type="submit" class="btn btn-success" data-ng-click="setAgreementData()" ng-if="false">Test</button>
-					<div class="panel panel-primary animate-show animate-hide" ng-if="false">
-						<div class="panel-heading clearfix">
-							<h3 class="panel-title">Agreement</h3>
-						</div>
-						<div class="panel-body">
-							<div sti-report report-name="reportName" report-data="reportData"></div>
-						</div>
-					</div>
+							<div class="panel-body">
+								<div name="txtAgreement" id="txtAgreement" class="well scrollbox" style="max-height: 400px!important;" data-ng-enable="false" data-ng-bind-html="agreementData.agreement_text" rows="3"></div>
 
-					<div class="panel panel-primary animate-show animate-hide">
-						<div class="panel-heading clearfix">
-							<h3 class="panel-title">Agreement & Waivers</h3>
-						</div>
-						<div class="panel-body">
-							<div class="container">
-								<div class="form-group">
-									<div class="col-sm-12 ">
-										<label data-placement="bottom-left" data-type="info"
-										       bs-enabled="agreementSigned.checked"
-										       style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none; font-weight: normal;"
-										       for="agreement_1">
-											<checkbox class="btn-default checkbox-dark-border"
-											          data-ng-model="agreementSigned.checked" ng-checked="onAgreementChecked()"
-											          id="agreement_1" name="agreement_1"></checkbox>
-											I have read, understand, and agree to the <a href="" target="_blank"
-											                                             style="font-weight: bold;">Terms and Conditions</a> regarding The Parks and Recreation Facility Reservations and
-											Refund/Cancelation
-											Policy.
-										</label>
+								<div class="form-group" >
+									<div class="col-xs-12 spacing">
+										<checkbox class="btn-primary" data-ng-model="agreementSigned.checked" required></checkbox>
+										<label>I agree to the terms outlined in the above agreement.</label>
 									</div>
 								</div>
 
-								<div class="animate-show animate-hide" data-ng-hide="!contactCheckAlert" data-ng-cloak>
+								<div class="animate-show animate-hide" data-ng-hide="!agreementCheckError" data-ng-cloak>
 									<div class="alert alert-danger" role="alert">
 										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 										<span class="sr-only">Error:</span>
@@ -240,11 +154,11 @@
 
 								<div class="col-sm-12">
 									<button type="submit" class="btn btn-success" data-ng-click="onSubmitAddRentalToCart()"
-									        data-ng-if="rentalData.auto_approve === '1'" data-ng-disabled="submittingData">
+													data-ng-if="rentalData.auto_approve === '1'" data-ng-disabled="submittingData">
 										<i class="fa fa-shopping-cart"></i> Add Rental to Cart</button>
 									<!--<button type="submit" class="btn btn-success" data-ng-click="onSubmitRentalRequest()"
-									        data-ng-if="rentalData.auto_approve === '0'"
-									        data-ng-disabled="submittingData"> Submit Rental Request for Approval</button>-->
+                                            data-ng-if="rentalData.auto_approve === '0'"
+                                            data-ng-disabled="submittingData"> Submit Rental Request for Approval</button>-->
 								</div>
 							</div>
 						</div>

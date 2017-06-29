@@ -14,7 +14,7 @@ angular.module('bluereconlineApp')
 			  ActiveUser, ReservationFactory) {
 		$scope.submittingData = false;
 		
-		$scope.contactCheckAlert = false;
+		$scope.agreementCheckError = false;
 		
 		$scope.lighting = [];
 		$scope.lighting.feeAmount = 0.00;
@@ -27,16 +27,20 @@ angular.module('bluereconlineApp')
 		$scope.rentalFees.packageFeeAmount = 0.0;
 		
 		$scope.rentalItemID = 0;
-		
-		$scope.agreementSigned = [];
+
+        $scope.agreementData = [];
+        $scope.agreementData.agreement_name = '';
+        $scope.agreementData.agreement_text = '';
+
+        $scope.agreementSigned = [];
 		$scope.agreementSigned.checked = false;
-		
+
 		$scope.rentalData = ReservationFactory.getReservationData();
 		$scope.selectedTimeData = ReservationFactory.getReservationTimes();
 		
 		$scope.reservationDataSet = false;
 		
-		$scope.reportName = 'web_agreement1_version2';
+		$scope.reportName = '';
 		$scope.reportData = {};
 	
 		if ($scope.rentalData == undefined || $scope.selectedTimeData == undefined) {
@@ -60,11 +64,9 @@ angular.module('bluereconlineApp')
 		//console.log('$scope.rentalItemID:  ',$scope.selectedTimeData);
 		
 		$scope.rentalPackages = [];
-		$scope.rentalCustomFields = [];
-		
+
 		$scope.displayPackages = false;
-		$scope.displayCustomFields = false;
-		
+
 		$scope.calRentalTimeFeeAmt = function()
 		{
 			var amt = 0.0;
@@ -82,7 +84,7 @@ angular.module('bluereconlineApp')
 		$scope.setAgreementData = function() {
 			var req = {
 				method: 'GET',
-				url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/agreement',
+				url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/' + ActiveUser.userData.user_id + '/' + ActiveUser.userData.household_id + '/agreement',
 				headers: {
 					'Content-Type': undefined
 				}
@@ -90,9 +92,9 @@ angular.module('bluereconlineApp')
 			
 			$http(req)
 			.success(function (data) {
-				//console.log('agreement data', data);
-				
-				$scope.reportData = data;
+				console.log('agreement data', data);
+
+                $scope.agreementData = data;
 			});
 		};
 		
@@ -119,28 +121,7 @@ angular.module('bluereconlineApp')
 				}
 			});
 		};
-		
-		$scope.setCustomFields = function() {
-			var req = {
-				method: 'POST',
-				url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $scope.rentalItemID + '/customfields',
-				headers: {
-					'Content-Type': undefined
-				},
-				data: {'uid': ActiveUser.userData.user_id}
-			};
-			
-			$http(req)
-			.success(function (data) {
-				//console.table(data);
-				
-				$scope.rentalCustomFields = data.customForm;
-				
-				if ($scope.rentalCustomFields.length > 0) {
-					$scope.displayCustomFields = true;
-				}
-			});
-		};
+
 		
 		$scope.formatMySQLDate = function (formatDate) {
 			//Grab each of your components
@@ -183,8 +164,11 @@ angular.module('bluereconlineApp')
 		};
 		
 		$scope.addRentalRequest = function() {
+            $scope.agreementCheckError = false;
+
 			var autoApproved = ($scope.rentalData.auto_approve === '1');
-			
+            autoApproved = true;
+
 			console.log($scope.selectedTimeData);
 			
 			if ($scope.agreementSigned.checked) {
@@ -206,8 +190,7 @@ angular.module('bluereconlineApp')
 					
 					//submitData.totalCharge = $scope.selectedTimeData.fee_amount;
 					submitData.totalCharge = $scope.rentalFees.feeAmount;
-					
-					submitData.waivers = [];
+
 					submitData.members = [];
 					
 					var t, f;
@@ -237,7 +220,7 @@ angular.module('bluereconlineApp')
 						}
 					}
 					
-					submitData.fees = feeData;
+					submitData.fac_fee_data = feeData;
 					submitData.events = [];
 					
 					var i;
@@ -264,9 +247,7 @@ angular.module('bluereconlineApp')
 							submitData.addons.push($scope.rentalPackages[i]);
 						}
 					}
-					
-					submitData.custom_fields = $scope.rentalCustomFields;
-					
+
 					console.log('submitData', submitData);
 					
 					var req;
@@ -309,15 +290,15 @@ angular.module('bluereconlineApp')
 							console.log('error', response);
 							
 							$scope.submittingData = false;
-							/*ReservationFactory.clearReservationData();
-							 ReservationFactory.clearReservationTimes();
+							//ReservationFactory.clearReservationData();
+							//ReservationFactory.clearReservationTimes();
 							 
-							 $location.path('/' + $routeParams.orgurl + '/reservations');*/
+							//$location.path('/' + $routeParams.orgurl + '/reservations');
 						});
 					}
 					else
 					{
-						req = {
+						/*req = {
 							method: 'POST',
 							url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/submitreservationrequest',
 							headers: {
@@ -333,13 +314,13 @@ angular.module('bluereconlineApp')
 							//$location.path('/' + $routeParams.orgurl + '/rentalrequestsubmitted');
 							
 							//$scope.submittingData = false;
-						});
+						});*/
 					}
 				}
 			}
 			else
 			{
-				$scope.contactCheckAlert = true;
+				$scope.agreementCheckError = true;
 			}
 		};
 		
@@ -347,7 +328,7 @@ angular.module('bluereconlineApp')
 		{
 			if ($scope.agreementSigned.checked)
 			{
-				//$scope.contactCheckAlert = false;
+				//$scope.agreementCheckError = false;
 			}
 		};
 		
@@ -366,7 +347,6 @@ angular.module('bluereconlineApp')
 			$scope.calRentalTimeFeeAmt();
 			
 			$scope.setPackages();
-			$scope.setCustomFields();
 		}
 	}])
 

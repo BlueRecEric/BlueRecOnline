@@ -119,75 +119,79 @@ angular.module('bluereconlineApp')
                     .success(function (data) {
                         //console.log('getRentalData', data);
 
-                        $scope.rentalData = data.rental_data;
-
-                        $scope.rentalData.facility_limit = 0;
-	
-						var facCount = $scope.rentalData.facility_data.length;
-
-						if($scope.rentalData.force_facility_order === '1')
+                        if(!angular.isUndefined(data.rental_data) && !angular.isUndefined(data.rental_data.facility_data))
                         {
-                            if(facCount > 0)
-                            {
-                                $scope.rentalData.facility_limit = $filter('Number')((facCount / 2)+1, 0);
+                            $scope.rentalData = data.rental_data;
+
+                            $scope.rentalData.facility_limit = 0;
+
+                            var facCount = $scope.rentalData.facility_data.length;
+
+                            if ($scope.rentalData.force_facility_order === '1') {
+                                if (facCount > 0) {
+                                    $scope.rentalData.facility_limit = $filter('Number')((facCount / 2) + 1, 0);
+                                }
+
+                                for (var i = 0; i < facCount; i++) {
+                                    $scope.rentalData.facility_data[i].selected = true;
+                                }
                             }
 
-                            for (var i=0;i < facCount; i++)
-                            {
-                                $scope.rentalData.facility_data[i].selected = true;
+                            $scope.fees.fee_data = [];
+                            for (var fi = 0; fi < facCount; fi++) {
+                                for (var fd = 0; fd < $scope.rentalData.facility_data[fi].fee_data.length; fd++) {
+                                    $scope.fees.fee_data.push({
+                                        item_fee_id: $scope.rentalData.facility_data[fi].fee_data[fd].item_fee_id,
+                                        fee_id: $scope.rentalData.facility_data[fi].fee_data[fd].fee_id,
+                                        fee_name: $scope.rentalData.facility_data[fi].fee_data[fd].fee_name,
+                                        fee_amount: parseFloat($scope.rentalData.facility_data[fi].fee_data[fd].fee_amount)
+                                    });
+                                }
                             }
+
+                            console.log($scope.fees.fee_data);
+
+                            //$scope.fees.fee_data = $scope.rentalData.fee_data;
+                            $scope.fees.show = $scope.rentalData.show_fees;
+
+                            if ($scope.rentalData.how_far_in_advance > 0) {
+                                var inAdvanceDate = new Date();
+
+                                inAdvanceDate.setDate(inAdvanceDate.getDate() + parseInt($scope.rentalData.how_far_in_advance));
+
+                                $scope.fromDate = angular.copy(inAdvanceDate);
+                                $scope.untilDate = angular.copy(inAdvanceDate);
+                                $scope.minDateDisplay = angular.copy(inAdvanceDate);
+
+                                inAdvanceDate.setDate(inAdvanceDate.getDate() - 1);
+
+                                $scope.minDate = angular.copy(inAdvanceDate);
+                            }
+
+                            if ($scope.rentalData.how_far_out > 0) {
+                                var farOutDate = new Date();
+
+                                farOutDate.setDate(farOutDate.getDate() + (parseInt($scope.rentalData.how_far_out) - 1));
+
+                                $scope.maxDate = angular.copy(farOutDate);
+                            }
+
+                            $scope.durationSlider = {
+                                ceil: $scope.rentalData.max_hour,
+                                floor: $scope.rentalData.min_hour
+                            };
+
+                            $scope.rentalDuration = {selectedTime: $scope.rentalData.min_hour};
+                            $scope.rentalDurationTemp = {selectedTime: $scope.rentalData.min_hour};
+
+                            $scope.rentalDataLoaded = true;
+
+                            $scope.getWeekdayData();
                         }
-	
-						$scope.fees.fee_data = [];
-						for (var fi=0;fi < facCount; fi++)
-						{
-							for(var fd=0;fd < $scope.rentalData.facility_data[fi].fee_data.length; fd++)
-							{
-								$scope.fees.fee_data.push({item_fee_id: $scope.rentalData.facility_data[fi].fee_data[fd].item_fee_id,
-														fee_id: $scope.rentalData.facility_data[fi].fee_data[fd].fee_id,
-														fee_name: $scope.rentalData.facility_data[fi].fee_data[fd].fee_name,
-														fee_amount: parseFloat($scope.rentalData.facility_data[fi].fee_data[fd].fee_amount)});
-							}
-						}
-	
-						console.log($scope.fees.fee_data);
-							
-                        //$scope.fees.fee_data = $scope.rentalData.fee_data;
-                        $scope.fees.show = $scope.rentalData.show_fees;
-
-                        if($scope.rentalData.how_far_in_advance > 0) {
-                            var inAdvanceDate = new Date();
-
-                            inAdvanceDate.setDate(inAdvanceDate.getDate() + parseInt($scope.rentalData.how_far_in_advance));
-
-                            $scope.fromDate = angular.copy(inAdvanceDate);
-                            $scope.untilDate = angular.copy(inAdvanceDate);
-                            $scope.minDateDisplay = angular.copy(inAdvanceDate);
-
-                            inAdvanceDate.setDate(inAdvanceDate.getDate() - 1);
-
-                            $scope.minDate = angular.copy(inAdvanceDate);
+                        else
+                        {
+                            $location.path('/' + $routeParams.orgurl + '/reservations');
                         }
-
-                        if($scope.rentalData.how_far_out > 0) {
-                            var farOutDate = new Date();
-
-                            farOutDate.setDate(farOutDate.getDate() + (parseInt($scope.rentalData.how_far_out)-1));
-
-                            $scope.maxDate = angular.copy(farOutDate);
-                        }
-
-                        $scope.durationSlider = {
-                            ceil: $scope.rentalData.max_hour,
-                            floor: $scope.rentalData.min_hour};
-
-                        $scope.rentalDuration = {selectedTime:  $scope.rentalData.min_hour};
-                        $scope.rentalDurationTemp = {selectedTime:  $scope.rentalData.min_hour};
-
-                        $scope.rentalDataLoaded = true;
-
-                        $scope.getWeekdayData();
-
                     })
                     .error(function (){
                         $scope.errorLoadingRental = true;

@@ -428,11 +428,11 @@ body > .container {
     /* Remove the padding we set earlier */
     .two_column_list {
         -moz-column-count: 2;
-        -moz-column-gap: 10px;
+        -moz-column-gap: 50px;
         -webkit-column-count: 2;
-        -webkit-column-gap: 10px;
+        -webkit-column-gap: 20px;
         column-count: 2;
-        column-gap: 10px;
+        column-gap: 20px;
     }
 
     .header,
@@ -1061,7 +1061,7 @@ input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner{
 tr.rentalSearchTimeCol td {
     padding-left: 2px !important;
     padding-right: 2px !important;
- }
+}
 
 tr.rentalSearchTimeColNB td {
     border-bottom: none !important;
@@ -1175,8 +1175,8 @@ tr.rentalSearchTimePadBot td {
 }
 
 tooltip tip {
-     background: rgba(105, 105, 105, 1) !important;
- }
+    background: rgba(105, 105, 105, 1) !important;
+}
 
 tooltip tip.facility-address {
     min-width: 300px !important;
@@ -1198,7 +1198,7 @@ tooltip tip.facility-address {
 .table-no-padding > thead > tr > td,
 .table-no-padding > tbody > tr > td,
 .table-no-padding > tfoot > tr > td {
-	padding: 0px !important;
+    padding: 0px !important;
 }
 
 .table-min-padding > thead > tr > th,
@@ -1207,31 +1207,31 @@ tooltip tip.facility-address {
 .table-min-padding > thead > tr > td,
 .table-min-padding > tbody > tr > td,
 .table-min-padding > tfoot > tr > td {
-	padding: 2px !important;
-	border-top: 0px solid #ddd !important;
+    padding: 2px !important;
+    border-top: 0px solid #ddd !important;
 }
 
 .divider {
-	height: 2px;
-	width:100%;
-	display:block; /* for use on default inline elements like span */
-	margin: 9px 0;
-	overflow: hidden;
-	background-color: #e5e5e5;
+    height: 2px;
+    width:100%;
+    display:block; /* for use on default inline elements like span */
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
 }
 
 
 .navbar-collapse.collapsing {
-	-webkit-transition: height 0.01s;
-	-moz-transition: height 0.01s;
-	-ms-transition: height 0.01s;
-	-o-transition: height 0.01s;
-	transition: height 0.01s;
+    -webkit-transition: height 0.01s;
+    -moz-transition: height 0.01s;
+    -ms-transition: height 0.01s;
+    -o-transition: height 0.01s;
+    transition: height 0.01s;
 }
 
 #nav.affix {
-	position: fixed;
-	top: 0;
-	width: 100%!important;
-	z-index:10;
+    position: fixed;
+    top: 0;
+    width: 100%!important;
+    z-index:10;
 }
