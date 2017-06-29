@@ -198,7 +198,8 @@ angular.module('bluereconlineApp')
 					var feeData = [];
 					
 					for (t=0;t < $scope.selectedTimeData.length; t++) {
-						for (f = 0; f < $scope.selectedTimeData[t].fac_fee_data.length; f++) {
+						for (f = 0; f < $scope.selectedTimeData[t].fac_fee_data.length; f++)
+						{
 							
 							var feeFound = false;
 							for (var fd=0;fd < feeData.length; fd++)
@@ -225,7 +226,7 @@ angular.module('bluereconlineApp')
 					
 					var i;
 					
-					/*for (i = 0; i < $scope.selectedTimeData.length; i++) {
+					for (i = 0; i < $scope.selectedTimeData.length; i++) {
 						
 						var feeTokenData = [];
 						
@@ -235,8 +236,8 @@ angular.module('bluereconlineApp')
 						
 						submitData.events.push({'token': $scope.selectedTimeData[i].token,
 							'fee_token_data': feeTokenData});
-					}*/
-					
+					}
+
 					submitData.events = $scope.selectedTimeData;
 					
 					submitData.addons = [];
