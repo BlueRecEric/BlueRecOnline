@@ -86,6 +86,7 @@ angular.module('bluereconlineApp')
             $scope.HomeLink = $routeParams.orgurl + '/home';
 
             $scope.MyAccountLink = $routeParams.orgurl + '/myaccount';
+            $scope.MyCustomFieldsLink = $routeParams.orgurl + '/mycustomfields';
             $scope.HouseholdLink = $routeParams.orgurl + '/household';
             $scope.PurchasesLink = $routeParams.orgurl + '/purchases';
             $scope.AutoPayCardsLink = $routeParams.orgurl + '/autopayments';
