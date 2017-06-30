@@ -1,0 +1,74 @@
+<div>
+
+<h3>Additional Fields</h3>
+  <div class="panel panel-primary" quick-ng-repeat="person in customFieldList">
+    <div class="panel-heading clearfix">
+      <h4 class="panel-title">{{person.personName}}</h4>
+    </div>
+
+    <div class="panel-body">
+
+      <div>
+        <div class="panel panel-default" quick-ng-repeat="globalGrp in person.globalgroups">
+          <div class="panel-heading clearfix">
+            <h4 class="panel-title">{{globalGrp.group_name}}</h4>
+          </div>
+          <div class="panel-body" data-ng-if="globalGrp.group_id != '0'">
+            <form name="customForm" class="form-horizontal" role="form" data-ng-submit="onFieldGroupSubmit(globalGrp)">
+              <ng-form name="customForm">
+                <div ng-repeat="field in globalGrp.fields">
+                  <!-- TEXT FIELDS -->
+                  <div ng-if="field.type=='text'" class="form-group">
+                    <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
+                    <div class="col-sm-6">
+                      <input type="{{field.type}}" id="{{field.id}}" data-ng-model="field.response_value" class="form-control">
+                    </div>
+                  </div>
+
+                  <!-- NUMERIC FIELDS -->
+                  <div ng-if="field.type=='number'" class="form-group">
+                    <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
+                    <div class="col-sm-6">
+                      <input type="text" id="{{field.name}}" data-ng-model="field.response_value"  class="form-control">
+                    </div>
+                  </div>
+
+                  <!-- SELECT FIELDS -->
+                  <div ng-if="field.type=='option'" class="form-group" >
+                    <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
+                    <div class="col-sm-6">
+                      <select data-ng-model="field.response_value" class="form-control" prompt="Select One">
+                        <option data-ng-repeat="option in field.options" data-ng-selected="(field.response_value == option)?true:false">{{option}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- CHECKBOX FIELDS -->
+                  <div ng-if="field.type=='check'" class="form-group" >
+                    <label class="col-sm-2 control-label-center spacing">{{field.label}}</label>
+                    <div class="col-sm-6">
+                      <checkbox class="btn-primary checkbox-bump-down" data-ng-if="field.required" data-ng-model="field.response_value"></checkbox>
+                      <checkbox class="btn-primary checkbox-bump-down" data-ng-if="!field.required" data-ng-model="field.response_value"></checkbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <label class="col-sm-2 control-label-center">&nbsp;</label>
+                  <div class="col-sm-6">
+                    <button type="submit" id="questionSubmit" value="Submit" class="btn btn-info"><i class="fa fa-save"></i> {{globalGrp.buttonLabel}}</button>
+                  </div>
+                </div>
+
+              </ng-form>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+

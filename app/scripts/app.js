@@ -74,6 +74,10 @@ angular
                 templateUrl: 'views/userSettings/accountUpdate.html',
                 controller: 'AccountUpdateCtrl'
             })
+            .when('/:orgurl/mycustomfields', {
+                templateUrl: 'views/userSettings/customFields.html',
+                controller: 'CustomFieldsCtrl'
+            })
             .when('/:orgurl/login', {
                 templateUrl: 'views/login.html',
                 controller: 'LoginCtrl',
