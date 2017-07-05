@@ -465,7 +465,9 @@ body > .container {
 
     .receiptImg
     {
-        max-width:220px;
+        height: auto !important;
+        width: auto !important;
+        max-width:220px !important;
     }
 }
 
@@ -1188,7 +1190,7 @@ tooltip tip.facility-address {
     {
         height: auto !important;
         width: auto !important;
-        max-width:200px !important;
+        max-width:220px !important;
     }
 
     .noprint {
