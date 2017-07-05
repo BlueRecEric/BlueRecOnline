@@ -115,7 +115,7 @@ angular.module('bluereconlineApp')
         
         $scope.rentalGroupData = response.data;
         
-        console.log('rental data:  ', $scope.rentalGroupData);
+        //console.log('rental data:  ', $scope.rentalGroupData);
       });
     };
     
@@ -154,7 +154,7 @@ angular.module('bluereconlineApp')
     
     $scope.onSelectApprovedRental = function (selectedRow) {
       
-      console.log('selectedRow:', selectedRow);
+      //console.log('selectedRow:', selectedRow);
       
       var req = {
         method: 'POST',

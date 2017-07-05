@@ -41,7 +41,7 @@ angular.module('bluereconlineApp')
                     }
                     break;
                 case 'RENTAL CODE':
-                    if(columnType === 'item_name' || columnType === 'itemDates')
+                    if(columnType === 'item_name' || columnType === 'itemDates' || columnType === 'itemFacilities')
                     {bShow = true;}
                     break;
                 case 'PACKAGE':

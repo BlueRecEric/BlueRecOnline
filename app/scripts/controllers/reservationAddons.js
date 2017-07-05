@@ -169,7 +169,7 @@ angular.module('bluereconlineApp')
 			var autoApproved = ($scope.rentalData.auto_approve === '1');
             autoApproved = true;
 
-			console.log($scope.selectedTimeData);
+			//console.log($scope.selectedTimeData);
 			
 			if ($scope.agreementSigned.checked) {
 				var $userID = ActiveUser.userData.user_id;
@@ -249,10 +249,10 @@ angular.module('bluereconlineApp')
 						}
 					}
 
-					console.log('submitData', submitData);
-					
+					//console.log('submitData', submitData);
+
 					var req;
-					
+
 					if(autoApproved)
 					{
 						req = {
@@ -265,35 +265,36 @@ angular.module('bluereconlineApp')
 						};
 						$http(req).
 						then(function(response) {
-							
-							console.log('success', response);
-							
+
+							//console.log('success', response);
+
 							if(response.status === 200 && response.data.result !== 'not_auto_approve')
 							{
 								//console.log('added');
+
 								ReservationFactory.clearReservationData();
 								 ReservationFactory.clearReservationTimes();
-								 
-								 $rootScope.$emit('updateCartCount', {});
-								
+
+								$rootScope.$emit('updateCartCount', {});
+
 								$location.path('/' + $routeParams.orgurl + '/addedtocart');
-								
+
 								$scope.submittingData = false;
 							}
 							else
 							{
 								ReservationFactory.clearReservationData();
 								ReservationFactory.clearReservationTimes();
-								
+
 								$location.path('/' + $routeParams.orgurl + '/reservations');
 							}
 						}, function(response) {
-							console.log('error', response);
-							
+							//console.log('error', response);
+
 							$scope.submittingData = false;
 							//ReservationFactory.clearReservationData();
 							//ReservationFactory.clearReservationTimes();
-							 
+
 							//$location.path('/' + $routeParams.orgurl + '/reservations');
 						});
 					}
@@ -311,9 +312,9 @@ angular.module('bluereconlineApp')
 						.success(function (data) {
 							//ReservationFactory.clearReservationData();
 							//ReservationFactory.clearReservationTimes();
-							
+
 							//$location.path('/' + $routeParams.orgurl + '/rentalrequestsubmitted');
-							
+
 							//$scope.submittingData = false;
 						});*/
 					}

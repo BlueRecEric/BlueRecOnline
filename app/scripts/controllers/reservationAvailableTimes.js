@@ -404,7 +404,7 @@ angular.module('bluereconlineApp')
                     angular.isDate($scope.fromDate) && angular.isDate($scope.untilDate)) {
                     $scope.isSearchIconBusy.loading = true;
 
-                    console.log({rental_code_item_id: $scope.rentalItemID,
+                    /*console.log({rental_code_item_id: $scope.rentalItemID,
                          facilities: selectedFacilities,
                          weekdays: selectedWeekdays,
                          from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
@@ -413,7 +413,7 @@ angular.module('bluereconlineApp')
                          start_time: $filter('date')($scope.startTime, 'HH:mm'),
                          end_time:  $filter('date')($scope.endTime, 'HH:mm'),
                          force_order: ($scope.rentalData.force_facility_order=='1')?'true':'false'
-                         });
+                         });*/
 
                     var req = {
                         method: 'POST',
@@ -436,7 +436,7 @@ angular.module('bluereconlineApp')
 
                     $http(req)
                         .success(function (data) {
-                            console.log('Search data: ', data);
+                            //console.log('Search data: ', data);
 
                             if (data.success) {
                                 $scope.isSearchIconBusy.loading = false;
@@ -447,51 +447,8 @@ angular.module('bluereconlineApp')
 
                                     for (var i=0;i < tempResults.length; i++) {
                                         for (var t=0;t < tempResults[i].tdata.length; t++) {
-
-                                            //console.log('tempResults: ', tempResults[i].tdata);
-
-                                            //var feeData = $scope.getFacilityFeeData(tempResults[i].tdata[t].fid);
-
-                                            /*var feeData = tempResults[i].tdata[t].fac_fee_data;
-                                            console.log('feeData: ', feeData);
-
-                                            var perHourFeeAmt = 0;
-
-                                            if(!angular.isUndefined(feeData) && feeData !== null)
-                                            {
-
-                                                for (var f=0;f < feeData.length; f++) {
-                                                    perHourFeeAmt += feeData[f].per_hour_amount * (tempResults[i].tdata[t].dur / 60);
-                                                }
-                                            }*/
-
-                                            //tempResults[i].tdata[t].fee_data = feeData;
-                                            //tempResults[i].tdata[t].fee_amount = perHourFeeAmt;
-
                                             tempResults[i].tdata[t].booking_type = $scope.getFacilityFeeBookingType(tempResults[i].tdata[t].fid);
                                             tempResults[i].tdata[t].location_address = $scope.getFacilityAddress(tempResults[i].tdata[t].fid);
-
-                                            /*var newTDate = {
-                                                id: tempResults[i].tdata[t].id,
-                                                d: tempResults[i].d,
-                                                lf_date: tempResults[i].lf_date,
-                                                sf_date: tempResults[i].sf_date,
-                                                st: tempResults[i].tdata[t].st,
-                                                st24: tempResults[i].tdata[t].st24,
-                                                et: tempResults[i].tdata[t].et,
-                                                et24: tempResults[i].tdata[t].et24,
-                                                fid: tempResults[i].tdata[t].fid,
-                                                fname: tempResults[i].tdata[t].fname,
-                                                dur: tempResults[i].tdata[t].dur,
-                                                fgid: tempResults[i].tdata[t].ftgid,
-                                                added: false,
-                                                fee_data: feeData,
-                                                fee_amount: perHourFeeAmt,
-                                                booking_type: $scope.getFacilityFeeBookingType(tempResults[i].tdata[t].fid),
-                                                location_address: $scope.getFacilityAddress(tempResults[i].tdata[t].fid),
-                                                eg: tempResults[i].tdata[t].eg};*/
-
-                                            //tempResults[i].tdata[t] = newTDate;
                                         }
                                     }
 
@@ -697,13 +654,13 @@ angular.module('bluereconlineApp')
             {
                 var selectedRentalData = {};
 	
-				console.log('test: ',  selectedRentalData);
+				//console.log('test: ',  selectedRentalData);
 				
                 selectedRentalData.rental_code_item_id = $scope.rentalItemID;
                 selectedRentalData.auto_approve = $scope.rentalData.auto_approve;
 
-                console.log ('selectedRentalData: ', selectedRentalData);
-                console.log('$scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
+                //console.log ('selectedRentalData: ', selectedRentalData);
+                //console.log('$scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
 
                 ReservationFactory.setReservationData(selectedRentalData);
 
