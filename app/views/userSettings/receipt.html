@@ -212,7 +212,7 @@
 
         <table data-ng-repeat="ticket in receiptData.returnData.ticketData" class="table-fixed report-table report-table-scale" width="100%" id="ticketBox">
             <tr>
-                <td width="33%"><img data-ng-if="::receiptData.returnData.header.receipt_logo" width="220" data-ng-src="{{::receiptData.returnData.header.receipt_logo}}"></td>
+                <td width="33%"><img data-ng-if="::receiptData.returnData.header.receipt_logo" class="receiptImg" data-ng-src="{{::receiptData.returnData.header.receipt_logo}}"></td>
                 <td width="34%" class="text-center"><strong>This is your ticket</strong><br><img width="200" data-ng-if="::ticket.barcode" width="220" data-ng-src="{{::ticket.barcode}}"></td>
                 <td width="33%" class="text-center"><strong>{{ticket.labelProgram}}<br>{{ticket.labelPackage}}<br>{{ticket.labelTicket}}</strong></td>
             </tr>
