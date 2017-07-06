@@ -201,13 +201,17 @@ angular.module('bluereconlineApp')
 
             $scope.updateOverlappingEvents = function updateOverlappingEvents(timeRow)
             {
-                for (var a = 0; a < $scope.searchRowCollection.length; a++) {
+                var a;
+                var t;
+
+                for (a = 0; a < $scope.searchRowCollection.length; a++) {
                     for (var t = 0; t < $scope.searchRowCollection[a].tdata.length; t++) {
                         if($scope.searchRowCollection[a].tdata[t].fid === timeRow.fid &&
                             $scope.searchRowCollection[a].tdata[t].id != timeRow.id) {
-                            if (parseInt(timeRow.utcs) < parseInt($scope.searchRowCollection[a].tdata[t].utcs) &&
-                                (parseInt(timeRow.utce) > parseInt($scope.searchRowCollection[a].tdata[t].utcs) &&
-                                parseInt(timeRow.utce) < parseInt($scope.searchRowCollection[a].tdata[t].utce))) {
+                            if ((parseInt($scope.searchRowCollection[a].tdata[t].utcs) > parseInt(timeRow.utcs) &&
+                                parseInt($scope.searchRowCollection[a].tdata[t].utcs) < parseInt(timeRow.utce)) ||
+                                (parseInt($scope.searchRowCollection[a].tdata[t].utce) > parseInt(timeRow.utcs) &&
+                                parseInt($scope.searchRowCollection[a].tdata[t].utce) < parseInt(timeRow.utce))) {
 
                                 //console.log('$scope.searchRowCollection[a].tdata[t].utcs: ',  $scope.searchRowCollection[a].tdata[t].st24);
                                 //console.log('$scope.searchRowCollection[a].tdata[t].utce: ',  $scope.searchRowCollection[a].tdata[t].et24);
@@ -215,7 +219,7 @@ angular.module('bluereconlineApp')
                                 //console.log('timeRow.utcs: ',  timeRow.st24);
                                 //console.log('timeRow.utce: ',  timeRow.et24);
 
-                                $scope.searchRowCollection[a].tdata[t].overlap = timeRow.added;
+                                //$scope.searchRowCollection[a].tdata[t].overlap = timeRow.added;
 
                                 if($scope.searchRowCollection[a].tdata[t].added) {
                                     $scope.removeSelectedRentalData($scope.searchRowCollection[a].tdata[t]);
@@ -227,7 +231,7 @@ angular.module('bluereconlineApp')
                                                 if (parseInt($scope.searchRowCollection[a].tdata[t].utcs) < parseInt($scope.searchRowCollection[aa].tdata[tt].utcs) &&
                                                     (parseInt($scope.searchRowCollection[a].tdata[t].utce) > parseInt($scope.searchRowCollection[aa].tdata[tt].utcs) &&
                                                     parseInt($scope.searchRowCollection[a].tdata[t].utce) < parseInt($scope.searchRowCollection[aa].tdata[tt].utce))) {
-                                                    $scope.searchRowCollection[aa].tdata[tt].overlap = false;
+                                                    //$scope.searchRowCollection[aa].tdata[tt].overlap = false;
                                                 }
                                             }
                                         }
@@ -496,7 +500,6 @@ angular.module('bluereconlineApp')
                                     {
                                         $scope.updateOverlappingEvents($scope.selectedRentalTimes.rentals[sr]);
                                     }
-
 
                                     //console.log('search results: ', $scope.searchRowCollection);
 

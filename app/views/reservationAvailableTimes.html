@@ -294,19 +294,19 @@
                       </tr>
                       <tr class="rentalSearchTimePadFull rentalSearchTimeColNB"
                               ng-class="{'rentalSearchTimePadFull': $first && timeRow.eg == 2, 'rentalSearchTimePadTop': $first && timeRow.eg != 2, 'rentalSearchTimePadMid': !$first && timeRow.eg != 2, 'rentalSearchTimePadBot': !$first && timeRow.eg == 2}">
-                        <td style="width: 90px;" class="colHideMobile" data-ng-if="timeRow.available && !timeRow.overlap">
+                        <td style="width: 90px;" class="colHideMobile" data-ng-if="timeRow.available">
                           <button style="width: 86px;" class="btn btn-sm" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
                                   ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
                                   data-ng-show="::(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
                             <i class="fa" ng-class="{'fa-calendar-plus-o': !timeRow.added, 'fa-calendar-times-o': timeRow.added}" aria-hidden="true"></i> {{(timeRow.added)?'Remove':'Add'}}</button>
                         </td>
-                        <td style="width: 20px;" class="colShowMobile"  data-ng-if="timeRow.available && !timeRow.overlap">
+                        <td style="width: 20px;" class="colShowMobile"  data-ng-if="timeRow.available">
                           <button class="btn btn-sm btn-success" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
                                   ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
                                   data-ng-show="(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
                             <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
                         </td>
-                        <td style="width: 90px!important;height: 30px!important;" class="text-left" data-ng-if="!timeRow.available || timeRow.overlap">
+                        <td style="width: 90px!important;height: 30px!important;" class="text-left" data-ng-if="!timeRow.available">
                           <div data-ng-if="!timeRow.available" style="width: 86px;">Not Available</div>
                         </td>
                         <td st-ratio="50" class="colShowMobile" data-ng-if="rentalData.force_facility_order!='1'"> &nbsp;{{::timeRow.fname}}</td>
