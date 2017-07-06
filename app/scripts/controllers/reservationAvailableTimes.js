@@ -80,11 +80,11 @@ angular.module('bluereconlineApp')
             $scope.untilDate.AddDays(7);
 
             $scope.startTime = new Date();
-            $scope.startTime.setHours(8);
+            $scope.startTime.setHours(7);
             $scope.startTime.setMinutes(0);
 
             $scope.endTime = new Date();
-            $scope.endTime.setHours(16);
+            $scope.endTime.setHours(21);
             $scope.endTime.setMinutes(0);
 
             $scope.minDate = new Date();
