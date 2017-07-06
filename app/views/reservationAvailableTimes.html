@@ -274,8 +274,8 @@
                   <td class="text-center colHideMobile" style="width: 25px!important;">
                     <i class="fa" ng-class="{'fa-plus': !searchRow.show, 'fa-minus': searchRow.show}" aria-hidden="true"></i>
                   </td>
-                  <td st-ratio="30">{{::searchRow.fac_label}}</td>
-                  <td st-ratio="15" class="colHideMobile">&nbsp;</td>
+                  <td st-ratio="45">{{::searchRow.fac_label}}</td>
+
                   <td st-ratio="25" class="colHideMobile colMobileTextCenter"
                           data-ng-bind="::searchRow.lf_date">
                   </td>
@@ -294,20 +294,20 @@
                       </tr>
                       <tr class="rentalSearchTimePadFull rentalSearchTimeColNB"
                               ng-class="{'rentalSearchTimePadFull': $first && timeRow.eg == 2, 'rentalSearchTimePadTop': $first && timeRow.eg != 2, 'rentalSearchTimePadMid': !$first && timeRow.eg != 2, 'rentalSearchTimePadBot': !$first && timeRow.eg == 2}">
-                        <td style="width: 78px;" class="colHideMobile" data-ng-if="timeRow.available">
-                          <button style="width: 76px;" class="btn btn-sm" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
+                        <td style="width: 90px;" class="colHideMobile" data-ng-if="timeRow.available && !timeRow.overlap">
+                          <button style="width: 86px;" class="btn btn-sm" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
                                   ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
                                   data-ng-show="::(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
                             <i class="fa" ng-class="{'fa-calendar-plus-o': !timeRow.added, 'fa-calendar-times-o': timeRow.added}" aria-hidden="true"></i> {{(timeRow.added)?'Remove':'Add'}}</button>
                         </td>
-                        <td style="width: 20px;" class="colShowMobile"  data-ng-if="timeRow.available">
+                        <td style="width: 20px;" class="colShowMobile"  data-ng-if="timeRow.available && !timeRow.overlap">
                           <button class="btn btn-sm btn-success" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
                                   ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
                                   data-ng-show="(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
                             <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
                         </td>
-                        <td st-ratio="15" style="height: 30px!important;" class="text-left" data-ng-if="!timeRow.available">
-                          <span>Not Available</span>
+                        <td style="width: 90px!important;height: 30px!important;" class="text-left" data-ng-if="!timeRow.available || timeRow.overlap">
+                          <div data-ng-if="!timeRow.available" style="width: 86px;">Not Available</div>
                         </td>
                         <td st-ratio="50" class="colShowMobile" data-ng-if="rentalData.force_facility_order!='1'"> &nbsp;{{::timeRow.fname}}</td>
                         <td st-ratio="50" class="colShowMobile" data-ng-if="rentalData.force_facility_order=='1'"> <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
@@ -406,7 +406,7 @@
       </div>
     </div>
   </div>
-</div>
+
 <script type="text/ng-template" id="confirmation.html">
   <div class="modal text-left" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">

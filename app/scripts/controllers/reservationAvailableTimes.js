@@ -199,6 +199,46 @@ angular.module('bluereconlineApp')
                     });
             };
 
+            $scope.updateOverlappingEvents = function updateOverlappingEvents(timeRow)
+            {
+                for (var a = 0; a < $scope.searchRowCollection.length; a++) {
+                    for (var t = 0; t < $scope.searchRowCollection[a].tdata.length; t++) {
+                        if($scope.searchRowCollection[a].tdata[t].fid === timeRow.fid &&
+                            $scope.searchRowCollection[a].tdata[t].id != timeRow.id) {
+                            if (parseInt(timeRow.utcs) < parseInt($scope.searchRowCollection[a].tdata[t].utcs) &&
+                                (parseInt(timeRow.utce) > parseInt($scope.searchRowCollection[a].tdata[t].utcs) &&
+                                parseInt(timeRow.utce) < parseInt($scope.searchRowCollection[a].tdata[t].utce))) {
+
+                                //console.log('$scope.searchRowCollection[a].tdata[t].utcs: ',  $scope.searchRowCollection[a].tdata[t].st24);
+                                //console.log('$scope.searchRowCollection[a].tdata[t].utce: ',  $scope.searchRowCollection[a].tdata[t].et24);
+
+                                //console.log('timeRow.utcs: ',  timeRow.st24);
+                                //console.log('timeRow.utce: ',  timeRow.et24);
+
+                                $scope.searchRowCollection[a].tdata[t].overlap = timeRow.added;
+
+                                if($scope.searchRowCollection[a].tdata[t].added) {
+                                    $scope.removeSelectedRentalData($scope.searchRowCollection[a].tdata[t]);
+
+                                    for (var aa = 0; aa < $scope.searchRowCollection.length; aa++) {
+                                        for (var tt = 0; tt < $scope.searchRowCollection[aa].tdata.length; tt++) {
+                                            if ($scope.searchRowCollection[aa].tdata[tt].fid === $scope.searchRowCollection[a].tdata[t].fid &&
+                                                $scope.searchRowCollection[aa].tdata[tt].id != $scope.searchRowCollection[a].tdata[t].id) {
+                                                if (parseInt($scope.searchRowCollection[a].tdata[t].utcs) < parseInt($scope.searchRowCollection[aa].tdata[tt].utcs) &&
+                                                    (parseInt($scope.searchRowCollection[a].tdata[t].utce) > parseInt($scope.searchRowCollection[aa].tdata[tt].utcs) &&
+                                                    parseInt($scope.searchRowCollection[a].tdata[t].utce) < parseInt($scope.searchRowCollection[aa].tdata[tt].utce))) {
+                                                    $scope.searchRowCollection[aa].tdata[tt].overlap = false;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
             $scope.getRentalData();
 
             $scope.weekdayDataLoaded = false;
@@ -352,11 +392,9 @@ angular.module('bluereconlineApp')
                 for (var i=0;i < $scope.selectedRentalTimes.rentals.length; i++) {
                     for (var a=0;a < timeData.length; a++) {
                         var timeFound = false;
-
                         for (var t=0;t < timeData[a].tdata.length; t++) {
 
-                            if(
-                                timeData[a].tdata[t].fid === $scope.selectedRentalTimes.rentals[i].fid &&
+                            if(timeData[a].tdata[t].fid === $scope.selectedRentalTimes.rentals[i].fid &&
                                 timeData[a].tdata[t].d === $scope.selectedRentalTimes.rentals[i].d &&
                                 timeData[a].tdata[t].st24 === $scope.selectedRentalTimes.rentals[i].st24)
                             {
@@ -453,6 +491,12 @@ angular.module('bluereconlineApp')
                                     }
 
                                     $scope.searchRowCollection = $scope.reloadAddedTime(tempResults);
+
+                                    for (var sr=0;sr < $scope.selectedRentalTimes.rentals.length; sr++)
+                                    {
+                                        $scope.updateOverlappingEvents($scope.selectedRentalTimes.rentals[sr]);
+                                    }
+
 
                                     //console.log('search results: ', $scope.searchRowCollection);
 
@@ -586,8 +630,7 @@ angular.module('bluereconlineApp')
                         for (var t = 0; t <  $scope.searchRowCollection[a].tdata.length; t++) {
                             if($scope.searchRowCollection[a].tdata[t].fid === selectedTimeData[i].fid &&
                                 $scope.searchRowCollection[a].tdata[t].d === selectedTimeData[i].d &&
-                                $scope.searchRowCollection[a].tdata[t].st24 === selectedTimeData[i].st24
-                                )
+                                $scope.searchRowCollection[a].tdata[t].st24 === selectedTimeData[i].st24)
                             {
                                 $scope.searchRowCollection[a].tdata[t].added = false;
 
@@ -606,6 +649,10 @@ angular.module('bluereconlineApp')
             $scope.onSelectRentalTime = function onSelectRentalTime(selectedRow, timeRow) {
                 var selectedTimeData = $filter('filter')(selectedRow.tdata, {fgid: timeRow.fgid}, true);
 
+                //console.log('selectedRow: ', selectedRow);
+                //console.log('timeRow: ', timeRow);
+                //console.log('search results: ', $scope.searchRowCollection);
+
                 if (!timeRow.added)
                 {
                     timeRow.added = true;
@@ -616,7 +663,11 @@ angular.module('bluereconlineApp')
                 {
                     $scope.removeSelectedRentalData(timeRow);
                 }
-                
+
+                //console.log('$scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
+
+                $scope.updateOverlappingEvents(timeRow);
+
                 if(!$scope.showingToast || angular.isUndefined(toaster.toast))
                 {
                     toaster.pop({
