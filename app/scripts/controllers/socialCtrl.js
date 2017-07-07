@@ -14,11 +14,13 @@ angular.module('bluereconlineApp')
         $scope.hasInstagram = false;
         $scope.hasTwitter = false;
         $scope.hasGoogle = false;
+        $scope.hasEmail = false;
 
         $scope.linkFacebook = '';
         $scope.linkTwitter = '';
         $scope.linkInstagram = '';
         $scope.linkGoogle = '';
+        $scope.linkEmail = '';
 
         $scope.getSocialLinks = function () {
 
@@ -57,6 +59,12 @@ angular.module('bluereconlineApp')
                     {
                         $scope.hasInstagram = true;
                         $scope.linkInstagram = response.data.instagram;
+                    }
+
+                    if(response.data.email.length > 0)
+                    {
+                        $scope.hasEmail = true;
+                        $scope.linkEmail = response.data.email;
                     }
 
                 });

@@ -170,11 +170,12 @@
 
         <footer class="header noborders noprint" data-ng-controller="SocialCtrl">
             <div class="navbar navbar-inverse navbar-fixed-bottom">
-                <div class="container socialnav ">
+                <div class="container socialnav "><p>
                     <a data-ng-href="{{linkTwitter}}" data-ng-show="hasTwitter"><i class="fa fa-twitter fa-2x"></i></a>
                     <a data-ng-href="{{linkFacebook}}" data-ng-show="hasFacebook"><i class="fa fa-facebook-official fa-2x"></i></a>
                     <a data-ng-href="{{linkGoogle}}" data-ng-show="hasGoogle"><i class="fa fa-google-plus-square fa-2x"></i></a>
                     <a data-ng-href="{{linkInstagram}}" data-ng-show="hasInstagram"><i class="fa fa-instagram fa-2x"></i></a>
+                    <a data-ng-href="mailto:{{linkEmail}}?subject=Online Registration Help" data-ng-show="hasEmail" target="_blank" class="pull-right"><span class="text-white">Questions? Email {{linkEmail}}</span> <i class="fa fa-envelope-o fa-2x"></i></a></p>
                 </div>
             </div>
         </footer>

@@ -52,8 +52,8 @@ angular.module('bluereconlineApp')
         return $http(req).then(function(result) {
                 $scope.config = result.data;
 
-                console.log('config:');
-                console.log($scope.config);
+                //console.log('config:');
+                //console.log($scope.config);
 
                 if($scope.config.data.hidePromo == '1')
                 {
@@ -92,15 +92,21 @@ angular.module('bluereconlineApp')
         $location.path('/' + $routeParams.orgurl + '/login');
       }
 
-      function loadCart(payComplete)
+      function loadCart(checkout=false)
       {
+
+          if(checkout)
+          {
+              console.log('on checkout page');
+          }
+
         var req = {
           method: 'POST',
           url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/get',
           headers: {
             'Content-Type': undefined
           },
-          data: {'userID': ActiveUser.userData.user_id, 'householdID':ActiveUser.userData.household_id}
+          data: {'userID': ActiveUser.userData.user_id, 'householdID':ActiveUser.userData.household_id, 'checkout':checkout}
         };
 
         return $http(req)
@@ -110,8 +116,8 @@ angular.module('bluereconlineApp')
 
                 $scope.cart = response.data;
 
-                console.log('cart:');
-                console.log($scope.cart);
+                //console.log('cart:');
+                //console.log($scope.cart);
             }
         );
       }
@@ -187,7 +193,7 @@ angular.module('bluereconlineApp')
                   .then(function success(response) {
                       //console.log('pay response:');
                       $scope.paymentResponse = response.data;
-                      console.log($scope.paymentResponse);
+                      //console.log($scope.paymentResponse);
 
                       paymentModal.show = false;
 
@@ -312,7 +318,7 @@ angular.module('bluereconlineApp')
                     .then(function success(response) {
                         //console.log('pay response:');
                         $scope.paymentResponse = response.data;
-                        console.log($scope.paymentResponse);
+                        //console.log($scope.paymentResponse);
 
                         paymentModal.show = false;
 
@@ -378,7 +384,17 @@ angular.module('bluereconlineApp')
 
       };
 
-      loadCart();
+      console.log('current template:');
+      console.log($route.current.loadedTemplateUrl);
+
+      if($route.current.loadedTemplateUrl == 'views/checkout.html')
+      {
+          loadCart(true);
+      }
+      else
+      {
+          loadCart();
+      }
       getSettings();
 
       $scope.goToCheckout = goToCheckout;
