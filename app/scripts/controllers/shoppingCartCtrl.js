@@ -92,7 +92,7 @@ angular.module('bluereconlineApp')
         $location.path('/' + $routeParams.orgurl + '/login');
       }
 
-      function loadCart(checkout=false)
+      function loadCart(checkout)
       {
 
           if(checkout)
