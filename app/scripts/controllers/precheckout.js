@@ -139,35 +139,33 @@ angular.module('bluereconlineApp')
                 for(var ec = 0; ec < preLoad.emergencycontacts.data.length; ec++)
                 {
                     var ecError = {};
+                    if(preLoad.emergencycontacts.data[ec].required) {
+                        if (preLoad.emergencycontacts.data[ec].contactName.length <= 0) {
+                            preLoad.emergencycontacts.data[ec].errors = [];
+                            ecError = {};
+                            ecError.message = 'Please enter a name for the emergency contact.';
+                            contactErrors = true;
 
-                    if(preLoad.emergencycontacts.data[ec].contactName.length <= 0)
-                    {
-                        preLoad.emergencycontacts.data[ec].errors = [];
-                        ecError = {};
-                        ecError.message = 'Please enter a name for the emergency contact.';
-                        contactErrors = true;
+                            preLoad.emergencycontacts.data[ec].errors.push(ecError);
+                        }
 
-                        preLoad.emergencycontacts.data[ec].errors.push(ecError);
-                    }
+                        if (preLoad.emergencycontacts.data[ec].contactRelationship.length <= 0) {
+                            preLoad.emergencycontacts.data[ec].errors = [];
+                            ecError = {};
+                            ecError.message = 'Please enter a relationship for the emergency contact.';
+                            contactErrors = true;
 
-                    if(preLoad.emergencycontacts.data[ec].contactRelationship.length <= 0)
-                    {
-                        preLoad.emergencycontacts.data[ec].errors = [];
-                        ecError = {};
-                        ecError.message = 'Please enter a relationship for the emergency contact.';
-                        contactErrors = true;
+                            preLoad.emergencycontacts.data[ec].errors.push(ecError);
+                        }
 
-                        preLoad.emergencycontacts.data[ec].errors.push(ecError);
-                    }
+                        if (preLoad.emergencycontacts.data[ec].contactPhone.length <= 0) {
+                            preLoad.emergencycontacts.data[ec].errors = [];
+                            ecError = {};
+                            ecError.message = 'Please enter a phone # for the emergency contact.';
+                            contactErrors = true;
 
-                    if(preLoad.emergencycontacts.data[ec].contactPhone.length <= 0)
-                    {
-                        preLoad.emergencycontacts.data[ec].errors = [];
-                        ecError = {};
-                        ecError.message = 'Please enter a phone # for the emergency contact.';
-                        contactErrors = true;
-
-                        preLoad.emergencycontacts.data[ec].errors.push(ecError);
+                            preLoad.emergencycontacts.data[ec].errors.push(ecError);
+                        }
                     }
                 }
 
