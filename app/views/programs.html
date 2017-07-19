@@ -124,6 +124,25 @@
     </div>
   </form>
 
+  <div class="bs-callout bs-callout-primary" data-ng-if="enrolledWithOptions.data.length > 0" id="callout-type-b-i-elems">
+    <div>
+      <div class="spacing"></div>
+      <div class="row">
+        <div class="col-xs-12"><i class="fa fa-tags fa-2x text-primary pull-left"></i>
+          One or more of the activities you have registered for have additional options that can be purchased.
+        </div>
+      </div>
+    </div>
+    <div data-ng-repeat="enrollment in enrolledWithOptions.data">
+      <div class="spacing"></div>
+      <div class="row">
+        <div class="col-sm-4">{{enrollment.participant}}</div>
+        <div class="col-sm-4">{{enrollment.item_name}}</div>
+        <div class="col-sm-4"><button class="btn btn-success btn-sm pull-right" data-ng-click="onAdditionalEnrollmentClick(enrollment.user_id, enrollment.household_id, enrollment.registration_id, enrollment.item_id)"><i class="fa fa-cart-plus"></i> Enrollment Options</button></div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
 
     <dir-pagination-controls pagination-id="session.session_id" data-ng-show="!programs.busy"></dir-pagination-controls>

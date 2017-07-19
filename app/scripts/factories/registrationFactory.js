@@ -127,6 +127,17 @@ angular.module('bluereconlineApp')
             return defer.promise;
         };
 
+        reg.addAdditionalEnrollmentToCart = function(userID, householdID, registrationID, programID)
+        {
+            var defer = $q.defer();
+
+            reg.addAdditionalEnrollmentArray(userID, householdID, registrationID, programID).then(function() {
+                defer.resolve(true);
+            });
+
+            return defer.promise;
+        };
+
         reg.addRegistrationArrayToCart = function(regProgram)
         {
             var defer = $q.defer();
@@ -144,6 +155,28 @@ angular.module('bluereconlineApp')
             });
 
             return defer.promise;
+        };
+
+        reg.addAdditionalEnrollmentArray = function(userID, householdID, registrationID, programID)
+        {
+            reg.data = [];
+            var defer = $q.defer();
+            var promises = [];
+
+            var userSelected = true;
+
+            promises.push(reg.clearLocalRegistration());
+
+            promises.push(reg.addAdditionalEnrollment(
+                userID,
+                householdID,
+                programID,
+                registrationID
+            ));
+
+            return $q.all(promises).then(function () {
+                reg.saveLocalRegistration().then(defer.resolve(userSelected));
+            });
         };
 
         reg.addRegistrationArray = function(regProgram)
@@ -190,6 +223,50 @@ angular.module('bluereconlineApp')
             return $q.all(promises).then(function () {
                 reg.saveLocalRegistration().then(defer.resolve(userSelected));
             });
+        };
+
+        reg.addAdditionalEnrollment = function(userID, householdID, itemID, referenceTransaction)
+        {
+            //console.log('add the registration data...');
+            var defer = $q.defer();
+
+            if(isFinite(userID) && userID !== null)
+            {
+                if(isFinite(itemID) && itemID !== null)
+                {
+                    var regData = {};
+                    regData.userID = userID;
+                    regData.householdID = householdID;
+                    regData.itemID = itemID;
+                    regData.itemType = 'PROGRAM';
+                    regData.referenceTransaction = referenceTransaction;
+
+                    regData.addons = [];
+                    regData.loadingAddons = true;
+
+                    reg.getCartAddons(regData).then(function(response) {
+                        //console.log('here is the response: ');
+                        //console.log(response);
+
+                        regData.loadingAddons = false;
+
+                        regData.addons = response;
+
+                        reg.data.push(regData);
+
+                        //$rootScope.$broadcast('registration:loaded');
+                        defer.resolve(regData.addons);
+                    });
+                }
+                else {
+                    defer.resolve(false);
+                }
+            }
+            else {
+                defer.resolve(false);
+            }
+
+            return defer.promise;
         };
 
         reg.addRegistration = function(userID, itemID, itemType, itemName, userName, requiresPackage, requiresItem)
@@ -469,8 +546,6 @@ angular.module('bluereconlineApp')
 
             var defer = $q.defer();
 
-            var uid = '';
-
             console.log('data sent to get addons:');
             console.log(regData);
 
@@ -631,7 +706,8 @@ angular.module('bluereconlineApp')
                     'householdID':ActiveUser.userData.household_id,
                     'addedByUserID':ActiveUser.userData.user_id,
                     'itemType':reg.data[a].itemType,
-                    'usePaymentPlan':'0'
+                    'usePaymentPlan':'0',
+                    'referenceTransaction':reg.data[a].referenceTransaction
                 };
 
                 if(angular.isDefined(reg.data[a].addons) && angular.isDefined(reg.data[a].addons.selectedpackages) && reg.data[a].addons.selectedpackages.length > 0)

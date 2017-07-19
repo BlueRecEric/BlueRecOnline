@@ -205,7 +205,7 @@ angular.module('bluereconlineApp')
                 var t;
 
                 for (a = 0; a < $scope.searchRowCollection.length; a++) {
-                    for (var t = 0; t < $scope.searchRowCollection[a].tdata.length; t++) {
+                    for (t = 0; t < $scope.searchRowCollection[a].tdata.length; t++) {
                         if($scope.searchRowCollection[a].tdata[t].fid === timeRow.fid &&
                             $scope.searchRowCollection[a].tdata[t].id != timeRow.id) {
                             if ((parseInt($scope.searchRowCollection[a].tdata[t].utcs) > parseInt(timeRow.utcs) &&

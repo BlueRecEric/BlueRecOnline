@@ -20,8 +20,8 @@
 
                             <div class="well" data-ng-repeat="item in cart.data">
                                 <div>
-                                     <span style="float: left;"> <span data-placement="right"><span class="fa-stack fa-lg clicky" data-ng-click="removeItem({{item.shopping_item_id}})"
-                                                                                                    data-ng-hide="{{$route.current.templateUrl == 'views/precheckout.html'}}">
+                                     <span style="float: left;"> <span data-placement="right"><span class="fa-stack fa-lg clicky" data-ng-click="removeItem(item.shopping_item_id)"
+                                                                                                    data-ng-hide="$route.current.templateUrl == 'views/precheckout.html' || $route.current.templateUrl == 'views/checkout.html'">
                                           <i class="fa fa-square fa-stack-2x text-danger"></i>
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span></span>

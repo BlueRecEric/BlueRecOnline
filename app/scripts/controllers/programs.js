@@ -17,6 +17,16 @@ angular.module('bluereconlineApp')
         $scope.loadingProgram = false;
 
         $scope.search = SearchFactory;
+        $scope.enrolledWithOptions = [];
+
+        $scope.checkEnrolledPrograms = function () {
+            if(ActiveUser.isLoggedIn()) {
+                ProgramsLoader.loadEnrolledPrograms(ActiveUser.userData.household_id).then(function(response) {
+                    $scope.enrolledWithOptions = response.data;
+                    console.log($scope.enrolledWithOptions);
+                });
+            }
+        };
 
         $scope.checkTypeRoute = function () {
             var searchSet = false;
@@ -171,6 +181,18 @@ angular.module('bluereconlineApp')
             }
         };
 
+        $scope.onAdditionalEnrollmentClick = function(userID, householdID, registrationID, programID) {
+            $scope.registration.addAdditionalEnrollmentToCart(userID, householdID, registrationID, programID).then(function (userAdded) {
+                if(userAdded) {
+                    console.log('user added');
+                    $location.path('/' + $routeParams.orgurl + '/programinfo/' + programID + '/addons');
+                }
+                else {
+                    console.log('no user added');
+                }
+            });
+        };
+
         $scope.onAddToCartClick = function(program, spots) {
             $scope.addingRegistration = true;
 
@@ -323,10 +345,26 @@ angular.module('bluereconlineApp')
         $scope.getProgramTypes();
         $scope.getProgramLocations();
         $scope.checkTypeRoute();
-
+        $scope.checkEnrolledPrograms();
     }])
     .factory('ProgramsLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams) {
         var programs = this;
+
+        programs.loadEnrolledPrograms = function(hid)
+        {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/household/extraenrollment',
+                data: {
+                    'hid':hid
+                },
+                headers: {
+                    'Content-Type': undefined
+                }
+            };
+
+            return $http(req);
+        };
 
         programs.loadSingleProgram = function (itemID,uid,hid) {
             var req = {
