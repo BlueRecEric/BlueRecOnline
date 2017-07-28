@@ -36,8 +36,16 @@ angular.module('bluereconlineApp')
 		$scope.agreementSigned.checked = false;
 
 		$scope.rentalData = ReservationFactory.getReservationData();
+
 		$scope.selectedTimeData = ReservationFactory.getReservationTimes();
-		
+        $scope.displayTimeData = [];
+
+        $scope.lighting_package = [];
+        $scope.lighting_package.fee_amount = 0;
+        $scope.lighting_package.package = [];
+        $scope.lighting_package.has_sunset_times = false;
+		$scope.lighting_package.has_lighting_package = false;
+
 		$scope.reservationDataSet = false;
 		
 		$scope.reportName = '';
@@ -61,7 +69,7 @@ angular.module('bluereconlineApp')
 			$scope.reservationDataSet = true;
 		}
 		
-		//console.log('$scope.rentalItemID:  ',$scope.selectedTimeData);
+		console.log('$scope.selectedTimeData:  ',$scope.selectedTimeData);
 		
 		$scope.rentalPackages = [];
 
@@ -80,6 +88,35 @@ angular.module('bluereconlineApp')
 			
 			$scope.rentalFees.feeAmount = amt;
 		};
+
+        $scope.setLightingFees = function() {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/' + ActiveUser.userData.user_id + '/' + ActiveUser.userData.household_id + '/getlightingfees',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {
+					'rental_times': $scope.selectedTimeData
+            	}
+            };
+
+            $http(req)
+                .success(function (data) {
+                    console.log('rental lighting fees:  ', data);
+
+                    $scope.lighting_package.has_lighting_package = data.has_lighting_package;
+
+                    $scope.lighting_package.has_sunset_times = data.has_sunset_times;
+                    $scope.lighting_package.package = data.lighting_package;
+
+                    $scope.lighting_package.fee_amount = parseFloat(((data.has_sunset_times)?data.lighting_package.fees[0].fee_amount:0));
+
+                    $scope.displayTimeData = angular.copy(data.rental_times);
+                });
+        };
+
+        $scope.setLightingFees();
 		
 		$scope.setAgreementData = function() {
 			var req = {
@@ -92,7 +129,7 @@ angular.module('bluereconlineApp')
 			
 			$http(req)
 			.success(function (data) {
-				console.log('agreement data', data);
+				//console.log('agreement data', data);
 
                 $scope.agreementData = data;
 			});
@@ -112,7 +149,7 @@ angular.module('bluereconlineApp')
 			
 			$http(req)
 			.success(function (data) {
-				//console.log(data);
+				//console.log('package data: ', data);
 				
 				$scope.rentalPackages = data.packageForm;
 				
@@ -121,7 +158,6 @@ angular.module('bluereconlineApp')
 				}
 			});
 		};
-
 		
 		$scope.formatMySQLDate = function (formatDate) {
 			//Grab each of your components
@@ -249,7 +285,12 @@ angular.module('bluereconlineApp')
 						}
 					}
 
-					//console.log('submitData', submitData);
+					if($scope.lighting_package.has_sunset_times)
+					{
+                        submitData.addons.push($scope.lighting_package.package);
+					}
+
+					console.log('submitData', submitData);
 
 					var req;
 

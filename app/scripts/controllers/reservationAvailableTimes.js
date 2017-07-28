@@ -129,7 +129,7 @@ angular.module('bluereconlineApp')
 
                             if ($scope.rentalData.force_facility_order === '1') {
                                 if (facCount > 0) {
-                                    $scope.rentalData.facility_limit = $filter('Number')((facCount / 2) + 1, 0);
+                                    $scope.rentalData.facility_limit = $filter('number')((facCount / 2) + 1, 0);
                                 }
 
                                 for (var i = 0; i < facCount; i++) {
@@ -556,7 +556,7 @@ angular.module('bluereconlineApp')
                     $scope.isSearchIconBusy.loading = false;
 
                     //$anchorScroll.yOffset = 500;
-                    //$anchorScroll('pageTop');
+                    $anchorScroll('pageTop');
                 }
             };
 

@@ -220,7 +220,7 @@ angular.module('bluereconlineApp')
   return function(items, props) {
     var out = [];
     
-    if (angular.isArray(items)) {
+    if (angular.isArray(items)) {cc
       items.forEach(function(item) {
         var itemMatches = false;
         

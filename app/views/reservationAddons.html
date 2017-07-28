@@ -85,17 +85,19 @@
 							<div class="panel-body">
 								<div style="padding: 8px;">
 									<div class="form-group">
-										<label class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">Facilities:</label>
+										<label ng-class="{'col-sm-5': !lighting_package.has_lighting_package, 'col-sm-4': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">Facilities:</label>
 										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Date:</label>
-										<label class="col-sm-3" style="padding-bottom:0px;margin-bottom:0px;">Time:</label>
+										<label ng-class="{'col-sm-3': !lighting_package.has_lighting_package, 'col-sm-2': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">Time:</label>
 										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
+										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;" data-ng-if="lighting_package.has_lighting_package">Lights:</label>
 									</div>
 
-									<div class="form-group striped-row" data-ng-repeat="time in selectedTimeData">
-										<span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fname}}</span>
+									<div class="form-group striped-row" data-ng-repeat="time in displayTimeData | orderBy:'utcs'">
+										<span ng-class="{'col-sm-5': !lighting_package.has_lighting_package, 'col-sm-4': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fname}}</span>
 										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.sf_date}}</span>
-										<span class="col-sm-3" style="padding-bottom:0px;margin-bottom:0px;">{{::time.st}}-{{::time.et}}</span>
+										<span ng-class="{'col-sm-3': !lighting_package.has_lighting_package, 'col-sm-2': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">{{::time.st}}-{{::time.et}}</span>
 										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fee_amount | currency}}</span>
+										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;" data-ng-if="lighting_package.has_lighting_package">{{::time.sunset_fee_amount | currency}}</span>
 									</div>
 
 									<!--<div class="form-group" data-ng-if="lighting.show" style="margin-left: 0px;">
@@ -112,15 +114,19 @@
 										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.feeAmount) | currency}}</h4></div>
 									</div>
 
-
 									<div class="form-group row">
 										<h4 class="col-sm-2 header-no-margin text-primary">Package Amount:</h4>
 										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.packageFeeAmount) | currency}}</h4></div>
 									</div>
 
+									<div class="form-group row" data-ng-if="lighting_package.has_lighting_package">
+										<h4 class="col-sm-2 header-no-margin text-primary">Lighting Amount:</h4>
+										<div class="col-sm-10"><h4 class="header-no-margin">{{lighting_package.fee_amount | currency}}</h4></div>
+									</div>
+
 									<div class="form-group row">
 										<h4 class="col-sm-2 header-no-margin text-primary">Total Amount:</h4>
-										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.feeAmount + rentalFees.packageFeeAmount) | currency}}</h4></div>
+										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.feeAmount + rentalFees.packageFeeAmount + lighting_package.fee_amount) | currency}}</h4></div>
 									</div>
 								</div>
 							</div>
