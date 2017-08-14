@@ -15,6 +15,8 @@ angular.module('bluereconlineApp')
 		$scope.submittingData = false;
 		
 		$scope.agreementCheckError = false;
+        $scope.cartError = false;
+        $scope.errorText = '';
 		
 		$scope.lighting = [];
 		$scope.lighting.feeAmount = 0.00;
@@ -201,6 +203,7 @@ angular.module('bluereconlineApp')
 		
 		$scope.addRentalRequest = function() {
             $scope.agreementCheckError = false;
+            $scope.cartError = false;
 
 			var autoApproved = ($scope.rentalData.auto_approve === '1');
             autoApproved = true;
@@ -307,28 +310,36 @@ angular.module('bluereconlineApp')
 						$http(req).
 						then(function(response) {
 
-							//console.log('success', response);
-
-							if(response.status === 200 && response.data.result !== 'not_auto_approve')
+							console.log('success', response);
+							if(angular.isDefined(response.data.error))
 							{
-								//console.log('added');
-
-								ReservationFactory.clearReservationData();
-								 ReservationFactory.clearReservationTimes();
-
-								$rootScope.$emit('updateCartCount', {});
-
-								$location.path('/' + $routeParams.orgurl + '/addedtocart');
-
-								$scope.submittingData = false;
-							}
-							else
+								$scope.cartError = true;
+								$scope.errorText = response.data.error;
+                            }
+                            else
 							{
-								ReservationFactory.clearReservationData();
-								ReservationFactory.clearReservationTimes();
+                                if(response.status === 200 && response.data.result !== 'not_auto_approve')
+                                {
+                                    //console.log('added');
 
-								$location.path('/' + $routeParams.orgurl + '/reservations');
+                                    ReservationFactory.clearReservationData();
+                                    ReservationFactory.clearReservationTimes();
+
+                                    $rootScope.$emit('updateCartCount', {});
+
+                                    $location.path('/' + $routeParams.orgurl + '/addedtocart');
+
+                                    $scope.submittingData = false;
+                                }
+                                else
+                                {
+                                    ReservationFactory.clearReservationData();
+                                    ReservationFactory.clearReservationTimes();
+
+                                    $location.path('/' + $routeParams.orgurl + '/reservations');
+                                }
 							}
+
 						}, function(response) {
 							//console.log('error', response);
 

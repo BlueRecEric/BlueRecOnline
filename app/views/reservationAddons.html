@@ -158,6 +158,14 @@
 									</div>
 								</div>
 
+								<div class="animate-show animate-hide" data-ng-hide="!cartError" data-ng-cloak>
+									<div class="alert alert-danger" role="alert">
+										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+										<span class="sr-only">Error:</span>
+										{{errorText}}
+									</div>
+								</div>
+
 								<div class="col-sm-12">
 									<button type="submit" class="btn btn-success" data-ng-click="onSubmitAddRentalToCart()"
 													data-ng-if="rentalData.auto_approve === '1'" data-ng-disabled="submittingData">
