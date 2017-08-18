@@ -133,15 +133,24 @@ angular.module('bluereconlineApp')
           {
               $scope.emergencyContactForm = ActiveUser.userData.emergencycontacts.data;
 
+              var reqContactCount = 0;
+
               for(var ec = 0; ec < ActiveUser.userData.emergencycontacts.data.length; ec++)
               {
                   if(ActiveUser.userData.emergencycontacts.data[ec].contactID == '')
                   {
                       blankContacts = true;
                   }
+                  else
+                  {
+                      reqContactCount++;
+                  }
               }
 
-              if(blankContacts && ActiveUser.userData.requiredEmergencyCount > 0)
+              console.log('we have ' + reqContactCount + ' contacts');
+              console.log('we need ' + ActiveUser.userData.requiredEmergencyCount + ' contacts');
+
+              if(blankContacts && ActiveUser.userData.requiredEmergencyCount > 0 && reqContactCount < ActiveUser.userData.requiredEmergencyCount)
               {
                   $scope.showEmergencyContact = true;
               }
