@@ -67,6 +67,26 @@ angular.module('bluereconlineApp')
                             thisField.response_value = '';
                         }
 
+                        if(thisField.selected_response === null || !angular.isDefined(thisField.selected_response))
+                        {
+                            thisField.selected_response = {};
+                            thisField.selected_response.label = '';
+                        }
+
+                        if(thisField.selected_response.label === null || !angular.isDefined(thisField.selected_response.label))
+                        {
+                            thisField.selected_response = {};
+                            thisField.selected_response.label = '';
+                        }
+
+                        if(thisField.type == 'select')
+                        {
+                            thisField.response_value = thisField.selected_response.label;
+                        }
+
+                        console.log(thisField.label + ':');
+                        console.log(thisField);
+
                         if(thisField.required && thisField.type == 'select' && thisField.response_value.length == 0)
                         {
                             var selectError = {};
