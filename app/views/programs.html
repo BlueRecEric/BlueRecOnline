@@ -265,7 +265,7 @@
 
 
                   <!-- pre registration table -->
-                  <div class="col-sm-3 col-md-3" data-ng-if="(program.listData.registration_over != '1' && (program.listData.remaining_spots > 0 || program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_preregistration == '1' || program.listData.in_online_resident_preregistration == '1'))">
+                  <div class="col-sm-3 col-md-3" data-ng-if="(program.listData.registration_over != '1' && (program.listData.remaining_spots > 0 || program.listData.allow_waitinglist == '1') && (program.listData.in_online_nonresident_preregistrationtwo == '1' || program.listData.in_online_nonresident_preregistration == '1' || program.listData.in_online_resident_preregistration == '1'|| program.listData.in_online_resident_preregistrationtwo == '1'))">
                     <div class="row"><div class="col-sm-12"><h4><a id="register_{{program.listData.item_id}}">Pre-Register</a></h4></div></div>
                     <ul class="list-group" data-ng-if="showRegisteredUser">
                       <li class="list-group-item" quick-ng-repeat="person in program.listData.users track by person.user_id" data-ng-if="person.preEligible || program.showIneligible">
@@ -328,7 +328,7 @@
                     <div class="spacing"></div>
                     <div class="alert alert-danger" data-ng-if="program.listData.noSelection">Select at least one person.</div>
                     <div class="alert alert-danger" data-ng-if="program.listData.overLimit">{{program.listData.overLimitMessage}}</div>
-                    <button class="btn btn-success btn-block" data-ng-model="program.listData.addCartButton" data-ng-click="onAddToCartClick(program.listData,program.listData.remaining_spots)" data-ng-if="(showRegisteredUser && program.listData.remaining_spots > 0 && ((program.listData.in_online_nonresident_preregistration == '1' || program.listData.in_online_resident_preregistration == '1') || (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1')) && !addingRegistration)"><!--
+                    <button class="btn btn-success btn-block" data-ng-model="program.listData.addCartButton" data-ng-click="onAddToCartClick(program.listData,program.listData.remaining_spots)" data-ng-if="(showRegisteredUser && program.listData.remaining_spots > 0 && ((program.listData.in_online_nonresident_preregistrationtwo == '1' || program.listData.in_online_resident_preregistrationtwo == '1' || program.listData.in_online_nonresident_preregistration == '1' || program.listData.in_online_resident_preregistration == '1') || (program.listData.in_online_nonresident_registration == '1' || program.listData.in_online_resident_registration == '1')) && !addingRegistration)"><!--
                       --><span data-ng-if="program.listData.package_count == 0"><i class="fa fa-shopping-cart"></i> Add to cart</span><!--
                       --><span data-ng-if="program.listData.package_count > 0"><i class="fa fa-cart-plus"></i> Enrollment Options</span><!--
                       --></button>

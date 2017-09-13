@@ -133,6 +133,18 @@
             <div ng-view="" class="view-animate"></div>
         </div>-->
         <div class="container">
+            <div data-ng-controller="MenuCtrl">
+                <div data-ng-show="currentUser.householdnotes.length > 0">
+                    <div>
+                        <div class="bs-callout bs-callout-warning" id="callout-type-b-i-elems">
+                            <div class="row" data-ng-repeat="note in currentUser.householdnotes">
+                                <i class="fa fa-exclamation-triangle fa-3x pull-left fa-border text-warning"></i>
+                                {{note}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div ng-view="" ></div>
             <div class="spacing noprint">&nbsp;</div>
             <div class="spacing noprint">&nbsp;</div>
