@@ -400,7 +400,10 @@ angular.module('bluereconlineApp')
             'birthday': formData.formatBirthday,
             'emerNameOne': formData.emerNameOne,
             'emerRelOne': formData.emerRelOne,
-            'emerPhoneOne': formData.emerPhoneOne
+            'emerPhoneOne': formData.emerPhoneOne,
+            'allergies': formData.allergies,
+            'medications': formData.medications,
+            'disabilities': formData.disabilities
           }
         };
 

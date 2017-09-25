@@ -115,6 +115,27 @@
                             <select id="newGrade" class="form-control" data-style="btn-inverse" data-ng-model="newMemberForm.grade" data-ng-options="gradeOp.name for gradeOp in gradeOptions"></select>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="newFirstName" class="col-sm-2 control-label">Current Medications:</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="newMedications" data-ng-model="newMemberForm.medications" class="form-control" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newFirstName" class="col-sm-2 control-label">Allergies:</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="newAllergies" data-ng-model="newMemberForm.allergies" class="form-control" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newFirstName" class="col-sm-2 control-label">Disabilities:</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="newDisabilities" data-ng-model="newMemberForm.disabilities" class="form-control" required/>
+                        </div>
+                    </div>
                     <!--
                     <div class="form-group">
                         <label class="col-sm-2 control-label"></label>
@@ -202,6 +223,27 @@
                         <label for="grade" class="col-sm-2 control-label">Grade</label>
                         <div class="col-sm-6">
                             <select id="grade" class="form-control" data-style="btn-inverse" data-ng-model="person.grade" data-ng-options="gradeOp.value as gradeOp.name for gradeOp in gradeOptions"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newFirstName" class="col-sm-2 control-label">Current Medications:</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="medications" data-ng-model="person.medications" class="form-control" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newFirstName" class="col-sm-2 control-label">Allergies:</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="allergies" data-ng-model="person.allergies" class="form-control" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newFirstName" class="col-sm-2 control-label">Disabilities:</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="disabilities" data-ng-model="person.disabilities" class="form-control" required/>
                         </div>
                     </div>
                     <!--
