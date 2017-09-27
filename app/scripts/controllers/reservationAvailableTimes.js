@@ -494,7 +494,6 @@ angular.module('bluereconlineApp')
 
                     //console.log('hours2', Math.ceil(hours / 360) * 360);*/
 
-
                     var req = {
                         method: 'POST',
                         url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/reservation/searchavailiabletimes',
@@ -694,7 +693,7 @@ angular.module('bluereconlineApp')
             $scope.onSelectRentalTime = function onSelectRentalTime(selectedRow, timeRow) {
                 var selectedTimeData = $filter('filter')(selectedRow.tdata, {fgid: timeRow.fgid}, true);
 
-                console.log('onSelectRentalTime - selectedTimeData: ', selectedRow);
+                //console.log('onSelectRentalTime - selectedTimeData: ', selectedRow);
                 //console.log('timeRow: ', timeRow);
                 //console.log('search results: ', $scope.searchRowCollection);
 

@@ -71,7 +71,7 @@ angular.module('bluereconlineApp')
 			$scope.reservationDataSet = true;
 		}
 		
-		console.log('$scope.selectedTimeData:  ',$scope.selectedTimeData);
+		//console.log('$scope.selectedTimeData:  ',$scope.selectedTimeData);
 		
 		$scope.rentalPackages = [];
 
@@ -131,7 +131,7 @@ angular.module('bluereconlineApp')
 			
 			$http(req)
 			.success(function (data) {
-				////console.log('agreement data', data);
+				//console.log('agreement data', data);
 
                 $scope.agreementData = data;
 			});
@@ -160,7 +160,9 @@ angular.module('bluereconlineApp')
 		$scope.setPackages = function()
 		{
             var EventMinutes = $scope.calculateEventMinutes();
-            console.log('EventMinutes: ', EventMinutes);
+            
+            //console.log('EventMinutes: ', EventMinutes);
+			
 			var req = {
 				method: 'POST',
 				url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $scope.rentalItemID + '/packages',
@@ -173,7 +175,7 @@ angular.module('bluereconlineApp')
 			
 			$http(req)
 			.success(function (data) {
-				console.log('package data: ', data);
+				//console.log('package data: ', data);
 
 				$scope.rentalPackages = data.packageForm;
 				
@@ -198,7 +200,7 @@ angular.module('bluereconlineApp')
 		
 		$scope.onPackageChangeEvent = function() {
 			var newPackageFee = 0.0;
-			////console.log($scope.rentalPackages);
+			//console.log($scope.rentalPackages);
 			for (var i = 0; i < $scope.rentalPackages.length; i++) {
 				if($scope.rentalPackages[i].selected)
 				{
@@ -211,7 +213,7 @@ angular.module('bluereconlineApp')
 					}
 				}
 			}
-			////console.log('test', $scope.rentalFees.packageFeeAmount);
+			//console.log('test', $scope.rentalFees.packageFeeAmount);
 			$scope.rentalFees.packageFeeAmount = parseFloat(newPackageFee);
 		};
 		
@@ -230,7 +232,7 @@ angular.module('bluereconlineApp')
 			var autoApproved = ($scope.rentalData.auto_approve === '1');
             autoApproved = true;
 
-			////console.log($scope.selectedTimeData);
+			//console.log($scope.selectedTimeData);
 			
 			if ($scope.agreementSigned.checked) {
 				var $userID = ActiveUser.userData.user_id;
@@ -342,7 +344,7 @@ angular.module('bluereconlineApp')
 							{
                                 if(response.status === 200 && response.data.result !== 'not_auto_approve')
                                 {
-                                    ////console.log('added');
+                                    //console.log('added');
 
                                     ReservationFactory.clearReservationData();
                                     ReservationFactory.clearReservationTimes();
@@ -363,7 +365,7 @@ angular.module('bluereconlineApp')
 							}
 
 						}, function(response) {
-							////console.log('error', response);
+							//console.log('error', response);
 
 							$scope.submittingData = false;
 							//ReservationFactory.clearReservationData();
@@ -414,11 +416,11 @@ angular.module('bluereconlineApp')
 		};
 		
 		if($scope.reservationDataSet) {
-			////console.log('RENTAL DATA:  ');
-			////console.log($scope.rentalData);
+			//console.log('RENTAL DATA:  ');
+			//console.log($scope.rentalData);
 			
-			////console.log('SELECTED TIME DATA:  ');
-			////console.log($scope.selectedTimeData);
+			//console.log('SELECTED TIME DATA:  ');
+			//console.log($scope.selectedTimeData);
 			
 			$scope.calRentalTimeFeeAmt();
 			
