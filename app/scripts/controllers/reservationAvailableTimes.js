@@ -324,6 +324,8 @@ angular.module('bluereconlineApp')
 
                             $scope.weekdayData = data.weekday_data;
 
+                            console.log('weekdayData', $scope.weekdayData);
+
                             $scope.loadingWeekdays.loading = false;
                         })
                         .error(function () {
@@ -467,32 +469,6 @@ angular.module('bluereconlineApp')
                     ($scope.startTime < $scope.endTime || $scope.rentalData.online_auto_select_event==='1') &&
                     angular.isDate($scope.fromDate) && angular.isDate($scope.untilDate)) {
                     $scope.isSearchIconBusy.loading = true;
-
-                    /*//console.log({rental_code_item_id: $scope.rentalItemID,
-                         facilities: selectedFacilities,
-                         weekdays: selectedWeekdays,
-                         from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
-                         until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
-                         duration: $scope.rentalDuration.selectedTime,
-                         start_time: $filter('date')($scope.startTime, 'HH:mm'),
-                         end_time:  $filter('date')($scope.endTime, 'HH:mm'),
-                         force_order: ($scope.rentalData.force_facility_order=='1')?'true':'false'
-                         });*/
-
-                    //console.log('testtime1', $filter('date')($scope.fromDate, 'yyyy-MM-dd'));
-
-                    /*var startMS = new Date($filter('date')($scope.fromDate, 'yyyy-MM-dd')+' '+$filter('date')($scope.startTime, 'HH:mm'));
-                    var endMS = new Date($filter('date')($scope.untilDate, 'yyyy-MM-dd')+' '+$filter('date')($scope.endTime, 'HH:mm'));
-
-
-                    var msDiff = endMS - startMS;
-                    var hours = msDiff / 60 / 1000;
-
-                    //console.log('hours', hours);
-
-                    //console.log('hours1', (hours % 360 === 0)?'true':'false');
-
-                    //console.log('hours2', Math.ceil(hours / 360) * 360);*/
 
                     var req = {
                         method: 'POST',
