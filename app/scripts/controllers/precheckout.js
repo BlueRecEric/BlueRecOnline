@@ -20,6 +20,14 @@ angular.module('bluereconlineApp')
 
         $scope.requiredEmergencyCount = '';
 
+        $scope.printDiv = function(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var popupWin = window.open('', '_blank', 'width=800,height=600');
+            popupWin.document.open();
+            popupWin.document.write('<html><head><link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="styles/main.css" /></head><body onload="window.print()"><div id="#printContainer">' + printContents + '</div></body></html>');
+            popupWin.document.close();
+        };
+
         if(ActiveUser.isLoggedIn())
         {
             console.log('userdata-pre:');
@@ -610,6 +618,24 @@ angular.module('bluereconlineApp')
                 });
         };
 
+        var getCartMedicalSRAData = function () {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/medsra',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {'userID': ActiveUser.userData.user_id, 'householdID': ActiveUser.userData.household_id}
+            };
+
+            return $http(req).then(
+                function success(response) {
+                    preloader.sradata = [];
+                    var sraData = JSON.parse(angular.toJson(response.data.data.sradata));
+                    preloader.sradata = sraData;
+                });
+        };
+
         var getCartCustomFields = function () {
             var req = {
                 method: 'POST',
@@ -687,7 +713,8 @@ angular.module('bluereconlineApp')
                     getCartCustomFields(),
                     getCartPayments(),
                     getCartWaivers(),
-                    getCartEmergencyContacts()
+                    getCartEmergencyContacts(),
+                    getCartMedicalSRAData()
                 ]).then(function(data) {
 
                 });

@@ -1204,6 +1204,15 @@ tooltip tip.facility-address {
         width:20%;
     }
 
+    .printBox {
+        visibility:visible;
+        margin-left:auto;
+        margin-right:auto;
+        font-size: 12px;
+        line-height: 1.2;
+        width: 100%;
+    }
+
     #printContainer, #printContainer * {
         visibility:visible;
         margin-left:auto;

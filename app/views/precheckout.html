@@ -65,6 +65,46 @@
 
       <div class="spacing"> </div>
 
+      <div class="panel panel-default" data-ng-show="(preLoad.sradata.length > 0)">
+        <div class="panel-heading">
+          <label>Medical Information</label>
+        </div>
+        <div class="panel-body">
+          <h4>Important Medical Information</h4>
+          <p>Please confirm/update the following information for our records. Leave blank if not applicable.</p>
+
+          <div data-ng-repeat="sracontact in preLoad.sradata">
+
+            <p>Information for {{sracontact.participant}}</p>
+
+            <div class="form-group">
+              <label for="medications" class="col-sm-2 control-label">Current Medications:</label>
+              <div class="col-sm-6">
+                <input type="text" id="medications" data-ng-model="sracontact.medications" class="form-control"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="allergies" class="col-sm-2 control-label">Allergies:</label>
+              <div class="col-sm-6">
+                <input type="text" id="allergies" data-ng-model="sracontact.allergies" class="form-control"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="disabilities" class="col-sm-2 control-label">Disabilities:</label>
+              <div class="col-sm-6">
+                <input type="text" id="disabilities" data-ng-model="sracontact.disabilities" class="form-control"/>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="spacing"> </div>
+
       <div class="panel panel-default" data-ng-show="(preLoad.emergencycontacts.data.length > 0 && (requiredEmergencyCount > 0 || availableEmergencyCount > 0))">
         <div class="panel-heading">
           <label>Emergency Contacts</label>
@@ -299,11 +339,29 @@
             <div class="panel-body">
               <div name="txtWaiver" id="txtWaiver" class="well scrollbox" data-ng-enable="false" data-ng-bind-html="waiverData.waiver_text" rows="3"></div>
 
+              <div>
+                <p><strong>
+                  I understand that by clicking the box below stating that I accept this agreement, that I am entering into a binding contract and that it is my understanding and intention that by clicking the box below indicating that I accept this agreement shall have the same legal effect as if I had manually signed this document.
+                </strong></p>
+              </div>
+
               <div class="form-group" >
-                <div data-ng-repeat="signoff in waiverData.signoff">
-                  <div class="col-xs-12 spacing">
-                    <checkbox class="btn-primary" data-ng-model="signoff.agreed" id="signoff.name" name="signoff.name" required></checkbox>
-                    <label for="signoff.name">I agree to the terms outlined in the above <span data-ng-if="waiverData.is_optional == '1'">optional </span>waiver on behalf of {{signoff.user_name}}.</label>
+                <div class="container" data-ng-repeat="signoff in waiverData.signoff">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-6 spacing">
+                      <checkbox class="btn-primary" data-ng-model="signoff.agreed" data-ng-click="(signoff.agreed)?true:signoff.notagree = false;" id="signoff.name" name="signoff.name" required></checkbox>
+
+                      <span data-ng-show="signoff.agreed">
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="{{'#' + signoff.print_id}}"><i class="glyphicon glyphicon-print"></i></a>
+                      </span>
+
+                      <label for="signoff.name">I agree to the terms outlined in the above <span data-ng-if="waiverData.is_optional == '1'">optional </span>waiver on behalf of {{signoff.user_name}}.</label>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 spacing">
+                      <checkbox class="btn-primary" data-ng-model="signoff.notagreed" data-ng-click="(signoff.notagree)?true:signoff.agreed = false;" id="signoff.namenotagree" name="signoff.namenotagree"></checkbox>
+                      <label for="signoff.name">I <strong>DO NOT</strong> agree.</label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -324,5 +382,30 @@
       <button type="submit" data-ng-if="readyToCheckout" data-ng-enable="customForm.$valid" id="submitFinal" value="Proceed to Checkout" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Proceed to Checkout</button>
     </ng-form>
   </form>
+
+  <div data-ng-repeat="waiverData in preLoad.waivers">
+    <div class="modal fade" id="{{signoff.print_id}}" tabindex="-1" role="dialog" aria-labelledby="termsPopLabel" data-ng-repeat="signoff in waiverData.signoff">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            Waiver
+          </div>
+
+          <div class="modal-body">
+
+            <h4>Waiver</h4>
+
+            <div name="txtWaiver" id="{{'print_' + signoff.print_id}}" data-ng-bind-html="waiverData.waiver_text">
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" data-ng-click="printDiv('print_' + signoff.print_id)" class="btn btn-primary" id="printWaiverButton" data-dismiss="modal"><i class="glyphicon glyphicon-print"></i> Print</button>
+              <button type="button" class="btn btn-danger" id="closeWaiverButton" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
 
 </div>
