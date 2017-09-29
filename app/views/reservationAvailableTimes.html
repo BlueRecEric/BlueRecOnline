@@ -30,6 +30,7 @@
       <div data-ng-show="rentalDataLoaded">
         <h3>Search Available Times</h3>
       </div>
+
       <div class="col-sm-12 text-center" style="padding-top: 20px;" data-ng-hide="rentalDataLoaded">
         <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
         <span class="sr-only">Loading...</span>
@@ -46,11 +47,11 @@
               <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
               {{searchErrorMessage}}
             </div>
-            <div class="col-sm-12" style="padding-left: 0px;padding-right: 0px;">
 
+            <div class="col-sm-12" style="padding-left: 0px;padding-right: 0px;">
               <form name="searchForm" novalidate>
                 <div style="padding-left: 0px;">
-                  <div class="col-sm-12">
+                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event !== '1'">
                     <div class="col-sm-12">
                       <h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.facilityError}"
                               data-ng-if="rentalData.force_facility_order=='0'">{{(formErrors.facilityError)?'*':''}}Select One or More Facilities</h4>
@@ -59,10 +60,9 @@
                   </div>
 
                   <div class="row"></div>
-                  <div class="col-sm-12">
+                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event !== '1'">
                     <div class="col-sm-12 form-group">
-                      <div class="row striped-row" data-ng-if="!rentalRow.force_facility_order" data-ng-repeat="fac in rentalData.facility_data" style=" padding-bottom: 2px; padding-top: 2px;">
-
+                      <div class="row striped-row" data-ng-repeat="fac in rentalData.facility_data" style=" padding-bottom: 2px; padding-top: 2px;">
                         <div class="col-sm-5">
                           <span class="checkbox-spacing class="no-word-wrap">
                           <checkbox id="chkFacility{{fac.item_id}}"
@@ -75,21 +75,17 @@
                           </label>
                           </span>
                         </div>
-
                         <div class="col-sm-7">
-                          <span class="class="no-word-wrap">
-
-                          <label class="label-spacing" data-ng-hide="fac.res_hour_amt === fac.nonres_hour_amt && fac.res_hour_total === fac.nonres_hour_total">
-                            (R){{::fac.res_hour_amt | currency}}{{(fac.res_hour_total > 0)?' per '+fac.res_hour_total+'-hr':''}}/(NR){{::fac.nonres_hour_amt | currency}}{{(fac.nonres_hour_total > 0)?' per '+fac.nonres_hour_total+'-hr':''}}
-                          </label>
-                          <label class="label-spacing" data-ng-show="fac.res_hour_amt === fac.nonres_hour_amt && fac.res_hour_total === fac.nonres_hour_total">
-                            {{::fac.res_hour_amt | currency}}{{(fac.res_hour_total > 0)?' per '+fac.res_hour_total+'-hr':''}}
-                          </label>
+                          <span class="no-word-wrap">
+                            <label class="label-spacing" data-ng-hide="fac.res_hour_amt === fac.nonres_hour_amt && fac.res_hour_total === fac.nonres_hour_total">
+                              (R){{::fac.res_hour_amt | currency}}{{(fac.res_hour_total > 0)?' per '+fac.res_hour_total+'-hr':''}}/(NR){{::fac.nonres_hour_amt | currency}}{{(fac.nonres_hour_total > 0)?' per '+fac.nonres_hour_total+'-hr':''}}
+                            </label>
+                            <label class="label-spacing" data-ng-show="fac.res_hour_amt === fac.nonres_hour_amt && fac.res_hour_total === fac.nonres_hour_total">
+                              {{::fac.res_hour_amt | currency}}{{(fac.res_hour_total > 0)?' per '+fac.res_hour_total+'-hr':''}}
+                            </label>
                           </span>
                         </div>
-
                       </div>
-
                     </div>
                   </div>
 
@@ -108,7 +104,7 @@
                         <div class="form-group col-sm-12" >
                           <div class="row" style="padding-left: 0px;">
                             <div class="col-sm-12">
-                              <h4 for="earliestStartDate" data-ng-class="{'has-error': searchForm.earliestStartDate.$invalid}">Start Date</h4>
+                              <h4 for="earliestStartDate" data-ng-class="{'has-error': searchForm.earliestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'Start Date':'Arrival Date'}}</h4>
                             </div>
                             <div class="col-sm-12">
                               <div class="input-group">
@@ -130,7 +126,7 @@
                           <div class="row">
                             <div class="col-sm-12">
                               <h4 for="latestStartDate"
-                                      data-ng-class="{'has-error': searchForm.latestStartDate.$invalid}">End Date</h4>
+                                      data-ng-class="{'has-error': searchForm.latestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'End Date':'Departure Date'}}</h4>
                             </div>
                             <div class="col-sm-12">
                               <div class="input-group">
@@ -150,12 +146,13 @@
                     </div>
                   </div>
                   <div class="panel-body" style="padding-left: 0px;">
+
                     <div style="padding-left: 0px;">
                       <div class="col-sm-3">
                         <div class="form-group col-sm-12" >
                           <div class="row" style="padding-left: 0px;">
                             <div class="col-sm-12">
-                              <h4 ng-class="{'has-error': (startTime >= endTime)}">Start Time</h4>
+                              <h4 ng-class="{'has-error': (startTime >= endTime && rentalData.online_auto_select_event !== '1')}">{{(rentalData.online_auto_select_event !== '1')?'Start Time':'Arrival Time'}}</h4>
                             </div>
                             <div class="col-sm-12">
                               <div class="input-group">
@@ -164,7 +161,6 @@
                                 <input class="form-control" size="8" data-ng-model="startTime"
                                         bs-timepicker data-length="1" data-minute-step="30"
                                         data-time-format="shortTime" data-animation="am-fade"
-                                        data-max-time="{{endTime | date: 'shortTime'}}"
                                         data-arrow-behavior="picker" type="text">
                               </div>
                             </div>
@@ -175,7 +171,7 @@
                         <div class="form-group col-sm-12" >
                           <div class="row">
                             <div class="col-sm-12">
-                              <h4 ng-class="{'has-error': (startTime >= endTime)}">End Time</h4>
+                              <h4 ng-class="{'has-error': (startTime >= endTime && rentalData.online_auto_select_event !== '1')}">{{(rentalData.online_auto_select_event !== '1')?'End Time':'Departure Time'}}</h4>
                             </div>
                             <div class="col-sm-12">
                               <div class="input-group">
@@ -184,14 +180,15 @@
                                 <input class="form-control no-animate" size="8"
                                         data-ng-model="endTime" data-animation="am-fade"
                                         bs-timepicker data-length="1"  data-minute-step="30"
-                                        data-time-format="shortTime" data-min-time="10:00"
+                                        data-time-format="shortTime"
                                         data-arrow-behavior="picker" type="text">
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-6" style="padding-right: 10px;">
+
+                      <div class="col-sm-6" style="padding-right: 10px;" data-ng-if="rentalData.online_auto_select_event !== '1'">
                         <div class="form-group col-sm-12" >
                           <div class="row">
                             <div class="col-sm-12">
@@ -217,7 +214,8 @@
                           </div>
                         </div>
                       </div>
-                      <div class="" style="padding-left: 0px;">
+
+                      <div class="" style="padding-left: 0px;" data-ng-if="rentalData.online_auto_select_event !== '1'">
                         <div class="col-sm-12">
                           <div class="col-sm-12">
                             <h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.weekdayError}">{{(formErrors.weekdayError)?'*':''}}Hours</h4>
@@ -240,23 +238,24 @@
                         </div>
                       </div>
                     </div>
+
                     <div class="panel-body nopad">
-                      <div class="col-sm-12">
+                      <div class="col-sm-12" ng-style="{'padding-top': ((rentalData.online_auto_select_event === '1')? 10 : 0)+'px'}">
                         <div class="col-sm-12">
-                          <button style="min-width:220px;" class="btn btn-info" type="submit"
-                                  data-ng-click="onSearchRentalTimes()">
-                            Search Available Rental Times</button>
+                          <button style="min-width:220px;" class="btn btn-info" type="submit" data-ng-click="onSearchRentalTimes()">Check Availability</button>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
               </form>
-
             </div>
+
             <div class="col-sm-12 text-center" style="padding-top: 20px;" data-ng-show="isSearchIconBusy.loading" data-ng-animate="'slide'">
               <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
               <span class="sr-only">Loading...</span>
             </div>
+
             <div data-ng-if="isSearchIconBusy.loading || !displaySearchResults" style="height: 4px;"></div>
             <div data-ng-if="!isSearchIconBusy.loading && !displayNoResults">
               <table st-table="searchResultsData" st-safe-src="searchRowCollection" class="table vtable table2" data-ng-show="displaySearchResults"
@@ -270,11 +269,11 @@
                 </tr>
                 </thead>
                 <tbody data-ng-repeat="searchRow in searchResultsData">
-                <tr data-ng-click="searchRow.show = !searchRow.show" class="bg-primary text-white clicky rentalSearchTimeCol">
+                <tr data-ng-click="rentalData.online_auto_select_event === '1'?searchRow.show = true:searchRow.show = !searchRow.show" class="bg-primary text-white clicky">
                   <td class="text-center colHideMobile" style="width: 25px!important;">
-                    <i class="fa" ng-class="{'fa-plus': !searchRow.show, 'fa-minus': searchRow.show}" aria-hidden="true"></i>
+                    <i class="fa" ng-class="{'fa-plus': !searchRow.show, 'fa-minus': searchRow.show}" aria-hidden="true" data-ng-if="(rentalData.online_auto_select_event !== '1')"></i>
                   </td>
-                  <td st-ratio="70" colspan="2" data-ng-bind="::searchRow.lf_date"></td>
+                  <td st-ratio="75" colspan="2">{{(rentalData.online_auto_select_event === '1')?searchRow.lf_date+' to '+searchRow.lfe_date:searchRow.lf_date}}</td>
 
                   <!--<td st-ratio="25" class="colHideMobile colMobileTextCenter"
                           data-ng-bind="::searchRow.lf_date">
@@ -282,7 +281,8 @@
                   <td st-ratio="25" class="colShowMobile colMobileTextCenter"
                           data-ng-bind="::searchRow.sf_date">
                   </td>
-                  <td st-ratio="25" class="text-right no-select" style="padding-right:10px!important;"><span class="colHideMobile">(<b>{{::searchRow.slots}}</b>)</span> {{::searchRow.stime}}<span class="colHideMobile">&nbsp;to&nbsp;</span><span class="colShowMobile"><br></span>{{::searchRow.etime}}</td>
+                  <td st-ratio="25" class="text-right no-select" style="padding-right:10px!important;" data-ng-if="(rentalData.online_auto_select_event !== '1')"><span class="colHideMobile">(<b>{{::searchRow.slots}}</b>)</span> {{::searchRow.stime}}<span class="colHideMobile">&nbsp;to&nbsp;</span><span class="colShowMobile"><br></span>{{::searchRow.etime}}</td>
+                  <td st-ratio="25" class="text-right no-select" style="padding-right:10px!important;" data-ng-if="(rentalData.online_auto_select_event === '1')"></td>
                 </tr>
                 <tr data-ng-if="searchRow.show" class="animate-show animate-hide">
                   <td colspan="7" style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-bottom-width: 0px;"
@@ -290,7 +290,7 @@
                     <table st-table="searchRow.tdata" style="margin-bottom: 0px!important;" class="table vtable table2">
                       <tbody data-ng-repeat="timeRow in searchRow.tdata" scroll-glue="glued">
                       <tr ng-repeat-end data-ng-if="timeRow.new_day">
-                        <td colspan="5" class="text-left no-select" style="padding:0px; border-bottom: 1px solid #ddd !important;border-top: none !important"></td>
+                        <td colspan="6" class="text-left no-select" style="padding:0px; border-bottom: 1px solid #ddd !important;border-top: none !important"></td>
                       </tr>
                       <tr class="rentalSearchTimePadFull rentalSearchTimeColNB"
                               ng-class="{'rentalSearchTimePadFull': $first && timeRow.eg == 2, 'rentalSearchTimePadTop': $first && timeRow.eg != 2, 'rentalSearchTimePadMid': !$first && timeRow.eg != 2, 'rentalSearchTimePadBot': !$first && timeRow.eg == 2}">
@@ -325,7 +325,7 @@
                         <td st-ratio="15" class="text-right" data-ng-if="rentalData.force_facility_order=='1'">
                           <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fee_amount | currency}}<br></span>
                         </td>
-                        <td st-ratio="25" class="text-right" data-ng-if="rentalData.force_facility_order!='1'">
+                        <td st-ratio="25" class="text-right" data-ng-if="rentalData.force_facility_order !=='1' &&  rentalData.online_auto_select_event !== '1'">
                           {{::timeRow.st}}&nbsp;to&nbsp;</span>{{::timeRow.et}}<br>
                         </td>
                         <td st-ratio="25" class="text-right" data-ng-if="rentalData.force_facility_order=='1'">
@@ -353,14 +353,14 @@
     </div>
 
     <div>
-      <div class="alert alert-danger animate-show animate-hide" role="alert"
-              data-ng-show="displayNoResults" style="margin: 10px;">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>No facility rentals found at this time.
+      <div class="alert alert-danger animate-show animate-hide" role="alert"data-ng-show="displayNoResults" style="margin: 10px;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{(rentalData.online_auto_select_event !== '1')?'No facility rentals found at this time.':'Reservation date are not available.'}}
       </div>
     </div>
 
+    <div class="row">
     <div veldata-ng-animate="'slide'" data-ng-if="selectedRentalTimes.rentals.length > 0">
-      <div class=" panel panel-primary" >
+      <div class="panel panel-primary" >
         <div class="panel-heading clearfix">
           <h3 class="panel-title">Selected Rental Times</h3>
         </div>
@@ -406,21 +406,21 @@
       </div>
     </div>
   </div>
-
-<script type="text/ng-template" id="confirmation.html">
-  <div class="modal text-left" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title text-Success">Rental Added to Cart</h3>
-        </div>
-        <div class="modal-body">
-          <p>Your reservation has successfully been added to your cart.</p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" data-ng-click="$hide()">Close</button>
+  </div>
+  <script type="text/ng-template" id="confirmation.html">
+    <div class="modal text-left" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title text-Success">Rental Added to Cart</h3>
+          </div>
+          <div class="modal-body">
+            <p>Your reservation has successfully been added to your cart.</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-ng-click="$hide()">Close</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</script>
+  </script>

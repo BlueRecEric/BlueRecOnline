@@ -27,7 +27,7 @@
 								</thead>
 								<tbody>
 								<tr class="striped-row" data-ng-repeat="pkg in rentalPackages">
-									<td  style="padding-left:6px!important;">
+									<td style="padding-left:6px!important;">
 										<checkbox class="btn-default checkbox-dark-border"
 														data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
 														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
@@ -35,18 +35,13 @@
 										<checkbox class="btn-default checkbox-dark-border"
 														data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
 														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-														name="package_{{pkg.item_id}}"></checkbox>
-									</td>
-									<td><label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_name}}</label>
-									</td>
-									<td ><label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_code}}</label>
-									</td>
+														name="package_{{pkg.item_id}}"></checkbox></td>
+									<td><label for="package_{{pkg.item_id}}" class="font-weight-normal">{{pkg.item_name}}</label></td>
+									<td ><label for="package_{{pkg.item_id}}" class="font-weight-normal">{{pkg.item_code}}</label></td>
 									<td ><input type="text" style="width: 50px;" ng-model="pkg.quantity"
 													maxlength="3" numbers-only="numbers-only"
-													data-ng-change="onPackageChangeEvent()">
-									</td>
-									<td ><p data-ng-repeat="pkgfee in pkg.fees">
-										<!--{{pkgfee.fee_name}}-->{{pkgfee.fee_amount | currency}}</p></td>
+													data-ng-change="onPackageChangeEvent()"></td>
+									<td ><p data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_amount | currency}}</p></td>
 								</tr>
 
 								</tbody>
@@ -84,21 +79,33 @@
 							</div>
 							<div class="panel-body">
 								<div style="padding: 8px;">
-									<div class="form-group">
-										<label ng-class="{'col-sm-5': !lighting_package.has_lighting_package, 'col-sm-4': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">Facilities:</label>
+									<div class="form-group" data-ng-if="rentalData.online_auto_select_event !== '1'">
+										<label ng-class="{'col-sm-5': !lighting_package.has_lighting_package, 'col-sm-4': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">Facility:</label>
 										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Date:</label>
 										<label ng-class="{'col-sm-3': !lighting_package.has_lighting_package, 'col-sm-2': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">Time:</label>
 										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
 										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;" data-ng-if="lighting_package.has_lighting_package">Lights:</label>
 									</div>
 
-									<div class="form-group striped-row" data-ng-repeat="time in displayTimeData | orderBy:'utcs'">
+									<div class="form-group striped-row" data-ng-repeat="time in displayTimeData | orderBy:'utcs'" data-ng-if="rentalData.online_auto_select_event !== '1'">
 										<span ng-class="{'col-sm-5': !lighting_package.has_lighting_package, 'col-sm-4': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fname}}</span>
 										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.sf_date}}</span>
 										<span ng-class="{'col-sm-3': !lighting_package.has_lighting_package, 'col-sm-2': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">{{::time.st}}-{{::time.et}}</span>
 										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fee_amount | currency}}</span>
 										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;" data-ng-if="lighting_package.has_lighting_package">{{::time.sunset_fee_amount | currency}}</span>
 									</div>
+
+                                  <div class="form-group" data-ng-if="rentalData.online_auto_select_event === '1'">
+                                    <label class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">Facility:</label>
+                                    <label class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">Date:</label>
+                                    <label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
+                                  </div>
+
+                                  <div class="form-group striped-row" data-ng-repeat="time in displayTimeData | orderBy:'utcs'" data-ng-if="rentalData.online_auto_select_event === '1'">
+                                    <span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fname}}</span>
+                                    <span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{time.lf_date+' to '+time.lfe_date}}</span>
+                                    <span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fee_amount | currency}}</span>
+                                  </div>
 
 									<!--<div class="form-group" data-ng-if="lighting.show" style="margin-left: 0px;">
 										<label class="control-label-center">Include Lighting for {{(lighting.feeAmount) | currency}} &nbsp;&nbsp;<checkbox class="btn-default checkbox-dark-border"
@@ -107,7 +114,6 @@
 									</div>-->
 
 									<span class="divider"></span>
-
 
 									<div class="form-group row">
 										<h4 class="col-sm-2 header-no-margin text-primary" style="margin-bottom:0px;">Rental Amount:</h4>

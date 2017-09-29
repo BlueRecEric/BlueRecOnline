@@ -80,12 +80,9 @@ angular.module('bluereconlineApp')
             $scope.untilDate.AddDays(7);
 
             $scope.startTime = new Date();
-            $scope.startTime.setHours(7);
+            $scope.startTime.setHours(8);
             $scope.startTime.setMinutes(0);
 
-            $scope.endTime = new Date();
-            $scope.endTime.setHours(21);
-            $scope.endTime.setMinutes(0);
 
             $scope.minDate = new Date();
             $scope.minDate.AddDays(-1);
@@ -123,6 +120,19 @@ angular.module('bluereconlineApp')
                         {
                             $scope.rentalData = data.rental_data;
 
+                            $scope.endTime = new Date();
+                            if($scope.rentalData.online_auto_select_event === '1')
+                            {
+                                $scope.untilDate = new Date();
+                                $scope.endTime.setHours(14);
+                                $scope.endTime.setMinutes(0);
+                            }
+                            else
+                            {
+                                $scope.endTime.setHours(9);
+                                $scope.endTime.setMinutes(0);
+                            }
+
                             $scope.rentalData.facility_limit = 0;
 
                             var facCount = $scope.rentalData.facility_data.length;
@@ -131,7 +141,9 @@ angular.module('bluereconlineApp')
                                 if (facCount > 0) {
                                     $scope.rentalData.facility_limit = $filter('number')((facCount / 2) + 1, 0);
                                 }
+                            }
 
+                            if ($scope.rentalData.force_facility_order === '1' || $scope.rentalData.online_auto_select_event === '1') {
                                 for (var i = 0; i < facCount; i++) {
                                     $scope.rentalData.facility_data[i].selected = true;
                                 }
@@ -149,7 +161,7 @@ angular.module('bluereconlineApp')
                                 }
                             }
 
-                            console.log($scope.fees.fee_data);
+                            //console.log($scope.fees.fee_data);
 
                             //$scope.fees.fee_data = $scope.rentalData.fee_data;
                             $scope.fees.show = $scope.rentalData.show_fees;
@@ -312,6 +324,8 @@ angular.module('bluereconlineApp')
 
                             $scope.weekdayData = data.weekday_data;
 
+                            console.log('weekdayData', $scope.weekdayData);
+
                             $scope.loadingWeekdays.loading = false;
                         })
                         .error(function () {
@@ -418,6 +432,15 @@ angular.module('bluereconlineApp')
                 return timeData;
             };
 
+            $scope.diffDate = function(date1, date2){
+                var dateOut1 = new Date(date1); // it will work if date1 is in ISO format
+                var dateOut2 = new Date(date2);
+
+                var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                return diffDays;
+            };
+
             $scope.onSearchRentalTimes = function ()
             {
                 $scope.formErrors.facilityError = false;
@@ -442,20 +465,10 @@ angular.module('bluereconlineApp')
                 if(selectedWeekdays.length === 0)
                 {$scope.formErrors.weekdayError = true;}
 
-                if(!$scope.formErrors.facilityError && !$scope.formErrors.weekdayError && $scope.startTime < $scope.endTime &&
+                if(!$scope.formErrors.facilityError && !$scope.formErrors.weekdayError &&
+                    ($scope.startTime < $scope.endTime || $scope.rentalData.online_auto_select_event==='1') &&
                     angular.isDate($scope.fromDate) && angular.isDate($scope.untilDate)) {
                     $scope.isSearchIconBusy.loading = true;
-
-                    /*console.log({rental_code_item_id: $scope.rentalItemID,
-                         facilities: selectedFacilities,
-                         weekdays: selectedWeekdays,
-                         from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
-                         until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
-                         duration: $scope.rentalDuration.selectedTime,
-                         start_time: $filter('date')($scope.startTime, 'HH:mm'),
-                         end_time:  $filter('date')($scope.endTime, 'HH:mm'),
-                         force_order: ($scope.rentalData.force_facility_order=='1')?'true':'false'
-                         });*/
 
                     var req = {
                         method: 'POST',
@@ -472,7 +485,8 @@ angular.module('bluereconlineApp')
                             duration: $scope.rentalDuration.selectedTime,
                             start_time: $filter('date')($scope.startTime, 'HH:mm'),
                             end_time:  $filter('date')($scope.endTime, 'HH:mm'),
-                            force_order: ($scope.rentalData.force_facility_order=='1')?'true':'false'
+                            force_order: ($scope.rentalData.force_facility_order=='1')?'true':'false',
+                            auto_select_event: ($scope.rentalData.online_auto_select_event=='1')?'true':'false'
                         }
                     };
 
@@ -483,8 +497,11 @@ angular.module('bluereconlineApp')
                             if (data.success) {
                                 $scope.isSearchIconBusy.loading = false;
 
+                                //$scope.rentalData.online_auto_select_event=='1'
+
                                 if (data.rowCount > 0)
                                 {
+                                    //console.log('test_duration', $scope.rentalData.test_duration);
                                     var tempResults = data.results;
 
                                     for (var i=0;i < tempResults.length; i++) {
@@ -532,7 +549,7 @@ angular.module('bluereconlineApp')
                 }
                 else
                 {
-                    if($scope.startTime >= $scope.endTime)
+                    if($scope.startTime >= $scope.endTime &&  $scope.rentalData.online_auto_select_event!=='1')
                     {
                         $scope.searchErrorMessage = 'Start time cannot be greater than the End time.';
                     }
@@ -652,49 +669,54 @@ angular.module('bluereconlineApp')
             $scope.onSelectRentalTime = function onSelectRentalTime(selectedRow, timeRow) {
                 var selectedTimeData = $filter('filter')(selectedRow.tdata, {fgid: timeRow.fgid}, true);
 
-                //console.log('selectedRow: ', selectedRow);
+                //console.log('onSelectRentalTime - selectedTimeData: ', selectedRow);
                 //console.log('timeRow: ', timeRow);
                 //console.log('search results: ', $scope.searchRowCollection);
 
-                if (!timeRow.added)
-                {
-                    timeRow.added = true;
+                if($scope.rentalData.online_auto_select_event != '1') {
+                    if (!timeRow.added)
+                    {
+                        timeRow.added = true;
 
-                    $scope.selectedRentalTimes.rentals = $scope.selectedRentalTimes.rentals.concat(selectedTimeData);
+                        $scope.selectedRentalTimes.rentals = $scope.selectedRentalTimes.rentals.concat(selectedTimeData);
+                    }
+                    else
+                    {
+                        $scope.removeSelectedRentalData(timeRow);
+                    }
+
+                    //console.log('$scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
+
+                    $scope.updateOverlappingEvents(timeRow);
+
+                    if (!$scope.showingToast || angular.isUndefined(toaster.toast)) {
+                        toaster.pop({
+                            toastId: new Date().getTime(),
+                            toasterId: '2',
+                            type: 'list',
+                            title: '',
+                            body: 'undo',
+                            timeout: 0,
+                            clickHandler: function (toaster, isCloseButton) {
+
+                                return isCloseButton;
+                            },
+                            onShowCallback: function () {
+                                $scope.showingToast = true;
+                            },
+                            onHideCallback: function () {
+                                $scope.showingToast = false;
+                            },
+                            bodyOutputType: 'directive'
+                        });
+                    }
+
+                    $scope.checkIfHideBottomPanel();
                 }
                 else
                 {
-                    $scope.removeSelectedRentalData(timeRow);
+                    $scope.gotoRentalAddons(selectedTimeData);
                 }
-
-                //console.log('$scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
-
-                $scope.updateOverlappingEvents(timeRow);
-
-                if(!$scope.showingToast || angular.isUndefined(toaster.toast))
-                {
-                    toaster.pop({
-                        toastId:  new Date().getTime(),
-                        toasterId: '2',
-                        type: 'list',
-                        title: '',
-                        body: 'undo',
-                        timeout: 0,
-                        clickHandler: function (toaster, isCloseButton) {
-
-                            return isCloseButton;
-                        },
-                        onShowCallback: function () {
-                            $scope.showingToast = true;
-                        },
-                        onHideCallback: function () {
-                            $scope.showingToast = false;
-                        },
-                        bodyOutputType: 'directive'
-                    });
-                }
-
-                $scope.checkIfHideBottomPanel();
             };
 
             $scope.checkIfHideBottomPanel = function () {
@@ -704,21 +726,23 @@ angular.module('bluereconlineApp')
                 }
             };
 
-            $scope.onAcceptRentalTimes = function ()
-            {
+            $scope.onAcceptRentalTimes = function () {
+                $scope.gotoRentalAddons($scope.selectedRentalTimes.rentals);
+            };
+
+            $scope.gotoRentalAddons = function (rentalTimes) {
                 var selectedRentalData = {};
-	
-				//console.log('test: ',  selectedRentalData);
-				
+
                 selectedRentalData.rental_code_item_id = $scope.rentalItemID;
                 selectedRentalData.auto_approve = $scope.rentalData.auto_approve;
+                selectedRentalData.online_auto_select_event = $scope.rentalData.online_auto_select_event;
 
                 //console.log ('selectedRentalData: ', selectedRentalData);
                 //console.log('$scope.selectedRentalTimes.rentals: ',  $scope.selectedRentalTimes.rentals);
 
                 ReservationFactory.setReservationData(selectedRentalData);
 
-                ReservationFactory.setReservationTimes($scope.selectedRentalTimes.rentals);
+                ReservationFactory.setReservationTimes(rentalTimes);
 
                 $location.path('/' + $routeParams.orgurl + '/reservationaddons');
             };
