@@ -349,7 +349,7 @@
                 <div class="container" data-ng-repeat="signoff in waiverData.signoff">
                   <div class="row">
                     <div class="col-xs-12 col-md-6 spacing">
-                      <checkbox class="btn-primary" data-ng-model="signoff.agreed" data-ng-click="(signoff.agreed)?true:signoff.notagree = false;" id="signoff.name" name="signoff.name" required></checkbox>
+                      <checkbox class="btn-primary" data-ng-model="signoff.agreed" data-ng-change="checkWaiverAgreed($parent.$index, $index)" id="signoff.name" name="signoff.name" required></checkbox>
 
                       <span data-ng-show="signoff.agreed">
                         <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="{{'#' + signoff.print_id}}"><i class="glyphicon glyphicon-print"></i></a>
@@ -359,10 +359,11 @@
                     </div>
 
                     <div class="col-xs-12 col-md-6 spacing">
-                      <checkbox class="btn-primary" data-ng-model="signoff.notagreed" data-ng-click="(signoff.notagree)?true:signoff.agreed = false;" id="signoff.namenotagree" name="signoff.namenotagree"></checkbox>
-                      <label for="signoff.name">I <strong>DO NOT</strong> agree.</label>
+                      <checkbox class="btn-primary" data-ng-model="signoff.notagreed" data-ng-change="checkWaiverNotAgreed($parent.$index, $index)" id="signoff.namenotagree" name="signoff.namenotagree"></checkbox>
+                      <label for="signoff.namenotagree">I <strong>DO NOT</strong> agree.</label>
                     </div>
-                  </div>
+
+                    </div>
                 </div>
               </div>
             </div>
@@ -391,15 +392,15 @@
             Waiver
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body printContainer">
 
             <h4>Waiver</h4>
 
-            <div name="txtWaiver" id="{{'print_' + signoff.print_id}}" data-ng-bind-html="waiverData.waiver_text">
+            <div name="txtWaiver" id="{{'print_' + signoff.print_id}}" class="printContainer" data-ng-bind-html="waiverData.waiver_text">
             </div>
 
             <div class="modal-footer">
-              <button type="button" data-ng-click="printDiv('print_' + signoff.print_id)" class="btn btn-primary" id="printWaiverButton" data-dismiss="modal"><i class="glyphicon glyphicon-print"></i> Print</button>
+              <button type="button" data-ng-click="printDiv('print_' + signoff.print_id)" class="btn btn-primary" id="printWaiverButton"><i class="glyphicon glyphicon-print"></i> Print</button>
               <button type="button" class="btn btn-danger" id="closeWaiverButton" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             </div>
           </div>

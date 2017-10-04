@@ -21,11 +21,41 @@ angular.module('bluereconlineApp')
         $scope.requiredEmergencyCount = '';
 
         $scope.printDiv = function(divName) {
+            console.log('print div name');
+            console.log(divName);
             var printContents = document.getElementById(divName).innerHTML;
             var popupWin = window.open('', '_blank', 'width=800,height=600');
             popupWin.document.open();
-            popupWin.document.write('<html><head><link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="styles/main.css" /></head><body onload="window.print()"><div id="#printContainer">' + printContents + '</div></body></html>');
+            popupWin.document.write('<html><head><link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="styles/main.css" /></head><body onload="window.print();return false"><div id="printContainer">' + printContents + '</div></body></html>');
             popupWin.document.close();
+        };
+
+        $scope.checkWaiverAgreed = function(widx, sidx)
+        {
+            console.log('waiver index: ' + widx);
+            console.log('signoff index: ' + sidx);
+
+            console.log('check waiver');
+            console.log(preLoad.waivers[widx].signoff[sidx]);
+
+            if(preLoad.waivers[widx].signoff[sidx].agreed)
+            {
+                preLoad.waivers[widx].signoff[sidx].notagreed = false;
+            }
+        };
+
+        $scope.checkWaiverNotAgreed = function(widx, sidx)
+        {
+            console.log('waiver index: ' + widx);
+            console.log('signoff index: ' + sidx);
+
+            console.log('check waiver');
+            console.log(preLoad.waivers[widx].signoff[sidx]);
+
+            if(preLoad.waivers[widx].signoff[sidx].notagreed)
+            {
+                preLoad.waivers[widx].signoff[sidx].agreed = false;
+            }
         };
 
         if(ActiveUser.isLoggedIn())
@@ -62,6 +92,9 @@ angular.module('bluereconlineApp')
                 $scope.showWaiverError = false;
                 $scope.readyToCheckout = false;
                 $scope.waiverErrors = [];
+
+                console.log('waivers:');
+                console.log(preLoad.waivers);
 
 
                 for(var f = 0; f < preLoad.fields.length; f++)
