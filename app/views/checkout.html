@@ -28,16 +28,23 @@
   <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row">
-        <div class="col-md-4">
+        <div class="hidden-sm hidden-xs col-md-4">
           <label style="line-height: 1 !important;margin-bottom: 0px!important;">Item Name</label>
         </div>
-        <div class="col-md-3">
+
+        <!-- mobile -->
+        <div class="visible-sm visible-xs col-xs-8">
+          <label style="line-height: 1 !important;margin-bottom: 0px!important;">Item/Person</label>
+        </div>
+        <!-- end mobile -->
+
+        <div class="hidden-sm hidden-xs col-xs-6 col-md-3">
             <label style="line-height: 1 !important;margin-bottom: 0px!important;">Person</label>
         </div>
-            <div class="col-md-3">
-                <label style="line-height: 1 !important;margin-bottom: 0px!important;">Fee</label>
-            </div>
-        <div class="col-md-2">
+        <div class="col-xs-4 col-md-3">
+            <label style="line-height: 1 !important;margin-bottom: 0px!important;">Fee</label>
+        </div>
+        <div class="hidden-sm hidden-xs col-md-2">
             <label style="line-height: 1 !important;margin-bottom: 0px!important;">Qty</label>
         </div>
     </div>
@@ -47,14 +54,24 @@
 
       <div data-ng-repeat="item in cart.data">
         <div class="row clearfix spacing">
-          <div class="col-md-4">
+          <div class="hidden-sm hidden-xs col-md-4">
             <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{item.shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button>
               <a href ng-click="gotoItemInfoPage(item.main_item_id, link.type_name)">{{item.item_name}}</a>
           </div>
 
-          <div class="col-md-3">{{item.person_name}}</div>
-          <div class="col-md-3"><span data-ng-show="item.total_fee > 0">${{item.total_fee}}</span> <span data-ng-show="cart.hasPromo && item.total_original_fee > 0">*</span></div>
-            <div class="col-md-2">{{item.quantity}}</div>
+          <div class="hidden-sm hidden-xs col-md-3">{{item.person_name}}</div>
+          <div class="hidden-sm hidden-xs col-md-3"><span data-ng-show="item.total_fee > 0">${{item.total_fee}}</span> <span data-ng-show="cart.hasPromo && item.total_original_fee > 0">*</span></div>
+          <div class="hidden-sm hidden-xs col-md-2">{{item.quantity}}</div>
+
+          <!-- mobile table -->
+
+          <div class="col-xs-8 col-sm-8 hidden-md hidden-lg">
+            <button class="btn btn-danger btn-xs" data-ng-click="removeItem({{item.shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button>
+            <a href ng-click="gotoItemInfoPage(item.main_item_id, link.type_name)">{{item.item_name}}</a><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.person_name}}
+          </div>
+          <div class="col-xs-4 col-sm-4 hidden-md hidden-lg"><span data-ng-show="item.total_fee > 0">${{item.total_fee}}</span> <span data-ng-show="cart.hasPromo && item.total_original_fee > 0">*</span></div>
+          <!-- end mobile table -->
         </div>
 
         <div class="row clearfix spacing" data-ng-repeat="link in item.linked_items.data" data-ng-show="link.link_hidden == 0">
@@ -62,11 +79,20 @@
             <button class="btn btn-danger btn-sm" data-ng-click="removeItem({{link.linked_shopping_item_id}})"><i class="glyphicon glyphicon-trash icon-white"></i> </button> <i class="glyphicon glyphicon-option-vertical icon-black"></i>
               <a href ng-click="gotoItemInfoPage(link.main_item_id, link.type_name)">{{link.linked_item_name}}</a>
           </div>-->
-          <div class="col-md-1"></div>
-          <div class="col-md-3"><i class="glyphicon glyphicon-option-vertical icon-black"></i>{{link.linked_item_name}}</div>
-          <div class="col-md-3">{{link.linked_person_name}}</div>
-          <div class="col-md-3"><span data-ng-show="link.linked_total_fee > 0">${{link.linked_total_fee}}</span> <span data-ng-show="cart.hasPromo && link.linked_total_original_fee > 0">*</span></div>
-          <div class="col-md-2">{{link.linked_quantity}}</div>
+
+
+          <div class="hidden-sm hidden-xs col-md-1"></div>
+          <div class="hidden-sm hidden-xs col-md-3"><i class="glyphicon glyphicon-option-vertical icon-black"></i>{{link.linked_item_name}}</div>
+          <div class="hidden-sm hidden-xs col-md-3">{{link.linked_person_name}}</div>
+          <div class="hidden-sm hidden-xs col-md-3"><span data-ng-show="link.linked_total_fee > 0">${{link.linked_total_fee}}</span> <span data-ng-show="cart.hasPromo && link.linked_total_original_fee > 0">*</span></div>
+          <div class="hidden-sm hidden-xs col-md-2">{{link.linked_quantity}}</div>
+
+          <!-- mobile table -->
+          <div class="col-xs-1 col-sm-1 hidden-md hidden-lg"></div>
+          <div class="col-xs-7 col-sm-7 hidden-md hidden-lg"><i class="glyphicon glyphicon-option-vertical icon-black"></i>{{link.linked_item_name}}<br>{{link.linked_person_name}}</div>
+          <div class="col-xs-4 col-sm-4 hidden-md hidden-lg"><span data-ng-show="link.linked_total_fee > 0">${{link.linked_total_fee}}</span> <span data-ng-show="cart.hasPromo && link.linked_total_original_fee > 0">*</span></div>
+          <!-- end mobile table -->
+
         </div>
       </div>
     </div>
