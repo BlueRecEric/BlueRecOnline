@@ -234,7 +234,7 @@
                                         data-ng-model="week.selected"></checkbox>
                                 <label class="label-spacing label-weekday" style="margin-right:30px;" class="no-word-wrap" for="chkWeek{{week.weekday_index}}">{{::week.weekday_label}}</label>
                                 <label for="chkWeek{{week.weekday_index}}" style="font-weight: normal!important;" data-ng-if="rentalData.force_time_slots !== '1'"
-                                      ng-repeat="time in week.time_label_data">{{time}}{{(!$last)?',&nbsp;':''}}</label>
+                                      ng-repeat="time in week.time_label_data track by $index">{{time}}{{(!$last)?',&nbsp;':''}}</label>
                                 <label for="chkWeek{{week.weekday_index}}" style="font-weight: normal!important;" data-ng-if="rentalData.force_time_slots == '1'">{{::week.time_label_data}}</label>
                               </span>
                             </li>
@@ -251,7 +251,6 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
               </form>
             </div>
