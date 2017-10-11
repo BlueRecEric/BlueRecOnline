@@ -104,7 +104,7 @@
                         <div class="form-group col-sm-12" >
                           <div class="row" style="padding-left: 0px;">
                             <div class="col-sm-12">
-                              <h4 for="earliestStartDate" data-ng-class="{'has-error': searchForm.earliestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'Start Date':'Arrival Date'}}</h4>
+                              <h4 for="earliestStartDate" data-ng-class="{'has-error': searchForm.earliestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'Search Start Date':'Arrival Date'}}</h4>
                             </div>
                             <div class="col-sm-12">
                               <div class="input-group">
@@ -126,7 +126,7 @@
                           <div class="row">
                             <div class="col-sm-12">
                               <h4 for="latestStartDate"
-                                      data-ng-class="{'has-error': searchForm.latestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'End Date':'Departure Date'}}</h4>
+                                      data-ng-class="{'has-error': searchForm.latestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'Search End Date':'Departure Date'}}</h4>
                             </div>
                             <div class="col-sm-12">
                               <div class="input-group">
@@ -145,10 +145,11 @@
                       </div>
                     </div>
                   </div>
-                  <div class="panel-body" style="padding-left: 0px;">
 
+                  <div class="panel-body" style="padding-left: 0px;">
                     <div style="padding-left: 0px;">
-                      <div class="col-sm-3">
+
+                      <div class="col-sm-3" data-ng-if="rentalData.force_time_slots !== '1'">
                         <div class="form-group col-sm-12" >
                           <div class="row" style="padding-left: 0px;">
                             <div class="col-sm-12">
@@ -167,7 +168,8 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-3" style="padding-right: 10px;" >
+
+                      <div class="col-sm-3" style="padding-right: 10px;" data-ng-if="rentalData.force_time_slots !== '1'">
                         <div class="form-group col-sm-12" >
                           <div class="row">
                             <div class="col-sm-12">
@@ -188,7 +190,7 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-6" style="padding-right: 10px;" data-ng-if="rentalData.online_auto_select_event !== '1'">
+                      <div class="col-sm-6" style="padding-right: 10px;" data-ng-if="rentalData.online_auto_select_event !== '1' && rentalData.force_time_slots !== '1'">
                         <div class="form-group col-sm-12" >
                           <div class="row">
                             <div class="col-sm-12">
@@ -218,7 +220,7 @@
                       <div class="" style="padding-left: 0px;" data-ng-if="rentalData.online_auto_select_event !== '1'">
                         <div class="col-sm-12">
                           <div class="col-sm-12">
-                            <h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.weekdayError}">{{(formErrors.weekdayError)?'*':''}}Hours</h4>
+                            <h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.weekdayError}">{{(formErrors.weekdayError)?'*':''}}{{(rentalData.force_time_slots === '1')?'Time Slots':'Hours'}}</h4>
                             <span ng-hide="!loadingWeekdays.loading"><i class="fa fa-spinner fa-spin fa-lg fa-fw"></i></span>
                           </div>
                         </div>
@@ -230,8 +232,10 @@
                                         data-ng-disabled="loadingWeekdays.loading"
                                         class="btn-default checkbox-dark-border"
                                         data-ng-model="week.selected"></checkbox>
-                                <label class="label-spacing label-weekday" style="margin-right:20px;" class="no-word-wrap" for="chkWeek{{week.weekday_index}}">{{week.weekday_label}}</label>
-                                <label for="chkWeek{{week.weekday_index}}" style="font-weight: normal!important;" ng-repeat="time in week.time_label_data">{{time}}{{(!$last)?',&nbsp;':''}}</label>
+                                <label class="label-spacing label-weekday" style="margin-right:30px;" class="no-word-wrap" for="chkWeek{{week.weekday_index}}">{{::week.weekday_label}}</label>
+                                <label for="chkWeek{{week.weekday_index}}" style="font-weight: normal!important;" data-ng-if="rentalData.force_time_slots !== '1'"
+                                      ng-repeat="time in week.time_label_data">{{time}}{{(!$last)?',&nbsp;':''}}</label>
+                                <label for="chkWeek{{week.weekday_index}}" style="font-weight: normal!important;" data-ng-if="rentalData.force_time_slots == '1'">{{::week.time_label_data}}</label>
                               </span>
                             </li>
                           </ul>
@@ -247,6 +251,7 @@
                       </div>
                     </div>
                   </div>
+
                 </div>
               </form>
             </div>
