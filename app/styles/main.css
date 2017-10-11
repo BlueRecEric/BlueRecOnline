@@ -1199,6 +1199,10 @@ tooltip tip.facility-address {
         visibility: hidden;
     }
 
+    .modal-footer {
+        visibility: hidden;
+    }
+
     .col-print-3 {
         display: inline-block;
         padding-left:0px;

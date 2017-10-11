@@ -35,7 +35,7 @@
                     <td class="col-md-1">{{trans.details.amount_charged_total | currency}}</td>
                     <td class="col-md-1">{{trans.details.amount_paid_total | currency}}</td>
                     <td class="col-md-1 hidden-xs text-center">{{trans.details.payment_methods}}</td>
-                    <td class="col-md-1 hidden-xs"><button data-ng-click="onClickPrintReceiptFromPurchases(trans.details.transaction_id)" class="btn btn-primary btn-sm pull-right hidden-print"><i class="glyphicon glyphicon-print"></i></button></td>
+                    <td class="col-md-1"><button data-ng-click="onClickPrintReceiptFromPurchases(trans.details.transaction_id)" class="btn btn-primary btn-sm pull-right hidden-print"><i class="glyphicon glyphicon-print"></i></button></td>
                 </tr>
 
                 <tr data-ng-repeat="lineItem in trans.items">
@@ -43,6 +43,10 @@
                     <td class="col-md-6 hidden-xs" colspan="2">
                         - {{lineItem.item_name}}
                     <div data-ng-repeat="itemInfo in lineItem.details">-- {{itemInfo.text}}</div>
+
+                        <div data-ng-repeat="waiverInfo in lineItem.waivers">
+                            <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="{{'#' + waiverInfo.print_id}}"><i class="glyphicon glyphicon-print"></i> {{waiverInfo.waiver_name}}</a>
+                        </div>
                     </td>
                     <td class="col-xs-6 visible-xs" colspan="4">
                         - {{lineItem.item_name}}
@@ -51,7 +55,7 @@
                     <td class="col-md-1 hidden-xs">{{lineItem.total_item_charge | currency}}</td>
                     <td class="col-md-1 hidden-xs">{{lineItem.total_item_payment | currency}}</td>
                     <td class="col-md-1 hidden-xs text-center">{{lineItem.payment_methods}}</td>
-                    <td class="col-md-1 hidden-xs"></td>
+                    <td class="col-md-1"></td>
                 </tr>
             </tbody>
 
@@ -59,4 +63,36 @@
 
         <dir-pagination-controls pagination-id="household.house_index"></dir-pagination-controls>
     </div>
+
+    <div data-ng-repeat="household in purchases.returnData.households">
+        <div data-ng-repeat="trans in household.transactions">
+            <div data-ng-repeat="lineItem in trans.items">
+                <div class="modal fade" id="{{signoff.print_id}}" tabindex="-1" role="dialog" aria-labelledby="termsPopLabel" data-ng-repeat="signoff in lineItem.waivers">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Waiver
+                            </div>
+
+                            <div class="modal-body printContainer" id="{{'print_' + signoff.print_id}}">
+
+                                <h4>{{signoff.waiver_name}}</h4>
+
+                                <div name="txtWaiver" class="printContainer" data-ng-bind-html="signoff.waiver_text">
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer noprint">
+                                <button type="button" data-ng-click="printDiv('print_' + signoff.print_id)" class="btn btn-primary noprint" id="printWaiverButton"><i class="glyphicon glyphicon-print"></i> Print</button>
+                                <button type="button" class="btn btn-danger noprint" id="closeWaiverButton" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>

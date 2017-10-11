@@ -284,7 +284,7 @@
             <div class="alert alert-danger" data-ng-if="showRequiredPackageError">
                 Please correct the following issues:
                 <ul>
-                    <li quick-ng-repeat="error in optionErrors">{{error.message}}</li>
+                    <li data-ng-repeat="error in optionErrors">{{error.message}}</li>
                 </ul>
             </div>
             <button class="btn btn-disabled btn-block" data-ng-if="addingToCart">Please Wait...</button>

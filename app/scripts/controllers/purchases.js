@@ -18,6 +18,16 @@ angular.module('bluereconlineApp')
 
         $scope.receiptData = {};
 
+        $scope.printDiv = function(divName) {
+            console.log('print div name');
+            console.log(divName);
+            var printContents = document.getElementById(divName).innerHTML;
+            var popupWin = window.open('', '_blank', 'width=800,height=600');
+            popupWin.document.open();
+            popupWin.document.write('<html><head><link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="styles/main.css" /></head><body onload="window.print();return false"><div id="printContainer">' + printContents + '</div></body></html>');
+            popupWin.document.close();
+        };
+
         $scope.onClickPrintReceiptFromPurchases = function(receiptID)
         {
             $location.path('/' + $routeParams.orgurl + '/purchases/receipt/' + receiptID);
