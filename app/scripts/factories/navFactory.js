@@ -30,10 +30,8 @@ angular.module('bluereconlineApp')
                 };
 
                 $http(req).then(function (response) {
-
                     nav.options = response.data;
-                    //console.log('nav results');
-                    //console.log(nav.options);
+
                     busyLoading = false;
                 });
             }

@@ -63,94 +63,97 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <header class="noprint">
-            <div class="wide">
-                <div class="container logo"><img class="img-responsive" data-ng-if="headerLogo" data-ng-src="{{headerLogo}}"></div>
-            </div>
-        </header>
-        <div class="noprint" data-ng-controller="UserAuthCtrl"></div>
-
-        <div id="nav" class="bluerecnav header navbar navbar-default noprint" style="padding-bottom:0px; margin-bottom:0px;" role="navigation" bs-affix>
-            <div class="container" data-ng-controller="MenuCtrl">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target="#js-navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+        <ng-controller data-ng-controller="MenuCtrl">
+            <header class="noprint">
+                <div class="wide">
+                    <div class="container logo" data-ng-if="nav.options.logo_url.length === 0"><img class="img-responsive" data-ng-if="headerLogo" data-ng-src="{{headerLogo}}"></div>
+                    <div class="container logo" data-ng-if="nav.options.logo_url.length > 0"><a href="{{nav.options.logo_url}}"><img class="img-responsive" data-ng-if="headerLogo" data-ng-src="{{headerLogo}}"></a></div>
                 </div>
+            </header>
+            <div class="noprint" data-ng-controller="UserAuthCtrl"></div>
 
-                <div class="collapse navbar-collapse collapsing" id="js-navbar-collapse">
+            <div id="nav" class="bluerecnav header navbar navbar-default noprint" style="padding-bottom:0px; margin-bottom:0px;" role="navigation" bs-affix>
+                <div class="container" >
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#js-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
 
-                    <ul class="nav navbar-nav">
-                        <li data-toggle="collapse" data-target=".in" data-ng-hide="!currentUser.validLogin" ng-cloak><a ng-href="#/{{HomeLink}}"><i
-                                class="fa fa-home"></i> Home</a></li>
-                        <li data-toggle="collapse" data-target=".in" data-ng-hide="currentUser.validLogin" ng-cloak><a ng-href="#/{{LoginLink}}"><i
-                                class="fa fa-sign-in"></i> Login</a></li>
-                        <li data-toggle="collapse" data-target=".in" class="dropdown" data-ng-hide="!currentUser.validLogin" ng-cloak>
-                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false"><i class="fa fa-cog"></i> Account<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li data-toggle="collapse" data-target=".in"><a href="#/{{MyAccountLink}}"><i class="fa fa-user fa-fw"></i> Profile</a></li>
-                                <li data-toggle="collapse" data-target=".in"><a href="#/{{HouseholdLink}}"><i class="fa fa-users fa-fw"></i> Household</a></li>
-                                <li data-toggle="collapse" data-target=".in"><a href="#/{{MyCustomFieldsLink}}"><i class="fa fa-pencil-square-o fa-fw"></i> Additional Fields</a></li>
-                                <li data-toggle="collapse" data-target=".in"><a href="#/{{PurchasesLink}}"><i class="fa fa-usd fa-fw"></i> Purchases</a></li>
-                                <li data-toggle="collapse" data-target=".in"><a href="#/{{AutoPayCardsLink}}"><i class="fa fa-credit-card fa-fw"></i> Auto-Pay Cards</a></li>
-                                <li data-toggle="collapse" data-target=".in"><a href="#/{{InvoicesLink}}"><i class="fa fa-envelope-o fa-fw"></i> Invoices</a></li>
-                            </ul>
-                        </li>
-                        <li data-toggle="collapse" data-ng-show="nav.options.showActivities" data-target=".in"><a ng-href="#/{{ActivitiesLink}}" ng-cloak><i class="fa fa-futbol-o"></i> Activities</a></li>
-                        <li data-toggle="collapse" data-ng-show="nav.options.showLeagues" data-target=".in"><a ng-href="#/{{LeaguesLink}}" ng-cloak><i class="fa fa-trophy"></i> Leagues</a></li>
-                        <li data-toggle="collapse" data-ng-show="nav.options.showMemberships" data-target=".in"><a ng-href="#/{{MembershipsLink}}" ng-cloak><i class="fa fa-credit-card"></i> Memberships</a></li>
-                        <li data-toggle="collapse" data-ng-show="nav.options.showReservations" data-target=".in"><a ng-href="#/{{ReservationsLink}}" ng-cloak><i class="fa fa-check-square-o"></i> Reservations</a>
-                        </li>
-                        <li data-ng-show="false" ng-cloak><a ng-href="#/{{ShopLink}}"><i class="fa fa-tags"></i> Shop</a></li>
-                    </ul>
+                    <div class="collapse navbar-collapse collapsing" id="js-navbar-collapse">
 
-                    <ul class="nav navbar-nav navbar-right"><!--
+                        <ul class="nav navbar-nav">
+                            <li data-toggle="collapse" data-target=".in" data-ng-hide="!currentUser.validLogin" ng-cloak><a ng-href="#/{{HomeLink}}"><i
+                                    class="fa fa-home"></i> Home</a></li>
+                            <li data-toggle="collapse" data-target=".in" data-ng-hide="currentUser.validLogin" ng-cloak><a ng-href="#/{{LoginLink}}"><i
+                                    class="fa fa-sign-in"></i> Login</a></li>
+                            <li data-toggle="collapse" data-target=".in" class="dropdown" data-ng-hide="!currentUser.validLogin" ng-cloak>
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false"><i class="fa fa-cog"></i> Account<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li data-toggle="collapse" data-target=".in"><a href="#/{{MyAccountLink}}"><i class="fa fa-user fa-fw"></i> Profile</a></li>
+                                    <li data-toggle="collapse" data-target=".in"><a href="#/{{HouseholdLink}}"><i class="fa fa-users fa-fw"></i> Household</a></li>
+                                    <li data-toggle="collapse" data-target=".in"><a href="#/{{MyCustomFieldsLink}}"><i class="fa fa-pencil-square-o fa-fw"></i> Additional Fields</a></li>
+                                    <li data-toggle="collapse" data-target=".in"><a href="#/{{PurchasesLink}}"><i class="fa fa-usd fa-fw"></i> Purchases</a></li>
+                                    <li data-toggle="collapse" data-target=".in"><a href="#/{{AutoPayCardsLink}}"><i class="fa fa-credit-card fa-fw"></i> Auto-Pay Cards</a></li>
+                                    <li data-toggle="collapse" data-target=".in"><a href="#/{{InvoicesLink}}"><i class="fa fa-envelope-o fa-fw"></i> Invoices</a></li>
+                                </ul>
+                            </li>
+                            <li data-toggle="collapse" data-ng-show="nav.options.showActivities" data-target=".in"><a ng-href="#/{{ActivitiesLink}}" ng-cloak><i class="fa fa-futbol-o"></i> Activities</a></li>
+                            <li data-toggle="collapse" data-ng-show="nav.options.showLeagues" data-target=".in"><a ng-href="#/{{LeaguesLink}}" ng-cloak><i class="fa fa-trophy"></i> Leagues</a></li>
+                            <li data-toggle="collapse" data-ng-show="nav.options.showMemberships" data-target=".in"><a ng-href="#/{{MembershipsLink}}" ng-cloak><i class="fa fa-credit-card"></i> Memberships</a></li>
+                            <li data-toggle="collapse" data-ng-show="nav.options.showReservations" data-target=".in"><a ng-href="#/{{ReservationsLink}}" ng-cloak><i class="fa fa-check-square-o"></i>Reservations</a>
+                            </li>
+                            <li data-ng-show="false" ng-cloak><a ng-href="#/{{ShopLink}}"><i class="fa fa-tags"></i> Shop</a></li>
+                        </ul>
+
+                        <ul class="nav navbar-nav navbar-right"><!--
 
 
-                        <li ng-cloak class="clicky" data-ng-hide="!currentUser.validLogin"
-                            data-template="views/shoppingcart.html" data-placement="right"
-                            data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body"><timer countdown="10041" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer></li>
-                        -->
-                        <li ng-cloak class="clicky" data-ng-hide="!currentUser.validLogin"
-                            data-template="views/shoppingcart.html" data-placement="right"
-                            data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body">
-                            <a ><i class="fa fa-shopping-cart"></i> Cart <span class="label label-info label-as-badge" style="padding:0.2em 0.7em 0.2em !important;"> {{CartCount}} </span></a>
-                        </li>
+                            <li ng-cloak class="clicky" data-ng-hide="!currentUser.validLogin"
+                                data-template="views/shoppingcart.html" data-placement="right"
+                                data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body"><timer countdown="10041" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer></li>
+                            -->
+                            <li ng-cloak class="clicky" data-ng-hide="!currentUser.validLogin"
+                                data-template="views/shoppingcart.html" data-placement="right"
+                                data-animation="am-fade-and-slide-right" bs-aside="aside" data-container="body">
+                                <a ><i class="fa fa-shopping-cart"></i> Cart <span class="label label-info label-as-badge" style="padding:0.2em 0.7em 0.2em !important;"> {{CartCount}} </span></a>
+                            </li>
 
-                        <li class="clicky" data-ng-hide="!currentUser.validLogin" ng-cloak>
-                            <a ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
-                    </ul>
+                            <li class="clicky" data-ng-hide="!currentUser.validLogin" ng-cloak>
+                                <a ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!--<div class="container view-animate-container">
-            <div ng-view="" class="view-animate"></div>
-        </div>-->
-        <div class="container">
-            <div data-ng-controller="MenuCtrl">
-                <div data-ng-show="currentUser.householdnotes.length > 0">
-                    <div>
-                        <div class="bs-callout bs-callout-warning" id="callout-type-b-i-elems">
-                            <div class="row" data-ng-repeat="note in currentUser.householdnotes">
-                                <i class="fa fa-exclamation-triangle fa-3x pull-left fa-border text-warning"></i>
-                                {{note}}
+            <!--<div class="container view-animate-container">
+                <div ng-view="" class="view-animate"></div>
+            </div>-->
+            <div class="container">
+                <div >
+                    <div data-ng-show="currentUser.householdnotes.length > 0">
+                        <div>
+                            <div class="bs-callout bs-callout-warning" id="callout-type-b-i-elems">
+                                <div class="row" data-ng-repeat="note in currentUser.householdnotes">
+                                    <i class="fa fa-exclamation-triangle fa-3x pull-left fa-border text-warning"></i>
+                                    {{note}}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div ng-view="" ></div>
+                <div class="spacing noprint">&nbsp;</div>
+                <div class="spacing noprint">&nbsp;</div>
+                <div class="spacing noprint">&nbsp;</div>
+                <div class="spacing noprint">&nbsp;</div>
             </div>
-            <div ng-view="" ></div>
-            <div class="spacing noprint">&nbsp;</div>
-            <div class="spacing noprint">&nbsp;</div>
-            <div class="spacing noprint">&nbsp;</div>
-            <div class="spacing noprint">&nbsp;</div>
-        </div>
+        </ng-controller>
 
         <toaster-container toaster-options="{'toaster-id': 1,
                 'icon-classes': {
