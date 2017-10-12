@@ -653,7 +653,24 @@ angular
                     );
             },
             logout: function() {
-                AuthToken.setToken();
+
+                console.log('UserData:');
+                console.log(UserData);
+
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/logout',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {'uid': UserData.dataArray.user_id}
+                };
+
+                return $http(req).then(function success(response) {
+                        AuthToken.setToken();
+                        return response;
+                    }
+                );
             },
             getToken: function() {
                 return AuthToken.getToken();
