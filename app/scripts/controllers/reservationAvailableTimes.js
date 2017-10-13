@@ -79,10 +79,11 @@ angular.module('bluereconlineApp')
             $scope.untilDate = new Date();
             $scope.untilDate.AddDays(7);
 
-            //$scope.startTime = new Date();
-
-            //$scope.startTime.setHours(8);
-            //$scope.startTime.setMinutes(0);
+            $scope.startTime = [];
+            $scope.startTime.time = new Date();
+            
+            $scope.endTime = [];
+            $scope.endTime.time = new Date();
 
             $scope.minDate = new Date();
             $scope.minDate.AddDays(-1);
@@ -120,26 +121,26 @@ angular.module('bluereconlineApp')
                         {
                             $scope.rentalData = data.rental_data;
 
-                            $scope.startTime = new Date();
-                            $scope.endTime = new Date();
+                            $scope.startTime.time = new Date();
+                            $scope.endTime.time = new Date();
 
                             if($scope.rentalData.online_auto_select_event === '1' && $scope.rentalData.online_auto_select_event !== '1')
                             {
                                 $scope.untilDate = new Date();
 
-                                $scope.startTime.setHours(8);
-                                $scope.startTime.setMinutes(0);
+                                $scope.startTime.time.setHours(8);
+                                $scope.startTime.time.setMinutes(0);
 
-                                $scope.endTime.setHours(14);
-                                $scope.endTime.setMinutes(0);
+                                $scope.endTime.time.setHours(14);
+                                $scope.endTime.time.setMinutes(0);
                             }
                             else
                             {
-                                $scope.startTime.setHours(($scope.rentalData.force_time_slots === '1')?0:8);
-                                $scope.startTime.setMinutes(0);
+                                $scope.startTime.time.setHours(($scope.rentalData.force_time_slots === '1')?0:8);
+                                $scope.startTime.time.setMinutes(0);
 
-                                $scope.endTime.setHours(($scope.rentalData.force_time_slots === '1')?23:9);
-                                $scope.endTime.setMinutes(($scope.rentalData.force_time_slots === '1')?59:0);
+                                $scope.endTime.time.setHours(($scope.rentalData.force_time_slots === '1')?23:9);
+                                $scope.endTime.time.setMinutes(($scope.rentalData.force_time_slots === '1')?59:0);
                             }
 
                             $scope.rentalData.facility_limit = 0;
@@ -477,7 +478,7 @@ angular.module('bluereconlineApp')
                 {$scope.formErrors.weekdayError = true;}
 
                 if(!$scope.formErrors.facilityError && !$scope.formErrors.weekdayError &&
-                    ($scope.startTime < $scope.endTime || $scope.rentalData.online_auto_select_event==='1') &&
+                    ($scope.startTime.time < $scope.endTime.time || $scope.rentalData.online_auto_select_event==='1') &&
                     angular.isDate($scope.fromDate) && angular.isDate($scope.untilDate)) {
                     $scope.isSearchIconBusy.loading = true;
 
@@ -494,8 +495,8 @@ angular.module('bluereconlineApp')
                             from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
                             until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
                             duration: $scope.rentalDuration.selectedTime,
-                            start_time: $filter('date')($scope.startTime, 'HH:mm'),
-                            end_time:  $filter('date')($scope.endTime, 'HH:mm'),
+                            start_time: $filter('date')($scope.startTime.time, 'HH:mm'),
+                            end_time:  $filter('date')($scope.endTime.time, 'HH:mm'),
                             force_order: ($scope.rentalData.force_facility_order=='1')?'true':'false',
                             auto_select_event: ($scope.rentalData.online_auto_select_event=='1')?'true':'false'
                         }
@@ -560,7 +561,7 @@ angular.module('bluereconlineApp')
                 }
                 else
                 {
-                    if($scope.startTime >= $scope.endTime &&  $scope.rentalData.online_auto_select_event!=='1')
+                    if($scope.startTime.time >= $scope.endTime.time &&  $scope.rentalData.online_auto_select_event!=='1')
                     {
                         $scope.searchErrorMessage = 'Start time cannot be greater than the End time.';
                     }

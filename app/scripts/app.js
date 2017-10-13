@@ -1134,7 +1134,7 @@ angular
         $scope.CssLink = $routeParams.orgurl;
 
         $scope.headerLogo = '';
-        
+
 
         isImage('images/'+$routeParams.orgurl+'.png').then(function(test) {
             if(test)

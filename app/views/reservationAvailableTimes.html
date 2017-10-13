@@ -153,13 +153,13 @@
                         <div class="form-group col-sm-12" >
                           <div class="row" style="padding-left: 0px;">
                             <div class="col-sm-12">
-                              <h4 ng-class="{'has-error': (startTime >= endTime && rentalData.online_auto_select_event !== '1')}">{{(rentalData.online_auto_select_event !== '1')?'Start Time':'Arrival Time'}}</h4>
+                              <h4>{{(rentalData.online_auto_select_event !== '1')?'Start Time':'Arrival Time'}}</h4>
                             </div>
                             <div class="col-sm-12">
                               <div class="input-group">
                                 <div class="input-group-addon" style="width: 25px;"><i
                                         class="glyphicon glyphicon-time"></i></div>
-                                <input class="form-control" size="8" data-ng-model="startTime"
+                                <input class="form-control" size="8" data-ng-model="startTime.time"
                                         bs-timepicker data-length="1" data-minute-step="30"
                                         data-time-format="shortTime" data-animation="am-fade"
                                         data-arrow-behavior="picker" type="text">
@@ -173,16 +173,15 @@
                         <div class="form-group col-sm-12" >
                           <div class="row">
                             <div class="col-sm-12">
-                              <h4 ng-class="{'has-error': (startTime >= endTime && rentalData.online_auto_select_event !== '1')}">{{(rentalData.online_auto_select_event !== '1')?'End Time':'Departure Time'}}</h4>
+                              <h4>{{(rentalData.online_auto_select_event !== '1')?'End Time':'Departure Time'}}</h4>
                             </div>
                             <div class="col-sm-12">
                               <div class="input-group">
                                 <div class="input-group-addon" style="width: 25px;"><i
                                         class="glyphicon glyphicon-time"></i></div>
-                                <input class="form-control no-animate" size="8"
-                                        data-ng-model="endTime" data-animation="am-fade"
-                                        bs-timepicker data-length="1"  data-minute-step="30"
-                                        data-time-format="shortTime"
+                                <input class="form-control" size="8" data-ng-model="endTime.time"
+                                        bs-timepicker data-length="1" data-minute-step="30"
+                                        data-time-format="shortTime" data-animation="am-fade"
                                         data-arrow-behavior="picker" type="text">
                               </div>
                             </div>
