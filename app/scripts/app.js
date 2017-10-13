@@ -1133,7 +1133,7 @@ angular
     $scope.$on('$routeChangeSuccess', function() {
         $scope.CssLink = $routeParams.orgurl;
 
-        $scope.headerLogo = '';d
+        $scope.headerLogo = '';
 
         isImage('images/'+$routeParams.orgurl+'.png').then(function(test) {
             if(test)
