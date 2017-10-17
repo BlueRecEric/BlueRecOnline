@@ -211,14 +211,15 @@ angular
         $httpProvider.defaults.headers.common.Pragma = 'no-cache';
     })
 
-    .run(['$rootScope','$location', '$routeParams', '$anchorScroll', 'ActiveUser', 'toaster', '$templateCache',
-        function($rootScope, $location, $routeParams, $anchorScroll, ActiveUser, toaster, $templateCache) {
+    .run(['$window','$rootScope','$location', '$routeParams', '$anchorScroll', 'ActiveUser', 'toaster', '$templateCache',
+        function($window,$rootScope, $location, $routeParams, $anchorScroll, ActiveUser, toaster, $templateCache) {
         $rootScope.$on('$routeChangeSuccess', function () {
             toaster.clear('*');
             $anchorScroll('pageTop');
         });
 
         ActiveUser.getFromLocal();
+
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
             if (typeof(current) !== 'undefined'){
@@ -232,6 +233,29 @@ angular
                 }
             }
         });
+
+        $rootScope.$on('onBeforeUnload', function (e, confirmation) {
+            confirmation.message = 'Leaving this page will log you out.';
+            e.preventDefault();
+        });
+        $rootScope.$on('onUnload', function (e) {
+            $window.localStorage.clear();
+            console.log('leaving page'); // Use 'Preserve Log' option in Console
+        });
+
+        $window.onbeforeunload = function (e) {
+            if(ActiveUser.isLoggedIn()) {
+                var confirmation = {};
+                var event = $rootScope.$broadcast('onBeforeUnload', confirmation);
+                if (event.defaultPrevented) {
+                    return confirmation.message;
+                }
+            }
+        };
+
+        $window.onunload = function () {
+            $rootScope.$broadcast('onUnload');
+        };
     }])
 
     .directive('ensureUnique', ['dataService', function (dataService) {
@@ -657,6 +681,8 @@ angular
                 console.log('UserData:');
                 console.log(UserData);
 
+                console.log('uid:' + UserData.dataArray.user_id);
+
                 var req = {
                     method: 'POST',
                     url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/logout',
@@ -714,6 +740,22 @@ angular
             }
         };
     }])
+    .factory('beforeUnload', function ($rootScope, $window) {
+        // Events are broadcast outside the Scope Lifecycle
+
+        $window.onbeforeunload = function (e) {
+            var confirmation = {};
+            var event = $rootScope.$broadcast('onBeforeUnload', confirmation);
+            if (event.defaultPrevented) {
+                return confirmation.message;
+            }
+        };
+
+        $window.onunload = function () {
+            $rootScope.$broadcast('onUnload');
+        };
+        return {};
+    })
     .factory('SaveData', ['$window', function($window) {
         var store = $window.localStorage;
         var afterLogin = '';
