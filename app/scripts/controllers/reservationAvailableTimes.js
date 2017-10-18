@@ -171,8 +171,6 @@ angular.module('bluereconlineApp')
                                 }
                             }
 
-                            //console.log($scope.fees.fee_data);
-
                             //$scope.fees.fee_data = $scope.rentalData.fee_data;
                             $scope.fees.show = $scope.rentalData.show_fees;
 
@@ -336,7 +334,7 @@ angular.module('bluereconlineApp')
 
                             $scope.weekdayData = data.weekday_data;
 
-                            console.log('weekdayData', $scope.weekdayData);
+                            //console.log('weekdayData', $scope.weekdayData);
 
                             $scope.loadingWeekdays.loading = false;
                         })
@@ -681,11 +679,10 @@ angular.module('bluereconlineApp')
             $scope.onSelectRentalTime = function onSelectRentalTime(selectedRow, timeRow) {
                 var selectedTimeData = $filter('filter')(selectedRow.tdata, {fgid: timeRow.fgid}, true);
 
-                //console.log('onSelectRentalTime - selectedTimeData: ', selectedRow);
-                //console.log('timeRow: ', timeRow);
-                //console.log('search results: ', $scope.searchRowCollection);
+                //console.log('selectedTimeData: ', selectedTimeData);
 
-                if($scope.rentalData.online_auto_select_event != '1') {
+                if($scope.rentalData.online_auto_select_event != '1')
+                {
                     if (!timeRow.added)
                     {
                         timeRow.added = true;

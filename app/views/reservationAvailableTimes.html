@@ -291,50 +291,50 @@
                   <td colspan="7" style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-bottom-width: 0px;"
                           ng-style="{'padding-bottom': ($last? 1 : 0)+'px'}">
                     <table st-table="searchRow.tdata" style="margin-bottom: 0px!important;" class="table vtable table2">
-                      <tbody data-ng-repeat="timeRow in searchRow.tdata" scroll-glue="glued">
-                      <tr ng-repeat-end data-ng-if="timeRow.new_day">
-                        <td colspan="6" class="text-left no-select" style="padding:0px; border-bottom: 1px solid #ddd !important;border-top: none !important"></td>
-                      </tr>
-                      <tr class="rentalSearchTimePadFull rentalSearchTimeColNB"
-                              ng-class="{'rentalSearchTimePadFull': $first && timeRow.eg == 2, 'rentalSearchTimePadTop': $first && timeRow.eg != 2, 'rentalSearchTimePadMid': !$first && timeRow.eg != 2, 'rentalSearchTimePadBot': !$first && timeRow.eg == 2}">
-                        <td style="width: 90px;" class="colHideMobile" data-ng-if="timeRow.available">
-                          <button style="width: 86px;" class="btn btn-sm" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
-                                  ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
-                                  data-ng-show="::(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
-                            <i class="fa" ng-class="{'fa-calendar-plus-o': !timeRow.added, 'fa-calendar-times-o': timeRow.added}" aria-hidden="true"></i> {{(timeRow.added)?'Remove':'Add'}}</button>
-                        </td>
-                        <td style="width: 20px;" class="colShowMobile"  data-ng-if="timeRow.available">
-                          <button class="btn btn-sm btn-success" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
-                                  ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
-                                  data-ng-show="(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
-                            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
-                        </td>
-                        <td style="width: 90px!important;height: 30px!important;" class="text-left" data-ng-if="!timeRow.available">
-                          <div data-ng-if="!timeRow.available" style="width: 86px;">Not Available</div>
-                        </td>
-                        <td st-ratio="50" class="colShowMobile" data-ng-if="rentalData.force_facility_order!='1'"> &nbsp;{{::timeRow.fname}}</td>
-                        <td st-ratio="50" class="colShowMobile" data-ng-if="rentalData.force_facility_order=='1'"> <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
-                        <td st-ratio="30" class="colHideMobile" data-ng-if="rentalData.force_facility_order!='1'"> &nbsp;{{::timeRow.fname}}</td>
-                        <td st-ratio="30" class="colHideMobile" data-ng-if="rentalData.force_facility_order=='1'"> <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
-                        <td st-ratio="30" class="colHideMobile no-word-wrap" data-ng-if="rentalData.force_facility_order!='1'">
-                          {{::timeRow.location_address}}
-                        </td>
-                        <td st-ratio="30" class="colHideMobile no-word-wrap" data-ng-if="rentalData.force_facility_order=='1'">
-                          <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_loc}}<br></span>
-                        </td>
-                        <td st-ratio="15" class="text-right" data-ng-if="rentalData.force_facility_order!='1'">
-                          <span>{{::timeRow.fee_amount | currency}}</span>
-                        </td>
-                        <td st-ratio="15" class="text-right" data-ng-if="rentalData.force_facility_order=='1'">
-                          <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fee_amount | currency}}<br></span>
-                        </td>
-                        <td st-ratio="25" class="text-right" data-ng-if="rentalData.force_facility_order !=='1' &&  rentalData.online_auto_select_event !== '1'">
-                          {{::timeRow.st}}&nbsp;to&nbsp;</span>{{::timeRow.et}}<br>
-                        </td>
-                        <td st-ratio="25" class="text-right" data-ng-if="rentalData.force_facility_order=='1'">
-                          <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_st}}&nbsp;to&nbsp;{{::facRow.fac_et}}<br></span>
-                        </td>
-                      </tr>
+                      <tbody data-ng-repeat="timeRow in searchRow.tdata" scroll-glue="glued" ng-if="rentalData.online_auto_select_event !== '1' || (rentalData.online_auto_select_event === '1' && $index === 0)">
+                        <tr ng-repeat-end data-ng-if="timeRow.new_day">
+                          <td colspan="6" class="text-left no-select" style="padding:0px; border-bottom: 1px solid #ddd !important;border-top: none !important"></td>
+                        </tr>
+                        <tr class="rentalSearchTimePadFull rentalSearchTimeColNB"
+                                ng-class="{'rentalSearchTimePadFull': $first && timeRow.eg == 2, 'rentalSearchTimePadTop': $first && timeRow.eg != 2, 'rentalSearchTimePadMid': !$first && timeRow.eg != 2, 'rentalSearchTimePadBot': !$first && timeRow.eg == 2}">
+                          <td style="width: 90px;" class="colHideMobile" data-ng-if="timeRow.available">
+                            <button style="width: 86px;" class="btn btn-sm" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
+                                    ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
+                                    data-ng-show="::(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
+                              <i class="fa" ng-class="{'fa-calendar-plus-o': !timeRow.added, 'fa-calendar-times-o': timeRow.added}" aria-hidden="true"></i> {{(timeRow.added)?'Remove':'Add'}}</button>
+                          </td>
+                          <td style="width: 20px;" class="colShowMobile"  data-ng-if="timeRow.available">
+                            <button class="btn btn-sm btn-success" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
+                                    ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
+                                    data-ng-show="(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
+                              <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
+                          </td>
+                          <td style="width: 90px!important;height: 30px!important;" class="text-left" data-ng-if="!timeRow.available">
+                            <div data-ng-if="!timeRow.available" style="width: 86px;">Not Available</div>
+                          </td>
+                          <td st-ratio="50" class="colShowMobile" data-ng-if="rentalData.force_facility_order!='1'"> &nbsp;{{::timeRow.fname}}</td>
+                          <td st-ratio="50" class="colShowMobile" data-ng-if="rentalData.force_facility_order=='1'"> <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
+                          <td st-ratio="30" class="colHideMobile" data-ng-if="rentalData.force_facility_order!='1'"> &nbsp;{{::timeRow.fname}}</td>
+                          <td st-ratio="30" class="colHideMobile" data-ng-if="rentalData.force_facility_order=='1'"> <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
+                          <td st-ratio="30" class="colHideMobile no-word-wrap" data-ng-if="rentalData.force_facility_order!='1'">
+                            {{::timeRow.location_address}}
+                          </td>
+                          <td st-ratio="30" class="colHideMobile no-word-wrap" data-ng-if="rentalData.force_facility_order=='1'">
+                            <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_loc}}<br></span>
+                          </td>
+                          <td st-ratio="15" class="text-right" data-ng-if="rentalData.force_facility_order!='1'">
+                            <span>{{::timeRow.fee_amount | currency}}</span>
+                          </td>
+                          <td st-ratio="15" class="text-right" data-ng-if="rentalData.force_facility_order=='1'">
+                            <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fee_amount | currency}}<br></span>
+                          </td>
+                          <td st-ratio="25" class="text-right" data-ng-if="rentalData.force_facility_order !=='1' && rentalData.online_auto_select_event !== '1'">
+                            {{::timeRow.st}}&nbsp;to&nbsp;</span>{{::timeRow.et}}<br>
+                          </td>
+                          <td st-ratio="25" class="text-right" data-ng-if="rentalData.force_facility_order=='1'">
+                            <span data-ng-repeat="facRow in timeRow.fac_data">{{::facRow.fac_st}}&nbsp;to&nbsp;{{::facRow.fac_et}}<br></span>
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </td>
