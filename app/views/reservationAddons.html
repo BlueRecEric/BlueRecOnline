@@ -101,11 +101,16 @@
                                     <label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
                                   </div>
 
-                                  <div class="form-group striped-row" data-ng-repeat="time in displayTimeData | orderBy:'utcs'" data-ng-if="rentalData.online_auto_select_event === '1'">
+                                  <!--<div class="form-group striped-row" data-ng-repeat="time in displayTimeData | orderBy:'utcs'" data-ng-if="rentalData.online_auto_select_event === '1'">
                                     <span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fname}}</span>
                                     <span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{time.lf_date+' to '+time.lfe_date}}</span>
                                     <span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fee_amount | currency}}</span>
-                                  </div>
+                                  </div><-->
+								<div class="form-group striped-row" data-ng-if="rentalData.online_auto_select_event === '1'">
+									<span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{::displayTimeData[0].fname}}</span>
+									<span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{displayTimeData[0].lf_date+' to '+displayTimeData[displayTimeData.length-1].lfe_date}}</span>
+									<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::displayTimeData[0].fee_amount | currency}}</span>
+								</div>
 
 									<!--<div class="form-group" data-ng-if="lighting.show" style="margin-left: 0px;">
 										<label class="control-label-center">Include Lighting for {{(lighting.feeAmount) | currency}} &nbsp;&nbsp;<checkbox class="btn-default checkbox-dark-border"

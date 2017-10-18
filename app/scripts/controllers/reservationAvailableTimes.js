@@ -101,6 +101,26 @@ angular.module('bluereconlineApp')
                 $scope.renderSlider = true;
             }, 500, false);
 
+            $scope.selectFacilities = function(selectAll){
+                if(!angular.isUndefined($scope.rentalData) && !angular.isUndefined($scope.rentalData.facility_data)) {
+                    var facCount = $scope.rentalData.facility_data.length;
+
+                    for (var i = 0; i < facCount; i++) {
+                        $scope.rentalData.facility_data[i].selected = selectAll;
+                    }
+                }
+            };
+
+            $scope.selectWeekends = function(selectAll){
+                if(!angular.isUndefined($scope.weekdayData)) {
+                    var weekdayCount = $scope.weekdayData.length;
+
+                    for (var i = 0; i < weekdayCount; i++) {
+                        $scope.weekdayData[i].selected = selectAll;
+                    }
+                }
+            };
+
             $scope.getRentalData = function() {
                 var req = {
                     method: 'POST',
@@ -153,11 +173,11 @@ angular.module('bluereconlineApp')
                                 }
                             }
 
-                            if ($scope.rentalData.force_facility_order === '1' || $scope.rentalData.force_time_slots !== '1') {
+                           // if ($scope.rentalData.force_facility_order === '1') {
                                 for (var i = 0; i < facCount; i++) {
                                     $scope.rentalData.facility_data[i].selected = true;
                                 }
-                            }
+                            //}
 
                             $scope.fees.fee_data = [];
                             for (var fi = 0; fi < facCount; fi++) {

@@ -147,11 +147,11 @@ angular.module('bluereconlineApp')
     };
     
     $scope.getRentalData();
-    
+
     if ($scope.userLoggedIn) {
       $scope.getUserApprovedRequests();
     }
-    
+
     $scope.onSelectApprovedRental = function (selectedRow) {
       
       //console.log('selectedRow:', selectedRow);

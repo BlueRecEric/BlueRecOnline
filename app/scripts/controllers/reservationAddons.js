@@ -40,6 +40,9 @@ angular.module('bluereconlineApp')
 		$scope.rentalData = ReservationFactory.getReservationData();
 
 		$scope.selectedTimeData = ReservationFactory.getReservationTimes();
+
+		console.log('$scope.rentalData', $scope.rentalData);
+
         $scope.displayTimeData = [];
 
         $scope.lighting_package = [];
@@ -115,6 +118,8 @@ angular.module('bluereconlineApp')
                     $scope.lighting_package.fee_amount = parseFloat(((data.has_sunset_times)?data.lighting_package.fees[0].fee_amount:0));
 
                     $scope.displayTimeData = angular.copy(data.rental_times);
+
+                    console.log('$scope.displayTimeData',  $scope.displayTimeData);
                 });
         };
 
@@ -160,7 +165,12 @@ angular.module('bluereconlineApp')
 		$scope.setPackages = function()
 		{
             var EventMinutes = $scope.calculateEventMinutes();
-            
+            var totalTimeSlots = 0;
+
+			if($scope.rentalData.auto_approve === '1' && !angular.isUndefined($scope.selectedTimeData)) {
+                totalTimeSlots = $scope.selectedTimeData.length;
+            }
+
             //console.log('EventMinutes: ', EventMinutes);
 			
 			var req = {
@@ -170,7 +180,8 @@ angular.module('bluereconlineApp')
 					'Content-Type': undefined
 				},
 				data: {'uid': ActiveUser.userData.user_id,
-						'minutes':  EventMinutes}
+						'minutes':  EventMinutes,
+						'time_slots':  totalTimeSlots}
 			};
 			
 			$http(req)

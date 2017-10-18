@@ -35,7 +35,7 @@ angular.module('bluereconlineApp')
             $http(req)
                 .success(function (response) {
 
-                    console.log(response);
+                    //console.log(response);
 
                     if(response.data.facebook.length > 0)
                     {

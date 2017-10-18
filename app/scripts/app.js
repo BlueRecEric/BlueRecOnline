@@ -234,13 +234,13 @@ angular
             }
         });
 
-        $rootScope.$on('onBeforeUnload', function (e, confirmation) {
+        /*$rootScope.$on('onBeforeUnload', function (e, confirmation) {
             confirmation.message = 'Leaving this page will log you out.';
             e.preventDefault();
         });
         $rootScope.$on('onUnload', function (e) {
             $window.localStorage.clear();
-            console.log('leaving page'); // Use 'Preserve Log' option in Console
+            //console.log('leaving page'); // Use 'Preserve Log' option in Console
         });
 
         $window.onbeforeunload = function (e) {
@@ -255,7 +255,7 @@ angular
 
         $window.onunload = function () {
             $rootScope.$broadcast('onUnload');
-        };
+        };*/
     }])
 
     .directive('ensureUnique', ['dataService', function (dataService) {
@@ -271,13 +271,13 @@ angular
                         .success(function (unique) {
                             //Ensure value that being checked hasn't changed
                             //since the Ajax call was made
-                            ////console.log('unique result');
-                            ////console.log(unique.isUnique);
+                            //console.log('unique result');
+                            //console.log(unique.isUnique);
                             if (currentValue === element.val()) {
                                 ngModel.$setValidity('unique', unique.isUnique);
                             }
                         }, function () {
-                            ////console.log('looks like an error');
+                            //console.log('looks like an error');
                             //Probably want a more robust way to handle an error
                             //For this demo we'll set unique to true though
                             ngModel.$setValidity('unique', true);
@@ -294,17 +294,17 @@ angular
                 function validate(value) {
                     var isValid = scope.$eval(attrs.sameAs) === value;
 
-                    ////console.log(isValid);
+                    //console.log(isValid);
 
                     ngModel.$setValidity('match', isValid);
 
                     if(isValid)
                     {
-                        ////console.log('values match');
+                        //console.log('values match');
                     }
                     else
                     {
-                        ////console.log('values do not match');
+                        //console.log('values do not match');
                     }
 
 
@@ -312,13 +312,13 @@ angular
                     //return isValid;
                 }
 
-                ////console.log('sameAs directive loaded');
+                //console.log('sameAs directive loaded');
 
                 ngModel.$parsers.unshift(validate);
 
                 // Force-trigger the parsing pipeline.
                 scope.$watch(attrs.sameAs, function() {
-                        ////console.log('Trying to validate');
+                        //console.log('Trying to validate');
                         ngModel.$setViewValue(ngModel.$viewValue);
                 });
             }
@@ -399,7 +399,7 @@ angular
 
             if(angular.isDefined(userData.data) && angular.isDefined(userData.data.ping))
             {
-                ////console.log('ping data');
+                //console.log('ping data');
             }
             else {
 
@@ -425,7 +425,7 @@ angular
 
         if (pullUserFromLocalStorage()) {
           currentUser.userData = pullUserFromLocalStorage();
-          ////console.log(currentUser.userData);
+          //console.log(currentUser.userData);
           deferred.resolve(currentUser.userData);
         } else {
           deferred.reject('No user data found in local storage');
@@ -486,15 +486,15 @@ angular
             var deferred = $q.defer();
             currentUser.gettingUser = true;
             AuthService.getUser().then(function success(response) {
-                ////console.log('AuthService.getUser().then response');
-                ////console.log(response.data);
+                //console.log('AuthService.getUser().then response');
+                //console.log(response.data);
                 currentUser.setActiveUser(response.data);
                 if(angular.isDefined(response.data.data))
                 {
                     if(angular.isDefined(response.data.data.ping))
                     {
                         // successful ping, do not mess with stored data.
-                        ////console.log('ping data');
+                        //console.log('ping data');
                         deferred.resolve(true);
                     }
                     else
@@ -508,7 +508,7 @@ angular
                 }
                 else
                 {
-                    ////console.log('user data');
+                    //console.log('user data');
                     putUserInLocalStorage(response.data).then(function success() {
                             currentUser.gettingUser = false;
                             deferred.resolve(true);
@@ -678,10 +678,10 @@ angular
             },
             logout: function() {
 
-                console.log('UserData:');
-                console.log(UserData);
+                //console.log('UserData:');
+                //console.log(UserData);
 
-                console.log('uid:' + UserData.dataArray.user_id);
+                //console.log('uid:' + UserData.dataArray.user_id);
 
                 var req = {
                     method: 'POST',
@@ -817,8 +817,8 @@ angular
             }
             else
             {
-                console.log('skipAuthorization config:');
-                console.log(config);
+                //console.log('skipAuthorization config:');
+                //console.log(config);
             }
             return config;
         }
@@ -1010,7 +1010,7 @@ angular
               if(proload.returnData.usrData[a].selected)
               {
                   usrData = {};
-                  ////console.log('add ' + proload.returnData[programIndex].programs[sessionIndex].regData[a].userID + ' to program ' + proload.returnData[programIndex].programs[sessionIndex].item_id);
+                  //console.log('add ' + proload.returnData[programIndex].programs[sessionIndex].regData[a].userID + ' to program ' + proload.returnData[programIndex].programs[sessionIndex].item_id);
                   usrData = {
                       'userID':proload.returnData.usrData[a].userID,
                       'itemID':proload.returnData.item_id,
@@ -1095,7 +1095,7 @@ angular
 
         uiGmapGoogleMapApi.then(function(maps) {
             angular.forEach(responseData.locations, function (value, key) {
-                ////console.log('Key: ' + responseData.locations[key].geo_address);
+                //console.log('Key: ' + responseData.locations[key].geo_address);
 
                 var codeReq = {
                     method: 'GET',
@@ -1109,7 +1109,7 @@ angular
                 };
 
                 $http(codeReq).success(function (geoData) {
-                    ////console.log(geoData);
+                    //console.log(geoData);
                     var tempData = [];
                     tempData.center = '';
                     tempData.marker = [];
@@ -1182,7 +1182,7 @@ angular
             if(test)
             {
                 $scope.headerLogo = 'images/'+$routeParams.orgurl+'.png';
-                ////console.log('images/'+$routeParams.orgurl+'.png is an image!');
+                //console.log('images/'+$routeParams.orgurl+'.png is an image!');
             }
             else
             {
@@ -1200,17 +1200,17 @@ angular
                         });
                     }
                 });
-                ////console.log('images/'+$routeParams.orgurl+'.png is NOT an image!');
+                //console.log('images/'+$routeParams.orgurl+'.png is NOT an image!');
 
                 var splitParts = $routeParams.orgurl.split('-');
 
                 isImage('images/'+splitParts[0]+'.png').then(function(test) {
                     if(test) {
                         $scope.headerLogo = 'images/'+splitParts[0]+'.png';
-                        ////console.log('images/' + splitParts[0] + '.png is an image!');
+                        //console.log('images/' + splitParts[0] + '.png is an image!');
                     }
                     else {
-                        ////console.log('images/' + splitParts[0] + '.png is NOT an image!');
+                        //console.log('images/' + splitParts[0] + '.png is NOT an image!');
                     }
                 });
             }
