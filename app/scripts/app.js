@@ -234,7 +234,7 @@ angular
             }
         });
 
-        /*$rootScope.$on('onBeforeUnload', function (e, confirmation) {
+        $rootScope.$on('onBeforeUnload', function (e, confirmation) {
             confirmation.message = 'Leaving this page will log you out.';
             e.preventDefault();
         });
@@ -255,7 +255,7 @@ angular
 
         $window.onunload = function () {
             $rootScope.$broadcast('onUnload');
-        };*/
+        };
     }])
 
     .directive('ensureUnique', ['dataService', function (dataService) {
@@ -679,9 +679,9 @@ angular
             logout: function() {
 
                 //console.log('UserData:');
-                //console.log(UserData);
+                console.log(UserData);
 
-                //console.log('uid:' + UserData.dataArray.user_id);
+                console.log('uid:' + UserData.dataArray.user_id);
 
                 var req = {
                     method: 'POST',
