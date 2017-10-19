@@ -255,7 +255,7 @@ angular
 
         $window.onunload = function () {
             $rootScope.$broadcast('onUnload');
-        }
+        };
     }])
 
     .directive('ensureUnique', ['dataService', function (dataService) {
