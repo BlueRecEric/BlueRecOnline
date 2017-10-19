@@ -679,9 +679,9 @@ angular
             logout: function() {
 
                 //console.log('UserData:');
-                console.log(UserData);
+                //console.log(UserData);
 
-                console.log('uid:' + UserData.dataArray.user_id);
+                //console.log('uid:' + UserData.dataArray.user_id);
 
                 var req = {
                     method: 'POST',

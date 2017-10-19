@@ -12,6 +12,15 @@ angular.module('bluereconlineApp')
 	'$filter', '$anchorScroll', 'moment', 'ActiveUser', 'ReservationFactory',
 	function ($scope, $rootScope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment,
 			  ActiveUser, ReservationFactory) {
+
+	$scope.userLoggedIn = false;
+        $scope.userLoggedIn = ActiveUser.isLoggedIn();
+
+        if (!$scope.userLoggedIn)
+        {
+            $location.path('/' + $routeParams.orgurl + '/reservations');
+        }
+
 		$scope.submittingData = false;
 		
 		$scope.agreementCheckError = false;
@@ -95,51 +104,55 @@ angular.module('bluereconlineApp')
 		};
 
         $scope.setLightingFees = function() {
-            var req = {
-                method: 'POST',
-                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/' + ActiveUser.userData.user_id + '/' + ActiveUser.userData.household_id + '/getlightingfees',
-                headers: {
-                    'Content-Type': undefined
-                },
-                data: {
-					'rental_times': $scope.selectedTimeData
-            	}
-            };
+            if ($scope.userLoggedIn) {
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/' + ActiveUser.userData.user_id + '/' + ActiveUser.userData.household_id + '/getlightingfees',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {
+                        'rental_times': $scope.selectedTimeData
+                    }
+                };
 
-            $http(req)
-                .success(function (data) {
-                    //console.log('rental lighting fees:  ', data);
+                $http(req)
+                    .success(function (data) {
+                        //console.log('rental lighting fees:  ', data);
 
-                    $scope.lighting_package.has_lighting_package = data.has_lighting_package;
+                        $scope.lighting_package.has_lighting_package = data.has_lighting_package;
 
-                    $scope.lighting_package.has_sunset_times = data.has_sunset_times;
-                    $scope.lighting_package.package = data.lighting_package;
+                        $scope.lighting_package.has_sunset_times = data.has_sunset_times;
+                        $scope.lighting_package.package = data.lighting_package;
 
-                    $scope.lighting_package.fee_amount = parseFloat(((data.has_sunset_times)?data.lighting_package.fees[0].fee_amount:0));
+                        $scope.lighting_package.fee_amount = parseFloat(((data.has_sunset_times) ? data.lighting_package.fees[0].fee_amount : 0));
 
-                    $scope.displayTimeData = angular.copy(data.rental_times);
+                        $scope.displayTimeData = angular.copy(data.rental_times);
 
-                    console.log('$scope.displayTimeData',  $scope.displayTimeData);
-                });
+                        console.log('$scope.displayTimeData', $scope.displayTimeData);
+                    });
+            }
         };
 
         $scope.setLightingFees();
 		
 		$scope.setAgreementData = function() {
-			var req = {
-				method: 'GET',
-				url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/' + ActiveUser.userData.user_id + '/' + ActiveUser.userData.household_id + '/agreement',
-				headers: {
-					'Content-Type': undefined
-				}
-			};
-			
-			$http(req)
-			.success(function (data) {
-				//console.log('agreement data', data);
+            if ($scope.userLoggedIn) {
+                var req = {
+                    method: 'GET',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/' + $scope.rentalItemID + '/' + ActiveUser.userData.user_id + '/' + ActiveUser.userData.household_id + '/agreement',
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                };
 
-                $scope.agreementData = data;
-			});
+                $http(req)
+                    .success(function (data) {
+                        //console.log('agreement data', data);
+
+                        $scope.agreementData = data;
+                    });
+            }
 		};
 		
 		$scope.setAgreementData();
@@ -164,36 +177,64 @@ angular.module('bluereconlineApp')
 		
 		$scope.setPackages = function()
 		{
-            var EventMinutes = $scope.calculateEventMinutes();
-            var totalTimeSlots = 0;
+            if ($scope.userLoggedIn) {
+                var EventMinutes = $scope.calculateEventMinutes();
+                var totalTimeSlots = 0;
 
-			if($scope.rentalData.auto_approve === '1' && !angular.isUndefined($scope.selectedTimeData)) {
-                totalTimeSlots = $scope.selectedTimeData.length;
+                if ($scope.rentalData.auto_approve === '1' && !angular.isUndefined($scope.selectedTimeData)) {
+                    totalTimeSlots = $scope.selectedTimeData.length;
+                }
+
+                //console.log('EventMinutes: ', EventMinutes);
+
+                var req = {
+                    method: 'POST',
+                    url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $scope.rentalItemID + '/packages',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {
+                        'uid': ActiveUser.userData.user_id,
+                        'minutes': EventMinutes,
+                        'time_slots': totalTimeSlots
+                    }
+                };
+
+                $http(req)
+                    .success(function (data) {
+                        console.log('data: ', data);
+
+                        if($scope.rentalData.online_auto_select_event === '1')
+						{
+							var newPackageData = [];
+
+                            for (var i = 0; i < $scope.rentalData.package_data.length; i++)
+                            {
+                            	if($scope.rentalData.package_data[i].qty > 0) {
+                                    for (var a = 0; a < data.packageForm.length; a++) {
+                                        if ($scope.rentalData.package_data[i].item_id === data.packageForm[a].item_id) {
+                                            data.packageForm[a].quantity = $scope.rentalData.package_data[i].qty;
+                                            data.packageForm[a].selected = true;
+
+                                            newPackageData.push(data.packageForm[a]);
+
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            data.packageForm = [];
+                            data.packageForm = angular.copy(newPackageData);
+						}
+
+                        $scope.rentalPackages = data.packageForm;
+
+                        if ($scope.rentalPackages.length > 0) {
+                            $scope.displayPackages = true;
+                        }
+                    });
             }
-
-            //console.log('EventMinutes: ', EventMinutes);
-			
-			var req = {
-				method: 'POST',
-				url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $scope.rentalItemID + '/packages',
-				headers: {
-					'Content-Type': undefined
-				},
-				data: {'uid': ActiveUser.userData.user_id,
-						'minutes':  EventMinutes,
-						'time_slots':  totalTimeSlots}
-			};
-			
-			$http(req)
-			.success(function (data) {
-				//console.log('package data: ', data);
-
-				$scope.rentalPackages = data.packageForm;
-				
-				if ($scope.rentalPackages.length > 0) {
-					$scope.displayPackages = true;
-				}
-			});
 		};
 		
 		$scope.formatMySQLDate = function (formatDate) {
@@ -282,6 +323,7 @@ angular.module('bluereconlineApp')
                                     feeData[fd].feeAmount = feeData[fd].feeAmount + ($scope.selectedTimeData[t].fac_fee_data[f].per_hour_amount * ($scope.selectedTimeData[t].dur / 60));
 
 									feeFound = true;
+
 									break;
 								}
 							}

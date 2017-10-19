@@ -25,7 +25,7 @@
   </nav>
 </script>
 <div data-ng-controller="ReservationAvailableTimes" style="padding-left: 0px;padding-right: 0px;">
-  <div >
+  <div>
     <div class="row">
       <div data-ng-show="rentalDataLoaded">
         <h3>Search Available Times</h3>
@@ -51,6 +51,8 @@
             <div class="col-sm-12" style="padding-left: 0px;padding-right: 0px;">
               <form name="searchForm" novalidate>
                 <div style="padding-left: 0px;">
+
+
                   <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event !== '1'">
                     <div class="col-sm-12">
                       <h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.facilityError}"
@@ -95,6 +97,35 @@
                       </div>
                     </div>
                   </div>
+
+
+
+                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event === '1' && packages.show_packages">
+                    <div class="col-sm-12">
+                      <h4>Enter Number of campers</h4>
+                    </div>
+                  </div>
+
+                  <div class="row"></div>
+                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event === '1' && packages.show_packages">
+                    <div class="col-sm-12">
+                      <div class="row striped-row" data-ng-repeat="pkg in packageData" style="padding-bottom: 2px; padding-top: 2px;">
+                          <label class="font-weight-normal vAlignLabel" ><input type="text" class="form-control" ng-model="pkg.qty"
+                                  style="width: 40px; height: 30px; display: inherit;padding-top: 0px; padding-bottom: 0px;padding-left: 6px;padding-right: 6px;text-align: center;"
+                                  maxlength="3" numbers-only="numbers-only" data-ng-change="onPackageChangeEvent()">&nbsp;&nbsp;{{::pkg.item_name}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event === '1' && packages.show_packages">
+                    <div class="col-sm-12">
+                      <div class="row striped-row-nobg" style="padding-left: 10px;padding-bottom: 2px; padding-top: 2px;">
+                        <span class="no-word-wrap"><label>
+                          <font data-ng-class="{'has-error': packages.total_packages > packages.max_capacity}">{{packages.total_packages}}</font>/{{packages.max_capacity}}&nbsp;&nbsp;Total Campers</label></span>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="panel-body" style="padding-left: 0px;">
                     <div class="col-sm-12" data-ng-if="rentalData.how_far_in_advance > 0 || rentalData.how_far_out > 0">`
                       <div class="col-sm-12">
@@ -105,9 +136,10 @@
                         </div>
                       </div>
                     </div>
+
                     <div style="padding-left: 0px;">
                       <div class="col-sm-3">
-                        <div class="form-group col-sm-12" >
+                        <div class="form-group col-sm-12">
                           <div class="row" style="padding-left: 0px;">
                             <div class="col-sm-12">
                               <h4 for="earliestStartDate" data-ng-class="{'has-error': searchForm.earliestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'Search Start Date':'Arrival Date'}}</h4>
@@ -128,7 +160,7 @@
                         </div>
                       </div>
                       <div class="col-sm-3" style="padding-right: 10px;">
-                        <div class="form-group col-sm-12" >
+                        <div class="form-group col-sm-12">
                           <div class="row">
                             <div class="col-sm-12">
                               <h4 for="latestStartDate"
@@ -156,7 +188,7 @@
                     <div style="padding-left: 0px;">
 
                       <div class="col-sm-3" data-ng-if="rentalData.force_time_slots !== '1'">
-                        <div class="form-group col-sm-12" >
+                        <div class="form-group col-sm-12">
                           <div class="row" style="padding-left: 0px;">
                             <div class="col-sm-12">
                               <h4>{{(rentalData.online_auto_select_event !== '1')?'Start Time':'Arrival Time'}}</h4>
@@ -181,7 +213,7 @@
                       </div>
 
                       <div class="col-sm-3" style="padding-right: 10px;" data-ng-if="rentalData.force_time_slots !== '1'">
-                        <div class="form-group col-sm-12" >
+                        <div class="form-group col-sm-12">
                           <div class="row">
                             <div class="col-sm-12">
                               <h4>{{(rentalData.online_auto_select_event !== '1')?'End Time':'Departure Time'}}</h4>
@@ -206,7 +238,7 @@
                       </div>
 
                       <div class="col-sm-6" style="padding-right: 10px;" data-ng-if="rentalData.online_auto_select_event !== '1' && rentalData.force_time_slots !== '1'">
-                        <div class="form-group col-sm-12" >
+                        <div class="form-group col-sm-12">
                           <div class="row">
                             <div class="col-sm-12">
                               <h4>Rental Duration</h4>
@@ -239,7 +271,7 @@
                             <span ng-hide="!loadingWeekdays.loading"><i class="fa fa-spinner fa-spin fa-lg fa-fw"></i></span>
                           </div>
                         </div>
-                        <div class="col-sm-12 form-group" >
+                        <div class="col-sm-12 form-group">
                           <ul class="two_column_list" style="list-style-type:none">
                             <li class="no-word-wrap" data-ng-repeat="week in weekdayData">
                               <span class="checkbox-spacing">
@@ -367,8 +399,7 @@
                 <tfoot>
                 <tr>
                   <td colspan="6" class="text-center" style="padding-bottom: 0px; padding-top: 0px;">
-                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"
-                    ></div>
+                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
                   </td>
                 </tr>
                 </tfoot>
@@ -387,7 +418,7 @@
 
     <div class="row">
       <div veldata-ng-animate="'slide'" data-ng-if="selectedRentalTimes.rentals.length > 0">
-        <div class="panel panel-primary" >
+        <div class="panel panel-primary">
           <div class="panel-heading clearfix">
             <h3 class="panel-title">Selected Rental Times</h3>
           </div>

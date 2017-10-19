@@ -266,6 +266,11 @@ body > .container {
     text-overflow: ellipsis;
 }
 
+.striped-row-nobg {
+    margin: 0px;
+    padding: 5px;
+}
+
 .striped-row {
     margin: 0px;
     padding: 5px;
@@ -1159,6 +1164,10 @@ tooltip tip.facility-address {
     background-color: #e5e5e5;
 }
 
+.vAlignLabel {
+    margin-bottom: 0px;
+    vertical-align: middle !important;
+}
 
 .navbar-collapse.collapsing {
     -webkit-transition: height 0.01s;
