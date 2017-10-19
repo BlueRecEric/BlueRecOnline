@@ -162,13 +162,18 @@
                               <h4>{{(rentalData.online_auto_select_event !== '1')?'Start Time':'Arrival Time'}}</h4>
                             </div>
                             <div class="col-sm-12">
-                              <div class="input-group">
+                              <div class="input-group" data-ng-if="rentalData.online_auto_select_event !== '1'">
                                 <div class="input-group-addon" style="width: 25px;"><i
                                         class="glyphicon glyphicon-time"></i></div>
                                 <input class="form-control" size="8" data-ng-model="startTime.time"
                                         bs-timepicker data-length="1" data-minute-step="30"
                                         data-time-format="shortTime" data-animation="am-fade"
                                         data-arrow-behavior="picker" type="text">
+                              </div>
+                              <div data-ng-if="rentalData.online_auto_select_event === '1'">
+                                <select data-ng-model="autoOnlineTime.start_time" style="width: 130px;font-size: 16px;" class="form-control">
+                                  <option ng-repeat="weekRow in weekdayData[0].stf" value="{{weekdayData[0].start_time_data[$index]}}"  data-ng-selected="$index===0">{{weekRow}}</option>
+                                </select>
                               </div>
                             </div>
                           </div>
@@ -182,13 +187,18 @@
                               <h4>{{(rentalData.online_auto_select_event !== '1')?'End Time':'Departure Time'}}</h4>
                             </div>
                             <div class="col-sm-12">
-                              <div class="input-group">
+                              <div class="input-group" data-ng-if="rentalData.online_auto_select_event !== '1'">
                                 <div class="input-group-addon" style="width: 25px;"><i
                                         class="glyphicon glyphicon-time"></i></div>
                                 <input class="form-control" size="8" data-ng-model="endTime.time"
                                         bs-timepicker data-length="1" data-minute-step="30"
                                         data-time-format="shortTime" data-animation="am-fade"
                                         data-arrow-behavior="picker" type="text">
+                              </div>
+                              <div data-ng-if="rentalData.online_auto_select_event === '1'">
+                                <select data-ng-model="autoOnlineTime.end_time" style="width: 130px;font-size: 16px;" class="form-control">
+                                  <option ng-repeat="weekRow in weekdayData[0].etf" value="{{weekdayData[0].start_time_data[$index]}}" data-ng-selected="$index===0">{{weekRow}}</option>
+                                </select>
                               </div>
                             </div>
                           </div>

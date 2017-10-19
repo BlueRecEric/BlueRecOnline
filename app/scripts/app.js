@@ -234,7 +234,7 @@ angular
             }
         });
 
-        $rootScope.$on('onBeforeUnload', function (e, confirmation) {
+        /*$rootScope.$on('onBeforeUnload', function (e, confirmation) {
             confirmation.message = 'Leaving this page will log you out.';
             e.preventDefault();
         });
@@ -255,7 +255,7 @@ angular
 
         $window.onunload = function () {
             $rootScope.$broadcast('onUnload');
-        };
+        };*/
     }])
 
     .directive('ensureUnique', ['dataService', function (dataService) {
@@ -742,7 +742,7 @@ angular
     }])
     .factory('beforeUnload', function ($rootScope, $window) {
         // Events are broadcast outside the Scope Lifecycle
-
+/*
         $window.onbeforeunload = function (e) {
             var confirmation = {};
             var event = $rootScope.$broadcast('onBeforeUnload', confirmation);
@@ -754,7 +754,7 @@ angular
         $window.onunload = function () {
             $rootScope.$broadcast('onUnload');
         };
-        return {};
+        return {};*/
     })
     .factory('SaveData', ['$window', function($window) {
         var store = $window.localStorage;

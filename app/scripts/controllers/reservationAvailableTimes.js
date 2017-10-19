@@ -71,9 +71,13 @@ angular.module('bluereconlineApp')
             $scope.searchResultsData = [];
             $scope.searchRowCollection = [];
 
+            $scope.autoOnlineTime = [];
+            $scope.autoOnlineTime.start_time = [];
+            $scope.autoOnlineTime.end_time = [];
+
             Date.prototype.AddDays = function(noOfDays) {
-             this.setTime(this.getTime() + (noOfDays * (1000 * 60 * 60 * 24)));
-             return this;};
+                this.setTime(this.getTime() + (noOfDays * (1000 * 60 * 60 * 24)));
+                return this;};
 
             $scope.fromDate = new Date();
             $scope.untilDate = new Date();
@@ -81,7 +85,7 @@ angular.module('bluereconlineApp')
 
             $scope.startTime = [];
             $scope.startTime.time = new Date();
-            
+
             $scope.endTime = [];
             $scope.endTime.time = new Date();
 
@@ -92,6 +96,12 @@ angular.module('bluereconlineApp')
 
             $scope.maxDate = new Date();
             $scope.maxDate.AddDays(365);
+
+            $scope.packages = [];
+            $scope.packages.show_packages = 0;
+            $scope.packages.max_capacity = 0;
+
+            $scope.packageData = [];
 
             $scope.itemsByPage = 50;
 
@@ -141,6 +151,14 @@ angular.module('bluereconlineApp')
                         {
                             $scope.rentalData = data.rental_data;
 
+                            $scope.packages.show_packages = $scope.rentalData.show_packages;
+                            $scope.packages.max_capacity = $scope.rentalData.max_capacity;
+
+                            $scope.packageData = $scope.rentalData.package_data;
+
+                            console.log('$scope.packages', $scope.packages);
+                            console.log('packageData', $scope.packageData);
+
                             $scope.startTime.time = new Date();
                             $scope.endTime.time = new Date();
 
@@ -173,10 +191,10 @@ angular.module('bluereconlineApp')
                                 }
                             }
 
-                           // if ($scope.rentalData.force_facility_order === '1') {
-                                for (var i = 0; i < facCount; i++) {
-                                    $scope.rentalData.facility_data[i].selected = true;
-                                }
+                            // if ($scope.rentalData.force_facility_order === '1') {
+                            for (var i = 0; i < facCount; i++) {
+                                $scope.rentalData.facility_data[i].selected = true;
+                            }
                             //}
 
                             $scope.fees.fee_data = [];
@@ -249,9 +267,9 @@ angular.module('bluereconlineApp')
                         if($scope.searchRowCollection[a].tdata[t].fid === timeRow.fid &&
                             $scope.searchRowCollection[a].tdata[t].id != timeRow.id) {
                             if ((parseInt($scope.searchRowCollection[a].tdata[t].utcs) > parseInt(timeRow.utcs) &&
-                                parseInt($scope.searchRowCollection[a].tdata[t].utcs) < parseInt(timeRow.utce)) ||
+                                    parseInt($scope.searchRowCollection[a].tdata[t].utcs) < parseInt(timeRow.utce)) ||
                                 (parseInt($scope.searchRowCollection[a].tdata[t].utce) > parseInt(timeRow.utcs) &&
-                                parseInt($scope.searchRowCollection[a].tdata[t].utce) < parseInt(timeRow.utce))) {
+                                    parseInt($scope.searchRowCollection[a].tdata[t].utce) < parseInt(timeRow.utce))) {
 
                                 if($scope.searchRowCollection[a].tdata[t].added) {
                                     $scope.removeSelectedRentalData($scope.searchRowCollection[a].tdata[t]);
@@ -262,7 +280,7 @@ angular.module('bluereconlineApp')
                                                 $scope.searchRowCollection[aa].tdata[tt].id != $scope.searchRowCollection[a].tdata[t].id) {
                                                 if (parseInt($scope.searchRowCollection[a].tdata[t].utcs) < parseInt($scope.searchRowCollection[aa].tdata[tt].utcs) &&
                                                     (parseInt($scope.searchRowCollection[a].tdata[t].utce) > parseInt($scope.searchRowCollection[aa].tdata[tt].utcs) &&
-                                                    parseInt($scope.searchRowCollection[a].tdata[t].utce) < parseInt($scope.searchRowCollection[aa].tdata[tt].utce))) {
+                                                        parseInt($scope.searchRowCollection[a].tdata[t].utce) < parseInt($scope.searchRowCollection[aa].tdata[tt].utce))) {
                                                     //$scope.searchRowCollection[aa].tdata[tt].overlap = false;
                                                 }
                                             }
@@ -353,6 +371,9 @@ angular.module('bluereconlineApp')
                             $scope.weekdayDataLoaded = true;
 
                             $scope.weekdayData = data.weekday_data;
+
+                            $scope.autoOnlineTime.start_time = $scope.weekdayData[0].start_time_data[0];
+                            $scope.autoOnlineTime.end_time = $scope.weekdayData[0].end_time_data[0];
 
                             //console.log('weekdayData', $scope.weekdayData);
 
@@ -495,8 +516,32 @@ angular.module('bluereconlineApp')
                 if(selectedWeekdays.length === 0)
                 {$scope.formErrors.weekdayError = true;}
 
+                var searchStartTime;
+                var searchEndTime;
+
+                if($scope.rentalData.online_auto_select_event==='1')
+                {
+                    if($scope.autoOnlineTime.start_time.length === 0)
+                    {searchStartTime = $scope.weekdayData[0].start_time_data[0];}
+                    else
+                    {searchStartTime = $scope.autoOnlineTime.start_time;}
+
+
+                    if($scope.autoOnlineTime.end_time.length === 0)
+                    {searchEndTime = $scope.weekdayData[0].start_time_data[0];}
+                    else
+                    {searchEndTime = $scope.autoOnlineTime.end_time;}
+                }
+                else
+                {
+                    searchStartTime = $scope.startTime.time;
+                    searchEndTime = $scope.endTime.time;
+                }
+
+                console.log('searchStartTime', searchStartTime);
+
                 if(!$scope.formErrors.facilityError && !$scope.formErrors.weekdayError &&
-                    ($scope.startTime.time < $scope.endTime.time || $scope.rentalData.online_auto_select_event==='1') &&
+                    (searchStartTime < searchEndTime || $scope.rentalData.online_auto_select_event==='1') &&
                     angular.isDate($scope.fromDate) && angular.isDate($scope.untilDate)) {
                     $scope.isSearchIconBusy.loading = true;
 
@@ -513,8 +558,8 @@ angular.module('bluereconlineApp')
                             from_date: $filter('date')($scope.fromDate, 'yyyy-MM-dd'),
                             until_date: $filter('date')($scope.untilDate, 'yyyy-MM-dd'),
                             duration: $scope.rentalDuration.selectedTime,
-                            start_time: $filter('date')($scope.startTime.time, 'HH:mm'),
-                            end_time:  $filter('date')($scope.endTime.time, 'HH:mm'),
+                            start_time: $filter('date')(searchStartTime, 'HH:mm'),
+                            end_time:  $filter('date')(searchEndTime, 'HH:mm'),
                             force_order: ($scope.rentalData.force_facility_order=='1')?'true':'false',
                             auto_select_event: ($scope.rentalData.online_auto_select_event=='1')?'true':'false'
                         }
@@ -784,12 +829,12 @@ angular.module('bluereconlineApp')
             $rootScope.$on('continueProcessEvent', function (event) {
                 $scope.onAcceptRentalTimes();
             });
-	
-			$scope.getGroupedSum = function(items) {
-				return items
-				.map(function(x) { return x.fee_amount; })
-				.reduce(function(a, b) { return a + b; });
-			};
+
+            $scope.getGroupedSum = function(items) {
+                return items
+                    .map(function(x) { return x.fee_amount; })
+                    .reduce(function(a, b) { return a + b; });
+            };
         }])
 
     .directive('undo', function($rootScope) {
@@ -803,11 +848,11 @@ angular.module('bluereconlineApp')
                 };
             },
             template: '<div class="container">'+
-                        '<div class="col-md-6 text-center"><a class="text-center clickable" ' +
-                        'style="font-size: 20px !important" ' +
-                        'ng-click="reviewSelTimes()"><u>Review Selected Times</u></a></div>'+
-                        '<div class="col-md-6 text-center"><a class="text-center clickable" '+
-                        'style="font-size: 20px !important" ' +
-                        'ng-click="continueProcess()"><u>Accept Times and Continue</u></a></div></div>'
+            '<div class="col-md-6 text-center"><a class="text-center clickable" ' +
+            'style="font-size: 20px !important" ' +
+            'ng-click="reviewSelTimes()"><u>Review Selected Times</u></a></div>'+
+            '<div class="col-md-6 text-center"><a class="text-center clickable" '+
+            'style="font-size: 20px !important" ' +
+            'ng-click="continueProcess()"><u>Accept Times and Continue</u></a></div></div>'
         };
     });
