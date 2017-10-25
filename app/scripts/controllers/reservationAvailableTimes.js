@@ -308,6 +308,8 @@ angular.module('bluereconlineApp')
             $scope.getSelectedWeekdays = function() {
                 var selectedWeekdays = [];
 
+                console.log(' $scope.weekdayData',  $scope.weekdayData);
+
                 for (var i=0;i < $scope.weekdayData.length; i++)
                 {
                     if($scope.weekdayData[i].selected)
@@ -353,6 +355,8 @@ angular.module('bluereconlineApp')
                     $http(req)
                         .success(function (data) {
                             var a;
+
+                            console.log('weekdays', data);
 
                             if(selectedWeekdays.length > 0) {
                                 for (var i = 0; i < selectedWeekdays.length; i++) {
@@ -516,6 +520,8 @@ angular.module('bluereconlineApp')
 
                 var selectedWeekdays = $scope.getSelectedWeekdays();
                 var selectedFacilities = $scope.getSelectedFacilities();
+
+                console.log('selectedWeekdays', selectedWeekdays);
 
                 if(selectedFacilities.length === 0)
                 {$scope.formErrors.facilityError = true;}
