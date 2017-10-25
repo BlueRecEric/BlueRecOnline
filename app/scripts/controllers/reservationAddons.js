@@ -208,6 +208,8 @@ angular.module('bluereconlineApp')
 						{
 							var newPackageData = [];
 
+                            var newPackageFee = 0.0;
+
                             for (var i = 0; i < $scope.rentalData.package_data.length; i++)
                             {
                             	if($scope.rentalData.package_data[i].qty > 0) {
@@ -215,6 +217,14 @@ angular.module('bluereconlineApp')
                                         if ($scope.rentalData.package_data[i].item_id === data.packageForm[a].item_id) {
                                             data.packageForm[a].quantity = $scope.rentalData.package_data[i].qty;
                                             data.packageForm[a].selected = true;
+
+                                            if(angular.isNumber(parseInt(data.packageForm[a].quantity)) && parseInt(data.packageForm[a].quantity) > 0) {
+                                                for (var f = 0; f < data.packageForm[a].fees.length;f++) {
+                                                    if (angular.isNumber(parseFloat(data.packageForm[a].fees[f].fee_amount))) {
+                                                        newPackageFee += parseFloat(data.packageForm[a].fees[f].fee_amount) * parseInt(data.packageForm[a].quantity);
+                                                    }
+                                                }
+                                            }
 
                                             newPackageData.push(data.packageForm[a]);
 
@@ -226,6 +236,8 @@ angular.module('bluereconlineApp')
 
                             data.packageForm = [];
                             data.packageForm = angular.copy(newPackageData);
+
+                            $scope.rentalFees.packageFeeAmount = parseFloat(newPackageFee);
 						}
 
                         $scope.rentalPackages = data.packageForm;

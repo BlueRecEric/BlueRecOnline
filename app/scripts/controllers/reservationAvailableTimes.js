@@ -89,7 +89,7 @@ angular.module('bluereconlineApp')
 
             $scope.fromDate = new Date();
             $scope.untilDate = new Date();
-            $scope.untilDate.AddDays(7);
+            $scope.untilDate.AddDays(1);
 
             $scope.startTime = [];
             $scope.startTime.time = new Date();
@@ -380,7 +380,7 @@ angular.module('bluereconlineApp')
                             $scope.weekdayData = data.weekday_data;
 
                             $scope.autoOnlineTime.start_time = $scope.weekdayData[0].start_time_data[0];
-                            $scope.autoOnlineTime.end_time = $scope.weekdayData[0].end_time_data[0];
+                            $scope.autoOnlineTime.end_time = $scope.weekdayData[0].start_time_data[0];
 
                             //console.log('weekdayData', $scope.weekdayData);
 

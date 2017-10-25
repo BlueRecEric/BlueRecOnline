@@ -679,9 +679,9 @@ angular
             logout: function() {
 
                 //console.log('UserData:');
-                //console.log(UserData);
+                console.log(UserData);
 
-                //console.log('uid:' + UserData.dataArray.user_id);
+                console.log('uid:' + UserData.dataArray.user_id);
 
                 var req = {
                     method: 'POST',
@@ -743,7 +743,7 @@ angular
     .factory('beforeUnload', function ($rootScope, $window) {
         // Events are broadcast outside the Scope Lifecycle
 
-        $window.onbeforeunload = function (e) {
+        /*$window.onbeforeunload = function (e) {
             var confirmation = {};
             var event = $rootScope.$broadcast('onBeforeUnload', confirmation);
             if (event.defaultPrevented) {
@@ -754,7 +754,7 @@ angular
         $window.onunload = function () {
             $rootScope.$broadcast('onUnload');
         };
-        return {};
+        return {};*/
     })
     .factory('SaveData', ['$window', function($window) {
         var store = $window.localStorage;
