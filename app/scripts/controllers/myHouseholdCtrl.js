@@ -183,7 +183,7 @@ angular.module('bluereconlineApp')
               $scope.resetMessages();
 
               //console.log('Update Result');
-              //console.log(UpdateResult.data);
+              console.log(UpdateResult.data);
 
               if(UpdateResult.data.added)
               {
@@ -377,6 +377,7 @@ angular.module('bluereconlineApp')
         //console.log(loggedInUser);
         formData.formatBirthday = $filter('date')(formData.birthday, 'yyyy-MM-dd');
 
+        console.log('birthday', formData.formatBirthday);
           var gradeValue = angular.isDefined(formData.grade)?formData.grade.value:'NA';
 
           if(gradeValue === null)

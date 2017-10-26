@@ -8,7 +8,7 @@
  * Controller of the bluereconlineApp
  */
 angular.module('bluereconlineApp')
-    .controller('SignupCtrl',['$scope', '$routeParams','SignupFactory', 'uiGmapGoogleMapApi', function ($scope,$routeParams,SignupFactory,uiGmapGoogleMapApi) {
+    .controller('SignupCtrl',['$scope', '$routeParams','SignupFactory', 'uiGmapGoogleMapApi', '$filter', function ($scope,$routeParams,SignupFactory,uiGmapGoogleMapApi, $filter) {
         var sign = this;
 
         $scope.addrResult = '';
@@ -22,6 +22,7 @@ angular.module('bluereconlineApp')
             }
             $scope.splitAddress();
         }, true);
+
 
         $scope.splitAddress = function()
         {
@@ -60,6 +61,9 @@ angular.module('bluereconlineApp')
         };
 
         sign.newAccount = {};
+
+
+        sign.newAccount.birthday = null;
         sign.remote = SignupFactory;
         sign.remote.accountCreated = false;
 
@@ -92,6 +96,14 @@ angular.module('bluereconlineApp')
             $scope.signupVideo = $scope.config.data.signupTutorialVideo;
         });
     }])
+
+    .config(function($datepickerProvider) {
+        angular.extend($datepickerProvider.defaults, {
+            dateFormat: 'dd/MM/yyyy',
+            startWeek: 1
+        });
+    })
+
     .factory('SignupFactory', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', '$filter', '$location', 'MakeToast', 'AuthService', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,$routeParams,$filter,$location,MakeToast,AuthService,ActiveUser) {
         var signRemote = this;
 
@@ -168,13 +180,15 @@ angular.module('bluereconlineApp')
 
             signRemote.formData = formData;
 
-            if(angular.isDefined(signRemote.formData.birthday))
+            /*if(angular.isDefined(signRemote.formData.birthday))
             {
                 signRemote.formData.formatBirthday = $filter('date')(signRemote.formData.birthday, 'yyyy-MM-dd');
-            }
+            }*/
+            console.log('birthday', signRemote.formData.birthday);
 
             signRemote.formError = false;
 
+            console.log('signRemote.formData:',  signRemote.formData);
             signRemote.formData.firstnameError = [];
             signRemote.formData.firstnameError.error = false;
             signRemote.formData.firstnameError.message = '';
@@ -252,7 +266,27 @@ angular.module('bluereconlineApp')
                 signRemote.formData.genderError.message = 'Please select your gender.';
             }
 
-            if(!angular.isDefined(signRemote.formData.formatBirthday) || signRemote.formData.formatBirthday === 0)
+            if(signRemote.formData.birthday !== null)
+            {
+                if(angular.isUndefined(signRemote.formData.birthday))
+                {
+                    signRemote.formError = true;
+                    signRemote.formData.birthdayError.error = true;
+                    signRemote.formData.birthdayError.message = 'Invalid birthday entered.  Enter your birthday as MM/DD/YYYY.';
+                }
+                else
+                {
+                    signRemote.formData.formatBirthday = $filter('date')(signRemote.formData.birthday, 'yyyy-MM-dd');
+                }
+
+                if(!angular.isDefined(signRemote.formData.formatBirthday) || signRemote.formData.formatBirthday === 0)
+                {
+                    signRemote.formError = true;
+                    signRemote.formData.birthdayError.error = true;
+                    signRemote.formData.birthdayError.message = 'Invalid format, use MM/DD/YYYY.';
+                }
+            }
+            else
             {
                 signRemote.formError = true;
                 signRemote.formData.birthdayError.error = true;
@@ -327,8 +361,6 @@ angular.module('bluereconlineApp')
                 signRemote.formData.phoneTypeError.error = true;
                 signRemote.formData.phoneTypeError.message = 'Please select your primary phone type.';
             }
-
-
 
             console.log('busy:');
             console.log(signRemote.busy);
