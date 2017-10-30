@@ -42,7 +42,7 @@
 
                         <div class="form-group">
                             <label for="contactName" class="col-sm-2 control-label"><span data-ng-if="contact.required">* </span><span data-ng-bind="($index + 1)"></span>) Contact Name</label>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <input type="text" id="contactName" data-ng-model="contact.contactName" placeholder="Firstname Lastname" class="form-control" data-ng-required="contact.required"/>
                             </div>
                         </div>
@@ -85,53 +85,53 @@
                     <div class="alert alert-danger" role="alert" data-ng-show="newMemberError">{{(newMemberErrorText === "Field 'birthday' is required. ")?'Invalid birthday format. Please use the format "MM/DD/YYYY".':newMemberErrorText}}</div>
 
                     <div class="form-group">
-                        <label for="newFirstName" class="col-sm-2 control-label">* First Name</label>
+                        <label for="newFirstName" class="col-sm-3 control-label">* First Name</label>
                         <div class="col-sm-6">
                             <input type="text" id="newFirstName" data-ng-model="newMemberForm.firstname" class="form-control" required/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="newLastName" class="col-sm-2 control-label">* Last Name</label>
+                        <label for="newLastName" class="col-sm-3 control-label">* Last Name</label>
                         <div class="col-sm-6">
                             <input type="text" id="newLastName" data-ng-model="newMemberForm.lastname" class="form-control" required/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="newGender" class="col-sm-2 control-label">* Gender</label>
+                        <label for="newGender" class="col-sm-3 control-label">* Gender</label>
                         <div class="col-sm-6">
                             <select id="newGender" class="form-control" data-style="btn-inverse" data-ng-model="newMemberForm.gender" data-ng-options="genOp.value as genOp.name for genOp in genderOptions" required></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="newBirthday" class="col-sm-2 control-label">* Birthday (m/d/yyyy)</label>
+                        <label for="newBirthday" class="col-sm-3 control-label">* Birthday (MM/DD/YYYY)</label>
                         <div class="col-sm-6">
                              <span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             <input class="form-control" data-ng-model="newMemberForm.birthday" data-date-format="M/d/yyyy" data-autoclose="true" id="newBirthday" name="date" bs-datepicker datepicker-options="dateOptions" type="text" required></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="newGrade" class="col-sm-2 control-label">Grade</label>
+                        <label for="newGrade" class="col-sm-3 control-label">Grade</label>
                         <div class="col-sm-6">
                             <select id="newGrade" class="form-control" data-style="btn-inverse" data-ng-model="newMemberForm.grade" data-ng-options="gradeOp.name for gradeOp in gradeOptions"></select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="newFirstName" class="col-sm-2 control-label">Current Medications:</label>
+                        <label for="newFirstName" class="col-sm-3 control-label">Current Medications:</label>
                         <div class="col-sm-6">
                             <input type="text" id="newMedications" data-ng-model="newMemberForm.medications" class="form-control"/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="newFirstName" class="col-sm-2 control-label">Allergies:</label>
+                        <label for="newFirstName" class="col-sm-3 control-label">Allergies:</label>
                         <div class="col-sm-6">
                             <input type="text" id="newAllergies" data-ng-model="newMemberForm.allergies" class="form-control"/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="newFirstName" class="col-sm-2 control-label">Disabilities:</label>
+                        <label for="newFirstName" class="col-sm-3 control-label">Disabilities:</label>
                         <div class="col-sm-6">
                             <input type="text" id="newDisabilities" data-ng-model="newMemberForm.disabilities" class="form-control"/>
                         </div>
@@ -166,7 +166,7 @@
                     </div>
                     -->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label-center">&nbsp;</label>
+                        <label class="col-sm-3 control-label-center">&nbsp;</label>
                         <div class="col-sm-6">
                             <button type="submit" id="newSubmit" value="Submit" class="btn btn-info" data-ng-enable="householdMemberForm.$valid"><i class="fa fa-save fa-inverse"></i> Update</button>
                             <button type="button" id="cancel" value="Cancel" class="btn btn-danger pull-right" data-ng-click="newMemberCancelClicked()"><i class="fa fa-times"></i> Cancel</button>
@@ -195,53 +195,53 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="firstName" class="col-sm-2 control-label">First Name</label>
+                        <label for="firstName" class="col-sm-3 control-label">First Name</label>
                         <div class="col-sm-6">
                             <input type="text" id="firstName" data-ng-model="person.firstname" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="lastName" class="col-sm-2 control-label">Last Name</label>
+                        <label for="lastName" class="col-sm-3 control-label">Last Name</label>
                         <div class="col-sm-6">
                             <input type="text" id="lastName" data-ng-model="person.lastname" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="gender" class="col-sm-2 control-label">Gender</label>
+                        <label for="gender" class="col-sm-3 control-label">Gender</label>
                         <div class="col-sm-6">
                             <select id="gender" class="form-control" data-style="btn-inverse" data-ng-model="person.gender" data-ng-options="genOp.value as genOp.name for genOp in genderOptions"></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="birthday" class="col-sm-2 control-label">Birthday</label>
+                        <label for="birthday" class="col-sm-3 control-label">Birthday (MM/DD/YYYY)</label>
                         <div class="col-sm-6" style="padding-top: 9px;">{{displayBirthday(person.birthday)}}
                              <!--<span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             <input class="form-control" data-ng-model="person.birthday" data-date-format="M/d/yyyy" data-autoclose="true" data-timezone="UTC" id="birthday" name="date" bs-datepicker type="text"></span>-->
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="grade" class="col-sm-2 control-label">Grade</label>
+                        <label for="grade" class="col-sm-3 control-label">Grade</label>
                         <div class="col-sm-6">
                             <select id="grade" class="form-control" data-style="btn-inverse" data-ng-model="person.grade" data-ng-options="gradeOp.value as gradeOp.name for gradeOp in gradeOptions"></select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="newFirstName" class="col-sm-2 control-label">Current Medications:</label>
+                        <label for="newFirstName" class="col-sm-3 control-label">Current Medications:</label>
                         <div class="col-sm-6">
                             <input type="text" id="medications" data-ng-model="person.medications" class="form-control"/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="newFirstName" class="col-sm-2 control-label">Allergies:</label>
+                        <label for="newFirstName" class="col-sm-3 control-label">Allergies:</label>
                         <div class="col-sm-6">
                             <input type="text" id="allergies" data-ng-model="person.allergies" class="form-control"/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="newFirstName" class="col-sm-2 control-label">Disabilities:</label>
+                        <label for="newFirstName" class="col-sm-3 control-label">Disabilities:</label>
                         <div class="col-sm-6">
                             <input type="text" id="disabilities" data-ng-model="person.disabilities" class="form-control"/>
                         </div>
@@ -276,7 +276,7 @@
                     </div>
                     -->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label-center">&nbsp;</label>
+                        <label class="col-sm-3 control-label-center">&nbsp;</label>
                         <div class="col-sm-6">
                             <button type="submit" id="submit" value="Submit" class="btn btn-info" data-ng-enable="householdMemberForm.$valid"><i class="fa fa-save fa-inverse"></i> Update</button>
                             <!--<button type="button" id="remove" value="Remove" class="btn btn-danger pull-right" data-ng-enable="householdMemberForm.$valid"><i class="fa fa-times"></i> Remove</button>-->

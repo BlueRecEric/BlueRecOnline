@@ -18,60 +18,60 @@
                 <fieldset><legend>Primary Contact/Guardian</legend>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.remoteError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.remoteError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.firstnameError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.firstnameError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="newFirstName" class="col-sm-3 control-label">First Name:</label>
-                    <div class="col-sm-6">
+                    <label for="newFirstName" class="col-sm-4 control-label">First Name:</label>
+                    <div class="col-sm-5">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-pencil-square-o"></i></span><input type="text" id="newFirstName" data-ng-model="sign.newAccount.firstname" class="form-control"/></span>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.lastnameError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.lastnameError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="newLastName" class="col-sm-3 control-label">Last Name:</label>
-                    <div class="col-sm-6">
+                    <label for="newLastName" class="col-sm-4 control-label">Last Name:</label>
+                    <div class="col-sm-5">
                       <input type="hidden" name="requireGender" id="requireGender" data-ng-model="sign.newAccount.requireGender" value="{{config.data.requireGender}}">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-pencil-square-o"></i></span><input type="text" id="newLastName" data-ng-model="sign.newAccount.lastname" class="form-control"/></span>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.genderError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.genderError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="config.data.requireGender == '1'">
-                    <label class="col-sm-3 control-label">Gender</label>
-                    <div class="col-sm-6">
+                    <label class="col-sm-4 control-label">Gender</label>
+                    <div class="col-sm-5">
                       <gender-select id="currentState" ng-model="sign.newAccount.gender" name="currentGender" class="form-control" required></gender-select>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.birthdayError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.birthdayError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="newBirthday" class="col-sm-3 control-label">Birthday:</label>
-                    <div class="col-sm-6">
+                    <label for="newBirthday" class="col-sm-4 control-label">Birthday (MM/DD/YYYY):</label>
+                    <div class="col-sm-5">
                            <span class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><!--
                           --><input class="form-control" placeholder="MM/DD/YYYY" data-ng-model="sign.newAccount.birthday" data-date-format="M/d/yyyy" id="newBirthday"
                                    name="date" data-autoclose="true" data-start-view="2" bs-datepicker type="text" ></span>
@@ -79,8 +79,8 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="newBirthday" class="col-sm-3 control-label"></label>
-                    <div class="col-sm-6">
+                    <label for="newBirthday" class="col-sm-4 control-label"></label>
+                    <div class="col-sm-5">
                         <a data-toggle="modal" data-target="#whyBirthday">Why do we need your birthday?</a></p>
                     </div>
                   </div>
@@ -103,14 +103,14 @@
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.emailError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.emailError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="newEmail" class="col-sm-3 control-label">Email:</label>
-                    <div class="col-sm-6">
+                    <label for="newEmail" class="col-sm-4 control-label">Email:</label>
+                    <div class="col-sm-5">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-envelope-o"></i></span><input type="text" id="newEmail" data-ng-model="sign.newAccount.email" class="form-control"/></span>
                     </div>
                   </div>
@@ -118,8 +118,8 @@
 
 
                   <div class="form-group">
-                    <label for="newEmail" class="col-sm-3 control-label"></label>
-                    <div class="col-sm-6">
+                    <label for="newEmail" class="col-sm-4 control-label"></label>
+                    <div class="col-sm-5">
                       <a data-toggle="modal" data-target="#whyEmail">Why do you need my email address?</a></p>
                     </div>
                   </div>
@@ -144,53 +144,53 @@
                     <input type="password" style="display:none">
 
                   <div class="form-group" data-ng-show="sign.remote.formData.passwordError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.passwordError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="newPassword" class="col-sm-3 control-label">Password:</label>
-                    <div class="col-sm-6">
+                    <label for="newPassword" class="col-sm-4 control-label">Password:</label>
+                    <div class="col-sm-5">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-key"></i></span><input type="password" id="newPassword" data-ng-model="sign.newAccount.password" class="form-control"/></span>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.cPasswordError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.cPasswordError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="newCPassword" class="col-sm-3 control-label">Re-type password:</label>
-                    <div class="col-sm-6">
+                    <label for="newCPassword" class="col-sm-4 control-label">Re-type password:</label>
+                    <div class="col-sm-5">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-key"></i></span><input type="password" id="newCPassword" data-ng-model="sign.newAccount.cpassword" class="form-control"/></span>
                     </div>
                   </div>
 
                 <div class="form-group" data-ng-show="sign.remote.formData.phoneError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                         <div class="alert alert-danger" role="alert">{{sign.remote.formData.phoneError.message}}</div>
                     </div>
                 </div>
 
                   <div class="form-group">
-                    <label for="currentPhone" class="col-sm-3 control-label">Primary Phone:</label>
-                    <div class="col-sm-6">
+                    <label for="currentPhone" class="col-sm-4 control-label">Primary Phone:</label>
+                    <div class="col-sm-5">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span><input type="text" id="currentPhone" data-ng-model="sign.newAccount.phone" value="" class="form-control" ui-mask="(999) 999-9999" required/></span>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.phoneTypeError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.phoneTypeError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="currentPhoneType" class="col-sm-3 control-label">Phone Type:</label>
-                    <div class="col-sm-6">
+                    <label for="currentPhoneType" class="col-sm-4 control-label">Phone Type:</label>
+                    <div class="col-sm-5">
                       <label class="radio-inline">
                         <input type="radio" name="inlineRadioOptions" data-ng-model="sign.newAccount.phoneType" id="currentPhoneType" value="Cell"> Cell
                       </label>
@@ -204,8 +204,8 @@
                   </div>
 
                   <div class="form-group" data-ng-show="config.data.allowResidentSelection == '1'">
-                      <label class="col-sm-3 control-label"></label>
-                      <div class="col-sm-6 checkbox">
+                      <label class="col-sm-4 control-label"></label>
+                      <div class="col-sm-5 checkbox">
                       <label>
                         {{config.data.onlineResidencyText}}
                       </label>
@@ -213,8 +213,8 @@
                   </div>
 
                   <div class="form-group" data-ng-show="config.data.allowResidentSelection == '1'">
-                    <label class="col-sm-3 control-label">Residency:</label>
-                    <div class="col-sm-6 checkbox">
+                    <label class="col-sm-4 control-label">Residency:</label>
+                    <div class="col-sm-5 checkbox">
                       <label>
                         <input type="checkbox" id="currentResident" data-ng-model="sign.newAccount.resident"> I am a resident
                       </label>
@@ -222,67 +222,67 @@
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.addressError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.addressError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">Address</label>
-                    <div class="col-sm-6">
+                    <label class="col-sm-4 control-label">Address</label>
+                    <div class="col-sm-5">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-home"></i></span><input type="text" id="currentAddr" data-ng-model="sign.newAccount.addr" value="" class="form-control" ng-autocomplete details="addrDetails" options="addrOptions" required/></span>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">Apt/Ste/Unit #</label>
-                    <div class="col-sm-6">
+                    <label class="col-sm-4 control-label">Apt/Ste/Unit #</label>
+                    <div class="col-sm-5">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-home"></i></span><input type="text" id="currentAddr2" data-ng-model="sign.newAccount.addr2" value="" class="form-control"/></span>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.cityError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.cityError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">City</label>
-                    <div class="col-sm-6">
+                    <label class="col-sm-4 control-label">City</label>
+                    <div class="col-sm-5">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-building"></i></span><input type="text" id="currentCity" data-ng-model="sign.newAccount.city" value="" class="form-control" required/></span>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.stateError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.stateError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">State</label>
-                    <div class="col-sm-6">
+                    <label class="col-sm-4 control-label">State</label>
+                    <div class="col-sm-5">
                       <state-select id="currentState" ng-model="sign.newAccount.state" name="currentState" class="form-control" required></state-select>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.remote.formData.zipError.error">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <div class="alert alert-danger" role="alert">{{sign.remote.formData.zipError.message}}</div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">Zipcode</label>
-                    <div class="col-sm-6">
+                    <label class="col-sm-4 control-label">Zipcode</label>
+                    <div class="col-sm-5">
                       <span class="input-group"><span class="input-group-addon"><i class="fa fa-envelope"></i></span><input type="text" id="currentZip" data-ng-model="sign.newAccount.zip" value="" class="form-control" required/></span>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="newEmail" class="col-sm-3 control-label">Terms:</label>
-                    <div class="col-sm-6">
+                    <label for="newEmail" class="col-sm-4 control-label">Terms:</label>
+                    <div class="col-sm-5">
                       <input type="checkbox" id="termsCheckbox" data-ng-model="sign.newAccount.terms"> I have read and agree to this site's <a data-toggle="modal" data-target="#termsPop"><u>privacy policy and terms and conditions</u></a>.
                     </div>
                   </div>
@@ -393,13 +393,13 @@
                   </div>
 
                   <div class="form-group" data-ng-show="!sign.newAccount.terms">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-4">
                       <button type="button" value="button" class="btn btn-danger pull-right"><i class="fa fa-exclamation-triangle"></i> You must agree to the privacy policy and terms and conditions.</button>
                     </div>
                   </div>
 
                   <div class="form-group" data-ng-show="sign.newAccount.terms">
-                      <div class="col-sm-6 col-sm-offset-3">
+                      <div class="col-sm-5 col-sm-offset-4">
                           <button type="button" data-ng-click="sign.sendSignupRequest()" id="newAccountSubmit" value="submit" class="btn btn-info pull-right"><i class="fa fa-sign-in"></i> Create Account</button>
                       </div>
                   </div>
