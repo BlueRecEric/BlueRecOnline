@@ -63,6 +63,11 @@ angular.module('bluereconlineApp')
       $scope.emergencyContactError = '';
       $scope.emergencyContactUpdates = '';
 
+      $scope.dateOptions = {
+          dateType: 'string',
+          modelDateFormat: 'yyyy-MM-dd'
+      };
+
       $scope.saveEmergencyContacts = function() {
           $scope.emergencyContactError = '';
           $scope.emergencyContactUpdates = '';
@@ -175,8 +180,8 @@ angular.module('bluereconlineApp')
         };
 
       $scope.saveNewUser = function () {
-        //console.log('save new user');
-        //console.log($scope.newMemberForm);
+        console.log('save new user');
+        console.log($scope.newMemberForm);
         var Updater = UserUpdate;
         Updater.submitNewMemberForm($scope.newMemberForm, ActiveUser.userData).then(
             function handleNewPartResult(UpdateResult) {
@@ -323,6 +328,12 @@ angular.module('bluereconlineApp')
           console.log($scope.config);
       });
   }])
+  .config(function($datepickerProvider) {
+      angular.extend($datepickerProvider.defaults, {
+          dateFormat: 'dd/MM/yyyy',
+          startWeek: 0
+      });
+  })
   .factory('UserUpdate', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', '$filter', 'ActiveUser', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams,$filter,ActiveUser) {
 
       var usrUpdate = this;

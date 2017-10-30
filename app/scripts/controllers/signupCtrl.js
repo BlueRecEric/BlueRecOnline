@@ -100,7 +100,7 @@ angular.module('bluereconlineApp')
     .config(function($datepickerProvider) {
         angular.extend($datepickerProvider.defaults, {
             dateFormat: 'dd/MM/yyyy',
-            startWeek: 1
+            startWeek: 0
         });
     })
 
@@ -272,7 +272,7 @@ angular.module('bluereconlineApp')
                 {
                     signRemote.formError = true;
                     signRemote.formData.birthdayError.error = true;
-                    signRemote.formData.birthdayError.message = 'Invalid birthday entered.  Enter your birthday as MM/DD/YYYY.';
+                    signRemote.formData.birthdayError.message = 'Invalid birthday format. Please use the format "MM/DD/YYYY".';
                 }
                 else
                 {
@@ -283,7 +283,7 @@ angular.module('bluereconlineApp')
                 {
                     signRemote.formError = true;
                     signRemote.formData.birthdayError.error = true;
-                    signRemote.formData.birthdayError.message = 'Invalid format, use MM/DD/YYYY.';
+                    signRemote.formData.birthdayError.message = 'Invalid birthday format. Please use the format "MM/DD/YYYY".';
                 }
             }
             else
