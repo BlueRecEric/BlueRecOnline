@@ -183,27 +183,58 @@ angular.module('bluereconlineApp')
         console.log('save new user');
         console.log($scope.newMemberForm);
         var Updater = UserUpdate;
-        Updater.submitNewMemberForm($scope.newMemberForm, ActiveUser.userData).then(
-            function handleNewPartResult(UpdateResult) {
-              $scope.resetMessages();
 
-              //console.log('Update Result');
-              console.log(UpdateResult.data);
+        $scope.newMemberError = false;
+        $scope.newMemberErrorText = '';
+        $scope.newMemberAdded = false;
+        
+        if($scope.newMemberForm.birthday !== null)
+        {
+          if(angular.isUndefined($scope.newMemberForm.birthday))
+          {
+              $scope.newMemberError = true;
+              $scope.newMemberErrorText = 'Field \'birthday\' is required. ';
+              $scope.newMemberAdded = false;
+          }
+          else
+          {
+              $scope.newMemberForm.formatBirthday = $filter('date')($scope.newMemberForm.birthday, 'yyyy-MM-dd');
+          }
 
-              if(UpdateResult.data.added)
-              {
-                updateHouseholdData();
-                $scope.showNewMember = false;
-                $scope.newMemberForm = [];
-                $scope.newMemberAdded = true;
-              }
-              else
-              {
+            if(!angular.isDefined($scope.newMemberForm.formatBirthday) || $scope.newMemberForm.formatBirthday === 0)
+            {
                 $scope.newMemberError = true;
-                $scope.newMemberErrorText = UpdateResult.data.errorText;
-              }
+                $scope.newMemberErrorText = 'Field \'birthday\' is required. ';
+                $scope.newMemberAdded = false;
             }
-        );
+        }
+        else
+        {
+            $scope.newMemberError = true;
+            $scope.newMemberErrorText = 'Field \'birthday\' is required. ';
+        }
+
+        if(!$scope.newMemberError) {
+            Updater.submitNewMemberForm($scope.newMemberForm, ActiveUser.userData).then(
+                function handleNewPartResult(UpdateResult) {
+                    $scope.resetMessages();
+
+                    //console.log('Update Result');
+                    console.log(UpdateResult.data);
+
+                    if (UpdateResult.data.added) {
+                        updateHouseholdData();
+                        $scope.showNewMember = false;
+                        $scope.newMemberForm = [];
+                        $scope.newMemberAdded = true;
+                    }
+                    else {
+                        $scope.newMemberError = true;
+                        $scope.newMemberErrorText = UpdateResult.data.errorText;
+                    }
+                }
+            );
+        }
       };
 
       $scope.genderOptions = [
