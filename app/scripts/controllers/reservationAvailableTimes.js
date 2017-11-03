@@ -308,7 +308,7 @@ angular.module('bluereconlineApp')
             $scope.getSelectedWeekdays = function() {
                 var selectedWeekdays = [];
 
-                console.log(' $scope.weekdayData',  $scope.weekdayData);
+                console.log('$scope.weekdayData',  $scope.weekdayData);
 
                 for (var i=0;i < $scope.weekdayData.length; i++)
                 {
@@ -875,6 +875,13 @@ angular.module('bluereconlineApp')
                 $scope.packages.total_packages = totalPackages;
             };
         }])
+
+    .config(function($datepickerProvider) {
+        angular.extend($datepickerProvider.defaults, {
+            dateFormat: 'MM/dd/yyyy',
+            startWeek: 0
+        });
+    })
 
     .directive('undo', function($rootScope) {
         return {

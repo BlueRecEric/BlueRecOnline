@@ -99,7 +99,7 @@ angular.module('bluereconlineApp')
 
     .config(function($datepickerProvider) {
         angular.extend($datepickerProvider.defaults, {
-            dateFormat: 'dd/MM/yyyy',
+            dateFormat: 'MM/dd/yyyy',
             startWeek: 0
         });
     })
