@@ -113,7 +113,14 @@ angular.module('bluereconlineApp')
                     $http(req)
                         .then(function (response) {
                             for (var i = 0; i < response.data.length; i++) {
-                                response.data[i].rental_code_desc_short = response.data[i].rental_code_description.substr(0, 125) + '...';
+                                if(response.data[i].rental_code_description !== undefined && response.data[i].rental_code_description.length > 0)
+                                {
+                                    response.data[i].rental_code_desc_short = response.data[i].rental_code_description.substr(0, 125) + '...';
+                                }
+                                else
+                                {
+                                    response.data[i].rental_code_desc_short = '';
+                                }
                             }
 
                             $scope.rentalGroupData = response.data;
