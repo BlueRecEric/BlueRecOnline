@@ -13,7 +13,6 @@
 							<h3 class="panel-title">Add-Ons</h3>
 						</div>
 
-
 						<div class="hidden-xs">
 							<table class="table table-min-padding table-responsive" style="margin-bottom: 0px;">
 								<thead>
@@ -133,6 +132,30 @@
 						</div>
 					</div>
 
+					<div data-ng-if="requirements.show">
+						<div class="panel panel-primary animate-show animate-hide">
+							<div class="panel-heading clearfix">
+								<h3 class="panel-title">Requirements</h3>
+							</div>
+							<div class="panel-body">
+								<div style="padding-left: 8px;padding-right: 8px;padding-bottom: 8px;padding-top: 0px;">
+
+									<div class="form-group" data-ng-if="false">
+										<div class="col-xs-12 spacing">
+											<label>Upload a documents/images for the following requirements.</label>
+										</div>
+									</div>
+
+									<div class="form-group striped-row" data-ng-repeat="require in requirements.data">
+										<label class="col-sm-2 font-weight-normal">{{::require.requirement_name}}:</label>
+										<div class="col-sm-10">
+											<input type="file" class="" fileread="require.file_data" accept=".jpg, .jpeg, .doc, .docx, .pdf"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
 					<div>
 						<div class="panel panel-primary">
@@ -168,7 +191,7 @@
 
 								<div class="col-sm-12">
 									<button type="submit" class="btn btn-success" data-ng-click="onSubmitAddRentalToCart()"
-													data-ng-if="rentalData.auto_approve === '1'" data-ng-disabled="submittingData">
+													data-ng-if="rentalData.auto_approve === '1'" data-ng-disabled="submittingData || !requirements.loaded">
 										<i class="fa fa-shopping-cart"></i> Add Rental to Cart</button>
 									<!--<button type="submit" class="btn btn-success" data-ng-click="onSubmitRentalRequest()"
                                             data-ng-if="rentalData.auto_approve === '0'"

@@ -381,14 +381,12 @@
                           </div>
                         </td>
 
-
                         <td st-ratio="80" class="colShowMobile" data-ng-if="::(timeRow.available && rentalData.online_auto_select_event === '1')">&nbsp;{{::timeRow.fname}}<br>{{::timeRow.location_name}}</td>
                         <td st-ratio="80" class="colHideMobile" style="padding-right:10px!important;"
                                 data-ng-if="::(timeRow.available && rentalData.online_auto_select_event === '1')">&nbsp;{{::timeRow.fname}} - {{::timeRow.location_address}}</td>
 
-
                         <td st-ratio="50" class="colShowMobile" data-ng-if="::(rentalData.force_facility_order !== '1' && rentalData.online_auto_select_event !== '1')"> &nbsp;{{::timeRow.fname}}</td>
-                        <td st-ratio="50" class="colShowMobile" data-ng-if="::(rentalData.force_facility_order === '1' && rentalData.online_auto_select_event !== '1') "> <span data-ng-repeat="facRow in::timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
+                        <td st-ratio="50" class="colShowMobile" data-ng-if="::(rentalData.force_facility_order === '1' && rentalData.online_auto_select_event !== '1') "> <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
                         <td st-ratio="30" class="colHideMobile" data-ng-if="::(rentalData.force_facility_order !== '1' && rentalData.online_auto_select_event !== '1')"> &nbsp;{{::timeRow.fname}}</td>
                         <td st-ratio="30" class="colHideMobile" data-ng-if="::(rentalData.force_facility_order ==='1' && rentalData.online_auto_select_event !== '1')"> <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
                         <td st-ratio="30" class="colHideMobile no-word-wrap" data-ng-if="::(rentalData.force_facility_order !=='1' && rentalData.online_auto_select_event !== '1')">
