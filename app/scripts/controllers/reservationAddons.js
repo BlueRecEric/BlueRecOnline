@@ -56,6 +56,7 @@ angular.module('bluereconlineApp')
             $scope.selectedTimeData = ReservationFactory.getReservationTimes();
 
             //console.log('$scope.rentalData', $scope.rentalData);
+            console.log('$scope.rentalData', $scope.rentalData);
 
             $scope.displayTimeData = [];
 
@@ -318,8 +319,7 @@ angular.module('bluereconlineApp')
 
                         for (var r = 0; r < $scope.requirements.data.length; r++) {
                             if(!angular.isUndefined($scope.requirements.data[r].file_data)) {
-                                selectedRequirements.push({
-                                    requirement_id: $scope.requirements.data[r].requirement_id,
+                                selectedRequirements.push({requirement_id: $scope.requirements.data[r].requirement_id,
                                     file_name: $scope.requirements.data[r].file_data.info.name,
                                     file_type: $scope.requirements.data[r].file_data.info.type,
                                     file_size: $scope.requirements.data[r].file_data.info.size,
