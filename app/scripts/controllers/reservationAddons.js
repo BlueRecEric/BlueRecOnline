@@ -55,7 +55,6 @@ angular.module('bluereconlineApp')
 
             $scope.selectedTimeData = ReservationFactory.getReservationTimes();
 
-            //console.log('$scope.rentalData', $scope.rentalData);
             console.log('$scope.rentalData', $scope.rentalData);
 
             $scope.displayTimeData = [];
