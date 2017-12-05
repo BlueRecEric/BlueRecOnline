@@ -77,21 +77,28 @@
 
             <p>Information for {{sracontact.participant}}</p>
 
-            <div class="form-group">
+            <div class="form-group" data-ng-show="sracontact.showcheckbox">
+              <label for="medications" class="col-sm-2 control-label"></label>
+              <div class="col-sm-6">
+                <checkbox class="btn-primary" ng-true-value="1" ng-false-value="0" data-ng-model="sracontact.assistance"></checkbox>  I require modification/assistance to participate in this program.
+              </div>
+            </div>
+
+            <div class="form-group" data-ng-show="!sracontact.showcheckbox">
               <label for="medications" class="col-sm-2 control-label">Current Medications:</label>
               <div class="col-sm-6">
                 <input type="text" id="medications" data-ng-model="sracontact.medications" class="form-control"/>
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-ng-show="!sracontact.showcheckbox">
               <label for="allergies" class="col-sm-2 control-label">Allergies:</label>
               <div class="col-sm-6">
                 <input type="text" id="allergies" data-ng-model="sracontact.allergies" class="form-control"/>
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-ng-show="!sracontact.showcheckbox">
               <label for="disabilities" class="col-sm-2 control-label">Disabilities:</label>
               <div class="col-sm-6">
                 <input type="text" id="disabilities" data-ng-model="sracontact.disabilities" class="form-control"/>
