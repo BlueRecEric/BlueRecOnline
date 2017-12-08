@@ -36,6 +36,10 @@ angular.module('bluereconlineApp')
           {
               ActiveUser.updateUser().then(function(){
                 setTimeout(setHouseholdData, 500);
+                UserUpdate.getResidency(ActiveUser.userData.household_id).then(function(response){
+                    console.log('resident response is ' + response.data.data);
+                    $scope.isResident = response.data.data;
+                });
               });
           }
       }
@@ -55,6 +59,7 @@ angular.module('bluereconlineApp')
           return $filter('date')(birthday, 'MM/dd/yyyy', '-0500');
       };
 
+      $scope.isResident = false;
       $scope.showNewMember = false;
       $scope.showEmergencyContact = false;
       $scope.newMemberForm = [];
@@ -374,6 +379,19 @@ angular.module('bluereconlineApp')
           var req = {
               method: 'GET',
               url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/config',
+              headers: {
+                  'Content-Type': undefined
+              }
+          };
+
+          return $http(req);
+      };
+
+      usrUpdate.getResidency = function(houseID)
+      {
+          var req = {
+              method: 'GET',
+              url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/residency/'+houseID,
               headers: {
                   'Content-Type': undefined
               }

@@ -14,7 +14,7 @@
 
     <div class="alert alert-warning" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        Members added to your household cannot be removed from online.  To have members removed from your household you will need to contact the {{config.data.organizationName}}. {{config.data.residencyContactMessage}}
+        Members added to your household cannot be removed from online.  To have members removed from your household you will need to contact the {{config.data.organizationName}}. <span data-ng-hide="isResident">{{config.data.residencyContactMessage}}</span>
     </div>
 
     <div class="spacing" data-ng-show="newMemberAdded"></div>
@@ -116,21 +116,21 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" data-ng-show="config.data.medCheckbox != '1'">
                         <label for="newFirstName" class="col-sm-3 control-label">Current Medications:</label>
                         <div class="col-sm-6">
                             <input type="text" id="newMedications" data-ng-model="newMemberForm.medications" class="form-control"/>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" data-ng-show="config.data.medCheckbox != '1'">
                         <label for="newFirstName" class="col-sm-3 control-label">Allergies:</label>
                         <div class="col-sm-6">
                             <input type="text" id="newAllergies" data-ng-model="newMemberForm.allergies" class="form-control"/>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" data-ng-show="config.data.medCheckbox != '1'">
                         <label for="newFirstName" class="col-sm-3 control-label">Disabilities:</label>
                         <div class="col-sm-6">
                             <input type="text" id="newDisabilities" data-ng-model="newMemberForm.disabilities" class="form-control"/>
@@ -226,21 +226,21 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" data-ng-show="config.data.medCheckbox != '1'">
                         <label for="newFirstName" class="col-sm-3 control-label">Current Medications:</label>
                         <div class="col-sm-6">
                             <input type="text" id="medications" data-ng-model="person.medications" class="form-control"/>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" data-ng-show="config.data.medCheckbox != '1'">
                         <label for="newFirstName" class="col-sm-3 control-label">Allergies:</label>
                         <div class="col-sm-6">
                             <input type="text" id="allergies" data-ng-model="person.allergies" class="form-control"/>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" data-ng-show="config.data.medCheckbox != '1'">
                         <label for="newFirstName" class="col-sm-3 control-label">Disabilities:</label>
                         <div class="col-sm-6">
                             <input type="text" id="disabilities" data-ng-model="person.disabilities" class="form-control"/>
