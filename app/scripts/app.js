@@ -234,8 +234,8 @@ angular
             }
         });
 
-
-      /* $rootScope.$on('onBeforeUnload', function (e, confirmation) {
+        /*
+        $rootScope.$on('onBeforeUnload', function (e, confirmation) {
             confirmation.message = 'Leaving this page will log you out.';
             e.preventDefault();
         });
@@ -259,7 +259,8 @@ angular
 
         $window.onunload = function () {
             $rootScope.$broadcast('onUnload');
-        };*/
+        };
+        */
 
     }])
 
