@@ -17,6 +17,33 @@
 
                         <h4>{{addonData.itemName}} add-ons for {{addonData.userName}}</h4>
 
+                        <div class="table-responsive" data-ng-show="addonData.addons.programs.length > 0">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <td class="col-xs-1">Purchase</td>
+                                    <td class="col-xs-5">Program Name</td>
+                                    <td class="col-xs-2">Fee(s)</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="pro in addonData.addons.programs" >
+                                    <td>
+                                        <checkbox data-ng-show="pro.required_purchase != '1'" class="btn-{{(pro.remaining <= 0)?'danger':'primary'}}" ng-true-value="1" ng-false-value="0" data-ng-model="pro.selected" name="pro.item_name"></checkbox>
+                                        <span data-ng-show="pro.required_purchase == '1'">Required</span>
+                                        <!--<checkbox class="btn-primary" data-ng-click="preLoad.updateAddonFees($parent.$parent.$index, $index)" ng-true-value="1" ng-false-value="0" data-ng-model="pkg.selected" name="pkg.item_name"></checkbox>-->
+                                    </td>
+                                    <td><span class="text-danger" data-ng-if="(pro.remaining <= 0)">(Full) </span>{{pro.item_name}}</td>
+                                    <td>
+                                        <p data-ng-show="pro.ignore_price != '1'" data-ng-repeat="profee in pro.fees.data">{{profee.fee_name}} ${{profee.fee_amount}}</p>
+
+                                        <span data-ng-show="pro.ignore_price == '1'">Included</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="table-responsive" data-ng-show="addonData.addons.packages.length > 0">
                             <table class="table table-bordered">
                                 <thead>

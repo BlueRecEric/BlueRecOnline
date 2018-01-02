@@ -188,15 +188,34 @@ angular.module('bluereconlineApp')
 
                 var hasPackage = false;
                 var hasInventory = false;
+                var hasPrograms = false;
                 var selectedAddons = [];
                 var selectedWeekdays = [];
                 var selectedPackages = [];
+                var selectedPrograms = [];
                 var selectedDropins = [];
                 var selectedGroups = [];
                 var selectedInventory = [];
                 var registration = $scope.preLoad.data[r];
 
                 var requiredAmountSelected = true;
+
+                if(angular.isDefined(registration.addons.programs) && registration.addons.programs.length > 0)
+                {
+                    selectedPrograms = registration.addons.programs.filter(isSelected);
+
+                    //console.log('here are the selected inventory:');
+                    //console.log(selectedInventory);
+
+                    if(selectedPrograms.length > 0)
+                    {
+                        hasPrograms = true;
+                        for(var spro = 0; spro < selectedPrograms.length; spro++)
+                        {
+                            selectedAddons.push(selectedPrograms[spro]);
+                        }
+                    }
+                }
 
                 if(angular.isDefined(registration.addons.inventory) && registration.addons.inventory.length > 0)
                 {

@@ -18,7 +18,8 @@
                         <div class="col-xs-6">
                             <img data-ng-src="{{reportData.returnData.header.org_logo.uri}}" class="receiptImg"><br>
                             {{reportData.returnData.header.org_address}}<br>
-                            {{reportData.returnData.header.org_city}}, {{reportData.returnData.header.org_state}}&nbsp;&nbsp;{{reportData.returnData.header.org_zip}}
+                            {{reportData.returnData.header.org_city}}, {{reportData.returnData.header.org_state}}&nbsp;&nbsp;{{reportData.returnData.header.org_zip}}<br>
+                            Federal Tax ID: {{reportData.returnData.header.tax_id}}
                         </div>
 
                         <div class="col-xs-6 text-right">
@@ -71,6 +72,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
