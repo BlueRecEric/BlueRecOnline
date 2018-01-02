@@ -204,6 +204,7 @@ angular
         $locationProvider.html5Mode();
 
         $httpProvider.interceptors.push('AuthInterceptor');
+
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         $httpProvider.defaults.headers.common.Accept = 'application/json';
@@ -211,8 +212,18 @@ angular
         $httpProvider.defaults.headers.common.Pragma = 'no-cache';
     })
 
-    .run(['$window','$rootScope','$location', '$routeParams', '$anchorScroll', 'ActiveUser', 'toaster', '$templateCache',
-        function($window,$rootScope, $location, $routeParams, $anchorScroll, ActiveUser, toaster, $templateCache) {
+    .run(['$window','$rootScope','$location', '$routeParams', '$anchorScroll', 'AuthToken','AuthService', 'ActiveUser', 'toaster', '$templateCache',
+        function($window,$rootScope, $location, $routeParams, $anchorScroll,AuthToken, AuthService, ActiveUser, toaster, $templateCache) {
+
+        $rootScope.$on('loginRequired', function(event) {
+            event.preventDefault();
+            AuthToken.setToken();
+
+            ActiveUser.setActiveUser('');
+
+            $location.path('/' + $routeParams.orgurl + '/login');
+        });
+
         $rootScope.$on('$routeChangeSuccess', function () {
             toaster.clear('*');
             $anchorScroll('pageTop');
@@ -235,7 +246,7 @@ angular
         });
 
 
-      /* $rootScope.$on('onBeforeUnload', function (e, confirmation) {
+       $rootScope.$on('onBeforeUnload', function (e, confirmation) {
             confirmation.message = 'Leaving this page will log you out.';
             e.preventDefault();
         });
@@ -259,7 +270,7 @@ angular
 
         $window.onunload = function () {
             $rootScope.$broadcast('onUnload');
-        };*/
+        };
 
     }])
 
@@ -809,12 +820,10 @@ angular
             setToken: setToken
         };
     }])
-    .factory('AuthInterceptor', ['AuthToken', function (AuthToken) {
+    .factory('AuthInterceptor', ['$rootScope','$routeParams', '$location', '$q', 'AuthToken', function ($rootScope,$routeParams, $location, $q, AuthToken) {
 
         function addToken(config) {
             var token = AuthToken.getToken();
-
-
 
             if(token && config.skipAuthorization !== true) {
                 config.headers = config.headers || {};
@@ -829,7 +838,20 @@ angular
         }
 
         return{
-            request:addToken
+            request:addToken,
+
+            responseError: function(rejection) {
+
+                console.log('rejection', rejection);
+                if (rejection.status === 401) {
+                    $rootScope.$emit('loginRequired');
+                }
+
+                /* If not a 401, do nothing with this error.
+                 * This is necessary to make a `responseError`
+                 * interceptor a no-op. */
+                return $q.reject(rejection);
+            }
         };
     }])
     .factory('MemInfoLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,$routeParams) {
