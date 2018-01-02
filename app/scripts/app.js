@@ -246,7 +246,7 @@ angular
         });
 
 
-        /*
+
         $rootScope.$on('onBeforeUnload', function (e, confirmation) {
 
             confirmation.message = 'Leaving this page will log you out.';
@@ -274,7 +274,7 @@ angular
             $rootScope.$broadcast('onUnload');
         };
 
-        */
+        
 
     }])
 
@@ -847,8 +847,13 @@ angular
             responseError: function(rejection) {
 
                 console.log('rejection', rejection);
+                console.log('rejection', rejection.config.url);
+
                 if (rejection.status === 401) {
-                    $rootScope.$emit('loginRequired');
+                    if(rejection.config.url.search('/ping') === -1)
+                    {
+                        $rootScope.$emit('loginRequired');
+                    }
                 }
 
                 /* If not a 401, do nothing with this error.
