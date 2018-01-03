@@ -248,17 +248,16 @@ angular
 
 
         $rootScope.$on('onBeforeUnload', function (e, confirmation) {
-
             confirmation.message = 'Leaving this page will log you out.';
             e.preventDefault();
         });
+
         $rootScope.$on('onUnload', function (e) {
             $window.localStorage.clear();
             //console.log('leaving page'); // Use 'Preserve Log' option in Console
         });
 
         $window.onbeforeunload = function (e) {
-
             if(ActiveUser.isLoggedIn()) {
                 var confirmation = {};
                 var event = $rootScope.$broadcast('onBeforeUnload', confirmation);
@@ -266,15 +265,13 @@ angular
                     return confirmation.message;
                 }
             }
-
         };
-
 
         $window.onunload = function () {
             $rootScope.$broadcast('onUnload');
         };
 
-        
+
 
     }])
 

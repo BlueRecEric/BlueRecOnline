@@ -52,7 +52,7 @@
               <form name="searchForm" novalidate>
                 <div style="padding-left: 0px;">
 
-                  Campers using our online registration system are limited to no more than two (2) tent registrations. To reserve more than two (2) tents at Camp, please contact the Berkeley Recreation Administration office at (510) 981-5140 or camps@cityofberkeley.info for assistance.
+                  <div class="label-spacing" data-ng-if="orgurl === 'berkeleycatest' || orgurl === 'berkeleyca' || orgurl === 'alphadev'">Campers using our online registration system are limited to no more than two (2) tent registrations. To reserve more than two (2) tents at Camp, please contact the Berkeley Recreation Administration office at (510) 981-5140 or camps@cityofberkeley.info for assistance.</div>
 
                   <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event !== '1'">
                     <div class="col-sm-12">

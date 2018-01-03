@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <div class="spacing"> </div>
+      <div class="spacing" data-ng-show="(preLoad.sradata.length > 0)"> </div>
 
       <div class="panel panel-default" data-ng-show="(preLoad.sradata.length > 0)">
         <div class="panel-heading">
@@ -110,7 +110,7 @@
         </div>
       </div>
 
-      <div class="spacing"> </div>
+      <div class="spacing" data-ng-show="(preLoad.emergencycontacts.data.length > 0 && (requiredEmergencyCount > 0 || availableEmergencyCount > 0))"> </div>
 
       <div class="panel panel-default" data-ng-show="(preLoad.emergencycontacts.data.length > 0 && (requiredEmergencyCount > 0 || availableEmergencyCount > 0))">
         <div class="panel-heading">
@@ -150,7 +150,7 @@
         </div>
       </div>
 
-      <div class="spacing"> </div>
+      <div class="spacing" data-ng-show="preLoad.hasAddons"> </div>
 
       <div class="panel panel-default" data-ng-show="preLoad.hasAddons">
         <div class="panel-heading">
@@ -280,7 +280,7 @@
         </div>
       </div>
 
-      <div class="spacing"> </div>
+      <div class="spacing" data-ng-show="preLoad.hasPayments"> </div>
 
       <div class="panel panel-default" data-ng-show="preLoad.hasPayments">
         <div class="panel-heading">

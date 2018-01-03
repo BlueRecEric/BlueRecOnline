@@ -13,6 +13,8 @@ angular.module('bluereconlineApp')
         function ($scope, $rootScope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, $modal, $q, $timeout, $filter, $anchorScroll, moment,
                   ActiveUser, ReservationFactory) {
 
+            $scope.orgurl = $routeParams.orgurl;
+
             $scope.userLoggedIn = false;
             $scope.userLoggedIn = ActiveUser.isLoggedIn();
 
