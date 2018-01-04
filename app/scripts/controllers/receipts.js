@@ -17,7 +17,7 @@ angular.module('bluereconlineApp')
             window.print();
         };
 
-        $scope.showItemData = function(itemType, columnType, columnData)
+        $scope.showItemData = function(itemType, columnType)
         {
             var bShow = false;
 
@@ -32,12 +32,10 @@ angular.module('bluereconlineApp')
                         columnType === 'personName' ||
                         columnType === 'originalItem' ||
                         columnType === 'extraDataTwo'
-                    )
-
-                    if(columnData.length > 0) {
-                        {
+                    ) {
+                       /* if (columnData.length > 0) {
                             bShow = true;
-                        }
+                        }*/
                     }
                     break;
                 case 'RENTAL CODE':

@@ -190,7 +190,7 @@
                                         <tbody data-ng-repeat="plan in item.payment_plan">
                                         <tr>
                                             <td class="receipt-padding-left">Payment #{{::plan.display_order}}</td>
-                                            <td>{{::plan.total_fee | currency:"$"}}</td>
+                                            <td>{{::(plan.total_fee-plan.total_discount) | currency:"$"}}</td>
                                             <td>{{::plan.invoice_due_date}}</td>
                                         </tr>
                                         </tbody>
