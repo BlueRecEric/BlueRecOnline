@@ -100,7 +100,7 @@
             </tr>
 
             <tr>
-                <td colspan="3" class="text-right"><strong>Payment Method(s):{{::receiptData.returnData.header.paymentMethod}}</strong></td>
+                <td colspan="3" class="text-right"><strong>Payment Method:</strong>{{::receiptData.returnData.header.paymentMethod}}</td>
             </tr>
 
             <tr style="border-bottom:1px solid #000000;">
@@ -126,7 +126,7 @@
                             </tr>
 
                             <tr>
-                                <td class="receipt-padding-left"><strong>Item Name:</strong></td>
+                                <td class="receipt-padding-left"><strong>Item:</strong></td>
                                 <td>{{::item.item_name}}</td>
 
                                 <td class="text-right" width="50"><strong>Fee:</strong></td>
@@ -134,7 +134,7 @@
                             </tr>
 
                             <tr>
-                                <td class="receipt-padding-left"><div data-ng-if="showItemData(item.item_type, 'personName', item.personName)"><strong>Person Name:</strong></div></td>
+                                <td class="receipt-padding-left"><div data-ng-if="showItemData(item.item_type, 'personName', item.personName)"><strong>Name:</strong></div></td>
                                 <td><div data-ng-if="showItemData(item.item_type, 'personName', item.personName)">{{::item.personName}}</div></td>
 
                                 <td class="text-right"><strong>Paid:</strong></td>

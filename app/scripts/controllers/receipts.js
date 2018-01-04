@@ -17,7 +17,7 @@ angular.module('bluereconlineApp')
             window.print();
         };
 
-        $scope.showItemData = function(itemType, columnType)
+        $scope.showItemData = function(itemType, columnType, columnData)
         {
             var bShow = false;
 
@@ -33,7 +33,7 @@ angular.module('bluereconlineApp')
                         columnType === 'originalItem' ||
                         columnType === 'extraDataTwo'
                     ) {
-                       /* if (columnData.length > 0) {
+                        /*if (columnData.length > 0) {
                             bShow = true;
                         }*/
                     }
