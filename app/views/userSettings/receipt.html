@@ -68,7 +68,10 @@
                         <tr>
                             <td class="text-left"><strong>Discount:</strong></td>
                             <td>&nbsp;&nbsp;</td>
-                            <td>{{::receiptData.returnData.header.discountAmount}}</td>
+                            <td>
+                                <span data-ng-if="receiptData.returnData.header.discountAmount > 0">(</span>{{::receiptData.returnData.header.discountAmount}}<span data-ng-if="receiptData.returnData.header.discountAmount > 0">)</span>
+
+                            </td>
                         </tr>
 
                         <tr>
@@ -182,16 +185,30 @@
                                     <table width="100%" class="table-fixed borderless report-table-scale">
                                         <thead>
                                             <tr>
-                                                <td class="receipt-padding-left"><strong>Payment Plan Summary</strong></td>
-                                                <td><strong>Fee</strong></td>
+                                                <td class="receipt-padding-left col-sm-4"><strong>Payment Plan Summary</strong></td>
+                                                <td class="col-sm-1"><strong>Fee</strong></td>
+                                                <td class="col-sm-1"><strong>Paid</strong></td>
+                                                <td class="col-sm-1"><strong>Bal.</strong></td>
                                                 <td><strong>Due</strong></td>
+                                                <td><strong>Late</strong></td>
                                             </tr>
                                         </thead>
                                         <tbody data-ng-repeat="plan in item.payment_plan">
-                                        <tr>
-                                            <td class="receipt-padding-left">Payment #{{::plan.display_order}}</td>
-                                            <td>{{::(plan.total_fee-plan.total_discount) | currency:"$"}}</td>
+                                        <tr data-ng-if="plan.summary != 1">
+                                            <td class="receipt-padding-left-2x col-sm-4">Payment #{{::plan.display_order}}</td>
+                                            <td class="col-sm-1">{{::plan.total_fee | currency:"$"}}</td>
+                                            <td class="col-sm-1">{{::plan.total_paid | currency:"$"}}</td>
+                                            <td class="col-sm-1">{{::plan.invoice_balance | currency:"$"}}</td>
                                             <td>{{::plan.invoice_due_date}}</td>
+                                            <td>{{::plan.invoice_late_date}}</td>
+                                        </tr>
+                                        <tr data-ng-if="plan.summary == 1">
+                                            <td class="receipt-padding-left-2x col-sm-4"><strong>Payment Plan Totals</strong></td>
+                                            <td class="col-sm-1"><strong>{{::plan.total_fee | currency:"$"}}</strong></td>
+                                            <td class="col-sm-1"><strong>{{::plan.total_paid | currency:"$"}}</strong></td>
+                                            <td class="col-sm-1"><strong>{{::plan.invoice_balance | currency:"$"}}</strong></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -202,6 +219,42 @@
                             </tr>
 
                         </tbody>
+
+
+
+
+
+
+
+                        <tbody data-ng-if="receiptData.returnData.discounts.length > 0">
+                            <tr>
+                                <td><br><br></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong class="text-underline">Discounts Applied</strong></td>
+                            </tr>
+
+                            <tr data-ng-repeat="discount in receiptData.returnData.discounts">
+                                <td class="receipt-padding-left">{{::discount.discountName}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+
+                        </tbody>
+
+
+
+
+
+
+
+
+
+
+
+
 
                     </table>
 
