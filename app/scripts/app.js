@@ -843,8 +843,8 @@ angular
 
             responseError: function(rejection) {
 
-                console.log('rejection', rejection);
-                console.log('rejection', rejection.config.url);
+                //console.log('rejection', rejection);
+                //console.log('rejection', rejection.config.url);
 
                 if (rejection.status === 401) {
                     if(rejection.config.url.search('/ping') === -1)

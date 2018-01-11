@@ -221,11 +221,6 @@
                         </tbody>
 
 
-
-
-
-
-
                         <tbody data-ng-if="receiptData.returnData.discounts.length > 0">
                             <tr>
                                 <td><br><br></td>
@@ -243,17 +238,6 @@
                             </tr>
 
                         </tbody>
-
-
-
-
-
-
-
-
-
-
-
 
 
                     </table>
@@ -276,6 +260,16 @@
                 <td colspan="3" class="text-center">
                     <img data-ng-if="::ticket.image" width="600" data-ng-src="{{::ticket.image}}">
                 </td>
+            </tr>
+        </table>
+
+        <div data-ng-if="receiptData.returnData.header.footer_left.length > 0 || receiptData.returnData.header.footer_right.length > 0"><br><br><br></div>
+
+        <table class="table-fixed report-table report-table-scale" width="100%"
+                data-ng-if="receiptData.returnData.header.footer_left.length > 0 || receiptData.returnData.header.footer_right.length > 0">
+            <tr>
+                <td width="50%" data-ng-bind-html="::receiptData.returnData.header.footer_left | sanitize"></td>
+                <td width="50%" class="text-right" data-ng-bind-html="::receiptData.returnData.header.footer_right | sanitize"></td>
             </tr>
         </table>
 
