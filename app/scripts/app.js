@@ -1187,7 +1187,7 @@ angular
 
     return proload;
   }])
-.controller('appController',['$scope', '$rootScope', '$http','$routeParams', '$q','AuthService', 'ActiveUser', function ($scope,$rootScope, $http,$routeParams,$q, AuthService,ActiveUser) {
+.controller('appController',['$scope', '$rootScope', '$http','$routeParams', '$q','AuthService', 'ActiveUser', 'BLUEREC_ONLINE_CONFIG', function ($scope,$rootScope, $http,$routeParams,$q, AuthService,ActiveUser,BLUEREC_ONLINE_CONFIG) {
 
     function isImage(src) {
 
@@ -1207,6 +1207,8 @@ angular
 
     $scope.$on('$routeChangeSuccess', function() {
         $scope.CssLink = $routeParams.orgurl;
+        $scope.ApiUrl = BLUEREC_ONLINE_CONFIG.API_URL;
+
 
         $scope.headerLogo = '';
 
@@ -1230,22 +1232,26 @@ angular
                             {
                                 $scope.headerLogo = 'images/'+$routeParams.orgurl+'.gif';
                             }
+                            else
+                            {
+                                var splitParts = $routeParams.orgurl.split('-');
+
+                                isImage('images/'+splitParts[0]+'.png').then(function(test) {
+                                    if(test) {
+                                        $scope.headerLogo = 'images/'+splitParts[0]+'.png';
+                                        //console.log('images/' + splitParts[0] + '.png is an image!');
+                                    }
+                                    else {
+                                        //console.log('images/' + splitParts[0] + '.png is NOT an image!');
+                                    }
+                                });
+                            }
                         });
                     }
                 });
                 //console.log('images/'+$routeParams.orgurl+'.png is NOT an image!');
 
-                var splitParts = $routeParams.orgurl.split('-');
 
-                isImage('images/'+splitParts[0]+'.png').then(function(test) {
-                    if(test) {
-                        $scope.headerLogo = 'images/'+splitParts[0]+'.png';
-                        //console.log('images/' + splitParts[0] + '.png is an image!');
-                    }
-                    else {
-                        //console.log('images/' + splitParts[0] + '.png is NOT an image!');
-                    }
-                });
             }
         });
 
