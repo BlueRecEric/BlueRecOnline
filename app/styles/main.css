@@ -15,7 +15,8 @@
 
 #ticketBox {
     border: 1px solid #080808;
-    page-break-before: always;
+    page-break-before: always !important;
+    display: block !important;
     margin: 10px !important;
     padding: 10px !important;
 }
