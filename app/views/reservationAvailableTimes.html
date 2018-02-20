@@ -73,8 +73,8 @@
                                   data-ng-if="rentalData.force_facility_order=='0'"
                                   data-ng-disabled="(rentalData.force_facility_order=='1')"></checkbox>
                           <span data-ng-if="rentalData.force_facility_order=='1'">{{$index + 1}}) </span>
-                          <label for="chkFacility{{fac.item_id}}" class="label-spacing" style="padding-left: 2px !important;">
-                            <a href="" tooltip-size="large" tooltip-class="facility-address" tooltips tooltip-template="{{fac.location_address}}"><i class="fa fa-map-marker" aria-hidden="true"></i></a>&nbsp;{{fac.item_name}}
+                          <label class="label-spacing" style="padding-left: 2px !important;">
+                            <a href="" tooltip-size="large" tooltip-class="facility-address" tooltips tooltip-template="{{fac.location_address}}"><i class="fa fa-map-marker" aria-hidden="true"></i></a>&nbsp; <a href="http://{{fac.description_url}}" target="_blank" data-ng-if="fac.description_url.length > 0">{{fac.item_name}}</a>{{(fac.description_url.length === 0)?fac.item_name:''}}
                           </label>
                           </span>
                         </div>
