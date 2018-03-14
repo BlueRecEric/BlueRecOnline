@@ -11,6 +11,8 @@ angular.module('bluereconlineApp')
     .controller('RequestReservation', ['$scope', '$rootScope', '$http', '$location', 'BLUEREC_ONLINE_CONFIG', '$routeParams', 'MakeToast', '$modal', '$q', '$timeout', 'moment', 'ActiveUser',
         function ($scope, $rootScope, $http, $location, BLUEREC_ONLINE_CONFIG, $routeParams, MakeToast, $modal, $q, $timeout, moment, ActiveUser) {
 
+            $scope.orgurl = $routeParams.orgurl;
+
             $scope.displayApprovedRentals = false;
 
             $scope.approvedRentalData = [];
