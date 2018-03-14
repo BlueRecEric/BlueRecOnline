@@ -13,6 +13,7 @@ angular.module('bluereconlineApp')
 
         $scope.addrResult = '';
         $scope.addrOptions = null;
+        $scope.signupDisabled = false;
 
         $scope.$watch('addrDetails', function () {
             console.log('details changed');
@@ -62,7 +63,7 @@ angular.module('bluereconlineApp')
 
         sign.newAccount = {};
 
-
+        sign.signupDisabled = false;
         sign.newAccount.birthday = null;
         sign.remote = SignupFactory;
         sign.remote.accountCreated = false;
@@ -94,6 +95,15 @@ angular.module('bluereconlineApp')
             console.log($scope.config);
             sign.newAccount.requireGender = $scope.config.data.requireGender;
             $scope.signupVideo = $scope.config.data.signupTutorialVideo;
+
+            if($scope.config.data.disableAccountCreation == '1')
+            {
+                sign.signupDisabled = true;
+            }
+            else
+            {
+                sign.signupDisabled = false;
+            }
         });
     }])
 

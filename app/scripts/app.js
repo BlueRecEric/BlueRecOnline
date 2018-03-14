@@ -212,8 +212,8 @@ angular
         $httpProvider.defaults.headers.common.Pragma = 'no-cache';
     })
 
-    .run(['$window','$rootScope','$location', '$routeParams', '$anchorScroll', 'AuthToken','AuthService', 'ActiveUser', 'toaster', '$templateCache',
-        function($window,$rootScope, $location, $routeParams, $anchorScroll,AuthToken, AuthService, ActiveUser, toaster, $templateCache) {
+    .run(['$window','$rootScope','$location', '$routeParams', '$anchorScroll', 'AuthToken','AuthService', 'ActiveUser', 'toaster', '$templateCache','$http','BLUEREC_ONLINE_CONFIG','$route',
+        function($window,$rootScope, $location, $routeParams, $anchorScroll,AuthToken, AuthService, ActiveUser, toaster, $templateCache,$http,BLUEREC_ONLINE_CONFIG,$route) {
 
         $rootScope.$on('loginRequired', function(event) {
             event.preventDefault();
@@ -222,11 +222,18 @@ angular
             ActiveUser.setActiveUser('');
 
             $location.path('/' + $routeParams.orgurl + '/login');
+            $rootScope.OrgUrl = $routeParams.orgurl;
         });
 
         $rootScope.$on('$routeChangeSuccess', function () {
             toaster.clear('*');
             $anchorScroll('pageTop');
+            if($route.current.templateUrl == 'views/precheckout.html' || $route.current.templateUrl == 'views/checkout.html') {
+                $rootScope.hideCartNotice = true;
+            }
+            else {
+                $rootScope.hideCartNotice = false;
+            }
         });
 
         ActiveUser.getFromLocal();
@@ -245,7 +252,33 @@ angular
             }
         });
 
+        $rootScope.$on('updateCartCount', function () {
+            $rootScope.getCartCount();
+        });
 
+        $rootScope.hideCartNotice = false;
+        $rootScope.CartCount = 0;
+        $rootScope.OrgUrl = $routeParams.orgurl;
+
+        $rootScope.getCartCount = function() {
+            var req = {
+                method: 'POST',
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/cart/carttotalitems',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {
+                    'userID': ActiveUser.userData.user_id,
+                    'householdID':ActiveUser.userData.household_id
+                }
+            };
+
+            $http(req)
+                .success(function (data) {
+                    $rootScope.OrgUrl = $routeParams.orgurl;
+                    $rootScope.CartCount = data.cart_total_items;
+                });
+        };
 
         $rootScope.$on('onBeforeUnload', function (e, confirmation) {
             confirmation.message = 'Leaving this page will log you out.';
