@@ -147,6 +147,23 @@
                         </div>
                     </div>
                 </div>
+                <div data-ng-show="CartCount > 0">
+                    <div data-ng-hide="hideCartNotice">
+                        <div>
+                            <div class="bs-callout bs-callout-success" id="callout-type-b-i-elems">
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <i class="fa fa-tags fa-3x pull-left fa-border text-success"></i>
+                                        <br>You have one or more items in your shopping cart.
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <span class="pull-right" style="margin-top:15px;"><a href="#/{{OrgUrl}}/precheckout" class="btn btn-success btn-block spacing"><i class="fa fa-shopping-cart"></i> Checkout</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div ng-view="" ></div>
                 <div class="spacing noprint">&nbsp;</div>
                 <div class="spacing noprint">&nbsp;</div>
