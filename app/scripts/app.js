@@ -286,16 +286,20 @@ angular
         });
 
         $rootScope.$on('onUnload', function (e) {
-            $window.localStorage.clear();
+            if($routeParams.orgurl != 'alphadev') {
+                $window.localStorage.clear();
+            }
             //console.log('leaving page'); // Use 'Preserve Log' option in Console
         });
 
         $window.onbeforeunload = function (e) {
-            if(ActiveUser.isLoggedIn()) {
-                var confirmation = {};
-                var event = $rootScope.$broadcast('onBeforeUnload', confirmation);
-                if (event.defaultPrevented) {
-                    return confirmation.message;
+            if($routeParams.orgurl != 'alphadev') {
+                if (ActiveUser.isLoggedIn()) {
+                    var confirmation = {};
+                    var event = $rootScope.$broadcast('onBeforeUnload', confirmation);
+                    if (event.defaultPrevented) {
+                        return confirmation.message;
+                    }
                 }
             }
         };

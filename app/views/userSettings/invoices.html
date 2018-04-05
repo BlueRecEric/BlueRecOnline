@@ -16,6 +16,7 @@
                     <th>Due</th>
                     <th>Status</th>
                     <th>Amount</th>
+                    <th data-ng-show="item.show_tax_column">Tax</th>
                     <th>Paid</th>
                     <th>Due</th>
                     <th>Pay</th>
@@ -28,6 +29,7 @@
                     <td class="col-md-1">{{payment.due_date}}</td>
                     <td class="col-md-1">{{payment.payment_status}}</td>
                     <td class="col-md-1">{{payment.payment_fee | currency}}</td>
+                    <td class="col-md-1" data-ng-show="item.show_tax_column">{{payment.tax_fee | currency}}</td>
                     <td class="col-md-1">{{payment.payment_paid | currency}}</td>
                     <td class="col-md-1">{{payment.payment_due | currency}}</td>
                     <td class="col-md-1">
