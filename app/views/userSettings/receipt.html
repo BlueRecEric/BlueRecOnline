@@ -132,8 +132,18 @@
                                 <td class="receipt-padding-left"><strong>Item:</strong></td>
                                 <td>{{::item.item_name}}</td>
 
-                                <td class="text-right" width="50"><strong>Fee:</strong></td>
-                                <td class="receipt-padding-left text-right">{{::item.feeAmount | currency:"$"}}</td>
+                                <td class="text-right" width="50">
+                                    <strong>Fee:</strong>
+                                    <span data-ng-show="item.taxAmount > 0">
+                                        <br><strong>Tax:</strong>
+                                    </span>
+                                </td>
+                                <td class="receipt-padding-left text-right">
+                                    {{::item.feeAmount | currency:"$"}}
+                                    <span data-ng-show="item.taxAmount > 0">
+                                        <br>{{::item.taxAmount | currency:"$"}}
+                                    </span>
+                                </td>
                             </tr>
 
                             <tr>
