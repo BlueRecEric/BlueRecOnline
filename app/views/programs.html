@@ -5,12 +5,12 @@
     <div class="well row">
       <div class="col-xs-12">
         <div class="row">
-          <div class="form-group col-xs-12 col-md-4">
+          <div class="form-group col-xs-12 col-md-3">
             <label for="searchKeyword">Keyword/Code:</label>
             <input id="searchKeyword" ng-model="search.programSearch.keyword" class="form-control" data-ng-change="doSearch()" ng-model-options="{debounce: 500}">
           </div>
 
-          <div class="form-group col-xs-12 col-md-4">
+          <div class="form-group col-xs-12 col-md-3">
             <label for="searchCategory">Category:</label>
             <select id="searchCategory" class="form-control" ng-model="search.programSearch.type" data-ng-change="doSearch()">
               <option value=""></option>
@@ -18,11 +18,19 @@
             </select>
           </div>
 
-          <div class="form-group col-xs-12 col-md-4">
+          <div class="form-group col-xs-12 col-md-3">
             <label for="searchLocation">Location:</label>
             <select id="searchLocation" class="form-control" ng-model="search.programSearch.location" data-ng-change="doSearch()">
               <option value=""></option>
               <option quick-ng-repeat="loc in programLocations.data track by loc.location_id" value="{{loc.location_id}}" data-ng-selected="loc.location_id == search.programSearch.location">{{loc.location_name}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-xs-12 col-md-3">
+            <label for="searchSort">Sort:</label>
+            <select id="searchSort" class="form-control" ng-model="search.programSearch.sortBy" data-ng-change="doSearch()">
+              <option value=""></option>
+              <option quick-ng-repeat="sort in programSortOptions.data track by sort.sortBy" value="{{sort.sortBy}}" data-ng-selected="sort.sortBy == search.programSearch.sortBy">{{sort.sortLabel}}</option>
             </select>
           </div>
 

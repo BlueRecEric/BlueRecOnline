@@ -9,6 +9,7 @@ angular.module('bluereconlineApp')
         search.programSearch.keyword = '';
         search.programSearch.type = '';
         search.programSearch.location = '';
+        search.programSearch.sortBy = '';
 
         search.setProgramSearch = function () {
             var defer = $q.defer();
@@ -33,6 +34,12 @@ angular.module('bluereconlineApp')
                 search.programSearch.keyword = '';
                 search.programSearch.type = '';
                 search.programSearch.location = '';
+                search.programSearch.sortBy = 'name';
+            }
+
+            if(search.programSearch.sortBy == '')
+            {
+                search.programSearch.sortBy = 'name';
             }
 
             console.log('after getting program search:');

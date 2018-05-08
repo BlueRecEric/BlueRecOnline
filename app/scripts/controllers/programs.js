@@ -15,7 +15,7 @@ angular.module('bluereconlineApp')
         $scope.programs.busy = false;
         $scope.route = $routeParams;
         $scope.loadingProgram = false;
-
+        $scope.programSortOptions = [];
         $scope.search = SearchFactory;
         $scope.enrolledWithOptions = [];
 
@@ -101,6 +101,10 @@ angular.module('bluereconlineApp')
                 console.log('program types:');
                 console.log($scope.programTypes);
             });
+        };
+
+        $scope.getProgramSortOptions = function() {
+            $scope.programSortOptions.data = [{'sortOption':'0','sortBy':'name','sortLabel':'By Name'},{'sortOption':'1','sortBy':'date','sortLabel':'By Date'}];
         };
 
         $scope.getProgramLocations = function () {
@@ -346,6 +350,7 @@ angular.module('bluereconlineApp')
         $scope.getProgramLocations();
         $scope.checkTypeRoute();
         $scope.checkEnrolledPrograms();
+        $scope.getProgramSortOptions();
     }])
     .factory('ProgramsLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams) {
         var programs = this;
@@ -391,6 +396,7 @@ angular.module('bluereconlineApp')
                 searchOptions.keyword = '';
                 searchOptions.type = '';
                 searchOptions.location = '';
+                searchOptions.sortBy = '';
             }
 
             var req = {
@@ -400,7 +406,8 @@ angular.module('bluereconlineApp')
                 data: {
                     'keyword':searchOptions.keyword,
                     'typeId':searchOptions.type,
-                    'locationId':searchOptions.location
+                    'locationId':searchOptions.location,
+                    'sortBy':searchOptions.sortBy
                 },
                 headers: {
                     'Content-Type': undefined
