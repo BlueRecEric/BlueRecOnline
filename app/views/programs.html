@@ -33,6 +33,20 @@
               <option quick-ng-repeat="sort in programSortOptions.data track by sort.sortBy" value="{{sort.sortBy}}" data-ng-selected="sort.sortBy == search.programSearch.sortBy">{{sort.sortLabel}}</option>
             </select>
           </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-12 col-md-3">
+            <label>Starts On/After:</label>
+            <input class="form-control" data-ng-change="doSearch()" placeholder="MM/DD/YYYY" data-ng-model="search.programSearch.afterDate" data-date-format="M/d/yyyy" id="searchDateStart"
+                   name="date" data-autoclose="true" data-start-view="1" bs-datepicker type="text" >
+          </div>
+
+          <div class="form-group col-xs-12 col-md-3">
+            <label>Starts On/Before:</label>
+            <input class="form-control" data-ng-change="doSearch()" placeholder="MM/DD/YYYY" data-ng-model="search.programSearch.beforeDate" data-date-format="M/d/yyyy" id="searchDateBefore"
+                   name="date" data-autoclose="true" data-start-view="1" bs-datepicker type="text" >
+          </div>
+
 
           <!--
           <div class="row spacing" data-ng-if="showAdvancedSearch"></div>

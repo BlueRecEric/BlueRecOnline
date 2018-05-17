@@ -50,6 +50,7 @@
                                 <tr>
                                     <td class="col-xs-2">Purchase</td>
                                     <td class="col-xs-1">Quantity</td>
+                                    <td class="col-xs-1">Remaining</td>
                                     <td class="col-xs-4">Add-On Name</td>
                                     <td class="col-xs-3">Add-On Code</td>
                                     <td class="col-xs-2">Fee(s)</td>
@@ -64,7 +65,15 @@
                                     <td>
                                         <div class="row" data-ng-if="(pkg.selected=='1')">
                                             <div class="col-xs-12">
-                                                <input type="text" width="50" data-ng-model="pkg.item_qty" class="form-control input-sm" required/>
+                                                <input type="text" width="50" data-ng-model="pkg.item_qty" data-ng-change="checkPackageQuantity()" class="form-control input-sm" required/>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <span data-ng-if="(pkg.remaining > 0)">{{pkg.remaining}}</span>
+                                                <span data-ng-if="(pkg.remaining <= 0)">0</span>
                                             </div>
                                         </div>
                                     </td>

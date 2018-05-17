@@ -198,7 +198,12 @@ angular.module('bluereconlineApp')
                 var selectedInventory = [];
                 var registration = $scope.preLoad.data[r];
 
+                var qtyError = false;
+
                 var requiredAmountSelected = true;
+
+                var currentPackageGroupQuantity = 0;
+                var currentPackageGroupID = '';
 
                 if(angular.isDefined(registration.addons.programs) && registration.addons.programs.length > 0)
                 {
@@ -244,8 +249,39 @@ angular.module('bluereconlineApp')
                     if(selectedPackages.length > 0)
                     {
                         hasPackage = true;
+
                         for(var spack = 0; spack < selectedPackages.length; spack++)
                         {
+                            if(selectedPackages[spack].item_qty > selectedPackages[spack].remaining)
+                            {
+                                qtyError = true;
+                            }
+
+                            if(angular.isDefined(selectedPackages[spack].master_id))
+                            {
+                                console.log('master id defined: ' + selectedPackages[spack].master_id);
+                                if(selectedPackages[spack].master_id != currentPackageGroupID)
+                                {
+                                    currentPackageGroupQuantity = Number(selectedPackages[spack].item_qty);
+                                    currentPackageGroupID = selectedPackages[spack].master_id;
+                                    console.log('current group total reset, starting at ' + currentPackageGroupQuantity);
+                                }
+                                else
+                                {
+                                    currentPackageGroupQuantity = currentPackageGroupQuantity + Number(selectedPackages[spack].item_qty);
+                                    console.log('current group total increased to ' + currentPackageGroupQuantity);
+                                }
+
+                                if(Number(currentPackageGroupQuantity) > Number(selectedPackages[spack].master_remaining))
+                                {
+                                    qtyError = true;
+                                }
+                            }
+                            else
+                            {
+                                console.log('master id NOT defined: ' + selectedPackages[spack].master_id);
+                            }
+
                             selectedAddons.push(selectedPackages[spack]);
                         }
                     }
@@ -407,9 +443,21 @@ angular.module('bluereconlineApp')
                 //console.log('updated registration array:');
                 //console.log($scope.preLoad);
 
+                var optError = {};
+
+                if(qtyError)
+                {
+                    optError = {};
+                    optError.message = 'You may not enter a quantity higher than the max available.';
+                    optError.itemID = $scope.preLoad.data[r].itemID;
+
+                    $scope.optionErrors.push(optError);
+                }
+
+
                 if(!hasPackage && $scope.preLoad.data[r].requiresPackage == '1')
                 {
-                    var optError = {};
+                    optError = {};
                     optError.message = 'You must select at least one package for ' + $scope.preLoad.data[r].userName;
                     optError.itemID = $scope.preLoad.data[r].itemID;
 

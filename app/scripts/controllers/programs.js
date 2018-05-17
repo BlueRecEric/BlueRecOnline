@@ -352,7 +352,7 @@ angular.module('bluereconlineApp')
         $scope.checkEnrolledPrograms();
         $scope.getProgramSortOptions();
     }])
-    .factory('ProgramsLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams) {
+    .factory('ProgramsLoader', ['$http', 'BLUEREC_ONLINE_CONFIG', 'md5', '$routeParams','$filter', function($http,BLUEREC_ONLINE_CONFIG,md5,$routeParams,$filter) {
         var programs = this;
 
         programs.loadEnrolledPrograms = function(hid)
@@ -397,6 +397,8 @@ angular.module('bluereconlineApp')
                 searchOptions.type = '';
                 searchOptions.location = '';
                 searchOptions.sortBy = '';
+                searchOptions.afterDate = '';
+                searchOptions.beforeDate = '';
             }
 
             var req = {
@@ -407,7 +409,9 @@ angular.module('bluereconlineApp')
                     'keyword':searchOptions.keyword,
                     'typeId':searchOptions.type,
                     'locationId':searchOptions.location,
-                    'sortBy':searchOptions.sortBy
+                    'sortBy':searchOptions.sortBy,
+                    'afterDate':$filter('date')(searchOptions.afterDate, 'yyyy-MM-dd'),
+                    'beforeDate':$filter('date')(searchOptions.beforeDate, 'yyyy-MM-dd')
                 },
                 headers: {
                     'Content-Type': undefined
