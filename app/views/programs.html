@@ -255,7 +255,7 @@
 
                       <div class="col-sm-6">
                         <div class="row"><div class="col-sm-12"><h4>Location(s)</h4></div></div>
-                        <div class="row striped-row" quick-ng-repeat="location in program.listData.locations track by location.location_id">{{::location.location_name}}</div>
+                        <div class="row striped-row" quick-ng-repeat="location in program.listData.locations track by location.location_id"><strong>{{::location.location_name}}</strong><br>{{::location.location_addr_one}}<br>{{::location.location_city}}, {{::location.location_state}} {{::location.location_zip}}</div>
                       </div>
 
                       <div class="col-sm-6">
