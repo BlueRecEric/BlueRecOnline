@@ -257,7 +257,7 @@ angular.module('bluereconlineApp')
                                 qtyError = true;
                             }
 
-                            if(angular.isDefined(selectedPackages[spack].master_id))
+                            if(angular.isDefined(selectedPackages[spack].master_id) && selectedPackages[spack].master_id != null)
                             {
                                 console.log('master id defined: ' + selectedPackages[spack].master_id);
                                 if(selectedPackages[spack].master_id != currentPackageGroupID)
