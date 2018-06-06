@@ -252,7 +252,7 @@ angular.module('bluereconlineApp')
 
                         for(var spack = 0; spack < selectedPackages.length; spack++)
                         {
-                            if(selectedPackages[spack].item_qty > selectedPackages[spack].remaining)
+                            if(Number(selectedPackages[spack].item_qty) > Number(selectedPackages[spack].remaining))
                             {
                                 qtyError = true;
                             }
