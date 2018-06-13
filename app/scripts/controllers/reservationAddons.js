@@ -296,16 +296,13 @@ angular.module('bluereconlineApp')
                 $scope.addRentalRequest();
             };
 
-            $scope.onSubmitRentalRequest = function() {
-                $scope.addRentalRequest();
-            };
-
             $scope.addRentalRequest = function() {
                 $scope.agreementCheckError = false;
                 $scope.cartError = false;
 
                 var autoApproved = ($scope.rentalData.auto_approve === '1');
-                autoApproved = true;
+
+                //autoApproved = true;
 
                 //console.log('requirements', $scope.requirements.data);
 
@@ -409,7 +406,7 @@ angular.module('bluereconlineApp')
                             submitData.addons.push($scope.lighting_package.package);
                         }
 
-                        //console.log('submitData', submitData);
+                        console.log('submitData', submitData);
 
                         var req;
 
@@ -423,10 +420,10 @@ angular.module('bluereconlineApp')
                                 },
                                 data: submitData
                             };
+
                             $http(req).
                             then(function(response) {
-
-                                //console.log('success', response);
+                                //console.log('add to cart success', response);
 
                                 if(angular.isDefined(response.data.error))
                                 {
@@ -435,41 +432,35 @@ angular.module('bluereconlineApp')
                                 }
                                 else
                                 {
+                                    ReservationFactory.clearReservationData();
+                                    ReservationFactory.clearReservationTimes();
+
                                     if(response.status === 200 && response.data.result !== 'not_auto_approve')
                                     {
-                                        //console.log('added');
-
-                                        ReservationFactory.clearReservationData();
-                                        ReservationFactory.clearReservationTimes();
+                                        //console.log('added to cart');
 
                                         $rootScope.$emit('updateCartCount', {});
 
-                                        $location.path('/' + $routeParams.orgurl + '/addedtocart');
-
                                         $scope.submittingData = false;
+
+                                        $location.path('/' + $routeParams.orgurl + '/addedtocart');
                                     }
                                     else
                                     {
-                                        ReservationFactory.clearReservationData();
-                                        ReservationFactory.clearReservationTimes();
-
                                         $location.path('/' + $routeParams.orgurl + '/reservations');
                                     }
                                 }
-
                             }, function(response) {
-                                //console.log('error', response);
+                                //console.log('add to cart error', response);
 
                                 $scope.submittingData = false;
-                                //ReservationFactory.clearReservationData();
-                                //ReservationFactory.clearReservationTimes();
 
                                 //$location.path('/' + $routeParams.orgurl + '/reservations');
                             });
                         }
                         else
                         {
-                            /*req = {
+                            req = {
                                 method: 'POST',
                                 url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/reservation/submitreservationrequest',
                                 headers: {
@@ -477,15 +468,41 @@ angular.module('bluereconlineApp')
                                 },
                                 data: submitData
                             };
-                            $http(req)
-                            .success(function (data) {
-                                //ReservationFactory.clearReservationData();
-                                //ReservationFactory.clearReservationTimes();
 
-                                //$location.path('/' + $routeParams.orgurl + '/rentalrequestsubmitted');
+                            $http(req).
+                            then(function(response) {
+                                console.log('add for approval success', response);
 
-                                //$scope.submittingData = false;
-                            });*/
+                                if(angular.isDefined(response.data.error))
+                                {
+                                    $scope.cartError = true;
+                                    $scope.errorText = response.data.error;
+                                }
+                                else
+                                {
+                                    ReservationFactory.clearReservationData();
+                                    ReservationFactory.clearReservationTimes();
+
+                                    if(response.status === 200)
+                                    {
+                                        console.log('added for approval');
+
+                                        $scope.submittingData = false;
+
+                                        $location.path('/' + $routeParams.orgurl + '/reservations');
+                                    }
+                                    else
+                                    {
+                                        //$location.path('/' + $routeParams.orgurl + '/reservations');
+                                    }
+                                }
+                            }, function(response) {
+                                console.log('add for approval error', response);
+
+                                $scope.submittingData = false;
+
+                                //$location.path('/' + $routeParams.orgurl + '/reservations');
+                            });
                         }
                     }
                 }

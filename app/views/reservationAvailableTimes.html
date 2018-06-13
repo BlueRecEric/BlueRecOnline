@@ -24,479 +24,478 @@
     </ul>
   </nav>
 </script>
-<div data-ng-controller="ReservationAvailableTimes" style="padding-left: 0px;padding-right: 0px;">
-  <div>
-    <div class="row">
-      <div data-ng-show="rentalDataLoaded">
-        <h3>Search Available Times</h3>
-      </div>
 
-      <div class="col-sm-12 text-center" style="padding-top: 20px;" data-ng-hide="rentalDataLoaded">
-        <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div  data-ng-animate="'slide'" data-ng-show="rentalDataLoaded">
-        <div class="panel panel-primary" style="margin-bottom: 10px !important;">
-          <div class="panel-heading clearfix">
-            <h3 class="panel-title">({{::rentalData.rental_item_code}}) {{::rentalData.rental_item_name}}</h3>
-          </div>
-          <div id="searchPanel" class="row" style="padding: 4px 0px;margin-left:0px;margin-right:0px;">
-            <div class="alert alert-danger animate-show animate-hide" role="alert"
-                    data-ng-show="searchErrorMessage.length>0"
-                    style="word-wrap: break-word;margin:10px;">
-              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-              {{searchErrorMessage}}
-            </div>
+<div data-ng-animate=" 'slide-animate' ">
+  <div data-ng-show="rentalDataLoaded">
+    <h3>Search Available Times</h3>
+  </div>
 
-            <div class="col-sm-12" style="padding-left: 0px;padding-right: 0px;">
-              <form name="searchForm" novalidate>
+  <div class="col-sm-12 text-center" style="padding-top: 20px;" data-ng-hide="rentalDataLoaded">
+    <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+    <span class="sr-only">Loading...</span>
+  </div>
+
+  <div  data-ng-animate="'slide'" data-ng-show="rentalDataLoaded">
+    <div class="panel panel-primary" style="margin-bottom: 10px !important;">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title">({{::rentalData.rental_item_code}}) {{::rentalData.rental_item_name}}</h3>
+      </div>
+      <div id="searchPanel" class="row" style="padding: 4px 0px;margin-left:0px;margin-right:0px;">
+        <div class="alert alert-danger animate-show animate-hide" role="alert"
+                data-ng-show="searchErrorMessage.length>0"
+                style="word-wrap: break-word;margin:10px;">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          {{searchErrorMessage}}
+        </div>
+
+        <div class="col-sm-12" style="padding-left: 0px;padding-right: 0px;">
+          <form name="searchForm" novalidate>
+            <div style="padding-left: 0px;">
+
+              <div class="label-spacing" data-ng-if="(orgurl === '1berkeleycatest' || orgurl === '1berkeleyca' || orgurl === 'alphadev') && rentalData.online_auto_select_event === '1'">Campers using our online registration system are limited to no more than two (2) tent registrations. To reserve more than two (2) tents at Camp, please contact the Berkeley Recreation Administration office at (510) 981-5140 or camps@cityofberkeley.info for assistance.</div>
+
+              <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event !== '1'">
+                <div class="col-sm-12">
+                  <h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.facilityError}"
+                          data-ng-if="rentalData.force_facility_order=='0'">{{(formErrors.facilityError)?'*':''}}Select One or More Facilities</h4>
+                  <h4  data-ng-if="rentalData.force_facility_order=='1'">Facilities Included in Rental</h4>
+                </div>
+              </div>
+
+              <div class="row"></div>
+              <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event !== '1'">
+                <div class="col-sm-12 form-group">
+                  <div class="row striped-row" data-ng-repeat="fac in rentalData.facility_data" style=" padding-bottom: 2px; padding-top: 2px;">
+                    <div class="col-sm-5">
+                      <span class="checkbox-spacing class="no-word-wrap">
+                      <checkbox id="chkFacility{{fac.item_id}}"
+                              class="btn-default checkbox-dark-border" data-ng-model="fac.selected"
+                              data-ng-if="rentalData.force_facility_order=='0'"
+                              data-ng-disabled="(rentalData.force_facility_order=='1')"></checkbox>
+                      <span data-ng-if="rentalData.force_facility_order=='1'">{{$index + 1}}) </span>
+                      <label class="label-spacing" style="padding-left: 2px !important;">
+                        <a href="" tooltip-size="large" tooltip-class="facility-address" tooltips tooltip-template="{{fac.location_address}}"><i class="fa fa-map-marker" aria-hidden="true"></i></a>&nbsp; <a href="http://{{fac.description_url}}" target="_blank" data-ng-if="fac.description_url.length > 0">{{fac.item_name}}</a>{{(fac.description_url.length === 0)?fac.item_name:''}}
+                      </label>
+                      </span>
+                    </div>
+                    <div class="col-sm-7">
+                      <span class="no-word-wrap">
+                        <label class="label-spacing" data-ng-hide="fac.res_hour_amt === fac.nonres_hour_amt && fac.res_hour_total === fac.nonres_hour_total">
+                          (R){{::fac.res_hour_amt | currency}}{{(fac.res_hour_total > 0)?' per '+fac.res_hour_total+'-hr':''}}/(NR){{::fac.nonres_hour_amt | currency}}{{(fac.nonres_hour_total > 0)?' per '+fac.nonres_hour_total+'-hr':''}}
+                        </label>
+                        <label class="label-spacing" data-ng-show="fac.res_hour_amt === fac.nonres_hour_amt && fac.res_hour_total === fac.nonres_hour_total">
+                          {{::fac.res_hour_amt | currency}}{{(fac.res_hour_total > 0)?' per '+fac.res_hour_total+'-hr':''}}
+                        </label>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 form-group" data-ng-show="rentalData.facility_data.length > 2">
+                  <div class="col-sm-12 ">
+                    <div class="row"> <a  data-ng-if="rentalData.force_facility_order=='0'" class="btn btn-default btn-sm" data-ng-click="selectFacilities(true)">
+                      <i class="fa fa-plus-square-o"></i> Select All</a> <a  data-ng-if="rentalData.force_facility_order=='0'" class="btn btn-default btn-sm" data-ng-click="selectFacilities(false)">
+                      <i class="fa fa-minus-square-o"></i> Select None</a></div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event === '1' && packages.show_packages">
+                <div class="col-sm-12">
+                  <h4>Enter Number of campers</h4>
+                </div>
+              </div>
+
+              <div class="row"></div>
+              <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event === '1' && packages.show_packages">
+                <div class="col-sm-12">
+                  <div class="row striped-row" data-ng-repeat="pkg in packageData" style="padding-bottom: 2px; padding-top: 2px;">
+                    <label class="font-weight-normal vAlignLabel" ><input type="text" class="form-control" ng-model="pkg.qty"
+                            style="width: 40px; height: 30px; display: inherit;padding-top: 0px; padding-bottom: 0px;padding-left: 6px;padding-right: 6px;text-align: center;"
+                            maxlength="3" numbers-only="numbers-only" data-ng-change="onPackageChangeEvent()">&nbsp;&nbsp;{{::pkg.item_name}}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event === '1' && packages.show_packages">
+                <div class="col-sm-12">
+                  <div class="row striped-row-nobg" style="padding-left: 10px;padding-bottom: 2px; padding-top: 2px;">
+                    <span class="no-word-wrap"><label>
+                      <font data-ng-class="{'has-error': packages.total_packages > packages.max_capacity}">{{packages.total_packages}}</font>/{{packages.max_capacity}}&nbsp;&nbsp;Total Campers</label></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12" data-ng-if="rentalData.how_far_in_advance > 0 || rentalData.how_far_out > 0">
+                <div class="col-sm-12">
+                  <div class="text-warning">
+                    <span data-ng-if="rentalData.how_far_in_advance > 0"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>  Reservation min date:  {{minDateDisplay | date: 'MM/dd/yyyy'}}</span>
+                    <br>
+                    <span data-ng-if="rentalData.how_far_out > 0"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Reservation max date:  {{maxDate | date: 'MM/dd/yyyy'}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-body" style="padding-left: 0px;">
                 <div style="padding-left: 0px;">
-
-                  <div class="label-spacing" data-ng-if="(orgurl === '1berkeleycatest' || orgurl === '1berkeleyca' || orgurl === 'alphadev') && rentalData.online_auto_select_event === '1'">Campers using our online registration system are limited to no more than two (2) tent registrations. To reserve more than two (2) tents at Camp, please contact the Berkeley Recreation Administration office at (510) 981-5140 or camps@cityofberkeley.info for assistance.</div>
-
-                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event !== '1'">
-                    <div class="col-sm-12">
-                      <h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.facilityError}"
-                              data-ng-if="rentalData.force_facility_order=='0'">{{(formErrors.facilityError)?'*':''}}Select One or More Facilities</h4>
-                      <h4  data-ng-if="rentalData.force_facility_order=='1'">Facilities Included in Rental</h4>
-                    </div>
-                  </div>
-
-                  <div class="row"></div>
-                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event !== '1'">
-                    <div class="col-sm-12 form-group">
-                      <div class="row striped-row" data-ng-repeat="fac in rentalData.facility_data" style=" padding-bottom: 2px; padding-top: 2px;">
-                        <div class="col-sm-5">
-                          <span class="checkbox-spacing class="no-word-wrap">
-                          <checkbox id="chkFacility{{fac.item_id}}"
-                                  class="btn-default checkbox-dark-border" data-ng-model="fac.selected"
-                                  data-ng-if="rentalData.force_facility_order=='0'"
-                                  data-ng-disabled="(rentalData.force_facility_order=='1')"></checkbox>
-                          <span data-ng-if="rentalData.force_facility_order=='1'">{{$index + 1}}) </span>
-                          <label class="label-spacing" style="padding-left: 2px !important;">
-                            <a href="" tooltip-size="large" tooltip-class="facility-address" tooltips tooltip-template="{{fac.location_address}}"><i class="fa fa-map-marker" aria-hidden="true"></i></a>&nbsp; <a href="http://{{fac.description_url}}" target="_blank" data-ng-if="fac.description_url.length > 0">{{fac.item_name}}</a>{{(fac.description_url.length === 0)?fac.item_name:''}}
-                          </label>
-                          </span>
-                        </div>
-                        <div class="col-sm-7">
-                          <span class="no-word-wrap">
-                            <label class="label-spacing" data-ng-hide="fac.res_hour_amt === fac.nonres_hour_amt && fac.res_hour_total === fac.nonres_hour_total">
-                              (R){{::fac.res_hour_amt | currency}}{{(fac.res_hour_total > 0)?' per '+fac.res_hour_total+'-hr':''}}/(NR){{::fac.nonres_hour_amt | currency}}{{(fac.nonres_hour_total > 0)?' per '+fac.nonres_hour_total+'-hr':''}}
-                            </label>
-                            <label class="label-spacing" data-ng-show="fac.res_hour_amt === fac.nonres_hour_amt && fac.res_hour_total === fac.nonres_hour_total">
-                              {{::fac.res_hour_amt | currency}}{{(fac.res_hour_total > 0)?' per '+fac.res_hour_total+'-hr':''}}
-                            </label>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-12 form-group" data-ng-show="rentalData.facility_data.length > 2">
-                      <div class="col-sm-12 ">
-                        <div class="row"> <a  data-ng-if="rentalData.force_facility_order=='0'" class="btn btn-default btn-sm" data-ng-click="selectFacilities(true)">
-                          <i class="fa fa-plus-square-o"></i> Select All</a> <a  data-ng-if="rentalData.force_facility_order=='0'" class="btn btn-default btn-sm" data-ng-click="selectFacilities(false)">
-                          <i class="fa fa-minus-square-o"></i> Select None</a></div>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event === '1' && packages.show_packages">
-                    <div class="col-sm-12">
-                      <h4>Enter Number of campers</h4>
-                    </div>
-                  </div>
-
-                  <div class="row"></div>
-                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event === '1' && packages.show_packages">
-                    <div class="col-sm-12">
-                      <div class="row striped-row" data-ng-repeat="pkg in packageData" style="padding-bottom: 2px; padding-top: 2px;">
-                        <label class="font-weight-normal vAlignLabel" ><input type="text" class="form-control" ng-model="pkg.qty"
-                                style="width: 40px; height: 30px; display: inherit;padding-top: 0px; padding-bottom: 0px;padding-left: 6px;padding-right: 6px;text-align: center;"
-                                maxlength="3" numbers-only="numbers-only" data-ng-change="onPackageChangeEvent()">&nbsp;&nbsp;{{::pkg.item_name}}</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-12" data-ng-if="rentalData.online_auto_select_event === '1' && packages.show_packages">
-                    <div class="col-sm-12">
-                      <div class="row striped-row-nobg" style="padding-left: 10px;padding-bottom: 2px; padding-top: 2px;">
-                        <span class="no-word-wrap"><label>
-                          <font data-ng-class="{'has-error': packages.total_packages > packages.max_capacity}">{{packages.total_packages}}</font>/{{packages.max_capacity}}&nbsp;&nbsp;Total Campers</label></span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="panel-body" style="padding-left: 0px;">
-                    <div class="col-sm-12" data-ng-if="rentalData.how_far_in_advance > 0 || rentalData.how_far_out > 0">`
-                      <div class="col-sm-12">
-                        <div class="text-warning">
-                          <span data-ng-if="rentalData.how_far_in_advance > 0"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>  Reservation min date:  {{minDateDisplay | date: 'MM/dd/yyyy'}}</span>
-                          <br>
-                          <span data-ng-if="rentalData.how_far_out > 0"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Reservation max date:  {{maxDate | date: 'MM/dd/yyyy'}}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div style="padding-left: 0px;">
-                      <div class="col-sm-3">
-                        <div class="form-group col-sm-12">
-                          <div class="row" style="padding-left: 0px;">
-                            <div class="col-sm-12">
-                              <h4 for="earliestStartDate" data-ng-class="{'has-error': searchForm.earliestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'Search Start Date':'Arrival Date'}}</h4>
-                            </div>
-                            <div class="col-sm-12">
-                              <div class="input-group">
-                                <span class="input-group-addon " style="width: 25px;">
-                                  <i class="glyphicon glyphicon-calendar "></i>
-                                </span>
-                                <input id="earliestStartDate" name="earliestStartDate"
-                                        type="text" class="form-control" data-ng-model="fromDate"
-                                        data-ng-change="onSearchDateChange()" datepicker-popup="yyyy-MM-dd"
-                                        data-min-date="{{minDate}}" data-max-date="{{maxDate}}"
-                                        placeholder="Start Date" data-autoclose="1" required bs-datepicker>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-3" style="padding-right: 10px;">
-                        <div class="form-group col-sm-12">
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <h4 for="latestStartDate"
-                                      data-ng-class="{'has-error': searchForm.latestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'Search End Date':'Departure Date'}}</h4>
-                            </div>
-                            <div class="col-sm-12">
-                              <div class="input-group">
-                                <span class="input-group-addon " style="width: 25px;">
-                                  <i class="glyphicon glyphicon-calendar "></i>
-                                </span>
-                                <input id="latestStartDate"  name="latestStartDate"
-                                        type="text" class="form-control" data-ng-model="untilDate"
-                                        data-ng-change="onSearchDateChange()" datepicker-popup="yyyy-MM-dd"
-                                        data-min-date="{{minDate}}" data-max-date="{{maxDate}}"
-                                        placeholder="End Date" data-autoclose="1" required bs-datepicker>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="panel-body" style="padding-left: 0px;">
-                    <div style="padding-left: 0px;">
-
-                      <div class="col-sm-3" data-ng-if="rentalData.force_time_slots !== '1'">
-                        <div class="form-group col-sm-12">
-                          <div class="row" style="padding-left: 0px;">
-                            <div class="col-sm-12">
-                              <h4>{{(rentalData.online_auto_select_event !== '1')?'Start Time':'Arrival Time'}}</h4>
-                            </div>
-                            <div class="col-sm-12">
-                              <div class="input-group" data-ng-if="rentalData.online_auto_select_event !== '1'">
-                                <div class="input-group-addon" style="width: 25px;"><i
-                                        class="glyphicon glyphicon-time"></i></div>
-                                <input class="form-control" size="8" data-ng-model="startTime.time"
-                                        bs-timepicker data-length="1" data-minute-step="30"
-                                        data-time-format="shortTime" data-animation="am-fade"
-                                        data-arrow-behavior="picker" type="text">
-                              </div>
-                              <div data-ng-if="rentalData.online_auto_select_event === '1'">
-                                <select data-ng-model="autoOnlineTime.start_time" style="width: 130px;font-size: 16px;" class="form-control">
-                                  <option ng-repeat="weekRow in weekdayData[0].stf" value="{{weekdayData[0].start_time_data[$index]}}"  data-ng-selected="$index===0">{{weekRow}}</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-sm-3" style="padding-right: 10px;" data-ng-if="rentalData.force_time_slots !== '1'">
-                        <div class="form-group col-sm-12">
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <h4>{{(rentalData.online_auto_select_event !== '1')?'End Time':'Departure Time'}}</h4>
-                            </div>
-                            <div class="col-sm-12">
-                              <div class="input-group" data-ng-if="rentalData.online_auto_select_event !== '1'">
-                                <div class="input-group-addon" style="width: 25px;"><i
-                                        class="glyphicon glyphicon-time"></i></div>
-                                <input class="form-control" size="8" data-ng-model="endTime.time"
-                                        bs-timepicker data-length="1" data-minute-step="30"
-                                        data-time-format="shortTime" data-animation="am-fade"
-                                        data-arrow-behavior="picker" type="text">
-                              </div>
-                              <div data-ng-if="rentalData.online_auto_select_event === '1'">
-                                <select data-ng-model="autoOnlineTime.end_time" style="width: 130px;font-size: 16px;" class="form-control">
-                                  <option ng-repeat="weekRow in weekdayData[0].etf" value="{{weekdayData[0].start_time_data[$index]}}" data-ng-selected="$index===0">{{weekRow}}</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-sm-6" style="padding-right: 10px;" data-ng-if="rentalData.online_auto_select_event !== '1' && rentalData.force_time_slots !== '1'">
-                        <div class="form-group col-sm-12">
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <h4>Rental Duration</h4>
-                            </div>
-                            <div class="col-sm-12">
-                              <div class="input-group" data-ng-if="rentalData.min_hour === rentalData.max_hour" style="width:125px;">
-                                <input aria-describedby="basic-addon2" type="text" class="form-control" size="8" data-ng-model="rentalDuration.selectedTime" style="width:75px;" disabled>
-                                <span id="basic-addon2" class="input-group-addon">Minutes</span>
-                              </div>
-                              <div class="col-sm-12" data-ng-if="rentalData.min_hour !== rentalData.max_hour">
-                                <rzslider ng-if="renderSlider"
-                                        rz-slider-draggable-range="true"
-                                        rz-slider-step="30"
-                                        rz-slider-model="rentalDurationTemp.selectedTime"
-                                        rz-slider-floor="durationSlider.floor"
-                                        rz-slider-ceil="durationSlider.ceil"
-                                        rz-slider-translate="translateDuration"
-                                        rz-slider-precision="0"
-                                        rz-slider-tpl-url="rzSliderTpl2.html"></rzslider>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="" style="padding-left: 0px;" data-ng-if="rentalData.online_auto_select_event !== '1'">
+                  <div class="col-sm-3">
+                    <div class="form-group col-sm-12">
+                      <div class="row" style="padding-left: 0px;">
                         <div class="col-sm-12">
-                          <div class="col-sm-12">
-                            <h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.weekdayError}">{{(formErrors.weekdayError)?'*':''}}{{(rentalData.force_time_slots === '1')?'Time Slots':'Hours'}}</h4>
-                            <span ng-hide="!loadingWeekdays.loading"><i class="fa fa-spinner fa-spin fa-lg fa-fw"></i></span>
+                          <h4 for="earliestStartDate" data-ng-class="{'has-error': searchForm.earliestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'Search Start Date':'Arrival Date'}}</h4>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="input-group">
+                            <span class="input-group-addon " style="width: 25px;">
+                              <i class="glyphicon glyphicon-calendar "></i>
+                            </span>
+                            <input id="earliestStartDate" name="earliestStartDate"
+                                    type="text" class="form-control" data-ng-model="fromDate"
+                                    data-ng-change="onSearchDateChange()" datepicker-popup="yyyy-MM-dd"
+                                    data-min-date="{{minDate}}" data-max-date="{{maxDate}}"
+                                    placeholder="Start Date" data-autoclose="1" required bs-datepicker>
                           </div>
                         </div>
-                        <div class="col-sm-12 form-group">
-                          <ul class="two_column_list" style="list-style-type:none">
-                            <li class="no-word-wrap" data-ng-repeat="week in weekdayData">
-                              <span class="checkbox-spacing">
-                                <checkbox id="chkWeek{{week.weekday_index}}"
-                                        data-ng-disabled="loadingWeekdays.loading"
-                                        class="btn-default checkbox-dark-border"
-                                        data-ng-model="week.selected"></checkbox>
-                                <label class="label-spacing label-weekday" style="margin-right:30px;" class="no-word-wrap" for="chkWeek{{week.weekday_index}}">{{::week.weekday_label}}</label>
-                                <label for="chkWeek{{week.weekday_index}}" style="font-weight: normal!important;" data-ng-if="rentalData.force_time_slots !== '1'"
-                                        ng-repeat="time in week.time_label_data track by $index">{{time}}{{(!$last)?',&nbsp;':''}}</label>
-                                <label for="chkWeek{{week.weekday_index}}" style="font-weight: normal!important;" data-ng-if="rentalData.force_time_slots == '1'">{{::week.time_label_data}}</label>
-                              </span>
-                            </li>
-                          </ul>
-                          <div class="col-sm-12 form-group" data-ng-show="weekdayData.length > 2">
-                            <div class="col-sm-12 ">
-                              <div class="row"> <a class="btn btn-default btn-sm" data-ng-click="selectWeekends(true)">
-                                <i class="fa fa-plus-square-o"></i> Select All</a> <a class="btn btn-default btn-sm" data-ng-click="selectWeekends(false)">
-                                <i class="fa fa-minus-square-o"></i> Select None</a></div>
-                            </div>
-                          </div>
-                        </div>
-
                       </div>
                     </div>
-
-                    <div class="panel-body nopad">
-                      <div class="col-sm-12" ng-style="{'padding-top': ((rentalData.online_auto_select_event === '1')? 10 : 0)+'px'}">
+                  </div>
+                  <div class="col-sm-3" style="padding-right: 10px;">
+                    <div class="form-group col-sm-12">
+                      <div class="row">
                         <div class="col-sm-12">
-                          <button style="min-width:220px;" class="btn btn-info" type="submit" data-ng-click="onSearchRentalTimes()" data-ng-disabled="loadingWeekdays.loading">Check Availability</button>
+                          <h4 for="latestStartDate"
+                                  data-ng-class="{'has-error': searchForm.latestStartDate.$invalid}">{{(rentalData.online_auto_select_event !== '1')?'Search End Date':'Departure Date'}}</h4>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="input-group">
+                            <span class="input-group-addon " style="width: 25px;">
+                              <i class="glyphicon glyphicon-calendar "></i>
+                            </span>
+                            <input id="latestStartDate"  name="latestStartDate"
+                                    type="text" class="form-control" data-ng-model="untilDate"
+                                    data-ng-change="onSearchDateChange()" datepicker-popup="yyyy-MM-dd"
+                                    data-min-date="{{minDate}}" data-max-date="{{maxDate}}"
+                                    placeholder="End Date" data-autoclose="1" required bs-datepicker>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+              </div>
 
-            <div class="col-sm-12 text-center" style="padding-top: 20px;" data-ng-show="isSearchIconBusy.loading" data-ng-animate="'slide'">
-              <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-              <span class="sr-only">Loading...</span>
-            </div>
+              <div class="panel-body" style="padding-left: 0px;">
+                <div style="padding-left: 0px;">
 
-            <div data-ng-if="isSearchIconBusy.loading || !displaySearchResults" style="height: 4px;"></div>
-            <div data-ng-if="!isSearchIconBusy.loading && !displayNoResults">
-              <table st-table="searchResultsData" st-safe-src="searchRowCollection" class="table vtable table2" data-ng-show="displaySearchResults"
-                      style="margin-bottom: 0px !important;">
-                <thead>
-                <tr>
-                  <td colspan="6" class="text-center">
-                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"
-                            st-template="pagination.custom.html"></div>
-                  </td>
-                </tr>
-                </thead>
-                <tbody data-ng-repeat="searchRow in searchResultsData">
-                <tr data-ng-click="::(rentalData.online_auto_select_event === '1')?searchRow.show = true:searchRow.show = !searchRow.show" class="bg-primary text-white clicky">
-                  <td class="text-center colHideMobile" style="width: 25px!important;">
-                    <i class="fa" ng-class="::{'fa-plus': !searchRow.show, 'fa-minus': searchRow.show}" aria-hidden="true" data-ng-if="::(rentalData.online_auto_select_event !== '1')"></i>
-                  </td>
-                  <td st-ratio="75" colspan="2">{{::((rentalData.online_auto_select_event === '1')?searchRow.lf_date+' to '+searchRow.lfe_date:searchRow.lf_date)}}</td>
-
-                  <!--<td st-ratio="25" class="colHideMobile colMobileTextCenter"
-                          data-ng-bind="::searchRow.lf_date">
-                  </td>-->
-                  <!--<td st-ratio="25" class="  text-right" data-ng-bind="::searchRow.sf_date" data-ng-if="::(rentalData.online_auto_select_event === '1')"></td>-->
-
-                  <td st-ratio="25" class="text-right no-select" style="padding-right:10px!important;" data-ng-if="::(rentalData.online_auto_select_event !== '1')">
-                    <span class="colHideMobile text-right">(<b>{{::searchRow.slots}}</b>)</span> {{::searchRow.stime}}<span class="colHideMobile">&nbsp;to&nbsp;</span>
-                    <span class="colShowMobile text-right"><br></span>{{::searchRow.etime}}</td>
-
-                  <td st-ratio="25" class="text-right no-select" style="padding-right:10px!important;" data-ng-if="::(rentalData.online_auto_select_event === '1')"></td>
-
-                </tr>
-                <tr data-ng-show="searchRow.show">
-                  <td colspan="7" style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-bottom-width: 0px;"
-                          ng-style="{'padding-bottom': ($last? 1 : 0)+'px'}">
-                    <table st-table="searchRow.tdata" style="margin-bottom: 0px!important;" class="table vtable table2">
-                      <tbody data-ng-repeat="timeRow in ::searchRow.tdata" scroll-glue="glued" ng-if="::(rentalData.online_auto_select_event !== '1' || (rentalData.online_auto_select_event === '1' && $index === 0))">
-                      <tr ng-repeat-end data-ng-if="::timeRow.new_day">
-                        <td colspan="6" class="text-left no-select" style="padding:0px; border-bottom: 1px solid #ddd !important;border-top: none !important"></td>
-                      </tr>
-                      <tr class="rentalSearchTimePadFull rentalSearchTimeColNB"
-                              ng-class="::{'rentalSearchTimePadFull': $first && timeRow.eg == 2, 'rentalSearchTimePadTop': $first && timeRow.eg != 2, 'rentalSearchTimePadMid': !$first && timeRow.eg != 2, 'rentalSearchTimePadBot': !$first && timeRow.eg == 2}">
-                        <td style="width: 90px;" class="colHideMobile" data-ng-if="timeRow.available">
-                          <button style="width: 86px;" class="btn btn-sm" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
-                                  ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
-                                  data-ng-show="::(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
-                            <i class="fa" ng-class="{'fa-calendar-plus-o': !timeRow.added, 'fa-calendar-times-o':timeRow.added}" aria-hidden="true"></i> {{(timeRow.added)?'Remove':'Add'}}</button>
-                        </td>
-                        <td style="width: 20px;" class="colShowMobile"  data-ng-if="::timeRow.available">
-                          <button class="btn btn-sm btn-success" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
-                                  ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
-                                  data-ng-show="::(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
-                            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
-                        </td>
-
-                        <td style="height: 30px!important;" class="text-left" data-ng-if="::(!timeRow.available && rentalData.online_auto_select_event !== '1')">
-                          <div class="colShowMobile" style="width: 20px;">N/A</div>
-                          <div class="colHideMobile" style="width: 86px;">Not Available</div>
-                        </td>
-
-                        <td colspan="5" style="height: 30px!important;" class="text-left" data-ng-if="::(!timeRow.available && rentalData.online_auto_select_event === '1')">
-                          <div><i class="fa fa-exclamation-circle text-danger" aria-hidden="true"></i>
-                            Conflict: {{::searchRow.conflict_event_start}} to {{::searchRow.conflict_event_end}}
-                            <div ng-data-if="::::orgMessage.length !== ''" style="font-weight: bold;"><br>{{::orgMessage}}</div>
+                  <div class="col-sm-3" data-ng-if="rentalData.force_time_slots !== '1'">
+                    <div class="form-group col-sm-12">
+                      <div class="row" style="padding-left: 0px;">
+                        <div class="col-sm-12">
+                          <h4>{{(rentalData.online_auto_select_event !== '1')?'Start Time':'Arrival Time'}}</h4>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="input-group" data-ng-if="rentalData.online_auto_select_event !== '1'">
+                            <div class="input-group-addon" style="width: 25px;"><i
+                                    class="glyphicon glyphicon-time"></i></div>
+                            <input class="form-control" size="8" data-ng-model="startTime.time"
+                                    bs-timepicker data-length="1" data-minute-step="30"
+                                    data-time-format="shortTime" data-animation="am-fade"
+                                    data-arrow-behavior="picker" type="text">
                           </div>
-                        </td>
+                          <div data-ng-if="rentalData.online_auto_select_event === '1'">
+                            <select data-ng-model="autoOnlineTime.start_time" style="width: 130px;font-size: 16px;" class="form-control">
+                              <option ng-repeat="weekRow in weekdayData[0].stf" value="{{weekdayData[0].start_time_data[$index]}}"  data-ng-selected="$index===0">{{weekRow}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                        <td st-ratio="80" class="colShowMobile" data-ng-if="::(timeRow.available && rentalData.online_auto_select_event === '1')">&nbsp;{{::timeRow.fname}}<br>{{::timeRow.location_name}}</td>
-                        <td st-ratio="80" class="colHideMobile" style="padding-right:10px!important;"
-                                data-ng-if="::(timeRow.available && rentalData.online_auto_select_event === '1')">&nbsp;{{::timeRow.fname}} - {{::timeRow.location_address}}</td>
+                  <div class="col-sm-3" style="padding-right: 10px;" data-ng-if="rentalData.force_time_slots !== '1'">
+                    <div class="form-group col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h4>{{(rentalData.online_auto_select_event !== '1')?'End Time':'Departure Time'}}</h4>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="input-group" data-ng-if="rentalData.online_auto_select_event !== '1'">
+                            <div class="input-group-addon" style="width: 25px;"><i
+                                    class="glyphicon glyphicon-time"></i></div>
+                            <input class="form-control" size="8" data-ng-model="endTime.time"
+                                    bs-timepicker data-length="1" data-minute-step="30"
+                                    data-time-format="shortTime" data-animation="am-fade"
+                                    data-arrow-behavior="picker" type="text">
+                          </div>
+                          <div data-ng-if="rentalData.online_auto_select_event === '1'">
+                            <select data-ng-model="autoOnlineTime.end_time" style="width: 130px;font-size: 16px;" class="form-control">
+                              <option ng-repeat="weekRow in weekdayData[0].etf" value="{{weekdayData[0].start_time_data[$index]}}" data-ng-selected="$index===0">{{weekRow}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                        <td st-ratio="50" class="colShowMobile" data-ng-if="::(rentalData.force_facility_order !== '1' && rentalData.online_auto_select_event !== '1')"> &nbsp;{{::timeRow.fname}}</td>
-                        <td st-ratio="50" class="colShowMobile" data-ng-if="::(rentalData.force_facility_order === '1' && rentalData.online_auto_select_event !== '1') "> <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
-                        <td st-ratio="30" class="colHideMobile" data-ng-if="::(rentalData.force_facility_order !== '1' && rentalData.online_auto_select_event !== '1')"> &nbsp;{{::timeRow.fname}}</td>
-                        <td st-ratio="30" class="colHideMobile" data-ng-if="::(rentalData.force_facility_order ==='1' && rentalData.online_auto_select_event !== '1')"> <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
-                        <td st-ratio="30" class="colHideMobile no-word-wrap" data-ng-if="::(rentalData.force_facility_order !=='1' && rentalData.online_auto_select_event !== '1')">
-                          {{::timeRow.location_address}}
-                        </td>
-                        <td st-ratio="30" class="colHideMobile no-word-wrap" data-ng-if="::(rentalData.force_facility_order ==='1' && rentalData.online_auto_select_event !== '1')">
-                          <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_loc}}<br></span>
-                        </td>
+                  <div class="col-sm-6" style="padding-right: 10px;" data-ng-if="rentalData.online_auto_select_event !== '1' && rentalData.force_time_slots !== '1'">
+                    <div class="form-group col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h4>Rental Duration</h4>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="input-group" data-ng-if="rentalData.min_hour === rentalData.max_hour" style="width:125px;">
+                            <input aria-describedby="basic-addon2" type="text" class="form-control" size="8" data-ng-model="rentalDuration.selectedTime" style="width:75px;" disabled>
+                            <span id="basic-addon2" class="input-group-addon">Minutes</span>
+                          </div>
+                          <div class="col-sm-12" data-ng-if="rentalData.min_hour !== rentalData.max_hour">
+                            <rzslider ng-if="renderSlider"
+                                    rz-slider-draggable-range="true"
+                                    rz-slider-step="30"
+                                    rz-slider-model="rentalDurationTemp.selectedTime"
+                                    rz-slider-floor="durationSlider.floor"
+                                    rz-slider-ceil="durationSlider.ceil"
+                                    rz-slider-translate="translateDuration"
+                                    rz-slider-precision="0"
+                                    rz-slider-tpl-url="rzSliderTpl2.html"></rzslider>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                        <td st-ratio="15" class="text-right" data-ng-if="::(!(rentalData.online_auto_select_event === '1' && timeRow.fee_amount === '0.00') && rentalData.force_facility_order !=='1')">
-                          <span>{{::((rentalData.online_auto_select_event === '1' && timeRow.fee_amount === '0.00')?'':'$'+timeRow.fee_amount)}}</span>
-                        </td>
-                        <td st-ratio="15" class="text-right" data-ng-if="::(!(rentalData.online_auto_select_event === '1' && timeRow.fee_amount === '0.00') && rentalData.force_facility_order ==='1' )">
-                          <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::((rentalData.online_auto_select_event === '1' && facRow.fee_amount === '0.00')?'':'$'+facRow.fee_amount)}}<br></span>
-                        </td>
-                        <td st-ratio="25" class="text-right" data-ng-if="::(rentalData.force_facility_order !=='1' && rentalData.online_auto_select_event !== '1')">
-                          {{::timeRow.st}}&nbsp;to&nbsp;</span>{{::timeRow.et}}<br>
-                        </td>
-                        <td st-ratio="25" class="text-right" data-ng-if="::(rentalData.force_facility_order=='1')">
-                          <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_st}}&nbsp;to&nbsp;{{::facRow.fac_et}}<br></span>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                  <td colspan="6" class="text-center" style="padding-bottom: 0px; padding-top: 0px;">
-                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
-                  </td>
-                </tr>
-                </tfoot>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                  <div class="" style="padding-left: 0px;" data-ng-if="rentalData.online_auto_select_event !== '1'">
+                    <div class="col-sm-12">
+                      <div class="col-sm-12">
+                        <h4 data-ng-class="{'has-error': searchForm.$submitted && formErrors.weekdayError}">{{(formErrors.weekdayError)?'*':''}}{{(rentalData.force_time_slots === '1')?'Time Slots':'Hours'}}</h4>
+                        <span ng-hide="!loadingWeekdays.loading"><i class="fa fa-spinner fa-spin fa-lg fa-fw"></i></span>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                      <ul class="two_column_list" style="list-style-type:none">
+                        <li class="no-word-wrap" data-ng-repeat="week in weekdayData">
+                          <span class="checkbox-spacing">
+                            <checkbox id="chkWeek{{week.weekday_index}}"
+                                    data-ng-disabled="loadingWeekdays.loading"
+                                    class="btn-default checkbox-dark-border"
+                                    data-ng-model="week.selected"></checkbox>
+                            <label class="label-spacing label-weekday" style="margin-right:30px;" class="no-word-wrap" for="chkWeek{{week.weekday_index}}">{{::week.weekday_label}}</label>
+                            <label for="chkWeek{{week.weekday_index}}" style="font-weight: normal!important;" data-ng-if="rentalData.force_time_slots !== '1'"
+                                    ng-repeat="time in week.time_label_data track by $index">{{time}}{{(!$last)?',&nbsp;':''}}</label>
+                            <label for="chkWeek{{week.weekday_index}}" style="font-weight: normal!important;" data-ng-if="rentalData.force_time_slots == '1'">{{::week.time_label_data}}</label>
+                          </span>
+                        </li>
+                      </ul>
+                      <div class="col-sm-12 form-group" data-ng-show="weekdayData.length > 2">
+                        <div class="col-sm-12 ">
+                          <div class="row"> <a class="btn btn-default btn-sm" data-ng-click="selectWeekends(true)">
+                            <i class="fa fa-plus-square-o"></i> Select All</a> <a class="btn btn-default btn-sm" data-ng-click="selectWeekends(false)">
+                            <i class="fa fa-minus-square-o"></i> Select None</a></div>
+                        </div>
+                      </div>
+                    </div>
 
-    <div>
-      <div class="alert alert-danger animate-show animate-hide" role="alert"data-ng-show="displayNoResults" style="margin: 10px;">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{(rentalData.online_auto_select_event !== '1')?'No facility rentals found at this time.':'Reservation date not available.'}}
-      </div>
-    </div>
+                  </div>
+                </div>
 
-    <div class="row">
-      <div veldata-ng-animate="'slide'" data-ng-if="selectedRentalTimes.rentals.length > 0">
-        <div class="panel panel-primary">
-          <div class="panel-heading clearfix">
-            <h3 class="panel-title">Selected Rental Times</h3>
-          </div>
-          <div class="panel-body" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
-            <a id="selRentalTimes"></a>
-            <table st-table="selectedRentalTimes.rentals" class="table vtable table2"
-                    style=" margin-bottom: 4px;border-bottom: 1px solid #ddd;">
-              <tbody ng-repeat="rentalRow in selectedRentalTimes.rentals">
-              <tr class="rentalSearchTimePadFull rentalSearchTimeColNB"
-                      ng-class="{'rentalSearchTimePadFull': $first && rentalRow.eg == 2, 'rentalSearchTimePadTop': $first && rentalRow.eg != 2, 'rentalSearchTimePadMid': !$first && rentalRow.eg != 2, 'rentalSearchTimePadBot': !$first && rentalRow.eg == 2}" scroll-glue>
-                <td style="width:78px;">
-                  <button style="width: 76px;" class="btn btn-sm btn-danger colHideMobile" ng-click="removeSelectedRental(rentalRow)"
-                          data-ng-show="rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1' && rentalRow.eg == 1)">
-                    <i class="fa fa-calendar-times-o" aria-hidden="true"></i> Remove</button>
-                  <button class="btn btn-sm btn-danger colShowMobile" ng-click="removeSelectedRental(rentalRow)"
-                          data-ng-show="rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1' && rentalRow.eg == 1)">
-                    <i class="fa fa-calendar-times-o" aria-hidden="true"></i></button>
-                </td>
-                <td>{{::rentalRow.fname}} </td>
-                <td st-ratio="30" class="colHideMobile colMobileTextCenter"
-                        data-ng-bind="::rentalRow.lf_date">
-                </td>
-                <td st-ratio="25" class=""><span class="colShowMobile">{{::rentalRow.sf_date}} </span>{{::rentalRow.st}}<span class="colHideMobile">&nbsp;to&nbsp;</span>
-                  <span class="colShowMobile"><br></span>{{::rentalRow.et}}</td>
-              </tr>
-              <!--<tr ng-repeat-end data-ng-if="rentalRow.eg==2 && !$last">
-                 <td colspan="4" class="text-left no-select" style="padding:0px; border-bottom: 1px solid #ddd !important;border-top: none !important"></td>
-                 </tr>-->
-              </tbody>
-            </table>
-            <div class="panel-body nopad animate-show animate-hide">
-              <div class="col-sm-12">
-                <div class="col-sm-12">
-                  <button style="min-width:220px;" class="btn btn-success" type="submit"
-                          data-ng-disabled="!(selectedRentalTimes.rentals.length > 0)"
-                          data-ng-click="onAcceptRentalTimes()">
-                    Accept Rental Times</button>
+                <div class="panel-body nopad">
+                  <div class="col-sm-12" ng-style="{'padding-top': ((rentalData.online_auto_select_event === '1')? 10 : 0)+'px'}">
+                    <div class="col-sm-12">
+                      <button style="min-width:220px;" class="btn btn-info" type="submit" data-ng-click="onSearchRentalTimes()" data-ng-disabled="loadingWeekdays.loading">Check Availability</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+          </form>
+        </div>
+
+        <div class="col-sm-12 text-center" style="padding-top: 20px;" data-ng-show="isSearchIconBusy.loading" data-ng-animate="'slide'">
+          <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+          <span class="sr-only">Loading...</span>
+        </div>
+
+        <div data-ng-if="isSearchIconBusy.loading || !displaySearchResults" style="height: 4px;"></div>
+        <div data-ng-if="!isSearchIconBusy.loading && !displayNoResults">
+          <table st-table="searchResultsData" st-safe-src="searchRowCollection" class="table vtable table2" data-ng-show="displaySearchResults"
+                  style="margin-bottom: 0px !important;">
+            <thead>
+            <tr>
+              <td colspan="6" class="text-center">
+                <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"
+                        st-template="pagination.custom.html"></div>
+              </td>
+            </tr>
+            </thead>
+            <tbody data-ng-repeat="searchRow in searchResultsData">
+            <tr data-ng-click="::(rentalData.online_auto_select_event === '1')?searchRow.show = true:searchRow.show = !searchRow.show" class="bg-primary text-white clicky">
+              <td class="text-center colHideMobile" style="width: 25px!important;">
+                <i class="fa" ng-class="::{'fa-plus': !searchRow.show, 'fa-minus': searchRow.show}" aria-hidden="true" data-ng-if="::(rentalData.online_auto_select_event !== '1')"></i>
+              </td>
+              <td st-ratio="65" colspan="2">{{::((rentalData.online_auto_select_event === '1')?searchRow.lf_date+' to '+searchRow.lfe_date:searchRow.lf_date)}}</td>
+
+              <td st-ratio="35" class="text-right no-select" style="padding-right:10px!important;" data-ng-if="::(rentalData.online_auto_select_event !== '1')">
+                <span class="colHideMobile text-right">(<b>{{::searchRow.slots}}</b>)</span> {{::searchRow.stime}}<span class="colHideMobile">&nbsp;to&nbsp;</span>
+                <span class="colShowMobile text-right"><br></span>{{::searchRow.etime}}</td>
+
+              <td st-ratio="25" class="text-right no-select" style="padding-right:10px!important;" data-ng-if="::(rentalData.online_auto_select_event === '1')"></td>
+            </tr>
+
+            <tr data-ng-show="searchRow.show">
+              <td colspan="7" style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-bottom-width: 0px;"
+                      ng-style="{'padding-bottom': ($last? 1 : 0)+'px'}">
+                <table st-table="searchRow.tdata" style="margin-bottom: 0px!important;" class="table vtable table2">
+                  <tbody data-ng-repeat="timeRow in ::searchRow.tdata" scroll-glue="glued" ng-if="::(rentalData.online_auto_select_event !== '1' || (rentalData.online_auto_select_event === '1' && $index === 0))">
+                  <tr ng-repeat-end data-ng-if="::timeRow.new_day">
+                    <td colspan="6" class="text-left no-select" style="padding:0px; border-bottom: 1px solid #ddd !important;border-top: none !important"></td>
+                  </tr>
+                  <tr class="rentalSearchTimePadFull rentalSearchTimeColNB"
+                          ng-class="::{'rentalSearchTimePadFull': $first && timeRow.eg == 2, 'rentalSearchTimePadTop': $first && timeRow.eg != 2, 'rentalSearchTimePadMid': !$first && timeRow.eg != 2, 'rentalSearchTimePadBot': !$first && timeRow.eg == 2}">
+                    <td style="width: 90px;" class="colHideMobile" data-ng-if="timeRow.available">
+                      <button style="width: 86px;" class="btn btn-sm" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
+                              ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
+                              data-ng-show="::(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
+                        <i class="fa" ng-class="{'fa-calendar-plus-o': !timeRow.added, 'fa-calendar-times-o':timeRow.added}" aria-hidden="true"></i> {{(timeRow.added)?'Remove':'Add'}}</button>
+                    </td>
+                    <td style="width: 20px;" class="colShowMobile"  data-ng-if="::timeRow.available">
+                      <button class="btn btn-sm btn-success" ng-class="{'btn-danger': timeRow.added, 'btn-success': !timeRow.added}"
+                              ng-click="onSelectRentalTime(searchRow, timeRow, 'rentalTime_{{$parent.$index}}_{{$index}}')"
+                              data-ng-show="::(rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1'))">
+                        <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
+                    </td>
+
+                    <td style="height: 30px!important;" class="text-left" data-ng-if="::(!timeRow.available && rentalData.online_auto_select_event !== '1')">
+                      <div class="colShowMobile" style="width: 20px;">N/A</div>
+                      <div class="colHideMobile" style="width: 86px;">Not Available</div>
+                    </td>
+
+                    <td colspan="5" style="height: 30px!important;" class="text-left" data-ng-if="::(!timeRow.available && rentalData.online_auto_select_event === '1')">
+                      <div><i class="fa fa-exclamation-circle text-danger" aria-hidden="true"></i>
+                        Conflict: {{::searchRow.conflict_event_start}} to {{::searchRow.conflict_event_end}}
+                        <div ng-data-if="::::orgMessage.length !== ''" style="font-weight: bold;"><br>{{::orgMessage}}</div>
+                      </div>
+                    </td>
+
+                    <td st-ratio="80" class="colShowMobile" data-ng-if="::(timeRow.available && rentalData.online_auto_select_event === '1')">&nbsp;{{::timeRow.fname}}<br>{{::timeRow.location_name}}</td>
+                    <td st-ratio="80" class="colHideMobile" style="padding-right:10px!important;"
+                            data-ng-if="::(timeRow.available && rentalData.online_auto_select_event === '1')">&nbsp;{{::timeRow.fname}} - {{::timeRow.location_address}}</td>
+
+                    <td st-ratio="50" class="colShowMobile" data-ng-if="::(rentalData.force_facility_order !== '1' && rentalData.online_auto_select_event !== '1')"> &nbsp;{{::timeRow.fname}}</td>
+                    <td st-ratio="50" class="colShowMobile" data-ng-if="::(rentalData.force_facility_order === '1' && rentalData.online_auto_select_event !== '1') "> <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
+                    <td st-ratio="30" class="colHideMobile" data-ng-if="::(rentalData.force_facility_order !== '1' && rentalData.online_auto_select_event !== '1')"> &nbsp;{{::timeRow.fname}}</td>
+                    <td st-ratio="30" class="colHideMobile" data-ng-if="::(rentalData.force_facility_order ==='1' && rentalData.online_auto_select_event !== '1')"> <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_name}}<br></span></td>
+                    <td st-ratio="30" class="colHideMobile no-word-wrap" data-ng-if="::(rentalData.force_facility_order !=='1' && rentalData.online_auto_select_event !== '1')">
+                      {{::timeRow.location_address}}
+                    </td>
+                    <td st-ratio="30" class="colHideMobile no-word-wrap" data-ng-if="::(rentalData.force_facility_order ==='1' && rentalData.online_auto_select_event !== '1')">
+                      <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_loc}}<br></span>
+                    </td>
+
+                    <td st-ratio="15" class="text-right" data-ng-if="::(!(rentalData.online_auto_select_event === '1' && timeRow.fee_amount === '0.00') && rentalData.force_facility_order !=='1')">
+                      <span>{{::((rentalData.online_auto_select_event === '1' && timeRow.fee_amount === '0.00')?'':'$'+timeRow.fee_amount)}}</span>
+                    </td>
+                    <td st-ratio="15" class="text-right" data-ng-if="::(!(rentalData.online_auto_select_event === '1' && timeRow.fee_amount === '0.00') && rentalData.force_facility_order ==='1' )">
+                      <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::((rentalData.online_auto_select_event === '1' && facRow.fee_amount === '0.00')?'':'$'+facRow.fee_amount)}}<br></span>
+                    </td>
+                    <td st-ratio="25" class="text-right" data-ng-if="::(rentalData.force_facility_order !=='1' && rentalData.online_auto_select_event !== '1')">
+                      {{::timeRow.st}}&nbsp;to&nbsp;</span>{{::timeRow.et}}<br>
+                    </td>
+                    <td st-ratio="25" class="text-right" data-ng-if="::(rentalData.force_facility_order=='1')">
+                      <span data-ng-repeat="facRow in ::timeRow.fac_data">{{::facRow.fac_st}}&nbsp;to&nbsp;{{::facRow.fac_et}}<br></span>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="6" class="text-center" style="padding-bottom: 0px; padding-top: 0px;">
+                <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+              </td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="alert alert-danger animate-show animate-hide" role="alert"data-ng-show="displayNoResults" style="margin: 10px;">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{(rentalData.online_auto_select_event !== '1')?'No facility rentals found at this time.':'Reservation date not available.'}}
+  </div>
+</div>
+
+<div veldata-ng-animate="'slide'" data-ng-if="selectedRentalTimes.rentals.length > 0">
+  <div class="panel panel-primary">
+    <div class="panel-heading clearfix">
+      <h3 class="panel-title">Selected Rental Times</h3>
+    </div>
+    <div class="panel-body" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+      <a id="selRentalTimes"></a>
+      <table st-table="selectedRentalTimes.rentals" class="table vtable table2"
+              style=" margin-bottom: 4px;border-bottom: 1px solid #ddd;">
+        <tbody ng-repeat="rentalRow in selectedRentalTimes.rentals">
+        <tr class="rentalSearchTimePadFull rentalSearchTimeColNB"
+                ng-class="{'rentalSearchTimePadFull': $first && rentalRow.eg == 2, 'rentalSearchTimePadTop': $first && rentalRow.eg != 2, 'rentalSearchTimePadMid': !$first && rentalRow.eg != 2, 'rentalSearchTimePadBot': !$first && rentalRow.eg == 2}" scroll-glue>
+          <td style="width:90px;" class="colHideMobile">
+            <button style="width: 86px;" class="btn btn-sm btn-danger" ng-click="removeSelectedRental(rentalRow)"
+                    data-ng-show="rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1' && rentalRow.eg == 1)">
+              <i class="fa fa-calendar-times-o" aria-hidden="true"></i> Remove</button>
+          </td>
+
+          <td style="width:20px;" class="colShowMobile">
+            <button class="btn btn-sm btn-danger" ng-click="removeSelectedRental(rentalRow)"
+                    data-ng-show="rentalData.force_facility_order=='0' || (rentalData.force_facility_order=='1' && rentalRow.eg == 1)">
+              <i class="fa fa-calendar-times-o" aria-hidden="true"></i></button>
+          </td>
+
+          <td>{{::rentalRow.fname}}</td>
+
+          <td st-ratio="30" class="colHideMobile colMobileTextCenter"
+                  data-ng-bind="::rentalRow.lf_date">
+          </td>
+          <td st-ratio="25" class="text-right colHideMobile">{{::rentalRow.st}}&nbsp;to&nbsp;{{::rentalRow.et}}</td>
+
+          <td st-ratio="35" class="text-right colShowMobile">{{::rentalRow.st}}&nbsp;to&nbsp;{{::rentalRow.et}}</td>
+        </tr>
+        <!--<tr ng-repeat-end data-ng-if="rentalRow.eg==2 && !$last">
+           <td colspan="4" class="text-left no-select" style="padding:0px; border-bottom: 1px solid #ddd !important;border-top: none !important"></td>
+           </tr>-->
+        </tbody>
+      </table>
+      <div class="panel-body nopad animate-show animate-hide">
+        <div class="col-sm-12">
+          <div class="col-sm-12">
+            <button style="min-width:220px;" class="btn btn-success" type="submit"
+                    data-ng-disabled="!(selectedRentalTimes.rentals.length > 0)"
+                    data-ng-click="onAcceptRentalTimes()">
+              Accept Rental Times</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <script type="text/ng-template" id="confirmation.html">
-    <div class="modal text-left" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title text-Success">Rental Added to Cart</h3>
-          </div>
-          <div class="modal-body">
-            <p>Your reservation has successfully been added to your cart.</p>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" data-ng-click="$hide()">Close</button>
-          </div>
+</div>
+
+<script type="text/ng-template" id="confirmation.html">
+  <div class="modal text-left" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-Success">Rental Added to Cart</h3>
+        </div>
+        <div class="modal-body">
+          <p>Your reservation has successfully been added to your cart.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-ng-click="$hide()">Close</button>
         </div>
       </div>
     </div>
-  </script>
+  </div>
+</script>

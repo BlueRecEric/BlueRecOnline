@@ -1,210 +1,208 @@
-<div class="row" data-ng-animate="'slide'">
-	<div data-ng-controller="ReservationAddons" class="">
+<div data-ng-animate=" 'slide-animate' ">
 
-		<div data-ng-if="reservationDataSet">
-			<div>
-				<h3>Complete Rental</h3>
-			</div>
-
-			<form class="form-horizontal" role="form">
-				<ng-form>
-					<div class="panel panel-primary animate-show animate-hide" data-ng-if="displayPackages">
-						<div class="panel-heading clearfix">
-							<h3 class="panel-title">Add-Ons</h3>
-						</div>
-
-						<div class="hidden-xs">
-							<table class="table table-min-padding table-responsive" style="margin-bottom: 0px;">
-								<thead>
-								<tr>
-									<td data-ng-show="rentalData.online_auto_select_event !== '1'"></td>
-									<td data-ng-show="rentalData.online_auto_select_event === '1'" style="width: 10px;"></td>
-									<td><strong>Add-On Name</strong></td>
-									<td><strong>Add-On Code</strong></td>
-									<td><strong>Qty</strong></td>
-									<td><strong>Fee</strong></td>
-								</tr>
-								</thead>
-								<tbody>
-								<tr class="striped-row" data-ng-repeat="pkg in rentalPackages">
-									<td class="vAlignLabel" style="padding-left:6px!important;" data-ng-show="rentalData.online_auto_select_event !== '1'">
-										<checkbox class="btn-default checkbox-dark-border"
-														data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
-														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-														name="package_{{pkg.item_id}}" required></checkbox>
-										<checkbox class="btn-default checkbox-dark-border"
-														data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
-														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-														name="package_{{pkg.item_id}}"></checkbox></td>
-									<td data-ng-show="rentalData.online_auto_select_event === '1'" style="width: 10px;"></td>
-									<td class="vAlignLabel"><label for="package_{{pkg.item_id}}" class="font-weight-normal vAlignLabel">{{pkg.item_name}}</label></td>
-									<td class="vAlignLabel"><label for="package_{{pkg.item_id}}" class="font-weight-normal vAlignLabel">{{pkg.item_code}}</label></td>
-									<td data-ng-if="rentalData.online_auto_select_event !== '1'" class="vAlignLabel"><input type="text" class="form-control" style="width: 50px;height:30px;" ng-model="pkg.quantity"
-													maxlength="3" numbers-only="numbers-only" data-ng-change="onPackageChangeEvent()"></td>
-									<td data-ng-if="rentalData.online_auto_select_event === '1'" class="vAlignLabel">{{pkg.quantity}}</td>
-									<td class="vAlignLabel"><p data-ng-repeat="pkgfee in pkg.fees" class="vAlignLabel">{{pkgfee.fee_amount | currency}}</p></td>
-								</tr>
-
-								</tbody>
-							</table>
-						</div>
-
-						<div class="table-responsive visible-xs" style="border:0px !important;">
-							<table class="table table-min-padding table-responsive" style="margin-bottom: 0px;">
-								<tbody data-ng-repeat="pkg in rentalPackages">
-								<tr>
-									<td class="text-center vAlignLabel"><div class="col-sm-6 text-center vcenter" style="height: 30px!important;">
-										<checkbox class="btn-default checkbox-dark-border"
-														data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
-														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-														name="package_{{pkg.item_id}}" required></checkbox>
-										<checkbox class="btn-default checkbox-dark-border"
-														data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
-														data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-														name="package_{{pkg.item_id}}"></checkbox></div></td>
-									<td class="vAlignLabel">
-										<label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_name}}</label><br>
-										<span data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}}{{pkgfee.fee_amount | currency}}</span>
-									</td>
-								</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-
-
-					<div>
-						<div class="panel panel-primary animate-show animate-hide">
-							<div class="panel-heading clearfix">
-								<h3 class="panel-title">Payment Information</h3>
-							</div>
-							<div class="panel-body">
-								<div style="padding-left: 8px;padding-right: 8px;padding-bottom: 8px;padding-top: 0px;">
-									<div class="form-group" data-ng-if="rentalData.online_auto_select_event !== '1'">
-										<label ng-class="{'col-sm-5': !lighting_package.has_lighting_package, 'col-sm-4': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">Facility:</label>
-										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Date:</label>
-										<label ng-class="{'col-sm-3': !lighting_package.has_lighting_package, 'col-sm-2': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">Time:</label>
-										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
-										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;" data-ng-if="lighting_package.has_lighting_package">Lights:</label>
-									</div>
-
-									<div class="form-group striped-row" style="padding-left: 0px;" data-ng-repeat="time in displayTimeData | orderBy:'utcs'" data-ng-if="rentalData.online_auto_select_event !== '1'">
-										<span ng-class="{'col-sm-5': !lighting_package.has_lighting_package, 'col-sm-4': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fname}}</span>
-										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.sf_date}}</span>
-										<span ng-class="{'col-sm-3': !lighting_package.has_lighting_package, 'col-sm-2': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">{{::time.st}}-{{::time.et}}</span>
-										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fee_amount | currency}}</span>
-										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;" data-ng-if="lighting_package.has_lighting_package">{{::time.sunset_fee_amount | currency}}</span>
-									</div>
-
-									<div class="form-group" data-ng-if="rentalData.online_auto_select_event === '1'">
-										<label class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">Facility:</label>
-										<label class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">Date:</label>
-										<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
-									</div>
-
-									<div class="form-group striped-row" data-ng-if="rentalData.online_auto_select_event === '1'" style="padding-left: 0px;">
-										<span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{::displayTimeData[0].fname}}</span>
-										<span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{displayTimeData[0].lf_date+' to '+displayTimeData[displayTimeData.length-1].lfe_date}}</span>
-										<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::displayTimeData[0].fee_amount | currency}}</span>
-									</div>
-
-									<div class="form-group row" style="padding-top: 10px;">
-										<h4 class="col-sm-2 header-no-margin text-primary" style="margin-bottom:0px;">Rental Amount:</h4>
-										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.feeAmount) | currency}}</h4></div>
-									</div>
-
-									<div class="form-group row">
-										<h4 class="col-sm-2 header-no-margin text-primary">Package Amount:</h4>
-										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.packageFeeAmount) | currency}}</h4></div>
-									</div>
-
-									<div class="form-group row" data-ng-if="lighting_package.has_lighting_package">
-										<h4 class="col-sm-2 header-no-margin text-primary">Lighting Amount:</h4>
-										<div class="col-sm-10"><h4 class="header-no-margin">{{lighting_package.fee_amount | currency}}</h4></div>
-									</div>
-
-									<div class="form-group row">
-										<h4 class="col-sm-2 header-no-margin text-primary">Total Amount:</h4>
-										<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.feeAmount + rentalFees.packageFeeAmount + lighting_package.fee_amount) | currency}}</h4></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div data-ng-if="requirements.show">
-						<div class="panel panel-primary animate-show animate-hide">
-							<div class="panel-heading clearfix">
-								<h3 class="panel-title">Requirements</h3>
-							</div>
-							<div class="panel-body">
-								<div style="padding-left: 8px;padding-right: 8px;padding-bottom: 8px;padding-top: 0px;">
-
-									<div data-ng-if="orgurl === 'berkeleycatest' || orgurl === 'berkeleyca' || orgurl === 'alphadev'">Proof of residency is required prior to May 1st to receive the Berkeley resident rate.  The non-resident rate will be applied until residency is verified.</div>
-
-									<div class="form-group" data-ng-if="false">
-										<div class="col-xs-12 spacing">
-											<label>Upload a documents/images for the following requirements.</label>
-										</div>
-									</div>
-
-									<div class="form-group striped-row" data-ng-repeat="require in requirements.data">
-										<label class="col-sm-12 font-weight-normal" data-ng-if="!(orgurl === 'berkeleycatest' || orgurl === 'berkeleyca' || orgurl === 'alphadev')">{{::require.requirement_name}}</label>
-										<label class="col-sm-4 font-weight-normal" data-ng-if="orgurl === 'berkeleycatest' || orgurl === 'berkeleyca' || orgurl === 'alphadev'">{{::require.requirement_name}}:</label>
-										<div class="col-sm-8" data-ng-if="orgurl === 'berkeleycatest' || orgurl === 'berkeleyca' || orgurl === 'alphadev'">
-											<input type="file" class="" fileread="require.file_data" accept=".jpg, .jpeg, .doc, .docx, .pdf"/>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div>
-						<div class="panel panel-primary">
-							<div class="panel-heading clearfix">
-								<h3 class="panel-title">Rental Agreement - {{agreementData.agreement_name}}</h3>
-							</div>
-
-							<div class="panel-body">
-								<div name="txtAgreement" id="txtAgreement" class="well scrollbox" style="max-height: 400px!important;" data-ng-enable="false" data-ng-bind-html="agreementData.agreement_text" rows="3"></div>
-
-								<div class="form-group">
-									<div class="col-xs-12 spacing">
-										<checkbox class="btn-primary" data-ng-model="agreementSigned.checked" required></checkbox>
-										<label>I agree to the terms outlined in the above agreement.</label>
-									</div>
-								</div>
-
-								<div class="animate-show animate-hide" data-ng-hide="!agreementCheckError" data-ng-cloak>
-									<div class="alert alert-danger" role="alert">
-										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-										<span class="sr-only">Error:</span>
-										Terms & Agreement not checked
-									</div>
-								</div>
-
-								<div class="animate-show animate-hide" data-ng-hide="!cartError" data-ng-cloak>
-									<div class="alert alert-danger" role="alert">
-										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-										<span class="sr-only">Error:</span>
-										{{errorText}}
-									</div>
-								</div>
-
-								<div class="col-sm-12">
-									<button type="submit" class="btn btn-success" data-ng-click="onSubmitAddRentalToCart()"
-													data-ng-if="rentalData.auto_approve === '1'" data-ng-disabled="submittingData || !requirements.loaded">
-										<i class="fa fa-shopping-cart"></i> Add Rental to Cart</button>
-									<!--<button type="submit" class="btn btn-success" data-ng-click="onSubmitRentalRequest()"
-                                            data-ng-if="rentalData.auto_approve === '0'"
-                                            data-ng-disabled="submittingData"> Submit Rental Request for Approval</button>-->
-								</div>
-							</div>
-						</div>
-					</div>
-				</ng-form>
-			</form>
+	<div data-ng-if="reservationDataSet">
+		<div>
+			<h3>Complete Rental</h3>
 		</div>
+
+		<form class="form-horizontal" role="form">
+			<ng-form>
+				<div class="panel panel-primary animate-show animate-hide" data-ng-if="displayPackages">
+					<div class="panel-heading clearfix">
+						<h3 class="panel-title">Add-Ons</h3>
+					</div>
+
+					<div class="hidden-xs">
+						<table class="table table-min-padding table-responsive" style="margin-bottom: 0px;">
+							<thead>
+							<tr>
+								<td data-ng-show="rentalData.online_auto_select_event !== '1'"></td>
+								<td data-ng-show="rentalData.online_auto_select_event === '1'" style="width: 10px;"></td>
+								<td><strong>Add-On Name</strong></td>
+								<td><strong>Add-On Code</strong></td>
+								<td><strong>Qty</strong></td>
+								<td><strong>Fee</strong></td>
+							</tr>
+							</thead>
+							<tbody>
+							<tr class="striped-row" data-ng-repeat="pkg in rentalPackages">
+								<td class="vAlignLabel" style="padding-left:6px!important;" data-ng-show="rentalData.online_auto_select_event !== '1'">
+									<checkbox class="btn-default checkbox-dark-border"
+													data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
+													data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
+													name="package_{{pkg.item_id}}" required></checkbox>
+									<checkbox class="btn-default checkbox-dark-border"
+													data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
+													data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
+													name="package_{{pkg.item_id}}"></checkbox></td>
+								<td data-ng-show="rentalData.online_auto_select_event === '1'" style="width: 10px;"></td>
+								<td class="vAlignLabel"><label for="package_{{pkg.item_id}}" class="font-weight-normal vAlignLabel">{{pkg.item_name}}</label></td>
+								<td class="vAlignLabel"><label for="package_{{pkg.item_id}}" class="font-weight-normal vAlignLabel">{{pkg.item_code}}</label></td>
+								<td data-ng-if="rentalData.online_auto_select_event !== '1'" class="vAlignLabel"><input type="text" class="form-control" style="width: 50px;height:30px;" ng-model="pkg.quantity"
+												maxlength="3" numbers-only="numbers-only" data-ng-change="onPackageChangeEvent()"></td>
+								<td data-ng-if="rentalData.online_auto_select_event === '1'" class="vAlignLabel">{{pkg.quantity}}</td>
+								<td class="vAlignLabel"><p data-ng-repeat="pkgfee in pkg.fees" class="vAlignLabel">{{pkgfee.fee_amount | currency}}</p></td>
+							</tr>
+
+							</tbody>
+						</table>
+					</div>
+
+					<div class="table-responsive visible-xs" style="border:0px !important;">
+						<table class="table table-min-padding table-responsive" style="margin-bottom: 0px;">
+							<tbody data-ng-repeat="pkg in rentalPackages">
+							<tr>
+								<td class="text-center vAlignLabel"><div class="col-sm-6 text-center vcenter" style="height: 30px!important;">
+									<checkbox class="btn-default checkbox-dark-border"
+													data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
+													data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
+													name="package_{{pkg.item_id}}" required></checkbox>
+									<checkbox class="btn-default checkbox-dark-border"
+													data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
+													data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
+													name="package_{{pkg.item_id}}"></checkbox></div></td>
+								<td class="vAlignLabel">
+									<label for="package_{{pkg.item_id}}" style="font-weight: normal;">{{pkg.item_name}}</label><br>
+									<span data-ng-repeat="pkgfee in pkg.fees">{{pkgfee.fee_name}}{{pkgfee.fee_amount | currency}}</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+				<div>
+					<div class="panel panel-primary animate-show animate-hide">
+						<div class="panel-heading clearfix">
+							<h3 class="panel-title">Payment Information</h3>
+						</div>
+						<div class="panel-body">
+							<div style="padding-left: 8px;padding-right: 8px;padding-bottom: 8px;padding-top: 0px;">
+								<div class="form-group" data-ng-if="rentalData.online_auto_select_event !== '1'">
+									<label ng-class="{'col-sm-5': !lighting_package.has_lighting_package, 'col-sm-4': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">Facility:</label>
+									<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Date:</label>
+									<label ng-class="{'col-sm-3': !lighting_package.has_lighting_package, 'col-sm-2': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">Time:</label>
+									<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
+									<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;" data-ng-if="lighting_package.has_lighting_package">Lights:</label>
+								</div>
+
+								<div class="form-group striped-row" style="padding-left: 0px;" data-ng-repeat="time in displayTimeData | orderBy:'utcs'" data-ng-if="rentalData.online_auto_select_event !== '1'">
+									<span ng-class="{'col-sm-5': !lighting_package.has_lighting_package, 'col-sm-4': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fname}}</span>
+									<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.sf_date}}</span>
+									<span ng-class="{'col-sm-3': !lighting_package.has_lighting_package, 'col-sm-2': lighting_package.has_lighting_package}" style="padding-bottom:0px;margin-bottom:0px;">{{::time.st}}-{{::time.et}}</span>
+									<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::time.fee_amount | currency}}</span>
+									<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;" data-ng-if="lighting_package.has_lighting_package">{{::time.sunset_fee_amount | currency}}</span>
+								</div>
+
+								<div class="form-group" data-ng-if="rentalData.online_auto_select_event === '1'">
+									<label class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">Facility:</label>
+									<label class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">Date:</label>
+									<label class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">Fee:</label>
+								</div>
+
+								<div class="form-group striped-row" data-ng-if="rentalData.online_auto_select_event === '1'" style="padding-left: 0px;">
+									<span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{::displayTimeData[0].fname}}</span>
+									<span class="col-sm-5" style="padding-bottom:0px;margin-bottom:0px;">{{displayTimeData[0].lf_date+' to '+displayTimeData[displayTimeData.length-1].lfe_date}}</span>
+									<span class="col-sm-2" style="padding-bottom:0px;margin-bottom:0px;">{{::displayTimeData[0].fee_amount | currency}}</span>
+								</div>
+
+								<div class="form-group row" style="padding-top: 10px;">
+									<h4 class="col-sm-2 header-no-margin text-primary" style="margin-bottom:0px;">Rental Amount:</h4>
+									<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.feeAmount) | currency}}</h4></div>
+								</div>
+
+								<div class="form-group row">
+									<h4 class="col-sm-2 header-no-margin text-primary">Package Amount:</h4>
+									<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.packageFeeAmount) | currency}}</h4></div>
+								</div>
+
+								<div class="form-group row" data-ng-if="lighting_package.has_lighting_package">
+									<h4 class="col-sm-2 header-no-margin text-primary">Lighting Amount:</h4>
+									<div class="col-sm-10"><h4 class="header-no-margin">{{lighting_package.fee_amount | currency}}</h4></div>
+								</div>
+
+								<div class="form-group row">
+									<h4 class="col-sm-2 header-no-margin text-primary">Total Amount:</h4>
+									<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.feeAmount + rentalFees.packageFeeAmount + lighting_package.fee_amount) | currency}}</h4></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div data-ng-if="requirements.show">
+					<div class="panel panel-primary animate-show animate-hide">
+						<div class="panel-heading clearfix">
+							<h3 class="panel-title">Requirements</h3>
+						</div>
+						<div class="panel-body">
+							<div style="padding-left: 8px;padding-right: 8px;padding-bottom: 8px;padding-top: 0px;">
+
+								<div data-ng-if="orgurl === 'berkeleycatest' || orgurl === 'berkeleyca' || orgurl === 'alphadev'">Proof of residency is required prior to May 1st to receive the Berkeley resident rate.  The non-resident rate will be applied until residency is verified.</div>
+
+								<div class="form-group" data-ng-if="false">
+									<div class="col-xs-12 spacing">
+										<label>Upload a documents/images for the following requirements.</label>
+									</div>
+								</div>
+
+								<div class="form-group striped-row" data-ng-repeat="require in requirements.data">
+									<label class="col-sm-12 font-weight-normal" data-ng-if="!(orgurl === 'berkeleycatest' || orgurl === 'berkeleyca' || orgurl === 'alphadev')">{{::require.requirement_name}}</label>
+									<label class="col-sm-4 font-weight-normal" data-ng-if="orgurl === 'berkeleycatest' || orgurl === 'berkeleyca' || orgurl === 'alphadev'">{{::require.requirement_name}}:</label>
+									<div class="col-sm-8" data-ng-if="orgurl === 'berkeleycatest' || orgurl === 'berkeleyca' || orgurl === 'alphadev'">
+										<input type="file" class="" fileread="require.file_data" accept=".jpg, .jpeg, .doc, .docx, .pdf"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class="panel panel-primary">
+						<div class="panel-heading clearfix">
+							<h3 class="panel-title">Rental Agreement - {{agreementData.agreement_name}}</h3>
+						</div>
+
+						<div class="panel-body">
+							<div name="txtAgreement" id="txtAgreement" class="well scrollbox" style="max-height: 400px!important;" data-ng-enable="false" data-ng-bind-html="agreementData.agreement_text" rows="3"></div>
+
+							<div class="form-group">
+								<div class="col-xs-12 spacing">
+									<checkbox class="btn-primary" data-ng-model="agreementSigned.checked" required></checkbox>
+									<label>I agree to the terms outlined in the above agreement.</label>
+								</div>
+							</div>
+
+							<div class="animate-show animate-hide" data-ng-hide="!agreementCheckError" data-ng-cloak>
+								<div class="alert alert-danger" role="alert">
+									<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+									<span class="sr-only">Error:</span>
+									Terms & Agreement not checked
+								</div>
+							</div>
+
+							<div class="animate-show animate-hide" data-ng-hide="!cartError" data-ng-cloak>
+								<div class="alert alert-danger" role="alert">
+									<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+									<span class="sr-only">Error:</span>
+									{{errorText}}
+								</div>
+							</div>
+
+							<div class="col-sm-12">
+								<button type="submit" class="btn btn-success" data-ng-click="onSubmitAddRentalToCart()"
+												data-ng-if="rentalData.auto_approve === '1'" data-ng-disabled="submittingData || !requirements.loaded">
+									<i class="fa fa-shopping-cart"></i> Add Rental to Cart</button>
+								<button type="submit" class="btn btn-success" data-ng-click="onSubmitAddRentalToCart()"
+												data-ng-if="rentalData.auto_approve === '0'" data-ng-disabled="submittingData || !requirements.loaded">
+									Submit Rental for Approval</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</ng-form>
+		</form>
 	</div>
 </div>

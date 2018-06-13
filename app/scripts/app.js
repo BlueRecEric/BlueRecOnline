@@ -171,13 +171,16 @@ angular
                 controllerAs: 'memReg'
             })
             .when('/:orgurl/reservations', {
-                templateUrl: 'views/requestReservation.html'
+                templateUrl: 'views/requestReservation.html',
+                controller: 'RequestReservation'
             })
             .when('/:orgurl/reservationtimes/:itemid', {
-                templateUrl: 'views/reservationAvailableTimes.html'
+                templateUrl: 'views/reservationAvailableTimes.html',
+                controller: 'ReservationAvailableTimes'
             })
             .when('/:orgurl/reservationaddons', {
-                templateUrl: 'views/reservationAddons.html'
+                templateUrl: 'views/reservationAddons.html',
+                controller: 'ReservationAddons'
             })
             .when('/:orgurl/rentalrequestsubmitted', {
                 templateUrl: 'views/rentalRequestSubmitted.html',
