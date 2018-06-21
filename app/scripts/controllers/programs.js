@@ -121,10 +121,12 @@ angular.module('bluereconlineApp')
 
             return $scope.search.getProgramSearch().then(function () {
                 $scope.programs.loadPrograms($scope.search.programSearch).then(function(response) {
-                    $scope.activePrograms = response.data;
-                    console.log('programs:');
-                    console.log($scope.activePrograms);
-                    $scope.programs.busy = false;
+                    if($scope.programs.busy) {
+                        $scope.activePrograms = response.data;
+                        console.log('programs:');
+                        console.log($scope.activePrograms);
+                        $scope.programs.busy = false;
+                    }
                 });
             });
         };
@@ -399,6 +401,8 @@ angular.module('bluereconlineApp')
                 searchOptions.sortBy = '';
                 searchOptions.afterDate = '';
                 searchOptions.beforeDate = '';
+                searchOptions.selectedAgeMin = '';
+                searchOptions.selectedAgeMax = '';
             }
 
             var req = {
@@ -411,7 +415,9 @@ angular.module('bluereconlineApp')
                     'locationId':searchOptions.location,
                     'sortBy':searchOptions.sortBy,
                     'afterDate':$filter('date')(searchOptions.afterDate, 'yyyy-MM-dd'),
-                    'beforeDate':$filter('date')(searchOptions.beforeDate, 'yyyy-MM-dd')
+                    'beforeDate':$filter('date')(searchOptions.beforeDate, 'yyyy-MM-dd'),
+                    'selectedAgeMin':searchOptions.selectedAgeMin,
+                    'selectedAgeMax':searchOptions.selectedAgeMax
                 },
                 headers: {
                     'Content-Type': undefined

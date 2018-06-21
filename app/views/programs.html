@@ -1,3 +1,14 @@
+<script type="text/ng-template" id="rzSliderTpl2.html">
+  <span class="rz-bar-wrapper"><span class="rz-bar rz-bar2"></span></span>
+  <span class="rz-bar-wrapper"><span class="rz-bar rz-bar2 rz-selection rz-selection2"></span></span>
+  <span class="rz-pointer rz-pointer2"></span>
+  <span class="rz-pointer rz-pointer2"></span>
+  <span class="rz-bubble rz-limit"></span>
+  <span class="rz-bubble rz-limit"></span>
+  <span class="rz-bubble"></span>
+  <span class="rz-bubble"></span>
+  <span class="rz-bubble"></span>
+</script>
 <div data-ng-animate=" 'slide-animate' ">
 
   <h3>Search Activities</h3>
@@ -47,7 +58,15 @@
                    name="date" data-autoclose="true" data-start-view="1" bs-datepicker type="text" >
           </div>
 
+          <div class="form-group col-xs-12 col-md-3">
+            <label for="searchAgeMin">Min Age:</label>
+            <input id="searchAgeMin" ng-model="search.programSearch.selectedAgeMin" class="form-control" data-ng-change="doSearch()" ng-model-options="{debounce: 500}">
+          </div>
 
+          <div class="form-group col-xs-12 col-md-3">
+            <label for="searchAgeMax">Max Age:</label>
+            <input id="searchAgeMax" ng-model="search.programSearch.selectedAgeMax" class="form-control" data-ng-change="doSearch()" ng-model-options="{debounce: 500}">
+          </div>
           <!--
           <div class="row spacing" data-ng-if="showAdvancedSearch"></div>
           <div class="row" data-ng-if="showAdvancedSearch">

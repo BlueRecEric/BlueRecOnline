@@ -10,6 +10,8 @@ angular.module('bluereconlineApp')
         search.programSearch.type = '';
         search.programSearch.location = '';
         search.programSearch.sortBy = '';
+        search.programSearch.selectedAgeMin = '';
+        search.programSearch.selectedAgeMax = '';
 
         search.setProgramSearch = function () {
             var defer = $q.defer();
@@ -34,6 +36,8 @@ angular.module('bluereconlineApp')
                 search.programSearch.keyword = '';
                 search.programSearch.type = '';
                 search.programSearch.location = '';
+                search.programSearch.selectedAgeMin = '';
+                search.programSearch.selectedAgeMax = '';
                 search.programSearch.sortBy = 'name';
             }
 
