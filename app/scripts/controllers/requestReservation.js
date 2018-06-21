@@ -13,6 +13,7 @@ angular.module('bluereconlineApp')
 
             $scope.orgurl = $routeParams.orgurl;
 
+            $scope.loadingApprovedRentals = false;
             $scope.displayApprovedRentals = false;
 
             $scope.approvedRentalData = [];
@@ -127,12 +128,13 @@ angular.module('bluereconlineApp')
 
                             $scope.rentalGroupData = response.data;
 
-                            //console.log('rental data:  ', $scope.rentalGroupData);
+                            console.log('rental data:  ', $scope.rentalGroupData);
                         });
                 }
             };
 
             $scope.getUserApprovedRequests = function () {
+                $scope.loadingApprovedRentals = true;
                 $scope.displayApprovedRentals = false;
 
                 $scope.approvedRentalData = [];
@@ -154,6 +156,11 @@ angular.module('bluereconlineApp')
                         if ($scope.approvedRentalCollection.length > 0) {
                             $scope.displayApprovedRentals = true;
                         }
+
+                        $scope.loadingApprovedRentals = false;
+                    })
+                    .error(function (data) {
+                        $scope.loadingApprovedRentals = false;
                     });
 
                 $scope.approvedRentalData = [].concat($scope.approvedRentalCollection);
@@ -184,9 +191,9 @@ angular.module('bluereconlineApp')
 
                         $rootScope.$emit('updateCartCount', {});
 
-                        $scope.getUserApprovedRequests();
+                        //$scope.getUserApprovedRequests();
 
-                        MakeToast.popOn('success', 'Added to Cart', 'Your approved rental request has been added to your cart!');
+                        MakeToast.popOn('success', 'Added to Cart', 'Your approved rental has been added to your cart!');
 
                         /*$scope.approvedRentalCollection = data;
 
