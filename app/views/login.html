@@ -1,6 +1,33 @@
 <div class="row text-center">
 
-    <div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-4">
+    <div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-4" data-ng-show="log.disableLogin">
+        <h3>Select a Portal</h3>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Portals</h3>
+            </div>
+            <div class="panel-body">
+                <div data-ng-repeat="portal in log.config.portals">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="#/{{portal.portal_code}}/login">
+                            <div data-ng-if="portal.portal_logo.length === 0"><button class='btn btn-info col-xs-12 text-left' type="button"><i class="fa fa-sign-in fa-fw"></i> {{portal.portal_name}}</button></div>
+                            <div data-ng-if="portal.portal_logo.length > 0"><img class="img-responsive" data-ng-if="portal.portal_logo" data-ng-src="{{portal.portal_logo}}"></div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="spacing"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-4" data-ng-show="!log.disableLogin">
 
         <h3>Login</h3>
 

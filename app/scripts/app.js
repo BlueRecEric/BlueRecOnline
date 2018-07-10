@@ -228,10 +228,12 @@ angular
             $rootScope.OrgUrl = $routeParams.orgurl;
         });
 
+        $rootScope.hideCartNotice = true;
+
         $rootScope.$on('$routeChangeSuccess', function () {
             toaster.clear('*');
             $anchorScroll('pageTop');
-            if($route.current.templateUrl == 'views/precheckout.html' || $route.current.templateUrl == 'views/checkout.html') {
+            if($route.current.templateUrl == '' || $route.current.templateUrl == 'views/login.html' || $route.current.templateUrl == 'views/precheckout.html' || $route.current.templateUrl == 'views/checkout.html') {
                 $rootScope.hideCartNotice = true;
             }
             else {
