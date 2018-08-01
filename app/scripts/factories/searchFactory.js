@@ -38,12 +38,12 @@ angular.module('bluereconlineApp')
                 search.programSearch.location = '';
                 search.programSearch.selectedAgeMin = '';
                 search.programSearch.selectedAgeMax = '';
-                search.programSearch.sortBy = 'name';
+                search.programSearch.sortBy = 'date';
             }
 
             if(search.programSearch.sortBy == '')
             {
-                search.programSearch.sortBy = 'name';
+                search.programSearch.sortBy = 'date';
             }
 
             console.log('after getting program search:');
