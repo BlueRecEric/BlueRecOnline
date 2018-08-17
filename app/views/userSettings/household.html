@@ -214,16 +214,17 @@
                     </div>
                     <div class="form-group">
                         <label for="birthday" class="col-sm-3 control-label">Birthday (MM/DD/YYYY)</label>
-                        <div class="col-sm-6" style="padding-top: 9px;">{{displayBirthday(person.birthday)}}
+                        <div class="col-sm-6" style="padding-top: 9px;">{{displayBirthday(person.birthday)}} <span class="badge badge-info">Birthday cannot be changed online</span>
                              <!--<span class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             <input class="form-control" data-ng-model="person.birthday" data-date-format="M/d/yyyy" data-autoclose="true" data-timezone="UTC" id="birthday" name="date" bs-datepicker type="text"></span>-->
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="grade" class="col-sm-3 control-label">Grade</label>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" data-ng-show="config.data.allowGradeChange == '1' || config.data.allowGradeChange == ''">
                             <select id="grade" class="form-control" data-style="btn-inverse" data-ng-model="person.grade" data-ng-options="gradeOp.value as gradeOp.name for gradeOp in gradeOptions"></select>
                         </div>
+                        <div class="col-sm-6" data-ng-show="config.data.allowGradeChange == '0'" style="padding-top: 9px;">{{person.grade}} <span class="badge badge-info">Grade cannot be changed online</span></div>
                     </div>
 
                     <div class="form-group" data-ng-show="config.data.medCheckbox != '1'">
