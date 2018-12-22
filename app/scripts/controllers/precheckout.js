@@ -16,6 +16,8 @@ angular.module('bluereconlineApp')
         $scope.regularPackages = {};
         $scope.regularPackages.weekday = '';
         $scope.readyToCheckout = true;
+        $scope.assistanceRequested = false;
+        $scope.assistanceConfirmed = true;
         $scope.wkdPkgOpt = [];
 
         $scope.requiredEmergencyCount = '';
@@ -41,6 +43,40 @@ angular.module('bluereconlineApp')
             if(preLoad.waivers[widx].signoff[sidx].agreed)
             {
                 preLoad.waivers[widx].signoff[sidx].notagreed = false;
+            }
+        };
+
+        $scope.confirmADARequest = function()
+        {
+            console.log('confirm ada requests');
+            $scope.assistanceConfirmed = true;
+        };
+
+        $scope.cancelADARequest = function()
+        {
+            console.log('cancel ada requests');
+            for(var req = 0; req < preLoad.sradata.length; req++)
+            {
+                preLoad.sradata[req].assistance = '0';
+            }
+
+            $scope.checkADARequests();
+        };
+
+        $scope.checkADARequests = function()
+        {
+            $scope.assistanceRequested = false;
+            $scope.assistanceConfirmed = true;
+            console.log('check for ada requests');
+
+            for(var req = 0; req < preLoad.sradata.length; req++)
+            {
+                if(preLoad.sradata[req].assistance == '1')
+                {
+                    console.log('one request found');
+                    $scope.assistanceRequested = true;
+                    $scope.assistanceConfirmed = false;
+                }
             }
         };
 

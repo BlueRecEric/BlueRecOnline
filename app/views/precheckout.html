@@ -351,8 +351,8 @@
 
                     <div class="form-group" data-ng-show="sracontact.showcheckbox">
                         <label for="medications" class="col-sm-2 control-label"></label>
-                        <div class="col-sm-6">
-                            <checkbox class="btn-primary" ng-true-value="1" ng-false-value="0" data-ng-model="sracontact.assistance"></checkbox>  I require additional accommodations to participate in this program.
+                        <div class="col-sm-8">
+                            <checkbox class="btn-primary" ng-true-value="1" ng-false-value="0" data-ng-model="sracontact.assistance" data-ng-change="checkADARequests()"></checkbox>  I am needing an ADA modification to participate in this program because of a disability.
                         </div>
                     </div>
 
@@ -391,9 +391,36 @@
         </ul>
       </div>
       <button class="btn btn-disabled" data-ng-if="!readyToCheckout">Please Wait...</button>
-      <button type="submit" data-ng-if="readyToCheckout" data-ng-enable="customForm.$valid" id="submitFinal" value="Proceed to Checkout" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Proceed to Checkout</button>
+      <button type="submit" data-ng-if="readyToCheckout && assistanceConfirmed" data-ng-enable="customForm.$valid" id="submitFinal" value="Proceed to Checkout" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Proceed to Checkout</button>
+      <a data-ng-if="readyToCheckout && !assistanceConfirmed" class="btn btn-success" data-toggle="modal" data-target="#assistance_modal"><i class="fa fa-shopping-cart"></i> Confirm ADA Request</a>
     </ng-form>
   </form>
+
+  <div>
+    <div class="modal fade" id="assistance_modal" tabindex="-1" role="dialog" aria-labelledby="adaPopLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            ADA Modification Request
+          </div>
+
+          <div class="modal-body">
+
+            <h4>Confirm ADA Request</h4>
+
+            <p>You have requested an ADA Modification for one or more programs. You may be contacted by our staff to confirm the nature of this request after you register.</p>
+
+            <p>Please confirm that you intended to make this request.</p>
+
+            <button type="button" class="btn btn-info" id="confirmADARequestButton" data-dismiss="modal" data-ng-click="confirmADARequest()"><i class="fa fa-check"></i> Yes, This request is accurate</button>
+            <button type="button" class="btn btn-danger" id="cancelADARequestButton" data-dismiss="modal" data-ng-click="cancelADARequest()"><i class="fa fa-times"></i> No, This request is not needed</button>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div data-ng-repeat="waiverData in preLoad.waivers">
     <div class="modal fade" id="{{signoff.print_id}}" tabindex="-1" role="dialog" aria-labelledby="termsPopLabel" data-ng-repeat="signoff in waiverData.signoff">
@@ -417,6 +444,7 @@
           </div>
         </div>
       </div>
+    </div>
   </div>
 
 
