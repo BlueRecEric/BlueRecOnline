@@ -3,20 +3,24 @@
 		<div data-ng-controller="CurrentMembershipCtrl"
 			 data-ng-show="showCurrent && currentMemberships.returnData.length > 0">
 
-			<h3>Active Memberships</h3>
+			<h3>Active Memberships
+				<span class="pull-right">						
+					<a href="#/{{orgurl}}/membershipBarcode" class="btn btn-info"><i class="fa fa-print"></i> Show Barcodes</a>
+				</span>
+			</h3>
 
 			<div class="well well-sm" data-ng-repeat="mem in currentMemberships.returnData">
 
 				<h5>{{mem.member_name}}</h5>
 
 				<div class="row">
-					<div class="col-xs-4">
+					<div class="col-xs-5">
 						{{mem.item_name}}
 					</div>
-					<div class="col-xs-4">
+					<div class="col-xs-2">
 						Starts: {{mem.start_date}}
 					</div>
-					<div class="col-xs-4">
+					<div class="col-xs-2">
 						Expires: {{mem.expire_date}}
 					</div>
 				</div>

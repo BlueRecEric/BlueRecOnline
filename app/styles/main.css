@@ -477,6 +477,13 @@ body > .container {
         width: auto !important;
         max-width:220px !important;
     }
+
+    .printBarcodeImg
+    {
+        height: auto !important;
+        width: auto !important;
+        max-width:400px !important;
+    }    
 }
 
 
@@ -1209,6 +1216,13 @@ tooltip tip.facility-address {
         max-width:220px !important;
     }
 
+    .printBarcodeImg
+    {
+        height: auto !important;
+        width: auto !important;
+        max-width:350px !important;
+    }
+
     .noprint {
         visibility: hidden;
     }
@@ -1255,6 +1269,10 @@ tooltip tip.facility-address {
         font-size: 12px;
         line-height: 1.2;
         width: 100%;
+    }
+
+    .no-print-break {
+        page-break-inside:avoid;
     }
 
     table.report-table { font-size: 75%; table-layout: fixed; width: 100%; }

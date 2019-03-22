@@ -165,6 +165,10 @@ angular
             .when('/:orgurl/memberships', {
                 templateUrl: 'views/memberships.html'
             })
+            .when('/:orgurl/membershipBarcode', {
+                templateUrl: 'views/membershipBarcodes.html',
+                controller: 'MembershipBarcodeCtrl'
+            })            
             .when('/:orgurl/membershipsignup/:itemid', {
                 templateUrl: 'views/membershipRegister.html',
                 controller: 'MembershipRegister',
@@ -1175,7 +1179,7 @@ angular
                 var codeReq = {
                     method: 'GET',
                     skipAuthorization: true,
-                    url: 'https://maps.google.com/maps/api/geocode/json?address=' + responseData.locations[key].geo_address,
+                    url: 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyDIB7o5PEQz40YQ4Ie7aEfyZ6qY7J_4TqA&address=' + responseData.locations[key].geo_address,
                     headers: {
                         'Content-Type': undefined,
                         'Cache-Control': undefined,

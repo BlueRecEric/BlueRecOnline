@@ -1,0 +1,42 @@
+<div class="row" data-ng-animate=" 'slide-animate' ">
+
+	<div id="printContainer" data-ng-controller="CurrentMembershipCtrl"
+			data-ng-show="showCurrent && currentMemberships.returnData.length > 0">
+
+		<h3>Active Memberships 
+			<div class="pull-right">
+				<a href="#/{{orgurl}}/memberships" class="btn btn-info"><i class="fa fa-arrow-left"></i> Back to Memberships</a>
+				<button data-ng-click="printBarcodes()" class="btn btn-info hidden-print"><i class="fa fa-print"></i> Print Barcodes</button>
+			</div>
+		</h3>
+
+		<div class="no-print-break" data-ng-repeat="mem in currentMemberships.returnData">
+
+			<h5>{{mem.member_name}}</h5>
+
+			<div class="row">
+				<div class="col-xs-4">
+					{{mem.item_name}}
+				</div>
+				<div class="col-xs-4">
+					Starts: {{mem.start_date}}
+				</div>
+				<div class="col-xs-4">
+					Expires: {{mem.expire_date}}
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<img data-ng-if="::mem.barcode_url" class="printBarcodeImg" data-ng-src="{{::mem.barcode_url}}&scale=4">
+				</div>
+			</div>
+
+			<hr width="100%">
+
+		</div>
+
+	</div>
+
+
+</div>
