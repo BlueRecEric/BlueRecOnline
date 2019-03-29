@@ -27,19 +27,15 @@
 							<tbody>
 							<tr class="striped-row" data-ng-repeat="pkg in rentalPackages">
 								<td class="vAlignLabel" style="padding-left:6px!important;" data-ng-show="rentalData.online_auto_select_event !== '1'">
-									<checkbox class="btn-default checkbox-dark-border"
-													data-ng-if="pkg.required" data-ng-change="onPackageChangeEvent()"
+									<checkbox class="btn-default checkbox-dark-border" data-ng-disabled="pkg.required"
+													data-ng-change="onPackageChangeEvent()"
 													data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-													name="package_{{pkg.item_id}}" required></checkbox>
-									<checkbox class="btn-default checkbox-dark-border"
-													data-ng-if="!pkg.required" data-ng-change="onPackageChangeEvent()"
-													data-ng-model="pkg.selected" id="package_{{pkg.item_id}}"
-													name="package_{{pkg.item_id}}"></checkbox></td>
+													name="package_{{pkg.item_id}}"></checkbox>
 								<td data-ng-show="rentalData.online_auto_select_event === '1'" style="width: 10px;"></td>
 								<td class="vAlignLabel"><label for="package_{{pkg.item_id}}" class="font-weight-normal vAlignLabel">{{pkg.item_name}}</label></td>
 								<td class="vAlignLabel"><label for="package_{{pkg.item_id}}" class="font-weight-normal vAlignLabel">{{pkg.item_code}}</label></td>
 								<td data-ng-if="rentalData.online_auto_select_event !== '1'" class="vAlignLabel"><input type="text" class="form-control" style="width: 50px;height:30px;" ng-model="pkg.quantity"
-												maxlength="3" numbers-only="numbers-only" data-ng-change="onPackageChangeEvent()"></td>
+												maxlength="3" numbers-only="numbers-only" data-ng-change="onPackageChangeEvent()" data-ng-disabled="pkg.required"></td>
 								<td data-ng-if="rentalData.online_auto_select_event === '1'" class="vAlignLabel">{{pkg.quantity}}</td>
 								<td class="vAlignLabel"><p data-ng-repeat="pkgfee in pkg.fees" class="vAlignLabel">{{pkgfee.fee_amount | currency}}</p></td>
 							</tr>
@@ -113,7 +109,7 @@
 								</div>
 
 								<div class="form-group row">
-									<h4 class="col-sm-2 header-no-margin text-primary">Package Amount:</h4>
+									<h4 class="col-sm-2 header-no-margin text-primary">Add-Ons Amount:</h4>
 									<div class="col-sm-10"><h4 class="header-no-margin">{{(rentalFees.packageFeeAmount) | currency}}</h4></div>
 								</div>
 

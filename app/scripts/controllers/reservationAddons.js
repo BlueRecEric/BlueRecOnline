@@ -92,8 +92,11 @@ angular.module('bluereconlineApp')
 
             //console.log('$scope.selectedTimeData:  ',$scope.selectedTimeData);
 
-            $scope.rentalPackages = [];
+            $scope.depositData = [];
+            $scope.displayDeposit = false;
 
+
+            $scope.rentalPackages = [];
             $scope.displayPackages = false;
 
             $scope.calRentalTimeFeeAmt = function()
@@ -182,6 +185,34 @@ angular.module('bluereconlineApp')
                 return totalMinutes;
             };
 
+            $scope.setDeposit = function()
+            {
+                if ($scope.userLoggedIn) {
+
+                    var req = {
+                        method: 'POST',
+                        url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/item/' + $scope.rentalItemID + '/deposit',
+                        headers: {
+                            'Content-Type': undefined
+                        },
+                        data: {
+                            'uid': ActiveUser.userData.user_id
+                        }
+                    };
+
+                    $http(req)
+                        .success(function (data) {
+                            console.log('deposit data: ', data);
+
+                            $scope.depositData = data.depositForm;
+
+                            if ($scope.depositData.length > 0) {
+                                $scope.displayDeposit = true;
+                            }
+                        });
+                }
+            };
+
             $scope.setPackages = function()
             {
                 if ($scope.userLoggedIn) {
@@ -209,7 +240,7 @@ angular.module('bluereconlineApp')
 
                     $http(req)
                         .success(function (data) {
-                            //console.log('package data: ', data);
+                            console.log('package data: ', data);
 
                             if($scope.rentalData.online_auto_select_event === '1')
                             {
@@ -232,7 +263,7 @@ angular.module('bluereconlineApp')
                                                         }
                                                     }
                                                 }
-
+                                                show_packages
                                                 newPackageData.push(data.packageForm[a]);
 
                                                 break;
@@ -251,6 +282,8 @@ angular.module('bluereconlineApp')
 
                             if ($scope.rentalPackages.length > 0) {
                                 $scope.displayPackages = true;
+
+                                $scope.onPackageChangeEvent();
                             }
                         });
                 }
@@ -565,6 +598,8 @@ angular.module('bluereconlineApp')
                 $scope.calRentalTimeFeeAmt();
 
                 $scope.setPackages();
+
+                $scope.setDeposit();
 
                 $scope.setRequirements();
             }

@@ -52,10 +52,10 @@
                                           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
                                         </span></span>
                                         </div>-->
-                                        <div class="col-sm-5" data-ng-show="link.linked_item_name != item.item_name">
+                                        <div class="col-sm-6" data-ng-show="link.linked_item_name != item.item_name">
                                             <h5 style="margin-top: 5px;"><a href ng-click="gotoItemInfoPage(link.main_item_id, link.type_name);$hide();">{{link.linked_item_name}} <element data-ng-show="link.linked_quantity>0">x{{link.linked_quantity}}</element></a></h5>
                                         </div>
-                                        <div class="col-sm-5" data-ng-show="link.linked_person_name != item.person_name">
+                                        <div class="col-sm-6" data-ng-show="link.linked_person_name != item.person_name">
                                             <h5 style="margin-top: 5px;">{{link.linked_person_name}}</h5>
                                         </div>
                                     </div>

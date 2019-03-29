@@ -55,22 +55,20 @@ angular.module('bluereconlineApp')
                   log.disableLogin = false;
 
                   log.config = response.data;
+                  if(!angular.isUndefined(log.config)) {
+                      if (log.config.disablePrimaryPortal == '1' && log.config.isPrimaryPortal == '1') {
+                          log.disableLogin = true;
+                      }
 
-                  if(log.config.disablePrimaryPortal == '1' && log.config.isPrimaryPortal == '1')
-                  {
-                      log.disableLogin = true;
-                  }
+                      for (var p = 0; p < log.config.portals.length; p++) {
+                          console.log('check logo for ' + log.config.portals[p].portal_code);
+                          log.config.portals[p].portal_logo = getPortalLogo(log.config.portals[p].portal_code);
+                          console.log('code length: ' + log.config.portals[p].portal_code.length);
+                          console.log('logo length: ' + log.config.portals[p].portal_logo.length);
+                      }
 
-                  for(var p = 0; p < log.config.portals.length; p++)
-                  {
-                      console.log('check logo for ' + log.config.portals[p].portal_code);
-                      log.config.portals[p].portal_logo = getPortalLogo(log.config.portals[p].portal_code);
-                      console.log('code length: ' + log.config.portals[p].portal_code.length);
-                      console.log('logo length: ' + log.config.portals[p].portal_logo.length);
-                  }
-
-                  console.log('Config data:');
-                  console.log(log.config);
+                      console.log('Config data:');
+                      console.log(log.config);                  }
 
               });
 
