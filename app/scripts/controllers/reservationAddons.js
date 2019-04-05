@@ -263,7 +263,7 @@ angular.module('bluereconlineApp')
                                                         }
                                                     }
                                                 }
-                                                show_packages
+                                                //show_packages;
                                                 newPackageData.push(data.packageForm[a]);
 
                                                 break;

@@ -14,20 +14,40 @@ angular.module('bluereconlineApp')
         memReg.registered = false;
         memReg.household = {};
 
-        ActiveUser.getFromLocal().then(function() {
-            console.log('register data:');
-            console.log(ActiveUser.userData);
-            memReg.household = ActiveUser.userData.household;
-            }, function() {
-                sendToLogin();
-            }, function() {
-        });
+
 
         function sendToLogin()
         {
             $location.path('/' + $routeParams.orgurl + '/login');
         }
 
+        function setHouseholdData()
+        {
+            console.log('setting user data after update');
+            console.log(ActiveUser.userData);
+            memReg.household = ActiveUser.userData.household;
+
+            console.log('memReg household');
+            console.log(memReg.household);            
+        }
+
+        function updateHouseholdData()
+        {
+            console.log('is the user logged in?');
+            if(ActiveUser.isLoggedIn())
+            {
+                console.log('Yes, do the update');
+                ActiveUser.updateUser().then(function(){
+                  console.log('updated, set the data');
+                  setTimeout(setHouseholdData, 250);
+                });
+            }
+        }  
+
+        if(ActiveUser.isLoggedIn())
+        {
+            setTimeout(updateHouseholdData,250);
+        }
 
         $scope.memReg = memReg;
 
