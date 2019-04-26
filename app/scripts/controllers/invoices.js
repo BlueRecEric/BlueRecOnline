@@ -30,6 +30,7 @@ angular.module('bluereconlineApp')
         var loadInvoices = function() {
 
             console.log('hid is: ' + ActiveUser.userData.household_id);
+            console.log('uid is: ' + ActiveUser.userData.user_id);
 
             if(invoiceLoad.busy) {
                 return false;
@@ -38,7 +39,7 @@ angular.module('bluereconlineApp')
 
             var req = {
                 method: 'GET',
-                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/invoices/' + ActiveUser.userData.household_id,
+                url: BLUEREC_ONLINE_CONFIG.API_URL + '/ORG/' + $routeParams.orgurl + '/secured/invoices/' + ActiveUser.userData.household_id + '/' + ActiveUser.userData.user_id,
                 headers: {
                     'Content-Type': undefined
                 }
