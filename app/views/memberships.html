@@ -3,25 +3,39 @@
 		<div data-ng-controller="CurrentMembershipCtrl"
 			 data-ng-show="showCurrent && currentMemberships.returnData.length > 0">
 
-			<h3>Active Memberships
-				<span class="pull-right">						
-					<a href="#/{{orgurl}}/membershipBarcode" class="btn btn-info"><i class="fa fa-print"></i> Show Barcodes</a>
-				</span>
-			</h3>
+			<div class="row">
+				<div class="col-xs-12 col-med-12">
+					<h3>
+					<span class="pull-right" data-ng-controller="CurrentMembershipCtrl" data-ng-show="showCurrent && currentMemberships.returnData.length > 0">						
+						<span class="btn btn-info" data-toggle="collapse" data-target="#divActiveMems">
+							<i class="fa fa-credit-card"></i> Show My Memberships/Passes
+						</span> 
+						<a href="#/{{orgurl}}/membershipBarcode" class="btn btn-info"><i class="fa fa-print"></i> Show My Barcodes</a>
+					</span>
+					</h3>			 
+				</div>
+			</div>
+		</div>
 
-			<div class="well well-sm" data-ng-repeat="mem in currentMemberships.returnData">
+		<div data-ng-controller="CurrentMembershipCtrl"
+			 data-ng-show="showCurrent && currentMemberships.returnData.length > 0">
 
-				<h5>{{mem.member_name}}</h5>
+			 <div id="divActiveMems" class="panel-collapse collapse">
+				<h3>Active Memberships/Passes</h3>
+				<div class="well well-sm" data-ng-repeat="mem in currentMemberships.returnData">
 
-				<div class="row">
-					<div class="col-xs-5">
-						{{mem.item_name}}
-					</div>
-					<div class="col-xs-2">
-						Starts: {{mem.start_date}}
-					</div>
-					<div class="col-xs-2">
-						Expires: {{mem.expire_date}}
+					<h5>{{mem.member_name}}</h5>
+
+					<div class="row">
+						<div class="col-xs-5">
+							{{mem.item_name}}
+						</div>
+						<div class="col-xs-2">
+							Starts: {{mem.start_date}}
+						</div>
+						<div class="col-xs-2">
+							Expires: {{mem.expire_date}}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -32,12 +46,16 @@
 			 data-ng-show="!showCurrent">
 			<div class="row">
 				<p><a href="#/{{orgurl}}/login"><i class="fa fa-sign-in fa-2x pull-left fa-border"></i></a>
-					<a href="#/{{orgurl}}/login">Sign in</a> to see your current memberships</p>
+					<a href="#/{{orgurl}}/login">Sign in</a> to see your current memberships/passes</p>
 			</div>
 		</div>
 
 		<div data-ng-controller="MembershipListCtrl">
-			<h3>Search Memberships</h3>
+			<div class="row">
+				<div class="col-xs-12 col-med-12">
+					<h3>Search Memberships/Passes</h3>
+				</div>
+			</div>
 
 			<div class="well hidden-xs">
 				<div class="row">
@@ -116,7 +134,7 @@
 			<div class="bs-callout bs-callout-primary" ng-show='listMemberships.busy' id="callout-type-b-i-elems">
 				<div class="row">
 					<p><i class="fa fa-futbol-o fa-spin fa-2x text-primary pull-left"></i>
-						We are searching for more activities that fit your search criteria...
+						We are searching for more memberships/passes that fit your search criteria...
 					</p>
 				</div>
 			</div>
@@ -125,7 +143,7 @@
 				<div class="row">
 					<p><span class="fa-stack fa-lg pull-left"><i class="fa fa-futbol-o fa-stack-1x"></i><i
 							class="fa fa-ban fa-stack-2x text-danger"></i></span>
-						It looks like there are no additional memberships available. If you have entered search
+						It looks like there are no additional memberships/passes available. If you have entered search
 						criteria, try modifying your search to include more memberships.
 					</p>
 				</div>
