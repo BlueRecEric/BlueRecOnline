@@ -11,8 +11,7 @@
 
     <div class="row">
       <div class="col-sm-9 col-xs-12 text-justify">
-        <p>
-          {{proinfo.returnData.full_description}}
+        <p data-ng-bind-html="proinfo.returnData.full_description | sanitize">
         </p>
       </div>
 
