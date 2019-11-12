@@ -54,7 +54,7 @@ angular
     })
     .config(function(uiGmapGoogleMapApiProvider) {
         uiGmapGoogleMapApiProvider.configure({
-            key: 'AIzaSyByZtU7qFJGcqzDg1HbFVvR8-F7hqPvdr0',
+            key: 'AIzaSyDIB7o5PEQz40YQ4Ie7aEfyZ6qY7J_4TqA',
             v: '3.20',
             libraries: 'places,geometry'
         });
