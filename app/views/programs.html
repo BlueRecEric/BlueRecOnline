@@ -179,7 +179,7 @@
 
     <div class="panel panel-primary" dir-paginate="session in activePrograms.data.sessions | itemsPerPage:10 track by session.session_id" current-page="activePrograms.data.pageNumber" pagination-id="session.session_id">
       <div class="panel-heading clearfix">
-        {{::session.item_name}}
+        {{::session.item_name}}        
       </div>
       <div class="panel-body">
         <p>
@@ -197,7 +197,7 @@
                    <div class="row clearfix">
                          <div class="col-xs-10">
                                <div class="row">
-                                 <div class="col-md-2 col-xs-4">{{::program.item_code}}</div>
+                                 <div class="col-md-2 col-xs-4">{{::program.item_code}}<span data-ng-show="program.season_name.length > 1"><br><span class="label label-info">{{::program.season_name}}</span></span></div>
                                  <div class="col-md-2 hidden-xs">{{::program.locations}}</div>
                                  <div class="col-md-2 hidden-xs">{{::program.dates}}</div>
                                  <div class="col-md-2 hidden-xs">{{::program.weekdays}}</div>
