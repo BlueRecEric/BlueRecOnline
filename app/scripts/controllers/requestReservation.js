@@ -191,7 +191,7 @@ angular.module('bluereconlineApp')
 
                         $rootScope.$emit('updateCartCount', {});
 
-                        //$scope.getUserApprovedRequests();
+                        $scope.getUserApprovedRequests();
 
                         MakeToast.popOn('success', 'Added to Cart', 'Your approved rental has been added to your cart!');
 
