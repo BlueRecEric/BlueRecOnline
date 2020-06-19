@@ -14,6 +14,7 @@ angular.module('bluereconlineApp')
         $scope.addrResult = '';
         $scope.addrOptions = null;
         $scope.signupDisabled = false;
+        $scope.disableAccountCreationMsg = '';
 
         $scope.$watch('addrDetails', function () {
             console.log('details changed');
@@ -67,7 +68,7 @@ angular.module('bluereconlineApp')
         sign.newAccount.birthday = null;
         sign.remote = SignupFactory;
         sign.remote.accountCreated = false;
-
+        sign.disableAccountCreationMsg = '';
         function sendSignupRequest()
         {
             console.log('send signup request');
@@ -99,10 +100,12 @@ angular.module('bluereconlineApp')
             if($scope.config.data.disableAccountCreation == '1')
             {
                 sign.signupDisabled = true;
+                sign.disableAccountCreationMsg = $scope.config.data.disableAccountCreationMsg;
             }
             else
             {
                 sign.signupDisabled = false;
+                sign.disableAccountCreationMsg = '';
             }
         });
     }])
