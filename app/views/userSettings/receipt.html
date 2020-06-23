@@ -224,6 +224,11 @@
                                     </table>
                                 </td>
                             </tr>
+
+                            <tr data-ng-if="(item.field_data != '')">
+                                <td colspan="4"><div ng-bind-html="::item.field_data | sanitize"></div><br></td>
+                            </tr>
+
                             <tr>
                                 <td colspan="4"> </td>
                             </tr>
