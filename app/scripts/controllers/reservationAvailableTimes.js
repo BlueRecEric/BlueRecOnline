@@ -386,10 +386,12 @@ angular.module('bluereconlineApp')
                             $scope.weekdayDataLoaded = true;
 
                             $scope.weekdayData = data.weekday_data;
-
+                           console.log('weekdayData', data);
+                           if(!angular.isUndefined($scope.weekdayData) && !angular.isUndefined($scope.weekdayData[0]))
+                            {
                             $scope.autoOnlineTime.start_time = $scope.weekdayData[0].start_time_data[0];
-                            $scope.autoOnlineTime.end_time = $scope.weekdayData[0].start_time_data[0];
-
+                            $scope.autoOnlineTime.end_time = $scope.weekdayData[0].end_time_data[0];
+                            }
                             //console.log('weekdayData', $scope.weekdayData);
 
                             $scope.loadingWeekdays.loading = false;
